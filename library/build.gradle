@@ -1,0 +1,34 @@
+apply plugin: 'com.android.library'
+
+group = 'com.github.MFlisar'
+
+android {
+    if (project.hasProperty('setup.compileSdk'))
+    {
+        compileSdkVersion setup.compileSdk
+        buildToolsVersion setup.buildTools
+        defaultConfig {
+            minSdkVersion setup.minSdk
+            targetSdkVersion setup.targetSdk
+        }
+    }
+    else
+    {
+        compileSdkVersion 24
+        buildToolsVersion "24.0.2"
+        defaultConfig {
+            minSdkVersion 16
+            targetSdkVersion 24
+        }
+    }
+}
+
+dependencies {
+    compile 'com.jakewharton.timber:timber:4.3.1'
+
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'com.github.tony19:logback-android-core:1.1.1-6'
+    compile ('com.github.tony19:logback-android-classic:1.1.1-6') {
+        exclude group: 'com.google.android', module: 'android'
+    }
+}
