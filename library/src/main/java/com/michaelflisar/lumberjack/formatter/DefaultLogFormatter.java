@@ -72,12 +72,12 @@ public class DefaultLogFormatter implements ILogFormatter
     }
 
     @Override
-    public <T> String format(T item, HashMap<Class, ILogClassFormatter> formatters, boolean inList)
+    public <T> Object format(T item, HashMap<Class, ILogClassFormatter> formatters, boolean inList)
     {
         if (item == null)
             return "NULL";
 
         ILogClassFormatter<T> formatter = (formatters == null || formatters.size() == 0) ? null : formatters.get(item.getClass());
-        return formatter == null ? item.toString() : formatter.log(item, inList);
+        return formatter == null ? item : formatter.log(item, inList);
     }
 }

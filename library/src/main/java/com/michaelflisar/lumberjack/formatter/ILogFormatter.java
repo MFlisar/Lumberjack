@@ -12,5 +12,5 @@ public interface ILogFormatter
     String formatLine(String tag, String message);
 
     <T> String format(Collection<T> collection, HashMap<Class, ILogClassFormatter> formatters);
-    <T> String format(T item, HashMap<Class, ILogClassFormatter> formatters, boolean inList);
+    <T> Object format(T item, HashMap<Class, ILogClassFormatter> formatters, boolean inList);
 }

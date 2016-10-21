@@ -90,6 +90,50 @@ public class L
     }
 
     // --------------------
+    // Logging - Debug
+    // --------------------
+
+    public static void e(String message, Object... args)
+    {
+        log(null, Log.ERROR, message, args);
+    }
+
+    public static void e(Throwable t, String message, Object... args)
+    {
+        log(null, Log.ERROR, t, message, args);
+    }
+
+    public static void e(Throwable t)
+    {
+        log(null, Log.ERROR, t);
+    }
+
+    public static void e(ILogGroup group, String message, Object... args)
+    {
+        log(group, Log.ERROR, message, args);
+    }
+
+    public static void e(ILogGroup group, Throwable t, String message, Object... args)
+    {
+        log(group, Log.ERROR, t, message, args);
+    }
+
+    public static void e(ILogGroup group, Throwable t)
+    {
+        log(group, Log.ERROR, t);
+    }
+
+    public static void eLabeledValuePairs(Object... args)
+    {
+        logLabeledValuePairs(null, Log.ERROR, args);
+    }
+
+    public static void eLabeledValuePairs(ILogGroup group, Object... args)
+    {
+        logLabeledValuePairs(group, Log.ERROR, args);
+    }
+
+    // --------------------
     // Main debug functions
     // --------------------
 
@@ -175,9 +219,9 @@ public class L
             Timber.tag(group.getTag());
     }
 
-    private static String formatArg(Object arg)
+    private static Object formatArg(Object arg)
     {
-        String formatterArg;
+        Object formatterArg;
         if (arg instanceof Collection)
             formatterArg = getFormatter().format((Collection) arg, mFormatters);
         else
@@ -192,7 +236,7 @@ public class L
         if (args.length == 0)
             return args;
 
-        String[] formatterArgs = new String[args.length];
+        Object[] formatterArgs = new Object[args.length];
         for (int i = 0; i < args.length; i++)
             formatterArgs[i] = formatArg(args[i]);
 

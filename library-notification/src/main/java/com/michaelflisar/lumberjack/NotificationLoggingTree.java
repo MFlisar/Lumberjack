@@ -173,9 +173,12 @@ public class NotificationLoggingTree extends DebugTree
 
     private void updateNotification()
     {
-        String log = mLogs.get(mLogIndex);
-        mRemoteView.setTextViewText(R.id.tvTitle, "Log: " + (mLogIndex + 1) + "/" + mLogs.size());
-        mRemoteView.setTextViewText(R.id.tvText, log);
+        String textExpanded = mLogs.get(mLogIndex);
+        String titleCollapsed = "Logs: " + mLogs.size();
+        String titleExpanded = "Log: " + (mLogIndex + 1) + "/" + mLogs.size();
+        mBuilder.setContentText(titleCollapsed);
+        mRemoteView.setTextViewText(R.id.tvTitle, titleExpanded);
+        mRemoteView.setTextViewText(R.id.tvText, textExpanded);
 //        mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(log).setBigContentTitle("Log: " + (mLogIndex + 1) + "/" + mLogs.size()));
 //        mBuilder.setContentText("Log: " + (mLogIndex + 1) + "/" + mLogs.size());
         mNotificationManager.notify(mSetup.mNotificationId, mBuilder.build());
