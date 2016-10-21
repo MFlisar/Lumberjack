@@ -12,12 +12,20 @@ import com.michaelflisar.lumberjack.LogUtil;
 public class DebugTree extends Timber.Tree
 {
     private static final int MAX_LOG_LENGTH = 4000;
-    private static final int CALL_STACK_INDEX = 6;
+    private static final int CALL_STACK_INDEX = 7;
+
+    private final boolean mCombineTags;
+
+    public DebugTree(boolean combineTags)
+    {
+        mCombineTags = combineTags;
+    }
 
     @Override
-    final String getTag() {
+    final String getTag()
+    {
         String tag = super.getTag();
-        if (tag != null) {
+        if (tag != null && !mCombineTags) {
             return tag;
         }
 
@@ -28,7 +36,12 @@ public class DebugTree extends Timber.Tree
             throw new IllegalStateException(
                     "Synthetic stacktrace didn't have enough elements: are you using proguard?");
         }
-        return LogUtil.getStackTag(CALL_STACK_INDEX);
+        String stackTag = LogUtil.getStackTag(CALL_STACK_INDEX);
+
+        if (tag == null)
+            return stackTag;
+
+        return "<" + tag + "> " + stackTag;
     }
 
     /**

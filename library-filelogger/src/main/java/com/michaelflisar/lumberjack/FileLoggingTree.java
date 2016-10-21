@@ -18,11 +18,13 @@ import timber.log.DebugTree;
 
 public class FileLoggingTree extends DebugTree
 {
-    static Logger mLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+    public static final String FILE_NAME_PATTERN = "%s_\\d{8}.%s";
 
-    public FileLoggingTree(FileLoggingSetup setup)
+    static Logger mLogger = LoggerFactory.getLogger(FileLoggingTree.class);//Logger.ROOT_LOGGER_NAME);
+
+    public FileLoggingTree(boolean combineTags, FileLoggingSetup setup)
     {
-        super();
+        super(combineTags);
 
         if (setup == null)
             throw new RuntimeException("You can't create a FileLiggingTree without providing a setup!");
@@ -30,37 +32,39 @@ public class FileLoggingTree extends DebugTree
         init(setup);
     }
 
-    private static void init(FileLoggingSetup setup)
+    private void init(FileLoggingSetup setup)
     {
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         lc.reset();
 
-        // 1) FileLoggingSetup Encoder for File
+        // 1) FileLoggingSetup - Encoder for File
         PatternLayoutEncoder encoder1 = new PatternLayoutEncoder();
         encoder1.setContext(lc);
         encoder1.setPattern(setup.mLogPattern);
         encoder1.start();
 
-        // 2) FileLoggingSetup rolling file appended
+        // 2) FileLoggingSetup - rolling file appender
         RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<ILoggingEvent>();
         rollingFileAppender.setAppend(true);
         rollingFileAppender.setContext(lc);
-        rollingFileAppender.setFile(setup.mFolder + "/" + setup.mFileName + "." + setup.mFileExtension);
+        //rollingFileAppender.setFile(setup.mFolder + "/" + setup.mFileName + "." + setup.mFileExtension);
 
-        // 3) FileLoggingSetup rolling policy (one log per day)
+        // 3) FileLoggingSetup - Rolling policy (one log per day)
         TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
-        rollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d." + setup.mFileExtension);
+        rollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
         rollingPolicy.setMaxHistory(setup.mDaysToKeep);
         rollingPolicy.setParent(rollingFileAppender);
         rollingPolicy.setContext(lc);
         rollingPolicy.start();
-        rollingFileAppender.setRollingPolicy(rollingPolicy);
+
+        rollingFileAppender.setTriggeringPolicy(rollingPolicy);
         rollingFileAppender.setEncoder(encoder1);
         rollingFileAppender.start();
 
         // add the newly created appenders to the root logger;
         // qualify Logger to disambiguate from org.slf4j.Logger
         ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) mLogger;
+        root.detachAndStopAllAppenders();
         root.addAppender(rollingFileAppender);
     }
 

@@ -1,11 +1,7 @@
 package com.michaelflisar.lumberjack.formatter;
 
-import com.michaelflisar.lumberjack.L;
-
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by flisar on 20.10.2016.
@@ -13,19 +9,15 @@ import java.util.regex.Pattern;
 
 public class DefaultLogFormatter implements ILogFormatter
 {
-    private int mMaxListValues;
+    private Integer mMaxListValues;
     private boolean mEnableBeautifulCollectionPrint;
+    private boolean mEnableCollectionPrintNewLines;
 
-    public DefaultLogFormatter(int maxListValues)
+    public DefaultLogFormatter(Integer maxListValues, boolean enableBeautifulCollectionPrint, boolean enableCollectionPrintNewLines)
     {
-        mEnableBeautifulCollectionPrint = true;
+        mEnableBeautifulCollectionPrint = enableBeautifulCollectionPrint;
+        mEnableCollectionPrintNewLines = enableCollectionPrintNewLines;
         mMaxListValues = maxListValues;
-    }
-
-    public DefaultLogFormatter(boolean enableBeautifulCollectionPrint)
-    {
-        mEnableBeautifulCollectionPrint = true;
-        mMaxListValues = 0;
     }
 
     // -----------------------
@@ -51,20 +43,29 @@ public class DefaultLogFormatter implements ILogFormatter
 
         StringBuilder sb = new StringBuilder();
         sb.append("[Type=").append(collection.iterator().next().getClass().getSimpleName()).append(", Size=").append(collection.size()).append("] ");
-        if (mMaxListValues > 0)
+        if (mMaxListValues == null || mMaxListValues > 0)
         {
-            sb.append("[");
+            if (mEnableCollectionPrintNewLines)
+                sb.append("\n[");
+            else
+                sb.append("[");
             int count = 0;
             for (T item : collection)
             {
-                if (count > 0)
+                if (mEnableCollectionPrintNewLines)
+                    sb.append("\n\t");
+                else if (count > 0)
                     sb.append(", ");
+
                 sb.append(format(item, formatters, true));
                 count++;
-                if (count == mMaxListValues)
+                if (mMaxListValues != null && count == mMaxListValues)
                     break;
             }
-            sb.append("]");
+            if (mEnableCollectionPrintNewLines)
+                sb.append("\n]");
+            else
+                sb.append("]");
         }
 
         return sb.toString();

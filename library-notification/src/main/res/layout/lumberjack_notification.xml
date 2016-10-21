@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:background="#ffffff"
+    android:layout_height="192dp"
+    android:padding="5dp" >
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_toRightOf="@id/ivIcon" />
+
+    <TextView
+        android:id="@+id/tvText"
+        android:textSize="12dp"
+        android:textColor="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@id/ivIcon"
+        android:layout_below="@id/tvTitle" />
+
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/tvText">
+
+        <ImageButton
+            android:id="@+id/btFirst"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:src="@android:drawable/ic_media_rew"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btPrev"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:src="@android:drawable/ic_media_previous"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btNext"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:src="@android:drawable/ic_media_next"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btLast"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:src="@android:drawable/ic_media_ff"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btCancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btSettings"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:src="@android:drawable/ic_menu_manage"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -21,8 +21,15 @@ android {
             targetSdkVersion 24
         }
     }
+
+    if (!project.hasProperty('versions.supportLib'))
+    {
+        versions.supportLib = "24.2.1";
+    }
 }
 
 dependencies {
     compile project(':Lumberjack')
+
+    compile "com.android.support:support-core-ui:${versions.supportLib}"
 }

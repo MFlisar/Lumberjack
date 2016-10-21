@@ -11,7 +11,7 @@ public class FileLoggingSetup
     String mFolder;
 
     // DEFAULT SETUP
-    int mDaysToKeep = 3;
+    int mDaysToKeep = 7;
     String mLogPattern = "%d{HH:mm:ss.SSS}\t%logger{36}\t%msg%n";
     String mFileName = "log";
     String mFileExtension= "log";
@@ -40,10 +40,15 @@ public class FileLoggingSetup
         return this;
     }
 
-
     public FileLoggingSetup withDaysToKeep(int daysToKeep)
     {
         mDaysToKeep = daysToKeep;
+        return this;
+    }
+
+    public FileLoggingSetup withPattern(String pattern)
+    {
+        mLogPattern = pattern;
         return this;
     }
 }
