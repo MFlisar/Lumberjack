@@ -51,9 +51,9 @@ public class T
     public static Pair<Long, Long> getTotalAndLap(Object key)
     {
         long ts = System.currentTimeMillis();
-        long first = mFirstTimestamps.get(key);
-        long last = mLastTimestamps.get(key);
-        if (first == 0)
+        Long first = mFirstTimestamps.get(key);
+        Long last = mLastTimestamps.get(key);
+        if (first == 0 || first == null || last == null)
             return null;
 
         mLastTimestamps.put(key, ts);

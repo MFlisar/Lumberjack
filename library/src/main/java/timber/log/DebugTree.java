@@ -41,7 +41,7 @@ public class DebugTree extends Timber.Tree
         if (tag == null)
             return stackTag;
 
-        return "<" + tag + "> " + stackTag;
+        return L.getFormatter().combineTagAndGroup(stackTag, tag);
     }
 
     /**

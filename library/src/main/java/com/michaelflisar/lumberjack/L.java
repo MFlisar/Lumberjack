@@ -224,6 +224,8 @@ public class L
         Object formatterArg;
         if (arg instanceof Collection)
             formatterArg = getFormatter().format((Collection) arg, mFormatters);
+        else if (arg instanceof Object[])
+            formatterArg = getFormatter().format((Object[]) arg, mFormatters);
         else
             formatterArg = getFormatter().format(arg, mFormatters, false);
 

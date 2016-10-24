@@ -1,5 +1,7 @@
 package com.michaelflisar.lumberjack.formatter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -31,6 +33,22 @@ public class DefaultLogFormatter implements ILogFormatter
     }
 
     @Override
+    public String extractGroupFromTag(String tag)
+    {
+        if (!tag.startsWith("<"))
+            return null;
+        int first = tag.indexOf("<") + 1;
+        int last = tag.indexOf(">");
+        return tag.substring(first, last);
+    }
+
+    @Override
+    public String combineTagAndGroup(String tag, String group)
+    {
+        return "<" + group + "> " + tag;
+    }
+
+    @Override
     public <T> String format(Collection<T> collection, HashMap<Class, ILogClassFormatter> formatters)
     {
         if (collection == null)
@@ -38,6 +56,36 @@ public class DefaultLogFormatter implements ILogFormatter
         if (collection.size() == 0)
             return "Collection=EMPTY";
 
+        return formatArrayOrCollection(collection, formatters);
+    }
+
+    @Override
+    public <T> String format(T[] array, HashMap<Class, ILogClassFormatter> formatters)
+    {
+        if (array == null)
+            return "Array=NULL";
+        if (array.length == 0)
+            return "Array=EMPTY";
+
+        return formatArrayOrCollection(Arrays.asList(array), formatters);
+    }
+
+    @Override
+    public <T> Object format(T item, HashMap<Class, ILogClassFormatter> formatters, boolean inList)
+    {
+        if (item == null)
+            return "NULL";
+
+        ILogClassFormatter<T> formatter = (formatters == null || formatters.size() == 0) ? null : formatters.get(item.getClass());
+        return formatter == null ? item : formatter.log(item, inList);
+    }
+
+    // ---------------------------
+    // Helper function for arrays and collections
+    // ---------------------------
+
+    private <T> String formatArrayOrCollection(Collection<T> collection, HashMap<Class, ILogClassFormatter> formatters)
+    {
         if (!mEnableBeautifulCollectionPrint)
             return collection.toString();
 
@@ -69,15 +117,5 @@ public class DefaultLogFormatter implements ILogFormatter
         }
 
         return sb.toString();
-    }
-
-    @Override
-    public <T> Object format(T item, HashMap<Class, ILogClassFormatter> formatters, boolean inList)
-    {
-        if (item == null)
-            return "NULL";
-
-        ILogClassFormatter<T> formatter = (formatters == null || formatters.size() == 0) ? null : formatters.get(item.getClass());
-        return formatter == null ? item : formatter.log(item, inList);
     }
 }

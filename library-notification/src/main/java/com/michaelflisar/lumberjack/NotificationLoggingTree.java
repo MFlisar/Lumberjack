@@ -1,12 +1,16 @@
 package com.michaelflisar.lumberjack;
 
+import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.util.Pair;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -31,11 +35,14 @@ public class NotificationLoggingTree extends DebugTree
 
     private static HashSet<WeakReference<NotificationLoggingTree>> mTrees = new HashSet<>();
 
+    private Context mContext;
     private long mLastUpdate;
     private Handler mHandler;
     private Runnable mUpdateRunnable;
     private NotificationLoggingSetup mSetup;
-    private ArrayList<String> mLogs;
+    private ArrayList<Pair<String, String>> mLogs;
+    private ArrayList<String> mFilteredLogs;
+    private Integer mCurrentFilter;
     private int mLogIndex = -1;
     private NotificationManagerCompat mNotificationManager;
     private RemoteViews mRemoteView;
@@ -48,6 +55,10 @@ public class NotificationLoggingTree extends DebugTree
         if (setup == null || context == null)
             throw new RuntimeException("You can't create a NotificationLoggingTree without providing a setup and a context!");
 
+        if (context instanceof Activity || context instanceof Service)
+            Log.w(NotificationLoggingTree.class.getSimpleName(), "You should provide an Application context to avoid leaks!");
+
+        mContext = context;
         mHandler = new Handler();
         mLastUpdate = 0L;
         mUpdateRunnable = new Runnable() {
@@ -57,59 +68,50 @@ public class NotificationLoggingTree extends DebugTree
             }
         };
         mLogs = new ArrayList<>();
+        mFilteredLogs = new ArrayList<>();
+        mCurrentFilter = null;
         mSetup = setup;
-        init(context);
+        init();
 
         mTrees.add(new WeakReference<>(this));
     }
 
-    private void init(Context context)
+    private void init()
     {
         // 1) Prepare intents
-        Intent iNext = new Intent()
-                .setAction(BROADCAST_ACTION)
-                .putExtra(EXTRA_REQUEST_CODE, mSetup.mButtonIntentRequestCodeNext);
-        PendingIntent pIntentNext = PendingIntent.getBroadcast(context, mSetup.mButtonIntentRequestCodeNext, iNext, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent iPrev = new Intent()
-                .setAction(BROADCAST_ACTION)
-                .putExtra(EXTRA_REQUEST_CODE, mSetup.mButtonIntentRequestCodePrev);
-        PendingIntent pIntentPrev = PendingIntent.getBroadcast(context, mSetup.mButtonIntentRequestCodePrev, iPrev, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent iFirst = new Intent()
-                .setAction(BROADCAST_ACTION)
-                .putExtra(EXTRA_REQUEST_CODE, mSetup.mButtonIntentRequestCodeFirst);
-        PendingIntent pIntentFirst = PendingIntent.getBroadcast(context, mSetup.mButtonIntentRequestCodeFirst, iFirst, PendingIntent.FLAG_UPDATE_CURRENT);
-        
-        Intent iLast = new Intent()
-                .setAction(BROADCAST_ACTION)
-                .putExtra(EXTRA_REQUEST_CODE, mSetup.mButtonIntentRequestCodeLast);
-        PendingIntent pIntentLast = PendingIntent.getBroadcast(context, mSetup.mButtonIntentRequestCodeLast, iLast, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent iCancel = new Intent()
-                .setAction(BROADCAST_ACTION)
-                .putExtra(EXTRA_REQUEST_CODE, mSetup.mButtonIntentRequestCodeCancel);
-        PendingIntent pIntentCancel = PendingIntent.getBroadcast(context, mSetup.mButtonIntentRequestCodeCancel, iCancel, PendingIntent.FLAG_UPDATE_CURRENT);
-        
-        Intent iSettings = new Intent()
-                .setAction(BROADCAST_ACTION)
-                .putExtra(EXTRA_REQUEST_CODE, mSetup.mButtonIntentRequestCodeSettings);
-        PendingIntent pIntentSettings = PendingIntent.getBroadcast(context, mSetup.mButtonIntentRequestCodeSettings, iSettings, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntentNext = getPI(mSetup.mButtonIntentRequestCodeBase);
+        PendingIntent pIntentPrev = getPI(mSetup.mButtonIntentRequestCodeBase + 1);
+        PendingIntent pIntentFirst = getPI(mSetup.mButtonIntentRequestCodeBase + 2);
+        PendingIntent pIntentLast = getPI(mSetup.mButtonIntentRequestCodeBase + 3);
+        PendingIntent pIntentCancel = getPI(mSetup.mButtonIntentRequestCodeBase + 4);
+        PendingIntent pIntentSettings = getPI(mSetup.mButtonIntentRequestCodeBase + 5);
+        PendingIntent pIntentFilterPrev = getPI(mSetup.mButtonIntentRequestCodeBase + 6);
+        PendingIntent pIntentFilterNext = getPI(mSetup.mButtonIntentRequestCodeBase + 7);
+        PendingIntent pIntentFilterClear = getPI(mSetup.mButtonIntentRequestCodeBase + 8);
 
         // 2) Create custom view
-        mRemoteView = new RemoteViews(context.getPackageName(), R.layout.lumberjack_notification);
+        mRemoteView = new RemoteViews(mContext.getPackageName(), R.layout.lumberjack_notification);
         if (mSetup.mBigIcon > 0)
             mRemoteView.setImageViewResource(R.id.ivIcon, mSetup.mBigIcon);
         else
             mRemoteView.setViewVisibility(R.id.ivIcon, View.GONE);
         mRemoteView.setTextViewText(R.id.tvText, "");
         mRemoteView.setTextViewText(R.id.tvTitle, mSetup.mTitle);
+        mRemoteView.setTextViewText(R.id.tvFilter, "");
         mRemoteView.setOnClickPendingIntent(R.id.btPrev, pIntentPrev);
         mRemoteView.setOnClickPendingIntent(R.id.btNext, pIntentNext);
         mRemoteView.setOnClickPendingIntent(R.id.btFirst, pIntentFirst);
         mRemoteView.setOnClickPendingIntent(R.id.btLast, pIntentLast);
 //        mRemoteView.setOnClickPendingIntent(R.id.btCancel, pIntentCancel);
         mRemoteView.setOnClickPendingIntent(R.id.btSettings, pIntentSettings);
+        if (mSetup.mFilters == null || mSetup.mFilters.size() == 0)
+            mRemoteView.setViewVisibility(R.id.llFilter, View.GONE);
+        else
+        {
+            mRemoteView.setOnClickPendingIntent(R.id.btFilterNext, pIntentFilterNext);
+            mRemoteView.setOnClickPendingIntent(R.id.btFilterPrev, pIntentFilterPrev);
+            mRemoteView.setOnClickPendingIntent(R.id.btFilterClear, pIntentFilterClear);
+        }
 
         // TODO: settings
         mRemoteView.setViewVisibility(R.id.btSettings, View.GONE);
@@ -118,7 +120,7 @@ public class NotificationLoggingTree extends DebugTree
         mRemoteView.setViewVisibility(R.id.btCancel, View.GONE);
 
         // 3) Create notification
-        mBuilder = new NotificationCompat.Builder(context)
+        mBuilder = new NotificationCompat.Builder(mContext)
                 .setContentTitle(mSetup.mTitle)
 //                .setAutoCancel(false)
 //                .setOngoing(true)
@@ -142,7 +144,7 @@ public class NotificationLoggingTree extends DebugTree
         if (mSetup.mSmallIcon > 0)
             mBuilder.setSmallIcon(mSetup.mSmallIcon);
 
-        mNotificationManager = NotificationManagerCompat.from(context);
+        mNotificationManager = NotificationManagerCompat.from(mContext);
         mNotificationManager.notify(mSetup.mNotificationId, mBuilder.build());
 
 //        IntentFilter intentFilter = new IntentFilter();
@@ -150,12 +152,22 @@ public class NotificationLoggingTree extends DebugTree
 //        context.registerReceiver(new NotificationBroadcastReceiver(), intentFilter);
     }
 
+    private PendingIntent getPI(int requestCode)
+    {
+        Intent i = new Intent()
+                .setAction(BROADCAST_ACTION)
+                .putExtra(EXTRA_REQUEST_CODE,requestCode);
+        PendingIntent pi = PendingIntent.getBroadcast(mContext,requestCode, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        return pi;
+    }
+
     @Override
     protected void log(int priority, String tag, String message, Throwable t)
     {
         String logMessage = L.getFormatter().formatLine(tag, message);
-        mLogs.add(logMessage);
+        mLogs.add(new Pair<>(L.getFormatter().extractGroupFromTag(tag), logMessage));
         mLogIndex = mLogs.size() - 1;
+        updateFilterData(true);
         postUpdateNotification();
     }
 
@@ -171,14 +183,37 @@ public class NotificationLoggingTree extends DebugTree
             mHandler.postDelayed(mUpdateRunnable, 1000);
     }
 
+    private void updateFilterData(boolean checkLastOnly)
+    {
+        int i = 0;
+        if (checkLastOnly)
+            i = mLogs.size() - 1;
+        else
+            mFilteredLogs.clear();
+
+        for (; i < mLogs.size(); i++)
+        {
+            if (mCurrentFilter == null || (mLogs.get(i).first != null && mSetup.mFilters.get(mCurrentFilter).getTag().equals(mLogs.get(i).first)))
+                mFilteredLogs.add(mLogs.get(i).second);
+        }
+
+        mLogIndex = mFilteredLogs.size() - 1;
+    }
+
     private void updateNotification()
     {
-        String textExpanded = mLogs.get(mLogIndex);
-        String titleCollapsed = "Logs: " + mLogs.size();
-        String titleExpanded = "Log: " + (mLogIndex + 1) + "/" + mLogs.size();
+        String textExpanded = mLogIndex == -1 ? mContext.getString(R.string.lumberjack_notification_no_log_for_filter_found) : mFilteredLogs.get(mLogIndex);
+        String titleCollapsed = mContext.getString(R.string.lumberjack_notification_title, mFilteredLogs.size());
+        String titleExpanded = mContext.getString(R.string.lumberjack_notification_title_expanded, mLogIndex + 1, mFilteredLogs.size());
+        String textFilter = null;
+        if (mCurrentFilter == null)
+            textFilter = mContext.getString(R.string.lumberjack_notification_filter_disabled);
+        else
+            textFilter = mContext.getString(R.string.lumberjack_notification_filter, mSetup.mFilters.get(mCurrentFilter).getTag(), mCurrentFilter + 1, mSetup.mFilters.size());
         mBuilder.setContentText(titleCollapsed);
         mRemoteView.setTextViewText(R.id.tvTitle, titleExpanded);
         mRemoteView.setTextViewText(R.id.tvText, textExpanded);
+        mRemoteView.setTextViewText(R.id.tvFilter, textFilter);
 //        mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(log).setBigContentTitle("Log: " + (mLogIndex + 1) + "/" + mLogs.size()));
 //        mBuilder.setContentText("Log: " + (mLogIndex + 1) + "/" + mLogs.size());
         mNotificationManager.notify(mSetup.mNotificationId, mBuilder.build());
@@ -213,45 +248,108 @@ public class NotificationLoggingTree extends DebugTree
                     else if (intent.getExtras() != null)
                     {
                         int requestCode = intent.getExtras().getInt(EXTRA_REQUEST_CODE, -1);
-                        if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeNext)
+
+                        // 1) Next
+                        if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase)
                         {
-                            if (tree.get().mLogIndex < tree.get().mLogs.size() - 1)
+                            if (tree.get().mLogIndex != -1)
                             {
-                                tree.get().mLogIndex++;
-                                tree.get().updateNotification();
+                                if (tree.get().mLogIndex < tree.get().mFilteredLogs.size() - 1)
+                                {
+                                    tree.get().mLogIndex++;
+                                    tree.get().updateNotification();
+                                }
+                                else if (tree.get().mLogIndex == tree.get().mFilteredLogs.size() - 1)
+                                {
+                                    tree.get().mLogIndex = 0;
+                                    tree.get().updateNotification();
+                                }
                             }
                         }
-                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodePrev)
+                        // 2) Prev
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 1)
                         {
-                            if (tree.get().mLogIndex > 0)
+                            if (tree.get().mLogIndex != -1)
                             {
-                                tree.get().mLogIndex--;
-                                tree.get().updateNotification();
+                                if (tree.get().mLogIndex > 0)
+                                {
+                                    tree.get().mLogIndex--;
+                                    tree.get().updateNotification();
+                                }
+                                else if (tree.get().mLogIndex == 0)
+                                {
+                                    tree.get().mLogIndex = tree.get().mFilteredLogs.size() - 1;
+                                    tree.get().updateNotification();
+                                }
                             }
                         }
-                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeFirst)
+                        // 3) First
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 2)
                         {
-                            if (tree.get().mLogIndex != 0)
+                            if (tree.get().mLogIndex != -1 && tree.get().mLogIndex != 0)
                             {
                                 tree.get().mLogIndex = 0;
                                 tree.get().updateNotification();
                             }
                         }
-                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeLast)
+                        // 4) Last
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 3)
                         {
-                            if (tree.get().mLogIndex != tree.get().mLogs.size() - 1)
+                            if (tree.get().mLogIndex != -1 && tree.get().mLogIndex != tree.get().mFilteredLogs.size() - 1)
                             {
-                                tree.get().mLogIndex = tree.get().mLogs.size() - 1;
+                                tree.get().mLogIndex = tree.get().mFilteredLogs.size() - 1;
                                 tree.get().updateNotification();
                             }
                         }
-                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeSettings)
-                        {
-                           // TODO
-                        }
-                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeCancel)
+                        // 5) Cancel
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 4)
                         {
                             tree.get().removeNotification();
+                        }
+                        // 6) Settings
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 5)
+                        {
+
+                        }
+                        // 7) Filter Prev
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 6)
+                        {
+                            if (tree.get().mCurrentFilter == null)
+                                tree.get().mCurrentFilter = 0;
+                            else if (tree.get().mCurrentFilter > 0)
+                                tree.get().mCurrentFilter--;
+                            else if (tree.get().mCurrentFilter == 0)
+                                tree.get().mCurrentFilter = tree.get().mSetup.mFilters.size() - 1;
+                            else
+                                return;
+
+                            tree.get().updateFilterData(false);
+                            tree.get().updateNotification();
+                        }
+                        // 8) Filter Next
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 7)
+                        {
+                            if (tree.get().mCurrentFilter == null)
+                                tree.get().mCurrentFilter = 0;
+                            else if (tree.get().mCurrentFilter < tree.get().mSetup.mFilters.size())
+                                tree.get().mCurrentFilter++;
+                            else if (tree.get().mCurrentFilter == tree.get().mSetup.mFilters.size() - 1)
+                                tree.get().mCurrentFilter = 0;
+                            else
+                                return;
+
+                            tree.get().updateFilterData(false);
+                            tree.get().updateNotification();
+                        }
+                        // 9) Filter Clear
+                        else if (requestCode == tree.get().mSetup.mButtonIntentRequestCodeBase + 8)
+                        {
+                            if (tree.get().mCurrentFilter != null)
+                            {
+                                tree.get().mCurrentFilter = null;
+                                tree.get().updateFilterData(false);
+                                tree.get().updateNotification();
+                            }
                         }
                     }
                 }

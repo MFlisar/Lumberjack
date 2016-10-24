@@ -3,6 +3,10 @@ package com.michaelflisar.lumberjack;
 import android.app.Notification;
 import android.content.Context;
 
+import com.michaelflisar.lumberjack.formatter.ILogGroup;
+
+import java.util.ArrayList;
+
 /**
  * Created by Michael on 17.10.2016.
  */
@@ -13,13 +17,9 @@ public class NotificationLoggingSetup
     int mBigIcon = -1;
     int mSmallIcon = -1;
     int mNotificationId = 100;
-    int mButtonIntentRequestCodeNext = 100;
-    int mButtonIntentRequestCodePrev = 101;
-    int mButtonIntentRequestCodeFirst = 102;
-    int mButtonIntentRequestCodeLast = 103;
-    int mButtonIntentRequestCodeCancel = 104;
-    int mButtonIntentRequestCodeSettings = 105;
+    int mButtonIntentRequestCodeBase = 100;
     int mPriority = Notification.PRIORITY_MAX;
+    ArrayList<ILogGroup> mFilters = new ArrayList<>();
 
     public NotificationLoggingSetup()
     {
@@ -50,20 +50,21 @@ public class NotificationLoggingSetup
         return this;
     }
 
-    public NotificationLoggingSetup withButtonIntentRequestCode(int requestCodePrev, int requestCodeNext, int requestCodeFirst, int requestCodeLast, int requestCodeCancel, int requestCodeSettings)
+    public NotificationLoggingSetup withButtonIntentRequestCodeBase(int requestCodeBase)
     {
-        mButtonIntentRequestCodePrev = requestCodePrev;
-        mButtonIntentRequestCodeNext = requestCodeNext;
-        mButtonIntentRequestCodeFirst = requestCodeFirst;
-        mButtonIntentRequestCodeLast = requestCodeLast;
-        mButtonIntentRequestCodeCancel = requestCodeCancel;
-        mButtonIntentRequestCodeSettings = requestCodeSettings;
+        mButtonIntentRequestCodeBase = requestCodeBase;
         return this;
     }
 
     public NotificationLoggingSetup withPriority(int priority)
     {
         mPriority = priority;
+        return this;
+    }
+
+    public NotificationLoggingSetup withFilters(ArrayList<ILogGroup> filters)
+    {
+        mFilters = filters;
         return this;
     }
 }
