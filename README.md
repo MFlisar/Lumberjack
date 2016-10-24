@@ -32,7 +32,7 @@ dependencies {
 }
 ```
 
-#####Demo
+###Usage
 
 The best place to start is the demo, it's full with comments that should explain everything.
 
