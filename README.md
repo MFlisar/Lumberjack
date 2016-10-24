@@ -1,6 +1,8 @@
-# Lumberjack
+###Lumberjack [![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
 
-A simple logger for JackWhartons Timber logging library with following *features*:
+### What does it do?
+
+A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber) logging library with following *features*:
 
 * define group of log messages and disable them
 * register custom log formatters to *automatically* format classes in your logs
@@ -11,17 +13,35 @@ A simple logger for JackWhartons Timber logging library with following *features
 
 **All features are splitted into seperate modules, just include the modules you want to use!**
 
+### Gradle (via [JitPack.io](https://jitpack.io/))
+
+1. add jitpack to your project's `build.gradle`:
+```groovy
+repositories {
+    maven { url "https://jitpack.io" }
+}
+```
+2. add the compile statement to your module's `build.gradle`:
+```groovy
+dependencies {
+    // necessary - base module
+    compile 'com.github.MFlisar:Lumberjack:0.1'
+    // necessary - optional modules
+    compile 'com.github.MFlisar:Lumberjack-filelogger:0.1'
+    compile 'com.github.MFlisar:Lumberjack-notification:0.1'
+}
+```
+
 ###Overview
 
-* **General logger**
-  * main functions
-  * register formatters
-  
-* **Console logger**
-  * ...
-  
-* **File logger**
-  * ...
-  
-* **Notification logger**
-  * ...
+- [Main functions](#main-functions)
+- [File logger](#file-logger)
+- [Notification logger](#notification-logger)
+
+#####Main functions
+
+#####File logger
+
+#####Notification logger
+
+
