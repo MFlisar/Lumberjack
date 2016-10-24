@@ -32,16 +32,11 @@ dependencies {
 }
 ```
 
-###Overview
+#####Demo
 
-- [Main functions](#main-functions)
-- [File logger](#file-logger)
-- [Notification logger](#notification-logger)
+The best place to start is the demo, it's full with comments that should explain everything.
 
-#####Main functions
+TODO: correct link + demo activity
 
-#####File logger
-
-#####Notification logger
-
+[Open demo activity](https://github.com/MFlisar/Lumberjack/blob/master/library/src/main/java/com/michaelflisar/lumberjack/L.java))
 
