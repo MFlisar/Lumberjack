@@ -331,7 +331,7 @@ public class NotificationLoggingTree extends DebugTree
                         {
                             if (tree.get().mCurrentFilter == null)
                                 tree.get().mCurrentFilter = 0;
-                            else if (tree.get().mCurrentFilter < tree.get().mSetup.mFilters.size())
+                            else if (tree.get().mCurrentFilter < tree.get().mSetup.mFilters.size() - 1)
                                 tree.get().mCurrentFilter++;
                             else if (tree.get().mCurrentFilter == tree.get().mSetup.mFilters.size() - 1)
                                 tree.get().mCurrentFilter = 0;

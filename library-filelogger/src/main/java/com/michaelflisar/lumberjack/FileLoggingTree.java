@@ -53,6 +53,7 @@ public class FileLoggingTree extends DebugTree
         TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
         rollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
         rollingPolicy.setMaxHistory(setup.mDaysToKeep);
+        rollingPolicy.setCleanHistoryOnStart(true);
         rollingPolicy.setParent(rollingFileAppender);
         rollingPolicy.setContext(lc);
         rollingPolicy.start();
