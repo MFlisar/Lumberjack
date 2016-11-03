@@ -154,6 +154,8 @@ public class L
             if (!(args[i] instanceof String))
                 throw new RuntimeException(ERROR_LOG_VALUES);
 
+            if (i > 0)
+                sb.append(", ");
             sb.append(args[i]).append("=");
             if (mFormatters.size() == 0)
                 sb.append(args[i + 1]);

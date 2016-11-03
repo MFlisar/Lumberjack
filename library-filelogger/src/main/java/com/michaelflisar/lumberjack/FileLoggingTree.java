@@ -27,7 +27,7 @@ public class FileLoggingTree extends DebugTree
         super(combineTags);
 
         if (setup == null)
-            throw new RuntimeException("You can't create a FileLiggingTree without providing a setup!");
+            throw new RuntimeException("You can't create a FileLoggingTree without providing a setup!");
 
         init(setup);
     }
@@ -53,6 +53,7 @@ public class FileLoggingTree extends DebugTree
         TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
         rollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
         rollingPolicy.setMaxHistory(setup.mDaysToKeep);
+        rollingPolicy.setCleanHistoryOnStart(true);
         rollingPolicy.setParent(rollingFileAppender);
         rollingPolicy.setContext(lc);
         rollingPolicy.start();

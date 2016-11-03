@@ -26,6 +26,10 @@ android {
     {
         versions.supportLib = "24.2.1";
     }
+    else
+    {
+        versions.supportLib = "24.2.1";
+    }
 }
 
 dependencies {
