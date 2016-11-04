@@ -80,8 +80,4 @@ This is what the demo setup will print out (to your file, to the notification, t
 
 ###Usage
 
-The best place to start is the wiki and the demo app.
-
-[WIKI](https://github.com/MFlisar/Lumberjack/wiki)  
-[Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java)
-
+The best place to start is the [WIKI](https://github.com/MFlisar/Lumberjack/wiki) and the [Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java).
