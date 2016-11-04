@@ -35,6 +35,47 @@ dependencies {
 }
 ```
 
+###Example
+
+This is what the demo setup will print out (to your file, to the notification, to console). It has pretty printing enabled and prints first 5 values of an array automatically. It as well prints caller class and group combined as tag. The demo shows that
+
+* arrays are printed automatically
+* custom classes are automatically formatter to the custom formatter you have registered, no matter if the classes are printed inside an array or as a simple value
+* caller class, tags and groups are printed
+
+		[MainActivity-17 onCreate]: Main activity created
+		[MainActivity-18 onCreate]: Test message 1: This is the first simple test log
+		[MainActivity-19 onCreate]: Test error: Test error log
+		 java.lang.Throwable: ERROR
+			 at com.michaelflisar.lumberjack.demo.MainActivity.onCreate(MainActivity.java:19)
+			 at android.app.Activity.performCreate(Activity.java:6876)
+			 at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1135)
+			 at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3207)
+			 at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3350)
+			 at android.app.ActivityThread.access$1100(ActivityThread.java:222)
+			 at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1795)
+			 at android.os.Handler.dispatchMessage(Handler.java:102)
+			 at android.os.Looper.loop(Looper.java:158)
+			 at android.app.ActivityThread.main(ActivityThread.java:7229)
+			 at java.lang.reflect.Method.invoke(Native Method)
+			 at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1230)
+			 at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1120)
+			 at de.robv.android.xposed.XposedBridge.main(XposedBridge.java:102)
+		[MainActivity-25 onCreate]: Test array log: [Type=String, Size=2] 
+		[
+			array value 1
+			array value 2
+		]
+		[<TEST-GROUP> MainActivity-28 onCreate]: Test message in test group
+		[<TEST-GROUP> MainActivity-29 onCreate]: Test message in test group, value=999
+		[MainActivity-38 onCreate]: Test custom object log: TestClass: [TestLogData - x=99]
+		[MainActivity-39 onCreate]: Test custom object array log: [Type=TestClass, Size=3] 
+		[
+			TestLogData - x=1
+			TestLogData - x=2
+			TestLogData - x=10
+		]
+
 ###Usage
 
 The best place to start is the wiki and the demo app.
