@@ -36,7 +36,6 @@ dependencies {
 
 The best place to start is the wiki and the demo app.
 
-[Demo App[()
-[WIKI](https://github.com/MFlisar/Lumberjack/wiki)
+[WIKI](https://github.com/MFlisar/Lumberjack/wiki)  
 [Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java)
 
