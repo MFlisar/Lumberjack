@@ -90,7 +90,7 @@ public class L extends com.michaelflisar.lumberjack.L {
     private static final NotificationLoggingSetup NOTIFICATION_LOG_SETUP = new NotificationLoggingSetup(R.drawable.abc_ic_clear_material)
             .withTitle("Demo Logger")
             //.withBigIcon(R.mipmap.ic_launcher_default)
-            .withNotificationId(1)
+            .withNotificationId(150)
             .withFilters(LOG_GROUPS);
 
     // -----------------------------

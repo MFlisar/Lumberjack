@@ -1,8 +1,8 @@
 include ':app'
 
-include ':Lumberjack'
-project(':Lumberjack').projectDir = new File(settingsDir, '../library')
-include ':Lumberjack-filelogger'
-project(':Lumberjack-filelogger').projectDir = new File(settingsDir, '../library-filelogger')
-include ':Lumberjack-notification'
-project(':Lumberjack-notification').projectDir = new File(settingsDir, '../library-notification')
+include ':library'
+project(':library').projectDir = new File(settingsDir, '../library')
+include ':library-filelogger'
+project(':library-filelogger').projectDir = new File(settingsDir, '../library-filelogger')
+include ':library-notification'
+project(':library-notification').projectDir = new File(settingsDir, '../library-notification')

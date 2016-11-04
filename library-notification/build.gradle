@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    compile project(':Lumberjack')
+    compile project(':library')
 
     compile "com.android.support:support-core-ui:${versions.supportLib}"
 }
