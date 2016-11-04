@@ -24,11 +24,7 @@ android {
 
     if (!project.hasProperty('versions.supportLib'))
     {
-        versions.supportLib = "24.2.1";
-    }
-    else
-    {
-        versions.supportLib = "24.2.1";
+        project.ext.set("versions", ["supportLib" : "24.2.1"]);
     }
 }
 
