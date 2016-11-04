@@ -34,9 +34,9 @@ dependencies {
 
 ###Usage
 
-The best place to start is the demo, it's full with comments that should explain everything.
+The best place to start is the wiki and the demo app.
 
-TODO: correct link + demo activity
-
-[Open demo activity](https://github.com/MFlisar/Lumberjack/blob/master/library/src/main/java/com/michaelflisar/lumberjack/L.java)
+[Demo App[()
+[WIKI](https://github.com/MFlisar/Lumberjack/wiki)
+[Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java)
 
