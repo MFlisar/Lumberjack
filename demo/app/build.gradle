@@ -26,7 +26,7 @@ dependencies {
     compile "com.android.support:support-core-ui:${versions.supportLib}"
     compile "com.android.support:appcompat-v7:${versions.supportLib}"
 
-    compile project(':library')
-    compile project(':library-filelogger')
-    compile project(':library-notification')
+    compile project(':lumberjack-library')
+    compile project(':lumberjack-filelogger')
+    compile project(':lumberjack-notification')
 }
