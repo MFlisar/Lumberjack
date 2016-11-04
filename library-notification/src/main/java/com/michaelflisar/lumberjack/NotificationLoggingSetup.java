@@ -21,20 +21,14 @@ public class NotificationLoggingSetup
     int mPriority = Notification.PRIORITY_MAX;
     ArrayList<ILogGroup> mFilters = new ArrayList<>();
 
-    public NotificationLoggingSetup()
+    public NotificationLoggingSetup(int smallIcon)
     {
-
+        mSmallIcon = smallIcon;
     }
 
     public NotificationLoggingSetup withTitle(String title)
     {
         mTitle = title;
-        return this;
-    }
-
-    public NotificationLoggingSetup withSmallIcon(int icon)
-    {
-        mSmallIcon = icon;
         return this;
     }
 

@@ -28,8 +28,6 @@ public class L extends com.michaelflisar.lumberjack.L {
     // for an advanced initialisation
     private static void initTimber()
     {
-        Timber.uprootAll();
-
         // create your trees and plant them in timber
         Timber.plant(new DebugTree(true));
         Timber.plant(new FileLoggingTree(true, FILE_LOG_SETUP));
@@ -89,9 +87,8 @@ public class L extends com.michaelflisar.lumberjack.L {
     // Advanced - Notification Logger
     // -----------------------------
 
-    private static final NotificationLoggingSetup NOTIFICATION_LOG_SETUP = new NotificationLoggingSetup()
+    private static final NotificationLoggingSetup NOTIFICATION_LOG_SETUP = new NotificationLoggingSetup(R.drawable.abc_ic_clear_material)
             .withTitle("Demo Logger")
-            .withSmallIcon(R.drawable.abc_ic_clear_material)
             //.withBigIcon(R.mipmap.ic_launcher_default)
             .withNotificationId(1)
             .withFilters(LOG_GROUPS);
