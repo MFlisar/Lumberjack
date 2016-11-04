@@ -1,1 +1,3 @@
 include ':library'
+include ':library-filelogger'
+include ':library-notification'
