@@ -43,6 +43,8 @@ This is what the demo setup will print out (to your file, to the notification, t
 * custom classes are automatically formatter to the custom formatter you have registered, no matter if the classes are printed inside an array or as a simple value
 * caller class, tags and groups are printed
 
+*Example log*
+
 		[MainActivity-17 onCreate]: Main activity created
 		[MainActivity-18 onCreate]: Test message 1: This is the first simple test log
 		[MainActivity-19 onCreate]: Test error: Test error log
