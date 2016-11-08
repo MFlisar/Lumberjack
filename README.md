@@ -6,8 +6,11 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
 
 * define group of log messages and disable them
 * register custom log formatters to *automatically* format classes in your logs
-* automatically log first n values of lists/arrays
-* trees for logging to console, files (one file per day) and even to log to a notification (with group filter)
+* automatically log first n values of lists/arrays (this *automatically* respects custom log formatters for classes in the collections!)
+* trees for:
+  * logging to console (with the ability to add clickable links to the calling line in the calling class)
+  * files (one file per day)
+  * notification (with filter functionality per group, next/prev log buttons and more...)
 * customise each tree to whatever you want or extend them
 * little utility class to log time and laps
 
