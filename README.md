@@ -25,13 +25,13 @@ repositories {
 ```groovy
 dependencies {
     // necessary - base module
-	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:1.0'
+	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:1.1'
     // necessary - optional modules
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.0'
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.0'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.1'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.1'
     
     // ALTERNATIVELY you can add ALL modules at once like following
-    // compile 'com.github.MFlisar:Lumberjack:1.0'
+    // compile 'com.github.MFlisar:Lumberjack:1.1'
 }
 ```
 
@@ -45,9 +45,9 @@ This is what the demo setup will print out (to your file, to the notification, t
 
 *Example log*
 
-		[MainActivity-17 onCreate]: Main activity created
-		[MainActivity-18 onCreate]: Test message 1: This is the first simple test log
-		[MainActivity-19 onCreate]: Test error: Test error log
+		[MainActivity:17 onCreate]: Main activity created
+		[MainActivity:18 onCreate]: Test message 1: This is the first simple test log
+		[MainActivity:19 onCreate]: Test error: Test error log
 		 java.lang.Throwable: ERROR
 			 at com.michaelflisar.lumberjack.demo.MainActivity.onCreate(MainActivity.java:19)
 			 at android.app.Activity.performCreate(Activity.java:6876)
@@ -63,15 +63,15 @@ This is what the demo setup will print out (to your file, to the notification, t
 			 at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1230)
 			 at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1120)
 			 at de.robv.android.xposed.XposedBridge.main(XposedBridge.java:102)
-		[MainActivity-25 onCreate]: Test array log: [Type=String, Size=2] 
+		[MainActivity:25 onCreate]: Test array log: [Type=String, Size=2] 
 		[
 			array value 1
 			array value 2
 		]
-		[<TEST-GROUP> MainActivity-28 onCreate]: Test message in test group
-		[<TEST-GROUP> MainActivity-29 onCreate]: Test message in test group, value=999
-		[MainActivity-38 onCreate]: Test custom object log: TestClass: [TestLogData - x=99]
-		[MainActivity-39 onCreate]: Test custom object array log: [Type=TestClass, Size=3] 
+		[<TEST-GROUP> MainActivity:28 onCreate]: Test message in test group
+		[<TEST-GROUP> MainActivity:29 onCreate]: Test message in test group, value=999
+		[MainActivity:38 onCreate]: Test custom object log: TestClass: [TestLogData - x=99]
+		[MainActivity:39 onCreate]: Test custom object array log: [Type=TestClass, Size=3] 
 		[
 			TestLogData - x=1
 			TestLogData - x=2
