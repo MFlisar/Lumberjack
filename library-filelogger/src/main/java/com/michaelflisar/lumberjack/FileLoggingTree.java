@@ -10,13 +10,13 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
-import timber.log.DebugTree;
+import timber.log.BaseTree;
 
 /**
  * Created by Michael on 17.10.2016.
  */
 
-public class FileLoggingTree extends DebugTree
+public class FileLoggingTree extends BaseTree
 {
     public static final String FILE_NAME_PATTERN = "%s_\\d{8}.%s";
 
@@ -24,7 +24,7 @@ public class FileLoggingTree extends DebugTree
 
     public FileLoggingTree(boolean combineTags, FileLoggingSetup setup)
     {
-        super(combineTags);
+        super(combineTags, false);
 
         if (setup == null)
             throw new RuntimeException("You can't create a FileLoggingTree without providing a setup!");

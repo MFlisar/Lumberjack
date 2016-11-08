@@ -282,4 +282,14 @@ public class L
         else
             return !mDisabledGroups.contains(group);
     }
+
+    public static ILogGroup createGroup(final String tag)
+    {
+        return new ILogGroup() {
+            @Override
+            public String getTag() {
+                return tag;
+            }
+        };
+    }
 }

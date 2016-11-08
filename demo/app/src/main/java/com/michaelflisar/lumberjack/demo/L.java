@@ -11,7 +11,7 @@ import com.michaelflisar.lumberjack.formatter.ILogGroup;
 
 import java.util.ArrayList;
 
-import timber.log.DebugTree;
+import timber.log.ConsoleTree;
 import timber.log.Timber;
 
 /**
@@ -29,7 +29,7 @@ public class L extends com.michaelflisar.lumberjack.L {
     private static void initTimber()
     {
         // create your trees and plant them in timber
-        Timber.plant(new DebugTree(true));
+        Timber.plant(new ConsoleTree(true, true));
         Timber.plant(new FileLoggingTree(true, FILE_LOG_SETUP));
         Timber.plant(new NotificationLoggingTree(MainApp.get(), true, NOTIFICATION_LOG_SETUP));
 
@@ -64,12 +64,7 @@ public class L extends com.michaelflisar.lumberjack.L {
     // -----------------------------
 
     // Groups
-    public static final ILogGroup G_TEST = new ILogGroup() {
-        @Override
-        public String getTag() {
-            return "TEST-GROUP";
-        }
-    };
+    public static final ILogGroup G_TEST = L.createGroup("TEST-GROUP");
 
     public static final ArrayList<ILogGroup> LOG_GROUPS = new ArrayList<ILogGroup>() {
         {

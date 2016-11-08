@@ -90,7 +90,7 @@ public class DefaultLogFormatter implements ILogFormatter
             return collection.toString();
 
         StringBuilder sb = new StringBuilder();
-        sb.append("[Type=").append(collection.iterator().next().getClass().getSimpleName()).append(", Size=").append(collection.size()).append("] ");
+        sb.append("[Type=").append(collection.iterator().next().getClass().getSimpleName()).append(", Size=").append(collection.size()).append("]");
         if (mMaxListValues == null || mMaxListValues > 0)
         {
             if (mEnableCollectionPrintNewLines)

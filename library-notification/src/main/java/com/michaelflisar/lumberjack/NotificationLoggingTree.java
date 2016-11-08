@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import timber.log.DebugTree;
+import timber.log.BaseTree;
 
 /**
  * Created by Michael on 17.10.2016.
  */
 
-public class NotificationLoggingTree extends DebugTree
+public class NotificationLoggingTree extends BaseTree
 {
     public static final String BROADCAST_ACTION = "com.michaelflisar.lumberjack.NotificationLoggingTree.BROADCAST_ACTION";
 
@@ -50,7 +50,7 @@ public class NotificationLoggingTree extends DebugTree
 
     public NotificationLoggingTree(Context context, boolean combineTags, NotificationLoggingSetup setup)
     {
-        super(combineTags);
+        super(combineTags, false);
 
         if (setup == null || context == null)
             throw new RuntimeException("You can't create a NotificationLoggingTree without providing a setup and a context!");
