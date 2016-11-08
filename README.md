@@ -18,13 +18,16 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
 
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
-1. add jitpack to your project's `build.gradle`:
+1) add jitpack to your project's `build.gradle`:
+
 ```groovy
 repositories {
     maven { url "https://jitpack.io" }
 }
 ```
-2. add the compile statement to your module's `build.gradle`:
+
+2) add the compile statement to your module's `build.gradle`:
+
 ```groovy
 dependencies {
     // necessary - base module
