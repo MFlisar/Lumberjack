@@ -34,7 +34,7 @@ public class ConsoleTree extends BaseTree
             do {
                 int end = Math.min(newline, i + MAX_LOG_LENGTH);
                 String part = message.substring(i, end);
-                L.getFormatter().formatLine(tag, part);
+                logLine(priority, tag, part);
                 i = end;
             } while (i < newline);
         }

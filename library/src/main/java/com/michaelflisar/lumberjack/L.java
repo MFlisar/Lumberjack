@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import timber.log.Lumberjack;
 import timber.log.Timber;
 
 /**
@@ -23,6 +24,7 @@ import timber.log.Timber;
 *
 * Offers a shorter interface (L instead of Timber) for a more clean and shorter code
 * Additionally, this offers the ability to print a list of values and also convenient methods to log arrays
+* And it allows to adjust the call stack depth used to retrieve the callers class name
  */
 public class L
 {
@@ -51,42 +53,47 @@ public class L
 
     public static void d(String message, Object... args)
     {
-        log(null, Log.DEBUG, message, args);
+        log(null, Log.DEBUG, null, message, args);
     }
 
     public static void d(Throwable t, String message, Object... args)
     {
-        log(null, Log.DEBUG, t, message, args);
+        log(null, Log.DEBUG, null, t, message, args);
     }
 
     public static void d(Throwable t)
     {
-        log(null, Log.DEBUG, t);
+        log(null, Log.DEBUG, null, t);
     }
 
     public static void d(ILogGroup group, String message, Object... args)
     {
-        log(group, Log.DEBUG, message, args);
+        log(group, Log.DEBUG, null, message, args);
+    }
+
+    public static void d(ILogGroup group, int callStackCorrection, String message, Object... args)
+    {
+        log(group, Log.DEBUG, callStackCorrection, message, args);
     }
 
     public static void d(ILogGroup group, Throwable t, String message, Object... args)
     {
-        log(group, Log.DEBUG, t, message, args);
+        log(group, Log.DEBUG, null, t, message, args);
     }
 
     public static void d(ILogGroup group, Throwable t)
     {
-        log(group, Log.DEBUG, t);
+        log(group, Log.DEBUG, null, t);
     }
 
     public static void dLabeledValuePairs(Object... args)
     {
-        logLabeledValuePairs(null, Log.DEBUG, args);
+        logLabeledValuePairs(null, Log.DEBUG, null, args);
     }
 
     public static void dLabeledValuePairs(ILogGroup group, Object... args)
     {
-        logLabeledValuePairs(group, Log.DEBUG, args);
+        logLabeledValuePairs(group, Log.DEBUG, null, args);
     }
 
     // --------------------
@@ -95,42 +102,42 @@ public class L
 
     public static void e(String message, Object... args)
     {
-        log(null, Log.ERROR, message, args);
+        log(null, Log.ERROR, null, message, args);
     }
 
     public static void e(Throwable t, String message, Object... args)
     {
-        log(null, Log.ERROR, t, message, args);
+        log(null, Log.ERROR, null, t, message, args);
     }
 
     public static void e(Throwable t)
     {
-        log(null, Log.ERROR, t);
+        log(null, Log.ERROR, null, t);
     }
 
     public static void e(ILogGroup group, String message, Object... args)
     {
-        log(group, Log.ERROR, message, args);
+        log(group, Log.ERROR, null, message, args);
     }
 
     public static void e(ILogGroup group, Throwable t, String message, Object... args)
     {
-        log(group, Log.ERROR, t, message, args);
+        log(group, Log.ERROR, null, t, message, args);
     }
 
     public static void e(ILogGroup group, Throwable t)
     {
-        log(group, Log.ERROR, t);
+        log(group, Log.ERROR, null, t);
     }
 
     public static void eLabeledValuePairs(Object... args)
     {
-        logLabeledValuePairs(null, Log.ERROR, args);
+        logLabeledValuePairs(null, Log.ERROR, null, args);
     }
 
     public static void eLabeledValuePairs(ILogGroup group, Object... args)
     {
-        logLabeledValuePairs(group, Log.ERROR, args);
+        logLabeledValuePairs(group, Log.ERROR, null, args);
     }
 
     // --------------------
@@ -139,7 +146,7 @@ public class L
 
     private static String ERROR_LOG_VALUES = "This function needs arguments in the format of \"String label, Object value, String label, Object value, ...\" and for each label it needs a value!";
 
-    private static void logLabeledValuePairs(ILogGroup group, int priority, Object... args)
+    private static void logLabeledValuePairs(ILogGroup group, int priority, Integer callStackCorrection, Object... args)
     {
         // 1) check if group is enabled
         if (!isGroupEnabled(group))
@@ -166,11 +173,14 @@ public class L
         // 3) set tag
         updateTag(group);
 
-        // 4) log
+        // 4) set call stack correction
+        updateStackDepth(callStackCorrection);
+
+        // 5) log
         Timber.log(priority, "%s", sb.toString());
     }
 
-    private static void log(ILogGroup group, int priority, String message, Object... args)
+    private static void log(ILogGroup group, int priority, Integer callStackCorrection, String message, Object... args)
     {
         // 1) check if group is enabled
         if (!isGroupEnabled(group))
@@ -179,11 +189,14 @@ public class L
         // 2) set tag
         updateTag(group);
 
-        // 3) log
+        // 3) set call stack correction
+        updateStackDepth(callStackCorrection);
+
+        // 4) log
         Timber.log(priority, message, formatArgs(args));
     }
 
-    private static void log(ILogGroup group, int priority, Throwable t, String message, Object... args)
+    private static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t, String message, Object... args)
     {
         // 1) check if group is enabled
         if (!isGroupEnabled(group))
@@ -192,11 +205,14 @@ public class L
         // 2) set tag
         updateTag(group);
 
-        // 3) log
+        // 3) set call stack correction
+        updateStackDepth(callStackCorrection);
+
+        //4 ) log
         Timber.log(priority, t, message, formatArgs(args));
     }
 
-    private static void log(ILogGroup group, int priority, Throwable t)
+    private static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t)
     {
         // 1) check if group is enabled
         if (!isGroupEnabled(group))
@@ -205,7 +221,10 @@ public class L
         // 2) set tag
         updateTag(group);
 
-        // 3) log
+        // 3) set call stack correction
+        updateStackDepth(callStackCorrection);
+
+        // 4) log
         Timber.log(priority, t);
     }
 
@@ -219,6 +238,14 @@ public class L
             Timber.tag(null);
         else
             Timber.tag(group.getTag());
+    }
+
+    private static void updateStackDepth(Integer correction)
+    {
+        if (correction == null)
+            Lumberjack.callStackCorrection(null);
+        else
+            Lumberjack.callStackCorrection(correction);
     }
 
     private static Object formatArg(Object arg)
