@@ -6,6 +6,7 @@ import com.michaelflisar.lumberjack.formatter.ILogClassFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogGroup;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -255,6 +256,16 @@ public class L
             formatterArg = getFormatter().format((Collection) arg, mFormatters);
         else if (arg instanceof Object[])
             formatterArg = getFormatter().format((Object[]) arg, mFormatters);
+        // check primitive types one by one to avoid reflection in this check function, which will be checked for all objects!
+//        else if(arg != null && arg.getClass().isArray())
+        else if (arg instanceof boolean[] || arg instanceof byte[] || arg instanceof short[] || arg instanceof char[] ||
+                arg instanceof int[] || arg instanceof long[] || arg instanceof float[] || arg instanceof double[])
+        {
+            Object[] objArgs = new Object[Array.getLength(arg)];
+            for(int i = 0; i < Array.getLength(arg) ; i++)
+                objArgs[i] = Array.get(arg, i);
+            formatterArg = getFormatter().format(objArgs, mFormatters);
+        }
         else
             formatterArg = getFormatter().format(arg, mFormatters, false);
 
