@@ -87,3 +87,9 @@ This is what the demo setup will print out (to your file, to the notification, t
 ###Usage
 
 The best place to start is the [WIKI](https://github.com/MFlisar/Lumberjack/wiki) and the [Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java).
+
+###Missing
+
+* Notification Logger
+  * An activity that can be launched via the notification (that shows the logs and offers advanced filter options)
+  * filter: errors only
