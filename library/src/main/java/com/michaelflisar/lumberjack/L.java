@@ -120,6 +120,11 @@ public class L
         log(group, Log.ERROR, null, message, args);
     }
 
+    public static void e(ILogGroup group, int callStackCorrection, String message, Object... args)
+    {
+        log(group, Log.ERROR, callStackCorrection, message, args);
+    }
+
     public static void e(ILogGroup group, Throwable t, String message, Object... args)
     {
         log(group, Log.ERROR, null, t, message, args);
