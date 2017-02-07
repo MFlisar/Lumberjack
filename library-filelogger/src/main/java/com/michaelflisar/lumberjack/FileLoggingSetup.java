@@ -8,13 +8,25 @@ import android.content.Context;
 
 public class FileLoggingSetup
 {
+    public enum Mode
+    {
+        DateFiles,
+        NumberedFiles
+    }
+
     String mFolder;
 
     // DEFAULT SETUP
-    int mDaysToKeep = 7;
+    int mLogsToKeep = 7;
     String mLogPattern = "%d{HH:mm:ss.SSS}\t%logger{36}\t%msg%n";
     String mFileName = "log";
     String mFileExtension= "log";
+
+    // Mode
+    Mode mMode = Mode.DateFiles;
+
+    // MODE: NumberedFiles
+    String mNumberedFileSizeLimit = "1MB";
 
     public FileLoggingSetup(Context context)
     {
@@ -40,15 +52,27 @@ public class FileLoggingSetup
         return this;
     }
 
-    public FileLoggingSetup withDaysToKeep(int daysToKeep)
+    public FileLoggingSetup withLogsToKeep(int logsToKeep)
     {
-        mDaysToKeep = daysToKeep;
+        mLogsToKeep = logsToKeep;
         return this;
     }
 
     public FileLoggingSetup withPattern(String pattern)
     {
         mLogPattern = pattern;
+        return this;
+    }
+
+    public FileLoggingSetup withMode(Mode mode)
+    {
+        mMode = mode;
+        return this;
+    }
+
+    public FileLoggingSetup withNumberedFileSizeLimit(String size)
+    {
+        mNumberedFileSizeLimit = size;
         return this;
     }
 }

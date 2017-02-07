@@ -6,10 +6,17 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.util.Pair;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -40,13 +47,16 @@ public class NotificationLoggingTree extends BaseTree
     private Handler mHandler;
     private Runnable mUpdateRunnable;
     private NotificationLoggingSetup mSetup;
-    private ArrayList<Pair<String, String>> mLogs;
-    private ArrayList<String> mFilteredLogs;
+    private ArrayList<LogEntry> mLogs;
+    private int mErrors;
+    private ArrayList<LogEntry> mFilteredLogs;
     private Integer mCurrentFilter;
     private int mLogIndex = -1;
     private NotificationManagerCompat mNotificationManager;
     private RemoteViews mRemoteView;
     private NotificationCompat.Builder mBuilder;
+    private Vibrator mVibrator = null;
+    private ToneGenerator mToneGenerator = null;
 
     public NotificationLoggingTree(Context context, boolean combineTags, NotificationLoggingSetup setup)
     {
@@ -68,6 +78,7 @@ public class NotificationLoggingTree extends BaseTree
             }
         };
         mLogs = new ArrayList<>();
+        mErrors = 0;
         mFilteredLogs = new ArrayList<>();
         mCurrentFilter = null;
         mSetup = setup;
@@ -165,10 +176,25 @@ public class NotificationLoggingTree extends BaseTree
     protected void log(int priority, String tag, String message, Throwable t)
     {
         String logMessage = L.getFormatter().formatLine(tag, message);
-        mLogs.add(new Pair<>(L.getFormatter().extractGroupFromTag(tag), logMessage));
+        mLogs.add(new LogEntry(priority, L.getFormatter().extractGroupFromTag(tag), logMessage));
+        if (priority >= Log.ERROR)
+            mErrors++;
         mLogIndex = mLogs.size() - 1;
         updateFilterData(true);
         postUpdateNotification();
+
+        if (mSetup.mVibrationLogLevel != null && mSetup.mVibrationLogLevel <= priority)
+        {
+            if (mVibrator == null)
+                mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+            mVibrator.vibrate(150);
+        }
+        if (mSetup.mBeepLogLevel != null && mSetup.mBeepLogLevel <= priority)
+        {
+            if (mToneGenerator == null)
+                mToneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+            mToneGenerator.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
+        }
     }
 
     private void postUpdateNotification()
@@ -193,8 +219,8 @@ public class NotificationLoggingTree extends BaseTree
 
         for (; i < mLogs.size(); i++)
         {
-            if (mCurrentFilter == null || (mLogs.get(i).first != null && mSetup.mFilters.get(mCurrentFilter).getTag().equals(mLogs.get(i).first)))
-                mFilteredLogs.add(mLogs.get(i).second);
+            if (mCurrentFilter == null || (mLogs.get(i).group != null && mSetup.mFilters.get(mCurrentFilter).getTag().equals(mLogs.get(i).group)))
+                mFilteredLogs.add(mLogs.get(i));
         }
 
         mLogIndex = mFilteredLogs.size() - 1;
@@ -202,9 +228,11 @@ public class NotificationLoggingTree extends BaseTree
 
     private void updateNotification()
     {
-        String textExpanded = mLogIndex == -1 ? mContext.getString(R.string.lumberjack_notification_no_log_for_filter_found) : mFilteredLogs.get(mLogIndex);
+        LogEntry entry = mLogIndex == -1 ? null : mFilteredLogs.get(mLogIndex);
+        String textExpanded = entry == null ? mContext.getString(R.string.lumberjack_notification_no_log_for_filter_found) : entry.message;
+        int textColor = entry == null ? Color.BLACK : entry.getColor();
         String titleCollapsed = mContext.getString(R.string.lumberjack_notification_title, mFilteredLogs.size());
-        String titleExpanded = mContext.getString(R.string.lumberjack_notification_title_expanded, mLogIndex + 1, mFilteredLogs.size());
+        String titleExpanded = mContext.getString(R.string.lumberjack_notification_title_expanded, mLogIndex + 1, mFilteredLogs.size(), getErrors());
         String textFilter = null;
         if (mCurrentFilter == null)
             textFilter = mContext.getString(R.string.lumberjack_notification_filter_disabled);
@@ -213,6 +241,7 @@ public class NotificationLoggingTree extends BaseTree
         mBuilder.setContentText(titleCollapsed);
         mRemoteView.setTextViewText(R.id.tvTitle, titleExpanded);
         mRemoteView.setTextViewText(R.id.tvText, textExpanded);
+        mRemoteView.setTextColor(R.id.tvText, textColor);
         mRemoteView.setTextViewText(R.id.tvFilter, textFilter);
 //        mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(log).setBigContentTitle("Log: " + (mLogIndex + 1) + "/" + mLogs.size()));
 //        mBuilder.setContentText("Log: " + (mLogIndex + 1) + "/" + mLogs.size());
@@ -224,6 +253,53 @@ public class NotificationLoggingTree extends BaseTree
     private void removeNotification()
     {
         mNotificationManager.cancel(mSetup.mNotificationId);
+    }
+
+    private int getErrors()
+    {
+        if (mCurrentFilter == null)
+            return mErrors;
+
+        int errors = 0;
+        for (int i = 0; i < mFilteredLogs.size(); i++)
+        {
+            if (mFilteredLogs.get(i).priority >= Log.ERROR)
+                errors++;
+        }
+        return errors;
+    }
+
+    private static final class LogEntry
+    {
+        private int priority;
+        private String group;
+        private String message;
+
+        public LogEntry(int priority, String group, String message)
+        {
+            this.priority = priority;
+            this.group = group;
+            this.message = message;
+        }
+
+        protected int getColor()
+        {
+            int color = Color.BLACK;
+            switch (priority)
+            {
+                case Log.VERBOSE:
+                case Log.DEBUG:
+                    break;
+                case Log.INFO:
+                case Log.WARN:
+                    color = Color.GRAY;
+                    break;
+                case Log.ERROR:
+                case Log.ASSERT:
+                    color = Color.RED;
+            }
+            return color;
+        }
     }
 
     public static class NotificationBroadcastReceiver extends BroadcastReceiver

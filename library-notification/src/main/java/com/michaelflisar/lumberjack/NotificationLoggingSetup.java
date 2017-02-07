@@ -2,6 +2,7 @@ package com.michaelflisar.lumberjack;
 
 import android.app.Notification;
 import android.content.Context;
+import android.util.Log;
 
 import com.michaelflisar.lumberjack.formatter.ILogGroup;
 
@@ -20,6 +21,8 @@ public class NotificationLoggingSetup
     int mButtonIntentRequestCodeBase = 100;
     int mPriority = Notification.PRIORITY_MAX;
     ArrayList<ILogGroup> mFilters = new ArrayList<>();
+    Integer mVibrationLogLevel = null;
+    Integer mBeepLogLevel = null;
 
     public NotificationLoggingSetup(int smallIcon)
     {
@@ -59,6 +62,18 @@ public class NotificationLoggingSetup
     public NotificationLoggingSetup withFilters(ArrayList<ILogGroup> filters)
     {
         mFilters = filters;
+        return this;
+    }
+
+    public NotificationLoggingSetup withVibrateOn(int logLevel)
+    {
+        mVibrationLogLevel = logLevel;
+        return this;
+    }
+
+    public NotificationLoggingSetup withBeepOn(int logLevel)
+    {
+        mBeepLogLevel = logLevel;
         return this;
     }
 }

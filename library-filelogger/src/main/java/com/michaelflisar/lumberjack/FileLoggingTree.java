@@ -8,9 +8,14 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.rolling.FixedWindowRollingPolicy;
 import ch.qos.logback.core.rolling.RollingFileAppender;
+import ch.qos.logback.core.rolling.RollingPolicyBase;
+import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import ch.qos.logback.core.rolling.TriggeringPolicy;
 import timber.log.BaseTree;
+import timber.log.Lumberjack;
 
 /**
  * Created by Michael on 17.10.2016.
@@ -18,7 +23,8 @@ import timber.log.BaseTree;
 
 public class FileLoggingTree extends BaseTree
 {
-    public static final String FILE_NAME_PATTERN = "%s_\\d{8}.%s";
+    public static final String DATE_FILE_NAME_PATTERN = "%s_\\d{8}.%s";
+    public static final String NUMBERED_FILE_NAME_PATTERN = "%s\\d*.%s";
 
     static Logger mLogger = LoggerFactory.getLogger(FileLoggingTree.class);//Logger.ROOT_LOGGER_NAME);
 
@@ -50,15 +56,45 @@ public class FileLoggingTree extends BaseTree
         //rollingFileAppender.setFile(setup.mFolder + "/" + setup.mFileName + "." + setup.mFileExtension);
 
         // 3) FileLoggingSetup - Rolling policy (one log per day)
-        TimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
-        rollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
-        rollingPolicy.setMaxHistory(setup.mDaysToKeep);
-        rollingPolicy.setCleanHistoryOnStart(true);
-        rollingPolicy.setParent(rollingFileAppender);
-        rollingPolicy.setContext(lc);
-        rollingPolicy.start();
+        TriggeringPolicy<ILoggingEvent> triggeringPolicy = null;
+        switch (setup.mMode)
+        {
+            case DateFiles:
+            {
+                TimeBasedRollingPolicy timeBasedRollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
+                timeBasedRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
+                timeBasedRollingPolicy.setMaxHistory(setup.mLogsToKeep);
+                timeBasedRollingPolicy.setCleanHistoryOnStart(true);
+                timeBasedRollingPolicy.setParent(rollingFileAppender);
+                timeBasedRollingPolicy.setContext(lc);
 
-        rollingFileAppender.setTriggeringPolicy(rollingPolicy);
+                triggeringPolicy = timeBasedRollingPolicy;
+                break;
+            }
+            case NumberedFiles:
+            {
+                FixedWindowRollingPolicy fixedWindowRollingPolicy = new FixedWindowRollingPolicy();
+                fixedWindowRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "%i." + setup.mFileExtension);
+                fixedWindowRollingPolicy.setMinIndex(1);
+                fixedWindowRollingPolicy.setMaxIndex(setup.mLogsToKeep);
+                fixedWindowRollingPolicy.setParent(rollingFileAppender);
+                fixedWindowRollingPolicy.setContext(lc);
+
+                SizeBasedTriggeringPolicy<ILoggingEvent> sizeBasedTriggeringPolicy = new SizeBasedTriggeringPolicy<>();
+                sizeBasedTriggeringPolicy.setMaxFileSize(setup.mNumberedFileSizeLimit);
+
+                triggeringPolicy = sizeBasedTriggeringPolicy;
+
+                rollingFileAppender.setFile(FileLoggingUtil.getDefaultLogFile(setup));
+                rollingFileAppender.setRollingPolicy(fixedWindowRollingPolicy);
+                fixedWindowRollingPolicy.start();
+
+                break;
+            }
+        }
+        triggeringPolicy.start();
+
+        rollingFileAppender.setTriggeringPolicy(triggeringPolicy);
         rollingFileAppender.setEncoder(encoder1);
         rollingFileAppender.start();
 
