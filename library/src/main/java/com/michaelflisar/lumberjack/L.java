@@ -49,7 +49,61 @@ public class L
     }
 
     // --------------------
-    // Logging - Debug
+    // Logging - VERBOSE
+    // --------------------
+
+    public static void v(String message, Object... args)
+    {
+        log(null, Log.VERBOSE, null, message, args);
+    }
+
+    public static void v(Throwable t, String message, Object... args)
+    {
+        log(null, Log.VERBOSE, null, t, message, args);
+    }
+
+    public static void v(Throwable t)
+    {
+        log(null, Log.VERBOSE, null, t);
+    }
+
+    public static void v(ILogGroup group, String message, Object... args)
+    {
+        log(group, Log.VERBOSE, null, message, args);
+    }
+
+    public static void v(int callStackCorrection, String message, Object... args)
+    {
+        log(null, Log.VERBOSE, callStackCorrection, message, args);
+    }
+
+    public static void v(ILogGroup group, int callStackCorrection, String message, Object... args)
+    {
+        log(group, Log.VERBOSE, callStackCorrection, message, args);
+    }
+
+    public static void v(ILogGroup group, Throwable t, String message, Object... args)
+    {
+        log(group, Log.VERBOSE, null, t, message, args);
+    }
+
+    public static void v(ILogGroup group, Throwable t)
+    {
+        log(group, Log.VERBOSE, null, t);
+    }
+
+    public static void vLabeledValuePairs(Object... args)
+    {
+        logLabeledValuePairs(null, Log.VERBOSE, null, args);
+    }
+
+    public static void vLabeledValuePairs(ILogGroup group, Object... args)
+    {
+        logLabeledValuePairs(group, Log.VERBOSE, null, args);
+    }
+
+    // --------------------
+    // Logging - DEBUG
     // --------------------
 
     public static void d(String message, Object... args)
@@ -70,6 +124,11 @@ public class L
     public static void d(ILogGroup group, String message, Object... args)
     {
         log(group, Log.DEBUG, null, message, args);
+    }
+
+    public static void d(int callStackCorrection, String message, Object... args)
+    {
+        log(null, Log.DEBUG, callStackCorrection, message, args);
     }
 
     public static void d(ILogGroup group, int callStackCorrection, String message, Object... args)
@@ -98,7 +157,115 @@ public class L
     }
 
     // --------------------
-    // Logging - Debug
+    // Logging - INFO
+    // --------------------
+
+    public static void i(String message, Object... args)
+    {
+        log(null, Log.INFO, null, message, args);
+    }
+
+    public static void i(Throwable t, String message, Object... args)
+    {
+        log(null, Log.INFO, null, t, message, args);
+    }
+
+    public static void i(Throwable t)
+    {
+        log(null, Log.INFO, null, t);
+    }
+
+    public static void i(ILogGroup group, String message, Object... args)
+    {
+        log(group, Log.INFO, null, message, args);
+    }
+
+    public static void i(int callStackCorrection, String message, Object... args)
+    {
+        log(null, Log.INFO, callStackCorrection, message, args);
+    }
+
+    public static void i(ILogGroup group, int callStackCorrection, String message, Object... args)
+    {
+        log(group, Log.INFO, callStackCorrection, message, args);
+    }
+
+    public static void i(ILogGroup group, Throwable t, String message, Object... args)
+    {
+        log(group, Log.INFO, null, t, message, args);
+    }
+
+    public static void i(ILogGroup group, Throwable t)
+    {
+        log(group, Log.INFO, null, t);
+    }
+
+    public static void iLabeledValuePairs(Object... args)
+    {
+        logLabeledValuePairs(null, Log.INFO, null, args);
+    }
+
+    public static void iLabeledValuePairs(ILogGroup group, Object... args)
+    {
+        logLabeledValuePairs(group, Log.INFO, null, args);
+    }
+
+    // --------------------
+    // Logging - WARN
+    // --------------------
+
+    public static void w(String message, Object... args)
+    {
+        log(null, Log.WARN, null, message, args);
+    }
+
+    public static void w(Throwable t, String message, Object... args)
+    {
+        log(null, Log.WARN, null, t, message, args);
+    }
+
+    public static void w(Throwable t)
+    {
+        log(null, Log.WARN, null, t);
+    }
+
+    public static void w(ILogGroup group, String message, Object... args)
+    {
+        log(group, Log.WARN, null, message, args);
+    }
+
+    public static void w(int callStackCorrection, String message, Object... args)
+    {
+        log(null, Log.WARN, callStackCorrection, message, args);
+    }
+
+    public static void w(ILogGroup group, int callStackCorrection, String message, Object... args)
+    {
+        log(group, Log.WARN, callStackCorrection, message, args);
+    }
+
+    public static void w(ILogGroup group, Throwable t, String message, Object... args)
+    {
+        log(group, Log.WARN, null, t, message, args);
+    }
+
+    public static void w(ILogGroup group, Throwable t)
+    {
+        log(group, Log.WARN, null, t);
+    }
+
+    public static void wLabeledValuePairs(Object... args)
+    {
+        logLabeledValuePairs(null, Log.WARN, null, args);
+    }
+
+    public static void wLabeledValuePairs(ILogGroup group, Object... args)
+    {
+        logLabeledValuePairs(group, Log.WARN, null, args);
+    }
+
+    // --------------------
+    // Logging - Error
     // --------------------
 
     public static void e(String message, Object... args)
@@ -119,6 +286,11 @@ public class L
     public static void e(ILogGroup group, String message, Object... args)
     {
         log(group, Log.ERROR, null, message, args);
+    }
+
+    public static void e(int callStackCorrection, String message, Object... args)
+    {
+        log(null, Log.ERROR, callStackCorrection, message, args);
     }
 
     public static void e(ILogGroup group, int callStackCorrection, String message, Object... args)
@@ -186,7 +358,7 @@ public class L
         Timber.log(priority, "%s", sb.toString());
     }
 
-    private static void log(ILogGroup group, int priority, Integer callStackCorrection, String message, Object... args)
+    public static void log(ILogGroup group, int priority, Integer callStackCorrection, String message, Object... args)
     {
         // 1) check if group is enabled
         if (!isGroupEnabled(group))
@@ -202,7 +374,7 @@ public class L
         Timber.log(priority, message, formatArgs(args));
     }
 
-    private static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t, String message, Object... args)
+    public static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t, String message, Object... args)
     {
         // 1) check if group is enabled
         if (!isGroupEnabled(group))
@@ -218,7 +390,7 @@ public class L
         Timber.log(priority, t, message, formatArgs(args));
     }
 
-    private static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t)
+    public static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t)
     {
         // 1) check if group is enabled
         if (!isGroupEnabled(group))
