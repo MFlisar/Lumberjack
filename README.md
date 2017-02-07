@@ -9,7 +9,7 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
 * automatically log first n values of lists/arrays (this *automatically* respects custom log formatters for classes in the collections!)
 * trees for:
   * logging to console (with the ability to add clickable links to the calling line in the calling class)
-  * files (one file per day)
+  * files (one file per day, select between numbered log file names or date based log file names)
   * notification (with filter functionality per group, next/prev log buttons and more...)
 * customise each tree to whatever you want or extend them
 * little utility class to log time and laps
