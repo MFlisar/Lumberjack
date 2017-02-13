@@ -65,10 +65,7 @@ public class NotificationLoggingTree extends BaseTree
         if (setup == null || context == null)
             throw new RuntimeException("You can't create a NotificationLoggingTree without providing a setup and a context!");
 
-        if (context instanceof Activity || context instanceof Service)
-            Log.w(NotificationLoggingTree.class.getSimpleName(), "You should provide an Application context to avoid leaks!");
-
-        mContext = context;
+        mContext = context.getApplicationContext();
         mHandler = new Handler();
         mLastUpdate = 0L;
         mUpdateRunnable = new Runnable() {

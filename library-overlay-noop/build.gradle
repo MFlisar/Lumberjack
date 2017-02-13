@@ -1,0 +1,33 @@
+apply plugin: 'com.android.library'
+
+group = 'com.github.MFlisar'
+
+android {
+    if (project.hasProperty('setup.compileSdk'))
+    {
+        compileSdkVersion setup.compileSdk
+        buildToolsVersion setup.buildTools
+        defaultConfig {
+            minSdkVersion setup.minSdk
+            targetSdkVersion setup.targetSdk
+        }
+    }
+    else
+    {
+        compileSdkVersion 24
+        buildToolsVersion "24.0.2"
+        defaultConfig {
+            minSdkVersion 16
+            targetSdkVersion 24
+        }
+    }
+
+    if (!project.hasProperty('versions.supportLib'))
+    {
+        project.ext.set("versions", ["supportLib" : "24.2.1"]);
+    }
+}
+
+dependencies {
+    compile project(':lumberjack-library')
+}

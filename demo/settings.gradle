@@ -6,3 +6,7 @@ include ':lumberjack-filelogger'
 project(':lumberjack-filelogger').projectDir = new File(settingsDir, '../library-filelogger')
 include ':lumberjack-notification'
 project(':lumberjack-notification').projectDir = new File(settingsDir, '../library-notification')
+include ':lumberjack-overlay'
+project(':lumberjack-overlay').projectDir = new File(settingsDir, '../library-overlay')
+include ':lumberjack-overlay-noop'
+project(':lumberjack-overlay-noop').projectDir = new File(settingsDir, '../library-overlay-noop')

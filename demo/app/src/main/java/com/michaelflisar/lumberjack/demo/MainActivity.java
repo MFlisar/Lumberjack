@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack.demo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,6 +13,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // here we can ask for the permission, so we init the overlay logger in here
+        // make sure to pass on the result of the permission dialog to the overlay logger!
+        L.initOverlayLogger(this);
 
         // Test 1: a few simple test messages (no groups used)
         L.d("Main activity created");
@@ -37,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
         // we have registered a custom formatter for our TestClass, so we can DIRECTLY pass TestClasses for any string paramter and lumberjack will take care of it!
         L.d("Test custom object log: %s", new TestClass(99));
         L.d("Test custom object array log: %s", new ArrayList<>(Arrays.asList(new TestClass(1), new TestClass(2), new TestClass(10))));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        L.handleOverlayPermissionDialogResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public static class TestClass

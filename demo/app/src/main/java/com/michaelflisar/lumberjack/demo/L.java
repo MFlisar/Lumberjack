@@ -1,10 +1,15 @@
 package com.michaelflisar.lumberjack.demo;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.michaelflisar.lumberjack.FileLoggingSetup;
 import com.michaelflisar.lumberjack.FileLoggingTree;
 import com.michaelflisar.lumberjack.FileLoggingUtil;
 import com.michaelflisar.lumberjack.NotificationLoggingSetup;
 import com.michaelflisar.lumberjack.NotificationLoggingTree;
+import com.michaelflisar.lumberjack.OverlayLoggingSetup;
+import com.michaelflisar.lumberjack.OverlayLoggingTree;
 import com.michaelflisar.lumberjack.formatter.DefaultLogFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogClassFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogGroup;
@@ -32,6 +37,7 @@ public class L extends com.michaelflisar.lumberjack.L {
         Timber.plant(new ConsoleTree(true, true));
         Timber.plant(new FileLoggingTree(true, FILE_LOG_SETUP));
         Timber.plant(new NotificationLoggingTree(MainApp.get(), true, NOTIFICATION_LOG_SETUP));
+        // we can't init the overlay logger here, because we need an activity context for getting the draw overlay permission!
 
         // setup a log formatter, you can provide a custom one if you want to
         setLogFormatter(new DefaultLogFormatter(5, true, true));
@@ -57,6 +63,22 @@ public class L extends com.michaelflisar.lumberjack.L {
         // some test logs...
         L.d(G_TEST, "initLumberjack fertig");
         L.d(G_TEST, "LogFiles: %s", FileLoggingUtil.getAllExistingLogFiles(FILE_LOG_SETUP));
+    }
+
+    public static void initOverlayLogger(Activity activity)
+    {
+        // we plant 4 trees in this demo and this logger is initialised everytime the main activity is created (even after screen rotation),
+        // so we need to make sure to add this tree once only
+        if (Timber.forest().size() != 4)
+            Timber.plant(new OverlayLoggingTree(activity, true, OVERLAY_LOG_SETUP));
+    }
+
+    public static void handleOverlayPermissionDialogResult(int requestCode, int resultCode, Intent data)
+    {
+        // we know that the 4th tree is the overlay logger, so we just hand on the data
+        boolean success = ((OverlayLoggingTree)Timber.forest().get(3)).checkRequestPermissionResult(requestCode, resultCode, data);
+
+        L.d(G_TEST, "Overlay permission granted: %b", success);
     }
 
     // -----------------------------
@@ -87,6 +109,12 @@ public class L extends com.michaelflisar.lumberjack.L {
             //.withBigIcon(R.mipmap.ic_launcher_default)
             .withNotificationId(150)
             .withFilters(LOG_GROUPS);
+
+    // -----------------------------
+    // Advanced - Overlay Logger
+    // -----------------------------
+
+    private static final OverlayLoggingSetup OVERLAY_LOG_SETUP = new OverlayLoggingSetup();
 
     // -----------------------------
     // Format helper function

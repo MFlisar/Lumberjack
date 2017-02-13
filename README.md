@@ -30,9 +30,9 @@ repositories {
 
 ```groovy
 dependencies {
-    // necessary - base module
+    // base module (NECESSARY)
 	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:1.3'
-    // necessary - optional modules
+    // modules (OPTIONAL)
     compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.3'
     compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.3'
     
@@ -93,3 +93,6 @@ The best place to start is the [WIKI](https://github.com/MFlisar/Lumberjack/wiki
 * Notification Logger
   * An activity that can be launched via the notification (that shows the logs and offers advanced filter options)
   * filter: errors only
+  * overlay logger
+  * demo gif
+  * noop für overlay logger to avoid the overlay manifest permission
