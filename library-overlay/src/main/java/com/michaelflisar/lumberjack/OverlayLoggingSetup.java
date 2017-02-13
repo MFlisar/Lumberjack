@@ -18,6 +18,7 @@ public class OverlayLoggingSetup
     private int mColorAssert = Color.RED;
     private int mTextSizeInDp = 12;
     private int mOverlayHeightInDp = 150;
+    private boolean mStartExpanded = true;
 
     private int mPermissionRequestCode = 200;
 
@@ -146,6 +147,12 @@ public class OverlayLoggingSetup
         return this;
     }
 
+    public OverlayLoggingSetup withStartExpanded(boolean startExpanded)
+    {
+        mStartExpanded = startExpanded;
+        return this;
+    }
+
     public int getBackgroundColor()
     {
         return mBackgroundColor;
@@ -164,6 +171,11 @@ public class OverlayLoggingSetup
     public int getOverlayHeight()
     {
         return mOverlayHeightInDp;
+    }
+
+    public boolean getWithStartExpanded()
+    {
+        return mStartExpanded;
     }
 
     public int getColor(int priority)

@@ -117,7 +117,8 @@ public class L extends com.michaelflisar.lumberjack.L {
     // Advanced - Overlay Logger
     // -----------------------------
 
-    private static final OverlayLoggingSetup OVERLAY_LOG_SETUP = new OverlayLoggingSetup();
+    private static final OverlayLoggingSetup OVERLAY_LOG_SETUP = new OverlayLoggingSetup()
+            .withStartExpanded(false);
 
     // -----------------------------
     // Format helper function

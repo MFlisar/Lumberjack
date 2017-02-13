@@ -46,10 +46,13 @@ class OverlayView extends FrameLayout
 
         mSetup = setup;
 
+        mExpanded = mSetup.getWithStartExpanded();
+
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Point windowDimen = new Point();
         mWindowManager.getDefaultDisplay().getSize(windowDimen);
 
+        int buttonHeight = dpToPx(context, 36);
         int desiredLayoutHeight = dpToPx(context, setup.getOverlayHeight());
         int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
@@ -63,19 +66,16 @@ class OverlayView extends FrameLayout
             public void onClick(View v)
             {
                 mExpanded = !mExpanded;
-                updateLayout(v.getContext());
+                updateViewState();
                 mCollapseExpandButton.setImageResource(mExpanded ? R.drawable.ic_collapse_circle : R.drawable.ic_expand_circle);
             }
         });
+        mCollapseExpandButton.setImageResource(mExpanded ? R.drawable.ic_collapse_circle : R.drawable.ic_expand_circle);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rvLogs);
         mLabel = (TextView)view.findViewById(R.id.tvLabel);
         mLabelErrors = (TextView)view.findViewById(R.id.tvLabelError);
-
-        // Setup buttons
-        int buttonHeight = dpToPx(context, 36);
-        mCloseButton.getLayoutParams().height = buttonHeight;
-
         mLabel.setBackgroundColor(setup.getBackgroundColor());
+        mLabelErrors.setBackgroundColor(setup.getBackgroundColor());
 
         // Setup RecyclerView
         mAdapter = new LogAdapter();
@@ -96,18 +96,13 @@ class OverlayView extends FrameLayout
                     updateLabels(null);
             }
         });
+        mRecyclerView.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
 
         // Add view
         addView(view);
 
-        // Set View parameters
-        WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, layoutHeight, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-        windowParams.gravity = Gravity.TOP | Gravity.LEFT;
-        windowParams.x = 0;
-        windowParams.y = windowDimen.y - layoutHeight;
-
         // Attach and display View
-        mWindowManager.addView(this, windowParams);
+        mWindowManager.addView(this, calcWindowParams());
     }
 
     private void updateLabels(Integer index)
@@ -119,32 +114,34 @@ class OverlayView extends FrameLayout
         mLabelErrors.setText(mErrors > 0 ? mLabelErrors.getContext().getString(R.string.lumberjack_overlay_label_errors, mErrors) : "");
     }
 
-    public void checkOrientation(Context context, int orientation)
+    public void checkOrientation(int orientation)
     {
-        updateLayout(context);
+        updateViewState();
     }
 
-    private void updateLayout(Context context)
+    private void updateViewState()
+    {
+        mWindowManager.updateViewLayout(this, calcWindowParams());
+        mRecyclerView.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
+    }
+
+    private WindowManager.LayoutParams calcWindowParams()
     {
         Point windowDimen = new Point();
         mWindowManager.getDefaultDisplay().getSize(windowDimen);
 
-        int buttonHeight = dpToPx(context, 36);
-        int desiredLayoutHeight = dpToPx(context, mSetup.getOverlayHeight());
+        int buttonHeight = dpToPx(getContext(), 36);
+        int desiredLayoutHeight = dpToPx(getContext(), mSetup.getOverlayHeight());
         if (!mExpanded)
             desiredLayoutHeight = buttonHeight;
         int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
-        // Set View parameters
         WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, layoutHeight, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         windowParams.gravity = Gravity.TOP | Gravity.LEFT;
         windowParams.x = 0;
         windowParams.y = windowDimen.y - layoutHeight;
 
-        mRecyclerView.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
-
-        // Update view
-        mWindowManager.updateViewLayout(this, windowParams);
+        return windowParams;
     }
 
     private int dpToPx(Context context, int dp)

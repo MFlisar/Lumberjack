@@ -11,14 +11,23 @@
     tools:context="com.michaelflisar.lumberjack.demo.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:gravity="center_horizontal"
+        android:text="Lumberjack demo" />
 
     <Button
         android:id="@+id/btLog"
         android:layout_centerInParent="true"
         android:text="Add log message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btLogError"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/btLog"
+        android:text="Add ERROR message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

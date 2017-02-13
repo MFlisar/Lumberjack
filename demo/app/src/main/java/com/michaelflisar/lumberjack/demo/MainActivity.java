@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mCount = savedInstanceState.getInt("mCount");
 
         findViewById(R.id.btLog).setOnClickListener(this);
+        findViewById(R.id.btLogError).setOnClickListener(this);
 
         // here we can ask for the permission, so we init the overlay logger in here
         // make sure to pass on the result of the permission dialog to the overlay logger!
@@ -67,8 +68,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view)
     {
-        mCount++;
-        L.d("Button clicked: %d", mCount);
+        if (view.getId() == R.id.btLog)
+        {
+            mCount++;
+            L.d("Button clicked: %d", mCount);
+        }
+        else
+        {
+            L.e("Error message");
+        }
     }
 
     public static class TestClass

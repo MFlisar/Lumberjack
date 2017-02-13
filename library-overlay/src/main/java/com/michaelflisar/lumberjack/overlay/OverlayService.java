@@ -69,7 +69,7 @@ public class OverlayService extends Service
         super.onConfigurationChanged(newConfig);
 
         if (mView != null)
-            mView.checkOrientation(this, newConfig.orientation);
+            mView.checkOrientation(newConfig.orientation);
     }
 
     public void log(final OverlayLoggingTree.LogEntry msg)
