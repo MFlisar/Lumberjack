@@ -26,60 +26,120 @@ public class OverlayLoggingSetup
 
     }
 
+    /**
+     * define a custom background for the overlay
+     * DEFAULT: #64000000 (light transparent grey)
+     *
+     * @param backgroundColor The background color
+     */
     public OverlayLoggingSetup withBackgroundColor(int backgroundColor)
     {
         mBackgroundColor = backgroundColor;
         return this;
     }
 
-    public OverlayLoggingSetup withColorVerbose(int colorVerbose)
+    /**
+     * define a custom message color for verbose logs
+     * DEFAULT: white
+     *
+     * @param color The color
+     */
+    public OverlayLoggingSetup withColorVerbose(int color)
     {
-        mColorVerbose = colorVerbose;
+        mColorVerbose = color;
         return this;
     }
 
-    public OverlayLoggingSetup withColorDebug(int colorDebug)
+    /**
+     * define a custom message color for debug logs
+     * DEFAULT: white
+     *
+     * @param color The color
+     */
+    public OverlayLoggingSetup withColorDebug(int color)
     {
-        mColorDebug = colorDebug;
+        mColorDebug = color;
         return this;
     }
 
-    public OverlayLoggingSetup withColorInfo(int colorInfo)
+    /**
+     * define a custom message color for info logs
+     * DEFAULT: white
+     *
+     * @param color The color
+     */
+    public OverlayLoggingSetup withColorInfo(int color)
     {
-        mColorInfo = colorInfo;
+        mColorInfo = color;
         return this;
     }
 
-    public OverlayLoggingSetup withColorWarn(int colorWarn)
+    /**
+     * define a custom message color for warn logs
+     * DEFAULT: white
+     *
+     * @param color The color
+     */
+    public OverlayLoggingSetup withColorWarn(int color)
     {
-        mColorWarn = colorWarn;
+        mColorWarn = color;
         return this;
     }
 
-    public OverlayLoggingSetup withColorError(int colorError)
+    /**
+     * define a custom message color for error logs
+     * DEFAULT: red
+     *
+     * @param color The color
+     */
+    public OverlayLoggingSetup withColorError(int color)
     {
-        mColorError = colorError;
+        mColorError = color;
         return this;
     }
 
-    public OverlayLoggingSetup withColorAssert(int colorAssert)
+    /**
+     * define a custom message color for assert logs
+     * DEFAULT: red
+     *
+     * @param color The color
+     */
+    public OverlayLoggingSetup withColorAssert(int color)
     {
-        mColorAssert = colorAssert;
+        mColorAssert = color;
         return this;
     }
 
+    /**
+     * define a custom request code for the permission request dialog
+     * DEFAULT: 200
+     *
+     * @param requestCode The request code
+     */
     public OverlayLoggingSetup withPermissionRequestCode(int requestCode)
     {
         mPermissionRequestCode = requestCode;
         return this;
     }
 
+    /**
+     * define a custom text size for log messages
+     * DEFAULT: 12dp
+     *
+     * @param dp The text size in dp
+     */
     public OverlayLoggingSetup withTextSizeInDp(int dp)
     {
         mTextSizeInDp = dp;
         return this;
     }
 
+    /**
+     * define a custom height for the overlay
+     * DEFAULT: 150dp
+     *
+     * @param dp The ovverlay height in dp
+     */
     public OverlayLoggingSetup withOverlayHeightInDp(int dp)
     {
         mOverlayHeightInDp = dp;

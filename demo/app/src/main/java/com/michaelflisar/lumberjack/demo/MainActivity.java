@@ -3,16 +3,23 @@ package com.michaelflisar.lumberjack.demo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private int mCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null)
+            mCount = savedInstanceState.getInt("mCount");
+
+        findViewById(R.id.btLog).setOnClickListener(this);
 
         // here we can ask for the permission, so we init the overlay logger in here
         // make sure to pass on the result of the permission dialog to the overlay logger!
@@ -30,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         L.d("Test array log: %s", new ArrayList<>(Arrays.asList("array value 1", "array value 2")));
 
         // Test 3: a few logs with usage of groups
-        L.d(L.G_TEST, "Test message in test group");
-        L.d(L.G_TEST, "Test message in test group, value=%d", 999);
+        L.d(L.G_TEST1, "Test message in test group");
+        L.d(L.G_TEST1, "Test message in test group, value=%d", 999);
 
         // Test 4: Disable a group, log to this group and see, that nothing is logged and enable group again
-        L.disableLogGroup(L.G_TEST);
-        L.e(L.G_TEST, "This message should NOT appear anywhere because the group is disabled!");
-        L.enableLogGroup(L.G_TEST);
+        L.disableLogGroup(L.G_TEST1);
+        L.e(L.G_TEST1, "This message should NOT appear anywhere because the group is disabled!");
+        L.enableLogGroup(L.G_TEST1);
 
         // Test 5 - custom object formatting
         // we have registered a custom formatter for our TestClass, so we can DIRECTLY pass TestClasses for any string paramter and lumberjack will take care of it!
@@ -48,6 +55,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         L.handleOverlayPermissionDialogResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putInt("mCount", mCount);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        mCount++;
+        L.d("Button clicked: %d", mCount);
     }
 
     public static class TestClass

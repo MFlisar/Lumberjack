@@ -61,8 +61,8 @@ public class L extends com.michaelflisar.lumberjack.L {
         });
 
         // some test logs...
-        L.d(G_TEST, "initLumberjack fertig");
-        L.d(G_TEST, "LogFiles: %s", FileLoggingUtil.getAllExistingLogFiles(FILE_LOG_SETUP));
+        L.d(G_TEST1, "initLumberjack fertig");
+        L.d(G_TEST2, "LogFiles: %s", FileLoggingUtil.getAllExistingLogFiles(FILE_LOG_SETUP));
     }
 
     public static void initOverlayLogger(Activity activity)
@@ -78,7 +78,7 @@ public class L extends com.michaelflisar.lumberjack.L {
         // we know that the 4th tree is the overlay logger, so we just hand on the data
         boolean success = ((OverlayLoggingTree)Timber.forest().get(3)).checkRequestPermissionResult(requestCode, resultCode, data);
 
-        L.d(G_TEST, "Overlay permission granted: %b", success);
+        L.d(G_TEST1, "Overlay permission granted: %b", success);
     }
 
     // -----------------------------
@@ -86,11 +86,13 @@ public class L extends com.michaelflisar.lumberjack.L {
     // -----------------------------
 
     // Groups
-    public static final ILogGroup G_TEST = L.createGroup("TEST-GROUP");
+    public static final ILogGroup G_TEST1 = L.createGroup("TEST-GROUP 1");
+    public static final ILogGroup G_TEST2 = L.createGroup("TEST-GROUP 2");
 
     public static final ArrayList<ILogGroup> LOG_GROUPS = new ArrayList<ILogGroup>() {
         {
-            add(G_TEST);
+            add(G_TEST1);
+            add(G_TEST2);
         }
     };
 
@@ -108,6 +110,7 @@ public class L extends com.michaelflisar.lumberjack.L {
             .withTitle("Demo Logger")
             //.withBigIcon(R.mipmap.ic_launcher_default)
             .withNotificationId(150)
+            .withButtonIntentRequestCodeBase(250)
             .withFilters(LOG_GROUPS);
 
     // -----------------------------

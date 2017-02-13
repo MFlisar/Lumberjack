@@ -35,6 +35,8 @@ dependencies {
     // modules (OPTIONAL)
     compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.3'
     compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.3'
+	debugCompile project(':lumberjack-overlay')
+    releaseCompile project(':lumberjack-overlay-noop')
     
     // ALTERNATIVELY you can add ALL modules at once like following
     // compile 'com.github.MFlisar:Lumberjack:1.3'
@@ -43,7 +45,7 @@ dependencies {
 
 ###Example
 
-This is what the demo setup will print out (to your file, to the notification, to console). It has pretty printing enabled and prints first 5 values of an array automatically. It as well prints caller class and group combined as tag. The demo shows that
+This is what the demo setup will print out (to your file, to the notification, to console, to the overlay). It has pretty printing enabled and prints first 5 values of an array automatically. It as well prints caller class and group combined as tag. The demo shows that
 
 * arrays are printed automatically
 * custom classes are automatically formatter to the custom formatter you have registered, no matter if the classes are printed inside an array or as a simple value
@@ -95,8 +97,7 @@ The overlay logger is based on Hannes Dorfmann's DebugOverlay: https://github.co
 ###Missing
 
 * Notification Logger
-  * An activity that can be launched via the notification (that shows the logs and offers advanced filter options)
-  * filter: errors only
-  * overlay logger
-  * demo gif
-  * noop für overlay logger to avoid the overlay manifest permission
+	* An activity that can be launched via the notification (that shows the logs and offers advanced filter options)
+	* filter: errors only
+ * Overlay Logger
+	* filter: errors only
