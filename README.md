@@ -88,6 +88,10 @@ This is what the demo setup will print out (to your file, to the notification, t
 
 The best place to start is the [WIKI](https://github.com/MFlisar/Lumberjack/wiki) and the [Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java).
 
+###Credits
+
+The overlay logger is based on Hannes Dorfmann's DebugOverlay: https://github.com/sockeqwe/debugoverlay
+
 ###Missing
 
 * Notification Logger
