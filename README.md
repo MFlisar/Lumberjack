@@ -31,15 +31,15 @@ repositories {
 ```groovy
 dependencies {
     // base module (NECESSARY)
-	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:1.3'
+	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:1.4'
     // modules (OPTIONAL)
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.3'
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.3'
-	debugCompile project(':lumberjack-overlay')
-    releaseCompile project(':lumberjack-overlay-noop')
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.4'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.4'
+	debugCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay:1.4'
+	releaseCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay-noop:1.4'
     
     // ALTERNATIVELY you can add ALL modules at once like following
-    // compile 'com.github.MFlisar:Lumberjack:1.3'
+    // compile 'com.github.MFlisar:Lumberjack:1.4'
 }
 ```
 
