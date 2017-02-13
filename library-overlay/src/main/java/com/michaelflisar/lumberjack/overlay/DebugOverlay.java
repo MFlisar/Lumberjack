@@ -31,7 +31,7 @@ public class DebugOverlay
             public void onServiceConnected(ComponentName name, IBinder binder)
             {
                 OverlayService service = ((OverlayService.OverlayServiceBinder) binder).getService();
-                messageDispatcher.setSetup(setup);
+                service.setSetup(setup);
                 messageDispatcher.setService(service);
             }
 
@@ -65,7 +65,6 @@ public class DebugOverlay
     {
         private OverlayService service;
         private Queue<OverlayLoggingTree.LogEntry> messageQueue = new LinkedList<>();
-        private OverlayLoggingSetup mSetup;
 
         void setService(@NonNull OverlayService service)
         {
@@ -75,11 +74,6 @@ public class DebugOverlay
             OverlayLoggingTree.LogEntry entry;
             while ((entry = messageQueue.poll()) != null)
                 dispatch(entry);
-        }
-
-        void setSetup(OverlayLoggingSetup setup)
-        {
-            mSetup = setup;
         }
 
         public void enqueueMessage(@NonNull OverlayLoggingTree.LogEntry msg)
@@ -94,7 +88,7 @@ public class DebugOverlay
         {
             if (service == null)
                 throw new NullPointerException(OverlayService.class.getSimpleName() + " is null, but this should never be the case");
-            service.log(message, mSetup);
+            service.log(message);
         }
     }
 }

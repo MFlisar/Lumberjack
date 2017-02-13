@@ -5,11 +5,18 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.view.View;
 
 import com.michaelflisar.lumberjack.OverlayLoggingSetup;
 import com.michaelflisar.lumberjack.OverlayLoggingTree;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by flisar on 13.02.2017.
@@ -32,13 +39,28 @@ public class OverlayService extends Service
         }
     }
 
-    private OverlayServiceBinder binder = new OverlayServiceBinder(this);
-    private OverlayView view;
+    private OverlayLoggingSetup mSetup;
+    private OverlayServiceBinder mBinder = new OverlayServiceBinder(this);
+    private OverlayView mView;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private long mLastUpdate = 0;
+    private ConcurrentLinkedQueue<OverlayLoggingTree.LogEntry> mQueuedMessages = new ConcurrentLinkedQueue<>();
+    private Runnable mProcessQueueRunnable = new Runnable() {
+        @Override
+        public void run() {
+            processQueue();
+        }
+    };
+
+    public void setSetup(OverlayLoggingSetup setup)
+    {
+        mSetup = setup;
+    }
 
     @Override
     public IBinder onBind(Intent intent)
     {
-        return binder;
+        return mBinder;
     }
 
     @Override
@@ -46,16 +68,29 @@ public class OverlayService extends Service
     {
         super.onConfigurationChanged(newConfig);
 
-        if (view != null)
-            view.checkOrientation(this, newConfig.orientation);
+        if (mView != null)
+            mView.checkOrientation(this, newConfig.orientation);
     }
 
-    public void log(OverlayLoggingTree.LogEntry msg, OverlayLoggingSetup setup)
+    public void log(final OverlayLoggingTree.LogEntry msg)
     {
-        if (view == null)
+        mQueuedMessages.offer(msg);
+        mHandler.removeCallbacksAndMessages(null);
+
+        // only update once every second or if last update is older than a second
+        // otherwise this may be slowing down the app too much!
+        if (mLastUpdate < System.currentTimeMillis() - 1000)
+            mHandler.post(mProcessQueueRunnable);
+        else
+            mHandler.postDelayed(mProcessQueueRunnable, 1000);
+    }
+
+    private void processQueue()
+    {
+        if (mView == null)
         {
-            view = new OverlayView(getApplicationContext(), setup);
-            view.getCloseButton().setOnClickListener(new View.OnClickListener()
+            mView = new OverlayView(getApplicationContext(), mSetup);
+            mView.getCloseButton().setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View v)
@@ -65,7 +100,10 @@ public class OverlayService extends Service
                 }
             });
         }
-        view.addMessage(msg);
+
+        OverlayLoggingTree.LogEntry entry;
+        while ((entry = mQueuedMessages.poll()) != null)
+            mView.addMessage(entry);
     }
 
     @Override
@@ -77,10 +115,10 @@ public class OverlayService extends Service
 
     private void destroyView()
     {
-        if (view != null)
+        if (mView != null)
         {
-            view.hideView();
-            view = null;
+            mView.hideView();
+            mView = null;
         }
     }
 }
