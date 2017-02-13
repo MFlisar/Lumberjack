@@ -99,5 +99,5 @@ The overlay logger is based on Hannes Dorfmann's DebugOverlay: https://github.co
 * Notification Logger
 	* An activity that can be launched via the notification (that shows the logs and offers advanced filter options)
 	* filter: errors only
- * Overlay Logger
+* Overlay Logger
 	* filter: errors only
