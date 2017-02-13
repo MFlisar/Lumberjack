@@ -100,5 +100,10 @@ public class OverlayLoggingTree extends BaseTree
         {
             return textSizeInDp;
         }
+
+        public int getPriority()
+        {
+            return priority;
+        }
     }
 }

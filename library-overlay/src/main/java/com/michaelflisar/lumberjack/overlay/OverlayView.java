@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +31,14 @@ class OverlayView extends FrameLayout
 {
     private OverlayLoggingSetup mSetup;
     private ImageView mCloseButton;
+    private ImageView mCollapseExpandButton;
     private TextView mLabel;
+    private TextView mLabelErrors;
     private RecyclerView mRecyclerView;
     private WindowManager mWindowManager;
+    private int mErrors = 0;
     private LogAdapter mAdapter;
+    private boolean mExpanded = true;
 
     public OverlayView(Context context, OverlayLoggingSetup setup)
     {
@@ -51,11 +56,23 @@ class OverlayView extends FrameLayout
         // Create layout
         View view = LayoutInflater.from(context).inflate(R.layout.overlay, null, false);
         mCloseButton = (ImageView)view.findViewById(R.id.btClose);
+        mCollapseExpandButton = (ImageView)view.findViewById(R.id.btCollapseExpand);
+        mCollapseExpandButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                mExpanded = !mExpanded;
+                updateLayout(v.getContext());
+                mCollapseExpandButton.setImageResource(mExpanded ? R.drawable.ic_collapse_circle : R.drawable.ic_expand_circle);
+            }
+        });
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rvLogs);
         mLabel = (TextView)view.findViewById(R.id.tvLabel);
+        mLabelErrors = (TextView)view.findViewById(R.id.tvLabelError);
 
         // Setup buttons
-        int buttonHeight = dpToPx(context, 40);
+        int buttonHeight = dpToPx(context, 36);
         mCloseButton.getLayoutParams().height = buttonHeight;
 
         mLabel.setBackgroundColor(setup.getBackgroundColor());
@@ -76,7 +93,7 @@ class OverlayView extends FrameLayout
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                    updateLabel(null);
+                    updateLabels(null);
             }
         });
 
@@ -93,19 +110,29 @@ class OverlayView extends FrameLayout
         mWindowManager.addView(this, windowParams);
     }
 
-    private void updateLabel(Integer index)
+    private void updateLabels(Integer index)
     {
         if (index == null)
             index = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
         mLabel.setText(mLabel.getContext().getString(R.string.lumberjack_overlay_label, index + 1,  mAdapter.getItemCount()));
+        mLabelErrors.setVisibility(mErrors > 0 ? View.VISIBLE : View.GONE);
+        mLabelErrors.setText(mErrors > 0 ? mLabelErrors.getContext().getString(R.string.lumberjack_overlay_label_errors, mErrors) : "");
     }
 
     public void checkOrientation(Context context, int orientation)
     {
+        updateLayout(context);
+    }
+
+    private void updateLayout(Context context)
+    {
         Point windowDimen = new Point();
         mWindowManager.getDefaultDisplay().getSize(windowDimen);
 
+        int buttonHeight = dpToPx(context, 36);
         int desiredLayoutHeight = dpToPx(context, mSetup.getOverlayHeight());
+        if (!mExpanded)
+            desiredLayoutHeight = buttonHeight;
         int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
         // Set View parameters
@@ -113,6 +140,8 @@ class OverlayView extends FrameLayout
         windowParams.gravity = Gravity.TOP | Gravity.LEFT;
         windowParams.x = 0;
         windowParams.y = windowDimen.y - layoutHeight;
+
+        mRecyclerView.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
 
         // Update view
         mWindowManager.updateViewLayout(this, windowParams);
@@ -126,9 +155,10 @@ class OverlayView extends FrameLayout
 
     void addMessage(OverlayLoggingTree.LogEntry msg)
     {
+        mErrors += (msg.getPriority() >= Log.ERROR ? 1 : 0);
         mAdapter.add(msg);
         mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
-        updateLabel(mAdapter.getItemCount() - 1);
+        updateLabels(mAdapter.getItemCount() - 1);
     }
 
     void hideView()
