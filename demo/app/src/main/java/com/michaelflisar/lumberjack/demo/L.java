@@ -8,6 +8,7 @@ import com.michaelflisar.lumberjack.FileLoggingTree;
 import com.michaelflisar.lumberjack.FileLoggingUtil;
 import com.michaelflisar.lumberjack.NotificationLoggingSetup;
 import com.michaelflisar.lumberjack.NotificationLoggingTree;
+import com.michaelflisar.lumberjack.OverlayLoggerUtil;
 import com.michaelflisar.lumberjack.OverlayLoggingSetup;
 import com.michaelflisar.lumberjack.OverlayLoggingTree;
 import com.michaelflisar.lumberjack.formatter.DefaultLogFormatter;
@@ -67,16 +68,15 @@ public class L extends com.michaelflisar.lumberjack.L {
 
     public static void initOverlayLogger(Activity activity)
     {
-        // we plant 4 trees in this demo and this logger is initialised everytime the main activity is created (even after screen rotation),
-        // so we need to make sure to add this tree once only
-        if (Timber.forest().size() != 4)
-            Timber.plant(new OverlayLoggingTree(activity, true, OVERLAY_LOG_SETUP));
+        // the utility makes sure to only plant one instance of an overlay logger
+        OverlayLoggerUtil.initOverlayLogger(activity, OVERLAY_LOG_SETUP);
     }
 
     public static void handleOverlayPermissionDialogResult(int requestCode, int resultCode, Intent data)
     {
-        // we know that the 4th tree is the overlay logger, so we just hand on the data
-        boolean success = ((OverlayLoggingTree)Timber.forest().get(3)).checkRequestPermissionResult(requestCode, resultCode, data);
+        // the utility method will hand on the result to the overlay tree, which then can reevaluate if
+        // it has all necessary permissions and will the result
+        Boolean success = OverlayLoggerUtil.handleOverlayPermissionDialogResult(requestCode, resultCode, data);
 
         L.d(G_TEST1, "Overlay permission granted: %b", success);
     }
