@@ -13,7 +13,7 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
   * logging to console (with the ability to add clickable links to the calling line in the calling class)
   * files (one file per day, select between numbered log file names or date based log file names)
   * notification (with filter functionality per group, next/prev log buttons and more...)
-  * overlay
+  * overlay logging (expandable/collapseable overlay)
 * customise each tree to whatever you want or extend them
 * little utility class to log time and laps
 
