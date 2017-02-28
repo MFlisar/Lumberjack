@@ -111,8 +111,8 @@ public class OverlayService extends Service
     @Override
     public void onDestroy()
     {
-        super.onDestroy();
         destroyView();
+        super.onDestroy();
     }
 
     private void createView()
