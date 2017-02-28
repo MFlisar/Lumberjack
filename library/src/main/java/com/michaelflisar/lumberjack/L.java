@@ -23,7 +23,7 @@ import timber.log.Timber;
 *
 * Forwards all calls directly to timber
 *
-* Offers a shorter interface (L instead of Timber) for a more clean and shorter code
+* Offers a shorter interfaces (L instead of Timber) for a more clean and shorter code
 * Additionally, this offers the ability to print a list of values and also convenient methods to log arrays
 * And it allows to adjust the call stack depth used to retrieve the callers class name
  */
@@ -426,7 +426,7 @@ public class L
             Lumberjack.callStackCorrection(correction);
     }
 
-    private static Object formatArg(Object arg)
+    public static Object formatArg(Object arg)
     {
         Object formatterArg;
         if (arg instanceof Collection)

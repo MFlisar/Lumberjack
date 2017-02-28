@@ -13,9 +13,6 @@ import android.view.View;
 import com.michaelflisar.lumberjack.OverlayLoggingSetup;
 import com.michaelflisar.lumberjack.OverlayLoggingTree;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -51,10 +48,14 @@ public class OverlayService extends Service
             processQueue();
         }
     };
+    private boolean mPaused = false;
+
+    private boolean mErrorFilterActive;
 
     public void setSetup(OverlayLoggingSetup setup)
     {
         mSetup = setup;
+        mErrorFilterActive = mSetup.getStartWithShowErrorsOnly();
     }
 
     @Override
@@ -72,6 +73,15 @@ public class OverlayService extends Service
             mView.checkOrientation(newConfig.orientation);
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        mPaused = false;
+        showView();
+        processQueue();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
     public void log(final OverlayLoggingTree.LogEntry msg)
     {
         mQueuedMessages.offer(msg);
@@ -87,19 +97,11 @@ public class OverlayService extends Service
 
     private void processQueue()
     {
+        if (mPaused)
+            return;
+
         if (mView == null)
-        {
-            mView = new OverlayView(getApplicationContext(), mSetup);
-            mView.getCloseButton().setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    destroyView();
-                    stopSelf();
-                }
-            });
-        }
+            createView();
 
         OverlayLoggingTree.LogEntry entry;
         while ((entry = mQueuedMessages.poll()) != null)
@@ -111,6 +113,54 @@ public class OverlayService extends Service
     {
         super.onDestroy();
         destroyView();
+    }
+
+    private void createView()
+    {
+        if (mView != null)
+            return;
+
+        mView = new OverlayView(getApplicationContext(), mSetup, mErrorFilterActive);
+        mView.getCloseButton().setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                destroyView();
+                stopSelf();
+            }
+        });
+        mView.getErrorButton().setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                mErrorFilterActive = !mErrorFilterActive;
+                mView.updateErrorFilter(mErrorFilterActive);
+            }
+        });
+        mView.getPauseButton().setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                OverlayNotification.show(OverlayService.this, mSetup);
+                hideView();
+                mPaused = true;
+            }
+        });
+    }
+
+    private void hideView()
+    {
+        if (mView != null)
+            mView.hideView();
+    }
+
+    private void showView()
+    {
+        if (mView != null)
+            mView.showView();
     }
 
     private void destroyView()

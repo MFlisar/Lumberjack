@@ -13,6 +13,18 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/btPause"
+            android:src="@drawable/ic_pause_circle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"/>
+
+        <ImageView
+            android:id="@+id/btErrors"
+            android:src="@drawable/ic_error_outline_circle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"/>
+
+        <ImageView
             android:id="@+id/btCollapseExpand"
             android:src="@drawable/ic_collapse_circle"
             android:layout_width="36dp"

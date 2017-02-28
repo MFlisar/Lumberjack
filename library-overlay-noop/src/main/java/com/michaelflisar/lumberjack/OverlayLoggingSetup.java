@@ -84,4 +84,9 @@ public class OverlayLoggingSetup
     {
         return -1;
     }
+
+    public OverlayLoggingSetup withStartExpanded(boolean startExpanded)
+    {
+        return this;
+    }
 }

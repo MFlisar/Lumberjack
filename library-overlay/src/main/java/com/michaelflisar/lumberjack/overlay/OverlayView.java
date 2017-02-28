@@ -32,6 +32,8 @@ class OverlayView extends FrameLayout
     private OverlayLoggingSetup mSetup;
     private ImageView mCloseButton;
     private ImageView mCollapseExpandButton;
+    private ImageView mPauseButton;
+    private ImageView mErrorButton;
     private TextView mLabel;
     private TextView mLabelErrors;
     private RecyclerView mRecyclerView;
@@ -39,14 +41,18 @@ class OverlayView extends FrameLayout
     private int mErrors = 0;
     private LogAdapter mAdapter;
     private boolean mExpanded = true;
+    private int mMinimumLogPriority;
+    private boolean mShowErrorsOnly;
 
-    public OverlayView(Context context, OverlayLoggingSetup setup)
+    public OverlayView(Context context, OverlayLoggingSetup setup, boolean showErrorsOnly)
     {
         super(context);
 
         mSetup = setup;
 
         mExpanded = mSetup.getWithStartExpanded();
+        mMinimumLogPriority = mSetup.getLogPriorityForErrorFilter();
+        mShowErrorsOnly = showErrorsOnly;
 
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Point windowDimen = new Point();
@@ -60,6 +66,8 @@ class OverlayView extends FrameLayout
         View view = LayoutInflater.from(context).inflate(R.layout.overlay, null, false);
         mCloseButton = (ImageView)view.findViewById(R.id.btClose);
         mCollapseExpandButton = (ImageView)view.findViewById(R.id.btCollapseExpand);
+        mPauseButton = (ImageView)view.findViewById(R.id.btPause);
+        mErrorButton = (ImageView)view.findViewById(R.id.btErrors);
         mCollapseExpandButton.setOnClickListener(new OnClickListener()
         {
             @Override
@@ -67,10 +75,11 @@ class OverlayView extends FrameLayout
             {
                 mExpanded = !mExpanded;
                 updateViewState();
-                mCollapseExpandButton.setImageResource(mExpanded ? R.drawable.ic_collapse_circle : R.drawable.ic_expand_circle);
+                updateExpandButtonIcon();
             }
         });
-        mCollapseExpandButton.setImageResource(mExpanded ? R.drawable.ic_collapse_circle : R.drawable.ic_expand_circle);
+        updateExpandButtonIcon();
+        updateErrorButtonIcon(showErrorsOnly);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rvLogs);
         mLabel = (TextView)view.findViewById(R.id.tvLabel);
         mLabelErrors = (TextView)view.findViewById(R.id.tvLabelError);
@@ -78,7 +87,7 @@ class OverlayView extends FrameLayout
         mLabelErrors.setBackgroundColor(setup.getBackgroundColor());
 
         // Setup RecyclerView
-        mAdapter = new LogAdapter();
+        mAdapter = new LogAdapter(mMinimumLogPriority, showErrorsOnly);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         linearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -109,14 +118,24 @@ class OverlayView extends FrameLayout
     {
         if (index == null)
             index = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-        mLabel.setText(mLabel.getContext().getString(R.string.lumberjack_overlay_label, index + 1,  mAdapter.getItemCount()));
-        mLabelErrors.setVisibility(mErrors > 0 ? View.VISIBLE : View.GONE);
+        mLabel.setText(mLabel.getContext().getString(mShowErrorsOnly ? R.string.lumberjack_overlay_label_errors_only : R.string.lumberjack_overlay_label, index + 1,  mAdapter.getItemCount()));
+        mLabelErrors.setVisibility(!mShowErrorsOnly && mErrors > 0 ? View.VISIBLE : View.GONE);
         mLabelErrors.setText(mErrors > 0 ? mLabelErrors.getContext().getString(R.string.lumberjack_overlay_label_errors, mErrors) : "");
     }
 
     public void checkOrientation(int orientation)
     {
         updateViewState();
+    }
+
+    private void updateExpandButtonIcon()
+    {
+        mCollapseExpandButton.setImageResource(mExpanded ? R.drawable.ic_collapse_circle : R.drawable.ic_expand_circle);
+    }
+
+    private void updateErrorButtonIcon(boolean showErrorsOnly)
+    {
+        mErrorButton.setImageResource(showErrorsOnly ? R.drawable.ic_error_outline_circle : R.drawable.ic_error_outline_circle_disabled);
     }
 
     private void updateViewState()
@@ -153,8 +172,8 @@ class OverlayView extends FrameLayout
     void addMessage(OverlayLoggingTree.LogEntry msg)
     {
         mErrors += (msg.getPriority() >= Log.ERROR ? 1 : 0);
-        mAdapter.add(msg);
-        mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+        if (mAdapter.add(msg))
+            mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
         updateLabels(mAdapter.getItemCount() - 1);
     }
 
@@ -163,8 +182,31 @@ class OverlayView extends FrameLayout
         mWindowManager.removeView(this);
     }
 
+    void showView()
+    {
+        mWindowManager.addView(this, calcWindowParams());
+    }
+
+    void updateErrorFilter(boolean showErrorsOnly)
+    {
+        mShowErrorsOnly = showErrorsOnly;
+        mAdapter.setFiltered(showErrorsOnly);
+        updateLabels(mAdapter.getItemCount() - 1);
+        updateErrorButtonIcon(showErrorsOnly);
+    }
+
     View getCloseButton()
     {
         return mCloseButton;
+    }
+
+    View getErrorButton()
+    {
+        return mErrorButton;
+    }
+
+    View getPauseButton()
+    {
+        return mPauseButton;
     }
 }

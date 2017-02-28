@@ -19,8 +19,13 @@ public class OverlayLoggingSetup
     private int mTextSizeInDp = 12;
     private int mOverlayHeightInDp = 150;
     private boolean mStartExpanded = true;
+    private int mLogPriorityForErrorFilter = Log.ERROR;
+    private boolean mStartWithShowErrorsOnly = false;
 
     private int mPermissionRequestCode = 200;
+    private String mNotificationTitle = "Overlay logger";
+    private String mNotificationText = "Currently paused, click to resume";
+    private int mNotificationId = 500;
 
     public OverlayLoggingSetup()
     {
@@ -147,9 +152,73 @@ public class OverlayLoggingSetup
         return this;
     }
 
+    /**
+     * start the overlay logger in an expanded state
+     * DEFAULT: true
+     *
+     * @param startExpanded true to start the overlay logger expanded
+     */
     public OverlayLoggingSetup withStartExpanded(boolean startExpanded)
     {
         mStartExpanded = startExpanded;
+        return this;
+    }
+
+    /**
+     * only show logs of the defined level or higher in overlay logger if error filter is on
+     * DEFAULT: Log.ERRROR
+     *
+     * @param logPriority define the minimum log level that is visible in the overlay logger if error filter is on
+     */
+    public OverlayLoggingSetup withMinimumLogPriority(int logPriority)
+    {
+        mLogPriorityForErrorFilter = logPriority;
+        return this;
+    }
+
+    /**
+     * start the overlay logger with active error filter
+     * DEFAULT: false
+     *
+     * @param startWithShowErrorsOnly true to start the overlay logger with active error filter
+     */
+    public OverlayLoggingSetup withStartWithShowErrorsOnly(boolean startWithShowErrorsOnly)
+    {
+        mStartWithShowErrorsOnly = startWithShowErrorsOnly;
+        return this;
+    }
+
+    /**
+     * the title of the notificaton that is shown when overlay logger is paused
+     *
+     * @param notificationTitle title of the notification
+     */
+    public OverlayLoggingSetup withNotificationTitle(String notificationTitle)
+    {
+        mNotificationTitle = notificationTitle;
+        return this;
+    }
+
+    /**
+     * the text of the notificaton that is shown when overlay logger is paused
+     *
+     * @param notificationText text of the notification
+     */
+    public OverlayLoggingSetup withNotificationText(String notificationText)
+    {
+        mNotificationText = notificationText;
+        return this;
+    }
+
+    /**
+     * the id of the notificaton that is shown when overlay logger is paused
+     * DEFAULT: 500
+     *
+     * @param notificationId true to start the overlay logger with active error filter
+     */
+    public OverlayLoggingSetup withStartWithShowErrorsOnly(int notificationId)
+    {
+        mNotificationId = notificationId;
         return this;
     }
 
@@ -176,6 +245,31 @@ public class OverlayLoggingSetup
     public boolean getWithStartExpanded()
     {
         return mStartExpanded;
+    }
+
+    public int getLogPriorityForErrorFilter()
+    {
+        return mLogPriorityForErrorFilter;
+    }
+
+    public boolean getStartWithShowErrorsOnly()
+    {
+        return mStartWithShowErrorsOnly;
+    }
+
+    public String getNotificationTitle()
+    {
+        return mNotificationTitle;
+    }
+
+    public String getNotificationText()
+    {
+        return mNotificationText;
+    }
+
+    public int getNotificationId()
+    {
+        return mNotificationId;
     }
 
     public int getColor(int priority)
