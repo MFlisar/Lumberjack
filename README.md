@@ -6,14 +6,14 @@
 
 A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber) logging library with following *features*:
 
-* define group of log messages and disable them
+* defining group of log messages and filter them, even filter them on a per tree base
 * register custom log formatters to *automatically* format classes in your logs
 * automatically log first n values of lists/arrays (this *automatically* respects custom log formatters for classes in the collections!)
 * trees for:
   * logging to console (with the ability to add clickable links to the calling line in the calling class)
   * files (one file per day, select between numbered log file names or date based log file names)
   * notification (with filter functionality per group, next/prev log buttons and more...)
-  * overlay logging (expandable/collapseable overlay)
+  * overlay logging (expandable/collapseable overlay, show errors only, pausing)
 * customise each tree to whatever you want or extend them
 * little utility class to log time and laps
 
@@ -34,15 +34,15 @@ repositories {
 ```groovy
 dependencies {
     // base module (NECESSARY)
-	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:1.6'
+	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:2.0'
     // modules (OPTIONAL)
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.6'
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.6'
-	debugCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay:1.6'
-	releaseCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay-noop:1.6'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:2.0'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:2.0'
+	debugCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay:2.0'
+	releaseCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay-noop:2.0'
     
     // ALTERNATIVELY you can add ALL modules at once like following
-    // compile 'com.github.MFlisar:Lumberjack:1.6'
+    // compile 'com.github.MFlisar:Lumberjack:2.0'
 }
 ```
 
