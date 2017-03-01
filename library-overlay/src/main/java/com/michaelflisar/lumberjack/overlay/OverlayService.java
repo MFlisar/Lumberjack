@@ -120,27 +120,23 @@ public class OverlayService extends Service
         if (mView != null)
             return;
 
-        mView = new OverlayView(getApplicationContext(), mSetup, mMinimumVisibleLogPriority, new OverlayView.IFilterChangedListener()
+        mView = new OverlayView(getApplicationContext(), mSetup, mMinimumVisibleLogPriority, new OverlayView.IOverlayListener()
         {
             @Override
             public void onFilterChanged(int priority)
             {
                 mMinimumVisibleLogPriority = priority;
             }
-        });
-        mView.getCloseButton().setOnClickListener(new View.OnClickListener()
-        {
+
             @Override
-            public void onClick(View v)
+            public void onClose()
             {
                 destroyView();
                 stopSelf();
             }
-        });
-        mView.getPauseButton().setOnClickListener(new View.OnClickListener()
-        {
+
             @Override
-            public void onClick(View v)
+            public void onPause()
             {
                 OverlayNotification.show(OverlayService.this, mSetup);
                 hideView();

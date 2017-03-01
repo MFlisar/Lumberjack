@@ -49,13 +49,13 @@ class OverlayView extends FrameLayout
     private LogAdapter mAdapter;
     private boolean mExpanded = true;
 
-    private IFilterChangedListener mFilterChangedListener;
+    private IOverlayListener mOverlayListener;
 
-    public OverlayView(Context context, OverlayLoggingSetup setup, int minimumVisibleLogPriority, IFilterChangedListener filterChangedListener)
+    public OverlayView(Context context, OverlayLoggingSetup setup, int minimumVisibleLogPriority, IOverlayListener overlayListener)
     {
         super(context);
 
-        mFilterChangedListener = filterChangedListener;
+        mOverlayListener = overlayListener;
 
         mSetup = setup;
 
@@ -112,6 +112,22 @@ class OverlayView extends FrameLayout
                 updateViewState(true);
             }
         });
+        mCloseButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                mOverlayListener.onClose();
+            }
+        });
+        mPauseButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                mOverlayListener.onPause();
+            }
+        });
         OnClickListener filterClickListener = new OnClickListener()
         {
             @Override
@@ -128,7 +144,7 @@ class OverlayView extends FrameLayout
                     priority = Log.WARN;
                 else if (v.getId() == R.id.tvError)
                     priority = Log.ERROR;
-                mFilterChangedListener.onFilterChanged(priority);
+                mOverlayListener.onFilterChanged(priority);
                 updateErrorFilter(priority);
                 mLLFilters.setVisibility(View.GONE);
                 updateViewState(true);
@@ -291,20 +307,13 @@ class OverlayView extends FrameLayout
         mAdapter.setFiltered(minimumVisibleLogPriority);
         updateLabels(mAdapter.getItemCount() - 1);
         updateFilterButtonIcon(minimumVisibleLogPriority);
+        mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
-    View getCloseButton()
-    {
-        return mCloseButton;
-    }
-
-    View getPauseButton()
-    {
-        return mPauseButton;
-    }
-
-    public interface IFilterChangedListener
+    public interface IOverlayListener
     {
         void onFilterChanged(int priority);
+        void onClose();
+        void onPause();
     }
 }
