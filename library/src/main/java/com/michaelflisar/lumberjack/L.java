@@ -305,7 +305,7 @@ public class L
         
         public void v(LogLabelValuePairsBuilder builder)
         {
-            log(Log.VERBOSE, builder.prepareLog());
+            log(Log.VERBOSE, "%s", builder.prepareLog());
         }
 
         // --------------------
@@ -329,7 +329,7 @@ public class L
 
         public void d(LogLabelValuePairsBuilder builder)
         {
-            log(Log.DEBUG, builder.prepareLog());
+            log(Log.DEBUG, "%s", builder.prepareLog());
         }
 
         // --------------------
@@ -353,7 +353,7 @@ public class L
 
         public void i(LogLabelValuePairsBuilder builder)
         {
-            log(Log.INFO, builder.prepareLog());
+            log(Log.INFO, "%s", builder.prepareLog());
         }
 
         // --------------------
@@ -377,7 +377,7 @@ public class L
 
         public void w(LogLabelValuePairsBuilder builder)
         {
-            log(Log.WARN, builder.prepareLog());
+            log(Log.WARN, "%s", builder.prepareLog());
         }
 
         // --------------------
@@ -401,7 +401,7 @@ public class L
 
         public void e(LogLabelValuePairsBuilder builder)
         {
-            log(Log.ERROR, builder.prepareLog());
+            log(Log.ERROR, "%s", builder.prepareLog());
         }
 
         // --------------------
@@ -463,7 +463,7 @@ public class L
         {
             if (label == null)
                 throw new RuntimeException("Labels can't be NULL, that makes no sense!");
-            pairs.add(new Pair<String, Object>(label, value));
+            pairs.add(new Pair<>(label, value));
             return this;
         }
 

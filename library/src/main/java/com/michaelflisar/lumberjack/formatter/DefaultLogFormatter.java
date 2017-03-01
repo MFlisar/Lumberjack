@@ -1,9 +1,12 @@
 package com.michaelflisar.lumberjack.formatter;
 
+import android.util.Pair;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by flisar on 20.10.2016.
