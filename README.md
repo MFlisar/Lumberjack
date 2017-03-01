@@ -56,7 +56,7 @@ This is what the demo setup will print out (to your file, to the notification, t
 
 *Example log*
 
-```groovy
+```
 [<TEST-GROUP 1> L:65 initLumberjack]: initLumberjack fertig (L.java:65)
 [<TEST-GROUP 2> L:66 initLumberjack]: LogFiles: [Type=String, Size=1] (L.java:66)
 [
