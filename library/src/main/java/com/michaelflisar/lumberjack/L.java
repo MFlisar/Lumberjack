@@ -271,6 +271,15 @@ public class L
 
         public LogBuilder withCallStackCorrection(int correction)
         {
+            if (callStackCorrection == null)
+                this.callStackCorrection = correction;
+            else
+                this.callStackCorrection += correction;
+            return this;
+        }
+
+        public LogBuilder withOverwriteCallStackCorrection(int correction)
+        {
             this.callStackCorrection = correction;
             return this;
         }
