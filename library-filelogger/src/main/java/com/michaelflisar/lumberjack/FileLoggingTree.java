@@ -2,6 +2,8 @@ package com.michaelflisar.lumberjack;
 
 import android.util.Log;
 
+import com.michaelflisar.lumberjack.filter.ILogFilter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +30,9 @@ public class FileLoggingTree extends BaseTree
 
     static Logger mLogger = LoggerFactory.getLogger(FileLoggingTree.class);//Logger.ROOT_LOGGER_NAME);
 
-    public FileLoggingTree(boolean combineTags, FileLoggingSetup setup)
+    public FileLoggingTree(boolean combineTags, FileLoggingSetup setup, ILogFilter filter)
     {
-        super(combineTags, false);
+        super(combineTags, false, filter);
 
         if (setup == null)
             throw new RuntimeException("You can't create a FileLoggingTree without providing a setup!");
@@ -106,7 +108,7 @@ public class FileLoggingTree extends BaseTree
     }
 
     @Override
-    protected void log(int priority, String tag, String message, Throwable t)
+    protected void doLog(int priority, String tag, String message, Throwable t)
     {
         String logMessage = L.getFormatter().formatLine(tag, message);
         switch (priority)

@@ -10,10 +10,9 @@ import com.michaelflisar.lumberjack.NotificationLoggingSetup;
 import com.michaelflisar.lumberjack.NotificationLoggingTree;
 import com.michaelflisar.lumberjack.OverlayLoggerUtil;
 import com.michaelflisar.lumberjack.OverlayLoggingSetup;
-import com.michaelflisar.lumberjack.OverlayLoggingTree;
+import com.michaelflisar.lumberjack.filter.ILogFilter;
 import com.michaelflisar.lumberjack.formatter.DefaultLogFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogClassFormatter;
-import com.michaelflisar.lumberjack.formatter.ILogGroup;
 
 import java.util.ArrayList;
 
@@ -34,13 +33,14 @@ public class L extends com.michaelflisar.lumberjack.L {
     // for an advanced initialisation
     private static void initTimber()
     {
+        // OPTIONAL: Filter can be null as well, if you don't want to use the filter functions!
         // create your trees and plant them in timber
-        Timber.plant(new ConsoleTree(true, true));
-        Timber.plant(new FileLoggingTree(true, FILE_LOG_SETUP));
-        Timber.plant(new NotificationLoggingTree(MainApp.get(), true, NOTIFICATION_LOG_SETUP));
+        Timber.plant(new ConsoleTree(true, true, TEST_FILTER));
+        Timber.plant(new FileLoggingTree(true, FILE_LOG_SETUP, TEST_FILTER));
+        Timber.plant(new NotificationLoggingTree(MainApp.get(), true, NOTIFICATION_LOG_SETUP, TEST_FILTER));
         // we can't init the overlay logger here, because we need an activity context for getting the draw overlay permission!
 
-        // setup a log formatter, you can provide a custom one if you want to
+        // OPTIONAL: setup a log formatter, you can provide a custom one if you want to
         setLogFormatter(new DefaultLogFormatter(5, true, true));
     }
 
@@ -53,7 +53,7 @@ public class L extends com.michaelflisar.lumberjack.L {
         // base setup
         initTimber();
 
-        // register a formatter for a class and define, HOW this class should be logged (as a simple value and as a value in a collection)
+        // OPTIONAL: register a formatter for a class and define, HOW this class should be logged (as a simple value and as a value in a collection)
         registerFormatter(MainActivity.TestClass.class, new ILogClassFormatter<MainActivity.TestClass>() {
             @Override
             public String log(MainActivity.TestClass item, boolean logInList) {
@@ -62,14 +62,14 @@ public class L extends com.michaelflisar.lumberjack.L {
         });
 
         // some test logs...
-        L.d(G_TEST1, "initLumberjack fertig");
-        L.d(G_TEST2, "LogFiles: %s", FileLoggingUtil.getAllExistingLogFiles(FILE_LOG_SETUP));
+        L.withGroup(G_TEST1).d("initLumberjack fertig");
+        L.withGroup(G_TEST2).d("LogFiles: %s", FileLoggingUtil.getAllExistingLogFiles(FILE_LOG_SETUP));
     }
 
     public static void initOverlayLogger(Activity activity)
     {
         // the utility makes sure to only plant one instance of an overlay logger
-        OverlayLoggerUtil.initOverlayLogger(activity, OVERLAY_LOG_SETUP);
+        OverlayLoggerUtil.initOverlayLogger(activity, OVERLAY_LOG_SETUP, TEST_FILTER);
     }
 
     public static void handleOverlayPermissionDialogResult(int requestCode, int resultCode, Intent data)
@@ -82,17 +82,21 @@ public class L extends com.michaelflisar.lumberjack.L {
     }
 
     // -----------------------------
-    // Advanced - Groups
+    // Advanced - Groups and filters
     // -----------------------------
 
     // Groups
-    public static final ILogGroup G_TEST1 = L.createGroup("TEST-GROUP 1");
-    public static final ILogGroup G_TEST2 = L.createGroup("TEST-GROUP 2");
+    public static final String G_TEST1 = "TEST-GROUP 1";
+    public static final String G_TEST2 = "TEST-GROUP 2";
+    public static final String G_FILTERED = "FILTERED";
 
-    public static final ArrayList<ILogGroup> LOG_GROUPS = new ArrayList<ILogGroup>() {
+    // Filter - can be null as well, then no logs will be filtered!
+    private static ILogFilter TEST_FILTER = new ILogFilter()
+    {
+        @Override
+        public boolean valid(String group, int priority)
         {
-            add(G_TEST1);
-            add(G_TEST2);
+            return group == null || !group.equals(G_FILTERED);
         }
     };
 
@@ -110,8 +114,7 @@ public class L extends com.michaelflisar.lumberjack.L {
             .withTitle("Demo Logger")
             //.withBigIcon(R.mipmap.ic_launcher_default)
             .withNotificationId(150)
-            .withButtonIntentRequestCodeBase(250)
-            .withFilters(LOG_GROUPS);
+            .withButtonIntentRequestCodeBase(250);
 
     // -----------------------------
     // Advanced - Overlay Logger

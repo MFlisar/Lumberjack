@@ -11,6 +11,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.michaelflisar.lumberjack.filter.ILogFilter;
 import com.michaelflisar.lumberjack.overlay.*;
 import com.michaelflisar.lumberjack.overlay.BuildConfig;
 
@@ -28,9 +29,9 @@ public class OverlayLoggingTree extends BaseTree
     private Context mContext;
     private boolean mPermissionsGranted;
 
-    public OverlayLoggingTree(Context context, boolean combineTags, OverlayLoggingSetup setup)
+    public OverlayLoggingTree(Context context, boolean combineTags, OverlayLoggingSetup setup, ILogFilter filter)
     {
-        super(combineTags, false);
+        super(combineTags, false, filter);
 
         if (setup == null || context == null)
             throw new RuntimeException("You can't create a OverlayLoggingTree without providing a setup and a context!");
@@ -59,12 +60,15 @@ public class OverlayLoggingTree extends BaseTree
     }
 
     @Override
-    protected void log(int priority, String tag, String message, Throwable t)
+    protected boolean isReady()
     {
         // we can't log anything before we've got the permission!
-        if (!mPermissionsGranted)
-            return;
+        return mPermissionsGranted;
+    }
 
+    @Override
+    protected void doLog(int priority, String tag, String message, Throwable t)
+    {
         String logMessage = L.getFormatter().formatLine(tag, message);
         DebugOverlay.with(mContext, mSetup).log(new LogEntry(priority, L.getFormatter().extractGroupFromTag(tag), logMessage, mSetup.getColor(priority), mSetup.getTextSize()));
     }

@@ -3,6 +3,8 @@ package com.michaelflisar.lumberjack;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.michaelflisar.lumberjack.filter.ILogFilter;
+
 import timber.log.Timber;
 
 /**
@@ -39,13 +41,13 @@ public class OverlayLoggerUtil
         return ((OverlayLoggingTree) Timber.forest().get(index)).checkRequestPermissionResult(requestCode, resultCode, data);
     }
 
-    public static void initOverlayLogger(Activity activity, OverlayLoggingSetup setup)
+    public static void initOverlayLogger(Activity activity, OverlayLoggingSetup setup, ILogFilter filter)
     {
         for (int i = 0; i < Timber.forest().size(); i++)
         {
             if (Timber.forest().get(i) instanceof OverlayLoggingTree)
                 return;
         }
-        Timber.plant(new OverlayLoggingTree(activity, true, setup));
+        Timber.plant(new OverlayLoggingTree(activity, true, setup, filter));
     }
 }

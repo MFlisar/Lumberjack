@@ -38,18 +38,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         L.d("Test array log: %s", new ArrayList<>(Arrays.asList("array value 1", "array value 2")));
 
         // Test 3: a few logs with usage of groups
-        L.d(L.G_TEST1, "Test message in test group");
-        L.d(L.G_TEST1, "Test message in test group, value=%d", 999);
+        L.withGroup(L.G_TEST1).d("Test message in test group");
+        L.withGroup(L.G_TEST1).d("Test message in test group, value=%d", 999);
 
-        // Test 4: Disable a group, log to this group and see, that nothing is logged and enable group again
-        L.disableLogGroup(L.G_TEST1);
-        L.e(L.G_TEST1, "This message should NOT appear anywhere because the group is disabled!");
-        L.enableLogGroup(L.G_TEST1);
+        // Test 4: Send a log that is filtered by our test filter => this message must be ignored by the loggers!
+        // Filters can be defined for each logger seperately
+        L.withGroup(L.G_FILTERED).e("This message should NOT appear anywhere because the group is filtered!");
 
         // Test 5 - custom object formatting
         // we have registered a custom formatter for our TestClass, so we can DIRECTLY pass TestClasses for any string paramter and lumberjack will take care of it!
         L.d("Test custom object log: %s", new TestClass(99));
         L.d("Test custom object array log: %s", new ArrayList<>(Arrays.asList(new TestClass(1), new TestClass(2), new TestClass(10))));
+
+        // Test 6 - log labeled value pairs
+        L.d(L.labeledValueBuilder()
+            .addPair("String", "Value")
+            .addPair("Integer", 999)
+            .addPair("Long", 5L));
     }
 
     @Override
@@ -90,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         public String getLogData()
         {
-            return "TestLogData - x=" + x;
+            return "TestLogData says: My x value is " + x;
         }
     }
 }

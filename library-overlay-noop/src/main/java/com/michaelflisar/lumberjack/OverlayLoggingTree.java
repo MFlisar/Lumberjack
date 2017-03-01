@@ -3,6 +3,8 @@ package com.michaelflisar.lumberjack;
 import android.content.Context;
 import android.content.Intent;
 
+import com.michaelflisar.lumberjack.filter.ILogFilter;
+
 import timber.log.BaseTree;
 
 /**
@@ -11,9 +13,9 @@ import timber.log.BaseTree;
 
 public class OverlayLoggingTree extends BaseTree
 {
-    public OverlayLoggingTree(Context context, boolean combineTags, OverlayLoggingSetup setup)
+    public OverlayLoggingTree(Context context, boolean combineTags, OverlayLoggingSetup setup, ILogFilter filter)
     {
-        super(combineTags, false);
+        super(combineTags, false, filter);
     }
 
     public boolean checkRequestPermissionResult(int requestCode, int resultCode, Intent data)
@@ -22,7 +24,13 @@ public class OverlayLoggingTree extends BaseTree
     }
 
     @Override
-    protected void log(int priority, String tag, String message, Throwable t)
+    protected boolean isReady()
+    {
+        return false;
+    }
+
+    @Override
+    protected void doLog(int priority, String tag, String message, Throwable t)
     {
     }
 }

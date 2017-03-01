@@ -8,16 +8,17 @@ import android.util.Log;
 
 import com.michaelflisar.lumberjack.L;
 import com.michaelflisar.lumberjack.LogUtil;
+import com.michaelflisar.lumberjack.filter.ILogFilter;
 
 public class ConsoleTree extends BaseTree
 {
-    public ConsoleTree(boolean combineTags, boolean withLink)
+    public ConsoleTree(boolean combineTags, boolean withLink, ILogFilter filter)
     {
-        super(combineTags, withLink);
+        super(combineTags, withLink, filter);
     }
 
     @Override
-    protected void log(int priority, String tag, String message, Throwable t) {
+    protected void doLog(int priority, String tag, String message, Throwable t) {
 
         if (mStackData != null && mWithLink)
             message = mStackData.appendLink(message);

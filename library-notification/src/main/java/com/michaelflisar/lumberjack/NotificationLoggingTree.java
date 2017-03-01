@@ -21,12 +21,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.michaelflisar.lumberjack.filter.ILogFilter;
 import com.michaelflisar.lumberjack.notification.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import timber.log.BaseTree;
 
@@ -47,8 +49,9 @@ public class NotificationLoggingTree extends BaseTree
     private Handler mHandler;
     private Runnable mUpdateRunnable;
     private NotificationLoggingSetup mSetup;
-    private ArrayList<LogEntry> mLogs;
     private int mErrors;
+    private ArrayList<String> mFilterGroups;
+    private ArrayList<LogEntry> mLogs;
     private ArrayList<LogEntry> mFilteredLogs;
     private Integer mCurrentFilter;
     private int mLogIndex = -1;
@@ -58,9 +61,9 @@ public class NotificationLoggingTree extends BaseTree
     private Vibrator mVibrator = null;
     private ToneGenerator mToneGenerator = null;
 
-    public NotificationLoggingTree(Context context, boolean combineTags, NotificationLoggingSetup setup)
+    public NotificationLoggingTree(Context context, boolean combineTags, NotificationLoggingSetup setup, ILogFilter filter)
     {
-        super(combineTags, false);
+        super(combineTags, false, filter);
 
         if (setup == null || context == null)
             throw new RuntimeException("You can't create a NotificationLoggingTree without providing a setup and a context!");
@@ -74,8 +77,9 @@ public class NotificationLoggingTree extends BaseTree
                 updateNotification();
             }
         };
-        mLogs = new ArrayList<>();
         mErrors = 0;
+        mFilterGroups = new ArrayList<>();
+        mLogs = new ArrayList<>();
         mFilteredLogs = new ArrayList<>();
         mCurrentFilter = null;
         mSetup = setup;
@@ -112,14 +116,14 @@ public class NotificationLoggingTree extends BaseTree
         mRemoteView.setOnClickPendingIntent(R.id.btLast, pIntentLast);
 //        mRemoteView.setOnClickPendingIntent(R.id.btCancel, pIntentCancel);
         mRemoteView.setOnClickPendingIntent(R.id.btSettings, pIntentSettings);
-        if (mSetup.mFilters == null || mSetup.mFilters.size() == 0)
-            mRemoteView.setViewVisibility(R.id.llFilter, View.GONE);
-        else
-        {
+//        if (mSetup.mFilters == null || mSetup.mFilters.size() == 0)
+//            mRemoteView.setViewVisibility(R.id.llFilter, View.GONE);
+//        else
+//        {
             mRemoteView.setOnClickPendingIntent(R.id.btFilterNext, pIntentFilterNext);
             mRemoteView.setOnClickPendingIntent(R.id.btFilterPrev, pIntentFilterPrev);
             mRemoteView.setOnClickPendingIntent(R.id.btFilterClear, pIntentFilterClear);
-        }
+//        }
 
         // TODO: settings
         mRemoteView.setViewVisibility(R.id.btSettings, View.GONE);
@@ -170,10 +174,13 @@ public class NotificationLoggingTree extends BaseTree
     }
 
     @Override
-    protected void log(int priority, String tag, String message, Throwable t)
+    protected void doLog(int priority, String tag, String message, Throwable t)
     {
         String logMessage = L.getFormatter().formatLine(tag, message);
-        mLogs.add(new LogEntry(priority, L.getFormatter().extractGroupFromTag(tag), logMessage));
+        LogEntry logEntry = new LogEntry(priority, L.getFormatter().extractGroupFromTag(tag), logMessage);
+        mLogs.add(logEntry);
+        if (logEntry.group != null && !mFilterGroups.contains(logEntry.group))
+            mFilterGroups.add(logEntry.group);
         if (priority >= Log.ERROR)
             mErrors++;
         mLogIndex = mLogs.size() - 1;
@@ -216,7 +223,7 @@ public class NotificationLoggingTree extends BaseTree
 
         for (; i < mLogs.size(); i++)
         {
-            if (mCurrentFilter == null || (mLogs.get(i).group != null && mSetup.mFilters.get(mCurrentFilter).getTag().equals(mLogs.get(i).group)))
+            if (mCurrentFilter == null || (mLogs.get(i).group != null && mFilterGroups.get(mCurrentFilter).equals(mLogs.get(i).group)))
                 mFilteredLogs.add(mLogs.get(i));
         }
 
@@ -230,11 +237,13 @@ public class NotificationLoggingTree extends BaseTree
         int textColor = entry == null ? Color.BLACK : entry.getColor();
         String titleCollapsed = mContext.getString(R.string.lumberjack_notification_title, mFilteredLogs.size());
         String titleExpanded = mContext.getString(R.string.lumberjack_notification_title_expanded, mLogIndex + 1, mFilteredLogs.size(), getErrors());
-        String textFilter = null;
+        String textFilter;
         if (mCurrentFilter == null)
             textFilter = mContext.getString(R.string.lumberjack_notification_filter_disabled);
+        else if (mFilterGroups.size() == 0)
+            textFilter = mContext.getString(R.string.lumberjack_notification_nothing_to_filter);
         else
-            textFilter = mContext.getString(R.string.lumberjack_notification_filter, mSetup.mFilters.get(mCurrentFilter).getTag(), mCurrentFilter + 1, mSetup.mFilters.size());
+            textFilter = mContext.getString(R.string.lumberjack_notification_filter, mFilterGroups.get(mCurrentFilter), mCurrentFilter + 1, mFilterGroups.size());
         mBuilder.setContentText(titleCollapsed);
         mRemoteView.setTextViewText(R.id.tvTitle, titleExpanded);
         mRemoteView.setTextViewText(R.id.tvText, textExpanded);
@@ -392,7 +401,7 @@ public class NotificationLoggingTree extends BaseTree
                             else if (tree.get().mCurrentFilter > 0)
                                 tree.get().mCurrentFilter--;
                             else if (tree.get().mCurrentFilter == 0)
-                                tree.get().mCurrentFilter = tree.get().mSetup.mFilters.size() - 1;
+                                tree.get().mCurrentFilter = tree.get().mFilterGroups.size() - 1;
                             else
                                 return;
 
@@ -404,9 +413,9 @@ public class NotificationLoggingTree extends BaseTree
                         {
                             if (tree.get().mCurrentFilter == null)
                                 tree.get().mCurrentFilter = 0;
-                            else if (tree.get().mCurrentFilter < tree.get().mSetup.mFilters.size() - 1)
+                            else if (tree.get().mCurrentFilter < tree.get().mFilterGroups.size() - 1)
                                 tree.get().mCurrentFilter++;
-                            else if (tree.get().mCurrentFilter == tree.get().mSetup.mFilters.size() - 1)
+                            else if (tree.get().mCurrentFilter == tree.get().mFilterGroups.size() - 1)
                                 tree.get().mCurrentFilter = 0;
                             else
                                 return;

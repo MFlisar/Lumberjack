@@ -1,10 +1,6 @@
 package com.michaelflisar.lumberjack;
 
 import android.app.Notification;
-import android.content.Context;
-import android.util.Log;
-
-import com.michaelflisar.lumberjack.formatter.ILogGroup;
 
 import java.util.ArrayList;
 
@@ -20,7 +16,6 @@ public class NotificationLoggingSetup
     int mNotificationId = 100;
     int mButtonIntentRequestCodeBase = 100;
     int mPriority = Notification.PRIORITY_MAX;
-    ArrayList<ILogGroup> mFilters = new ArrayList<>();
     Integer mVibrationLogLevel = null;
     Integer mBeepLogLevel = null;
 
@@ -92,18 +87,6 @@ public class NotificationLoggingSetup
     public NotificationLoggingSetup withPriority(int priority)
     {
         mPriority = priority;
-        return this;
-    }
-
-    /**
-     * hand on all log groups you want this logger be able to skip through
-     * DEFAULT: NONE, because the groups are defined by you
-     *
-     * @param filters a list of all your log groups
-     */
-    public NotificationLoggingSetup withFilters(ArrayList<ILogGroup> filters)
-    {
-        mFilters = filters;
         return this;
     }
 

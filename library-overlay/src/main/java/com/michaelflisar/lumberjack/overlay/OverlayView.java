@@ -63,6 +63,7 @@ class OverlayView extends FrameLayout
         int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
         // Create layout
+        // TODO: Layout bottom/top unterscheiden: mSetup.getShowAtBottom() ?
         View view = LayoutInflater.from(context).inflate(R.layout.overlay, null, false);
         mCloseButton = (ImageView)view.findViewById(R.id.btClose);
         mCollapseExpandButton = (ImageView)view.findViewById(R.id.btCollapseExpand);
@@ -158,7 +159,7 @@ class OverlayView extends FrameLayout
         WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, layoutHeight, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         windowParams.gravity = Gravity.TOP | Gravity.LEFT;
         windowParams.x = 0;
-        windowParams.y = windowDimen.y - layoutHeight;
+        windowParams.y = mSetup.getShowAtBottom() ? (windowDimen.y - layoutHeight) : 0;
 
         return windowParams;
     }

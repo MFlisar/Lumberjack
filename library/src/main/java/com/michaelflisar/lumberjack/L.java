@@ -1,15 +1,16 @@
 package com.michaelflisar.lumberjack;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.michaelflisar.lumberjack.formatter.ILogClassFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogFormatter;
-import com.michaelflisar.lumberjack.formatter.ILogGroup;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 
 import timber.log.Lumberjack;
 import timber.log.Timber;
@@ -49,57 +50,41 @@ public class L
     }
 
     // --------------------
-    // Logging - VERBOSE
+    // Logging - Groups and call stack correction
+    // --------------------
+
+    public static LogBuilder withGroup(String group)
+    {
+        return new LogBuilder().withGroup(group).withDecreaseCallStackCorrection();
+    }
+
+    public static LogBuilder withCallStackCorrection(int correction)
+    {
+        return new LogBuilder().withCallStackCorrection(correction).withDecreaseCallStackCorrection();
+    }
+    
+    // --------------------
+    // Logging - VERBOSE - direct forwards to builder
     // --------------------
 
     public static void v(String message, Object... args)
     {
-        log(null, Log.VERBOSE, null, message, args);
+        new LogBuilder().v(message, args);
     }
 
     public static void v(Throwable t, String message, Object... args)
     {
-        log(null, Log.VERBOSE, null, t, message, args);
+        new LogBuilder().v(t, message, args);
     }
 
     public static void v(Throwable t)
     {
-        log(null, Log.VERBOSE, null, t);
+        new LogBuilder().v(t);
     }
 
-    public static void v(ILogGroup group, String message, Object... args)
+    public static void v(LogLabelValuePairsBuilder builder)
     {
-        log(group, Log.VERBOSE, null, message, args);
-    }
-
-    public static void v(int callStackCorrection, String message, Object... args)
-    {
-        log(null, Log.VERBOSE, callStackCorrection, message, args);
-    }
-
-    public static void v(ILogGroup group, int callStackCorrection, String message, Object... args)
-    {
-        log(group, Log.VERBOSE, callStackCorrection, message, args);
-    }
-
-    public static void v(ILogGroup group, Throwable t, String message, Object... args)
-    {
-        log(group, Log.VERBOSE, null, t, message, args);
-    }
-
-    public static void v(ILogGroup group, Throwable t)
-    {
-        log(group, Log.VERBOSE, null, t);
-    }
-
-    public static void vLabeledValuePairs(Object... args)
-    {
-        logLabeledValuePairs(null, Log.VERBOSE, null, args);
-    }
-
-    public static void vLabeledValuePairs(ILogGroup group, Object... args)
-    {
-        logLabeledValuePairs(group, Log.VERBOSE, null, args);
+        new LogBuilder().v(builder);
     }
 
     // --------------------
@@ -108,52 +93,22 @@ public class L
 
     public static void d(String message, Object... args)
     {
-        log(null, Log.DEBUG, null, message, args);
+        new LogBuilder().d(message, args);
     }
 
     public static void d(Throwable t, String message, Object... args)
     {
-        log(null, Log.DEBUG, null, t, message, args);
+        new LogBuilder().d(t, message, args);
     }
 
     public static void d(Throwable t)
     {
-        log(null, Log.DEBUG, null, t);
+        new LogBuilder().d(t);
     }
 
-    public static void d(ILogGroup group, String message, Object... args)
+    public static void d(LogLabelValuePairsBuilder builder)
     {
-        log(group, Log.DEBUG, null, message, args);
-    }
-
-    public static void d(int callStackCorrection, String message, Object... args)
-    {
-        log(null, Log.DEBUG, callStackCorrection, message, args);
-    }
-
-    public static void d(ILogGroup group, int callStackCorrection, String message, Object... args)
-    {
-        log(group, Log.DEBUG, callStackCorrection, message, args);
-    }
-
-    public static void d(ILogGroup group, Throwable t, String message, Object... args)
-    {
-        log(group, Log.DEBUG, null, t, message, args);
-    }
-
-    public static void d(ILogGroup group, Throwable t)
-    {
-        log(group, Log.DEBUG, null, t);
-    }
-
-    public static void dLabeledValuePairs(Object... args)
-    {
-        logLabeledValuePairs(null, Log.DEBUG, null, args);
-    }
-
-    public static void dLabeledValuePairs(ILogGroup group, Object... args)
-    {
-        logLabeledValuePairs(group, Log.DEBUG, null, args);
+        new LogBuilder().d(builder);
     }
 
     // --------------------
@@ -162,52 +117,22 @@ public class L
 
     public static void i(String message, Object... args)
     {
-        log(null, Log.INFO, null, message, args);
+        new LogBuilder().i(message, args);
     }
 
     public static void i(Throwable t, String message, Object... args)
     {
-        log(null, Log.INFO, null, t, message, args);
+        new LogBuilder().i(t, message, args);
     }
 
     public static void i(Throwable t)
     {
-        log(null, Log.INFO, null, t);
+        new LogBuilder().i(t);
     }
 
-    public static void i(ILogGroup group, String message, Object... args)
+    public static void i(LogLabelValuePairsBuilder builder)
     {
-        log(group, Log.INFO, null, message, args);
-    }
-
-    public static void i(int callStackCorrection, String message, Object... args)
-    {
-        log(null, Log.INFO, callStackCorrection, message, args);
-    }
-
-    public static void i(ILogGroup group, int callStackCorrection, String message, Object... args)
-    {
-        log(group, Log.INFO, callStackCorrection, message, args);
-    }
-
-    public static void i(ILogGroup group, Throwable t, String message, Object... args)
-    {
-        log(group, Log.INFO, null, t, message, args);
-    }
-
-    public static void i(ILogGroup group, Throwable t)
-    {
-        log(group, Log.INFO, null, t);
-    }
-
-    public static void iLabeledValuePairs(Object... args)
-    {
-        logLabeledValuePairs(null, Log.INFO, null, args);
-    }
-
-    public static void iLabeledValuePairs(ILogGroup group, Object... args)
-    {
-        logLabeledValuePairs(group, Log.INFO, null, args);
+        new LogBuilder().i(builder);
     }
 
     // --------------------
@@ -216,52 +141,22 @@ public class L
 
     public static void w(String message, Object... args)
     {
-        log(null, Log.WARN, null, message, args);
+        new LogBuilder().w(message, args);
     }
 
     public static void w(Throwable t, String message, Object... args)
     {
-        log(null, Log.WARN, null, t, message, args);
+        new LogBuilder().w(t, message, args);
     }
 
     public static void w(Throwable t)
     {
-        log(null, Log.WARN, null, t);
+        new LogBuilder().w(t);
     }
 
-    public static void w(ILogGroup group, String message, Object... args)
+    public static void w(LogLabelValuePairsBuilder builder)
     {
-        log(group, Log.WARN, null, message, args);
-    }
-
-    public static void w(int callStackCorrection, String message, Object... args)
-    {
-        log(null, Log.WARN, callStackCorrection, message, args);
-    }
-
-    public static void w(ILogGroup group, int callStackCorrection, String message, Object... args)
-    {
-        log(group, Log.WARN, callStackCorrection, message, args);
-    }
-
-    public static void w(ILogGroup group, Throwable t, String message, Object... args)
-    {
-        log(group, Log.WARN, null, t, message, args);
-    }
-
-    public static void w(ILogGroup group, Throwable t)
-    {
-        log(group, Log.WARN, null, t);
-    }
-
-    public static void wLabeledValuePairs(Object... args)
-    {
-        logLabeledValuePairs(null, Log.WARN, null, args);
-    }
-
-    public static void wLabeledValuePairs(ILogGroup group, Object... args)
-    {
-        logLabeledValuePairs(group, Log.WARN, null, args);
+        new LogBuilder().w(builder);
     }
 
     // --------------------
@@ -270,152 +165,34 @@ public class L
 
     public static void e(String message, Object... args)
     {
-        log(null, Log.ERROR, null, message, args);
+        new LogBuilder().e(message, args);
     }
 
     public static void e(Throwable t, String message, Object... args)
     {
-        log(null, Log.ERROR, null, t, message, args);
+        new LogBuilder().e(t, message, args);
     }
 
     public static void e(Throwable t)
     {
-        log(null, Log.ERROR, null, t);
+        new LogBuilder().e(t);
     }
 
-    public static void e(ILogGroup group, String message, Object... args)
+    public static void e(LogLabelValuePairsBuilder builder)
     {
-        log(group, Log.ERROR, null, message, args);
-    }
-
-    public static void e(int callStackCorrection, String message, Object... args)
-    {
-        log(null, Log.ERROR, callStackCorrection, message, args);
-    }
-
-    public static void e(ILogGroup group, int callStackCorrection, String message, Object... args)
-    {
-        log(group, Log.ERROR, callStackCorrection, message, args);
-    }
-
-    public static void e(ILogGroup group, Throwable t, String message, Object... args)
-    {
-        log(group, Log.ERROR, null, t, message, args);
-    }
-
-    public static void e(ILogGroup group, Throwable t)
-    {
-        log(group, Log.ERROR, null, t);
-    }
-
-    public static void eLabeledValuePairs(Object... args)
-    {
-        logLabeledValuePairs(null, Log.ERROR, null, args);
-    }
-
-    public static void eLabeledValuePairs(ILogGroup group, Object... args)
-    {
-        logLabeledValuePairs(group, Log.ERROR, null, args);
-    }
-
-    // --------------------
-    // Main debug functions
-    // --------------------
-
-    private static String ERROR_LOG_VALUES = "This function needs arguments in the format of \"String label, Object value, String label, Object value, ...\" and for each label it needs a value!";
-
-    private static void logLabeledValuePairs(ILogGroup group, int priority, Integer callStackCorrection, Object... args)
-    {
-        // 1) check if group is enabled
-        if (!isGroupEnabled(group))
-            return;
-
-        // 2) prepare log string
-        if (args.length % 2 != 0)
-            throw new RuntimeException(ERROR_LOG_VALUES);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < args.length; i += 2)
-        {
-            if (!(args[i] instanceof String))
-                throw new RuntimeException(ERROR_LOG_VALUES);
-
-            if (i > 0)
-                sb.append(", ");
-            sb.append(args[i]).append("=");
-            if (mFormatters.size() == 0)
-                sb.append(args[i + 1]);
-            else
-                sb.append(formatArg(args[i + 1]));
-        }
-
-        // 3) set tag
-        updateTag(group);
-
-        // 4) set call stack correction
-        updateStackDepth(callStackCorrection);
-
-        // 5) log
-        Timber.log(priority, "%s", sb.toString());
-    }
-
-    public static void log(ILogGroup group, int priority, Integer callStackCorrection, String message, Object... args)
-    {
-        // 1) check if group is enabled
-        if (!isGroupEnabled(group))
-            return;
-
-        // 2) set tag
-        updateTag(group);
-
-        // 3) set call stack correction
-        updateStackDepth(callStackCorrection);
-
-        // 4) log
-        Timber.log(priority, message, formatArgs(args));
-    }
-
-    public static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t, String message, Object... args)
-    {
-        // 1) check if group is enabled
-        if (!isGroupEnabled(group))
-            return;
-
-        // 2) set tag
-        updateTag(group);
-
-        // 3) set call stack correction
-        updateStackDepth(callStackCorrection);
-
-        //4 ) log
-        Timber.log(priority, t, message, formatArgs(args));
-    }
-
-    public static void log(ILogGroup group, int priority, Integer callStackCorrection, Throwable t)
-    {
-        // 1) check if group is enabled
-        if (!isGroupEnabled(group))
-            return;
-
-        // 2) set tag
-        updateTag(group);
-
-        // 3) set call stack correction
-        updateStackDepth(callStackCorrection);
-
-        // 4) log
-        Timber.log(priority, t);
+        new LogBuilder().e(builder);
     }
 
     // --------------------
     // Formatter
     // --------------------
 
-    private static void updateTag(ILogGroup group)
+    private static void updateTag(String group)
     {
         if (group == null)
             Timber.tag(null);
         else
-            Timber.tag(group.getTag());
+            Timber.tag(group);
     }
 
     private static void updateStackDepth(Integer correction)
@@ -452,7 +229,7 @@ public class L
 
     private static Object[] formatArgs(Object[] args)
     {
-        if (args.length == 0)
+        if (args == null || args.length == 0)
             return args;
 
         Object[] formatterArgs = new Object[args.length];
@@ -470,41 +247,240 @@ public class L
     }
 
     // --------------------
-    // Groups
+    // Builder and alikes
     // --------------------
 
-    private static HashSet<ILogGroup> mDisabledGroups = new HashSet<>();
-
-    public static void disableLogGroup(ILogGroup group)
+    public static class LogBuilder
     {
-        mDisabledGroups.add(group);
+        String group = null;
+        Integer callStackCorrection = null;
+
+        LogBuilder()
+        {
+        }
+
+        // --------------------
+        // public builder
+        // --------------------
+
+        public LogBuilder withGroup(String group)
+        {
+            this.group = group;
+            return this;
+        }
+
+        public LogBuilder withCallStackCorrection(int correction)
+        {
+            this.callStackCorrection = correction;
+            return this;
+        }
+
+        LogBuilder withDecreaseCallStackCorrection()
+        {
+            if (callStackCorrection == null)
+                callStackCorrection = -1;
+            else
+                callStackCorrection++;
+            return this;
+        }
+
+        // --------------------
+        // VERBOSE - public logging functions
+        // --------------------
+        
+        public void v(String message, Object... args)
+        {
+            log(Log.VERBOSE, message, args);
+        }
+
+        public void v(Throwable t, String message, Object... args)
+        {
+            log(Log.VERBOSE, t, message, args);
+        }
+
+        public void v(Throwable t)
+        {
+            log(Log.VERBOSE, t);
+        }
+        
+        public void v(LogLabelValuePairsBuilder builder)
+        {
+            log(Log.VERBOSE, builder.prepareLog());
+        }
+
+        // --------------------
+        // DEBUG - public logging functions
+        // --------------------
+
+        public void d(String message, Object... args)
+        {
+            log(Log.DEBUG, message, args);
+        }
+
+        public void d(Throwable t, String message, Object... args)
+        {
+            log(Log.DEBUG, t, message, args);
+        }
+
+        public void d(Throwable t)
+        {
+            log(Log.DEBUG, t);
+        }
+
+        public void d(LogLabelValuePairsBuilder builder)
+        {
+            log(Log.DEBUG, builder.prepareLog());
+        }
+
+        // --------------------
+        // INFO - public logging functions
+        // --------------------
+
+        public void i(String message, Object... args)
+        {
+            log(Log.INFO, message, args);
+        }
+
+        public void i(Throwable t, String message, Object... args)
+        {
+            log(Log.INFO, t, message, args);
+        }
+
+        public void i(Throwable t)
+        {
+            log(Log.INFO, t);
+        }
+
+        public void i(LogLabelValuePairsBuilder builder)
+        {
+            log(Log.INFO, builder.prepareLog());
+        }
+
+        // --------------------
+        // WARN - public logging functions
+        // --------------------
+
+        public void w(String message, Object... args)
+        {
+            log(Log.WARN, message, args);
+        }
+
+        public void w(Throwable t, String message, Object... args)
+        {
+            log(Log.WARN, t, message, args);
+        }
+
+        public void w(Throwable t)
+        {
+            log(Log.WARN, t);
+        }
+
+        public void w(LogLabelValuePairsBuilder builder)
+        {
+            log(Log.WARN, builder.prepareLog());
+        }
+
+        // --------------------
+        // WARN - public logging functions
+        // --------------------
+
+        public void e(String message, Object... args)
+        {
+            log(Log.ERROR, message, args);
+        }
+
+        public void e(Throwable t, String message, Object... args)
+        {
+            log(Log.ERROR, t, message, args);
+        }
+
+        public void e(Throwable t)
+        {
+            log(Log.ERROR, t);
+        }
+
+        public void e(LogLabelValuePairsBuilder builder)
+        {
+            log(Log.ERROR, builder.prepareLog());
+        }
+
+        // --------------------
+        // REAL public logging functions
+        // --------------------
+
+        public void log(int priority, String message, Object... args)
+        {
+            // 1) set tag
+            updateTag(group);
+
+            // 2) set call stack correction
+            updateStackDepth(callStackCorrection);
+
+            // 3) log
+            Timber.log(priority, message, formatArgs(args));
+        }
+
+        public void log(int priority, Throwable t, String message, Object... args)
+        {
+            // 1) set tag
+            updateTag(group);
+
+            // 2) set call stack correction
+            updateStackDepth(callStackCorrection);
+
+            // 3) log
+            Timber.log(priority, t, message, formatArgs(args));
+        }
+
+        public void log(int priority, Throwable t)
+        {
+            // 1) set tag
+            updateTag(group);
+
+            // 2) set call stack correction
+            updateStackDepth(callStackCorrection);
+
+            // 3) log
+            Timber.log(priority, t);
+        }
     }
 
-    public static void enableLogGroup(ILogGroup group)
+    public static LogLabelValuePairsBuilder labeledValueBuilder()
     {
-        mDisabledGroups.remove(group);
+        return new LogLabelValuePairsBuilder();
     }
 
-    public static void enableAllLogGroup()
+    public static class LogLabelValuePairsBuilder
     {
-        mDisabledGroups.clear();
-    }
+        List<Pair<String, Object>> pairs;
 
-    private static boolean isGroupEnabled(ILogGroup group)
-    {
-        if (group == null || mDisabledGroups.size() == 0)
-            return true;
-        else
-            return !mDisabledGroups.contains(group);
-    }
+        LogLabelValuePairsBuilder()
+        {
+            pairs = new ArrayList<>();
+        }
 
-    public static ILogGroup createGroup(final String tag)
-    {
-        return new ILogGroup() {
-            @Override
-            public String getTag() {
-                return tag;
+        public LogLabelValuePairsBuilder addPair(String label, Object value)
+        {
+            if (label == null)
+                throw new RuntimeException("Labels can't be NULL, that makes no sense!");
+            pairs.add(new Pair<String, Object>(label, value));
+            return this;
+        }
+
+        String prepareLog()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < pairs.size(); i++)
+            {
+                if (i > 0)
+                    sb.append(", ");
+                sb.append(pairs.get(i).first).append("=");
+                if (mFormatters.size() == 0)
+                    sb.append(pairs.get(i).second);
+                else
+                    sb.append(formatArg(pairs.get(i).second));
             }
-        };
+            return sb.toString();
+        }
     }
 }
