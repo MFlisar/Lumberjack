@@ -56,38 +56,46 @@ This is what the demo setup will print out (to your file, to the notification, t
 
 *Example log*
 
-		[MainActivity:17 onCreate]: Main activity created
-		[MainActivity:18 onCreate]: Test message 1: This is the first simple test log
-		[MainActivity:19 onCreate]: Test error: Test error log
-		 java.lang.Throwable: ERROR
-			 at com.michaelflisar.lumberjack.demo.MainActivity.onCreate(MainActivity.java:19)
-			 at android.app.Activity.performCreate(Activity.java:6876)
-			 at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1135)
-			 at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3207)
-			 at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3350)
-			 at android.app.ActivityThread.access$1100(ActivityThread.java:222)
-			 at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1795)
-			 at android.os.Handler.dispatchMessage(Handler.java:102)
-			 at android.os.Looper.loop(Looper.java:158)
-			 at android.app.ActivityThread.main(ActivityThread.java:7229)
-			 at java.lang.reflect.Method.invoke(Native Method)
-			 at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1230)
-			 at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1120)
-			 at de.robv.android.xposed.XposedBridge.main(XposedBridge.java:102)
-		[MainActivity:25 onCreate]: Test array log: [Type=String, Size=2] 
-		[
-			array value 1
-			array value 2
-		]
-		[<TEST-GROUP> MainActivity:28 onCreate]: Test message in test group
-		[<TEST-GROUP> MainActivity:29 onCreate]: Test message in test group, value=999
-		[MainActivity:38 onCreate]: Test custom object log: TestClass: [TestLogData - x=99]
-		[MainActivity:39 onCreate]: Test custom object array log: [Type=TestClass, Size=3] 
-		[
-			TestLogData - x=1
-			TestLogData - x=2
-			TestLogData - x=10
-		]
+```groovy
+[<TEST-GROUP 1> L:65 initLumberjack]: initLumberjack fertig (L.java:65)
+[<TEST-GROUP 2> L:66 initLumberjack]: LogFiles: [Type=String, Size=1] (L.java:66)
+[
+	/data/user/0/com.michaelflisar.lumberjack.demo/files/log_20170301.log
+]
+[MainActivity:30 onCreate]: Main activity created (MainActivity.java:30)
+[MainActivity:31 onCreate]: Test message 1: This is the first simple test log (MainActivity.java:31)
+[MainActivity:32 onCreate]: Test error: Test error log (MainActivity.java:32)
+java.lang.Throwable: ERROR
+    at com.michaelflisar.lumberjack.demo.MainActivity.onCreate(MainActivity.java:32)
+    at android.app.Activity.performCreate(Activity.java:6876)
+    at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1135)
+    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3207)
+    at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3350)
+    at android.app.ActivityThread.access$1100(ActivityThread.java:222)
+    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1795)
+    at android.os.Handler.dispatchMessage(Handler.java:102)
+    at android.os.Looper.loop(Looper.java:158)
+    at android.app.ActivityThread.main(ActivityThread.java:7229)
+    at java.lang.reflect.Method.invoke(Native Method)
+    at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1230)
+    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1120)
+    at de.robv.android.xposed.XposedBridge.main(XposedBridge.java:102)
+[MainActivity:38 onCreate]: Test array log: [Type=String, Size=2] (MainActivity.java:38)
+[
+	array value 1
+	array value 2
+]
+[<TEST-GROUP 1> MainActivity:41 onCreate]: Test message in test group (MainActivity.java:41)
+[<TEST-GROUP 1> MainActivity:42 onCreate]: Test message in test group, value=999 (MainActivity.java:42)
+[MainActivity:50 onCreate]: Test custom object log: TestClass: [TestLogData says: My x value is 99] (MainActivity.java:50)
+[MainActivity:51 onCreate]: Test custom object array log: [Type=TestClass, Size=3] (MainActivity.java:51)
+[
+	TestLogData says: My x value is 1
+	TestLogData says: My x value is 2
+	TestLogData says: My x value is 10
+]
+[MainActivity:54 onCreate]: String=Value, Integer=999, Long=5 (MainActivity.java:54)
+```
 
 ###Usage
 
