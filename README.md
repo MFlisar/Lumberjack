@@ -51,7 +51,7 @@ dependencies {
 This is what the demo setup will print out (to your file, to the notification, to console, to the overlay). It has pretty printing enabled and prints first 5 values of an array automatically. It as well prints caller class and group combined as tag. The demo shows that
 
 * arrays are printed automatically
-* custom classes are automatically formatter to the custom formatter you have registered, no matter if the classes are printed inside an array or as a simple value
+* custom classes are automatically formatted with the custom formatter you have registered, no matter if the classes are printed inside an array or as a simple value
 * caller class, tags and groups are printed
 
 *Example log*
