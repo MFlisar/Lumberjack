@@ -96,11 +96,3 @@ The best place to start is the [WIKI](https://github.com/MFlisar/Lumberjack/wiki
 ###Credits
 
 The overlay logger is based on Hannes Dorfmann's DebugOverlay: https://github.com/sockeqwe/debugoverlay
-
-###Missing
-
-* Notification Logger
-	* An activity that can be launched via the notification (that shows the logs and offers advanced filter options)
-	* filter: errors only
-* Overlay Logger
-	* filter: errors only
