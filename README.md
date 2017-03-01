@@ -46,7 +46,26 @@ dependencies {
 }
 ```
 
-###Example
+###Example - LOGGING
+
+The logger is simply used like following:
+
+```groovy
+// this simply logs a message
+L.d("Simpe log");
+// arrays/lists can simple be logged directly, the formatter will take care of it
+L.d("Simple array log: %s", new ArrayList<>(Arrays.asList("array value 1", "array value 2")));
+// group your logs, the formatter takes care of printing the groups and you can filter out groups if you want to
+L.withGroup("Group").d("Simple log in group");
+// a little helper builder to build object - value pairs and print them to the log
+L.d(L.labeledValueBuilder()
+    .addPair("String", "Value")
+    .addPair("Integer", 999)
+    .addPair("Long", 5L));
+```
+
+
+###Example - OUTPUT
 
 This is what the demo setup will print out (to your file, to the notification, to console, to the overlay). It has pretty printing enabled and prints first 5 values of an array automatically. It as well prints caller class and group combined as tag. The demo shows that
 
