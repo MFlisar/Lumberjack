@@ -6,14 +6,14 @@
 
 A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber) logging library with following *features*:
 
-* define group of log messages and disable them
+* defining group of log messages and filter them, even filter them on a per tree base
 * register custom log formatters to *automatically* format classes in your logs
 * automatically log first n values of lists/arrays (this *automatically* respects custom log formatters for classes in the collections!)
 * trees for:
   * logging to console (with the ability to add clickable links to the calling line in the calling class)
   * files (one file per day, select between numbered log file names or date based log file names)
   * notification (with filter functionality per group, next/prev log buttons and more...)
-  * overlay logging (expandable/collapseable overlay)
+  * overlay logging (expandable/collapseable overlay, show errors only, pausing)
 * customise each tree to whatever you want or extend them
 * little utility class to log time and laps
 
@@ -34,19 +34,38 @@ repositories {
 ```groovy
 dependencies {
     // base module (NECESSARY)
-	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:1.6'
+	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:2.0'
     // modules (OPTIONAL)
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:1.6'
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:1.6'
-	debugCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay:1.6'
-	releaseCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay-noop:1.6'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:2.0'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:2.0'
+	debugCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay:2.0'
+	releaseCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay-noop:2.0'
     
     // ALTERNATIVELY you can add ALL modules at once like following
-    // compile 'com.github.MFlisar:Lumberjack:1.6'
+    // compile 'com.github.MFlisar:Lumberjack:2.0'
 }
 ```
 
-###Example
+###Example - LOGGING
+
+The logger is simply used like following:
+
+```groovy
+// this simply logs a message
+L.d("Simpe log");
+// arrays/lists can simple be logged directly, the formatter will take care of it
+L.d("Simple array log: %s", new ArrayList<>(Arrays.asList("array value 1", "array value 2")));
+// group your logs, the formatter takes care of printing the groups and you can filter out groups if you want to
+L.withGroup("Group").d("Simple log in group");
+// a little helper builder to build object - value pairs and print them to the log
+L.d(L.labeledValueBuilder()
+    .addPair("String", "Value")
+    .addPair("Integer", 999)
+    .addPair("Long", 5L));
+```
+
+
+###Example - OUTPUT
 
 This is what the demo setup will print out (to your file, to the notification, to console, to the overlay). It has pretty printing enabled and prints first 5 values of an array automatically. It as well prints caller class and group combined as tag. The demo shows that
 
