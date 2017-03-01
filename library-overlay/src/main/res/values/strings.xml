@@ -2,7 +2,6 @@
 <resources>
 
     <string name="lumberjack_overlay_label">Log: %1$d/%2$d</string>
-    <string name="lumberjack_overlay_label_errors_only">Error: %1$d/%2$d</string>
     <string name="lumberjack_overlay_label_errors">(Errors: %1$d)</string>
 
     <string name="lumberjack_overlay_notification_title"></string>

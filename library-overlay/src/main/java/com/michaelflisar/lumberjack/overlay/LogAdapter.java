@@ -20,38 +20,46 @@ import java.util.List;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder>
 {
-    private boolean mIsFiltered;
+    private int mMinimumVisiblePriority;
 
-    private int mFilterLogLevel;
     private List<OverlayLoggingTree.LogEntry> mItems;
     private List<OverlayLoggingTree.LogEntry> mFilteredItems;
 
-    public LogAdapter(int filterLogLevel, boolean isFiltered)
+    public LogAdapter(int mimimumVisiblePriority)
     {
-        mFilterLogLevel = filterLogLevel;
-        mIsFiltered = isFiltered;
+        mMinimumVisiblePriority = mimimumVisiblePriority;
         mItems = new ArrayList<>();
         mFilteredItems = new ArrayList<>();
     }
 
-    public void setFiltered(boolean isFiltered)
+    public void setFiltered(int mimimumVisiblePriority)
     {
-        if (mIsFiltered != isFiltered)
+        if (mMinimumVisiblePriority != mimimumVisiblePriority)
         {
-            mIsFiltered = isFiltered;
+            mMinimumVisiblePriority = mimimumVisiblePriority;
+            calcFilteredItems();
             notifyDataSetChanged();
+        }
+    }
+
+    private void calcFilteredItems()
+    {
+        mFilteredItems.clear();
+        for (OverlayLoggingTree.LogEntry item : mItems)
+        {
+            if (item.getPriority() >= mMinimumVisiblePriority)
+                mFilteredItems.add(item);
         }
     }
 
     public boolean add(OverlayLoggingTree.LogEntry item)
     {
         mItems.add(item);
-        if (item.getPriority() >= mFilterLogLevel)
+        if (item.getPriority() >= mMinimumVisiblePriority)
+        {
             mFilteredItems.add(item);
-        if (mIsFiltered && item.getPriority() >= mFilterLogLevel)
             notifyItemInserted(mFilteredItems.size() - 1);
-        else if (!mIsFiltered)
-            notifyItemInserted(mItems.size() - 1);
+        }
         else
             return false;
         return true;
@@ -67,7 +75,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ViewHolder holder, int position)
     {
-        OverlayLoggingTree.LogEntry item = mIsFiltered ? mFilteredItems.get(position) : mItems.get(position);
+        OverlayLoggingTree.LogEntry item = mFilteredItems.get(position);
         holder.text.setText(item.getMessage());
         holder.text.setTextColor(item.getColor());
         holder.text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, item.getTextSizeInDp());
@@ -76,7 +84,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder>
     @Override
     public int getItemCount()
     {
-        return mIsFiltered ? mFilteredItems.size() : mItems.size();
+        return mFilteredItems.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder

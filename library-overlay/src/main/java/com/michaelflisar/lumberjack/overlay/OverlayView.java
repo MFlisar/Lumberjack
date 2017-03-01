@@ -1,7 +1,6 @@
 package com.michaelflisar.lumberjack.overlay;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +22,8 @@ import android.widget.TextView;
 import com.michaelflisar.lumberjack.OverlayLoggingSetup;
 import com.michaelflisar.lumberjack.OverlayLoggingTree;
 
+import java.lang.reflect.Field;
+
 /**
  * Created by flisar on 13.02.2017.
  */
@@ -33,7 +34,13 @@ class OverlayView extends FrameLayout
     private ImageView mCloseButton;
     private ImageView mCollapseExpandButton;
     private ImageView mPauseButton;
-    private ImageView mErrorButton;
+    private TextView mFilterButton;
+    private TextView mVerboseButton;
+    private TextView mDebugButton;
+    private TextView mInfoButton;
+    private TextView mWarnButton;
+    private TextView mErrorButton;
+    private LinearLayout mLLFilters;
     private TextView mLabel;
     private TextView mLabelErrors;
     private RecyclerView mRecyclerView;
@@ -41,18 +48,18 @@ class OverlayView extends FrameLayout
     private int mErrors = 0;
     private LogAdapter mAdapter;
     private boolean mExpanded = true;
-    private int mMinimumLogPriority;
-    private boolean mShowErrorsOnly;
 
-    public OverlayView(Context context, OverlayLoggingSetup setup, boolean showErrorsOnly)
+    private IFilterChangedListener mFilterChangedListener;
+
+    public OverlayView(Context context, OverlayLoggingSetup setup, int minimumVisibleLogPriority, IFilterChangedListener filterChangedListener)
     {
         super(context);
+
+        mFilterChangedListener = filterChangedListener;
 
         mSetup = setup;
 
         mExpanded = mSetup.getWithStartExpanded();
-        mMinimumLogPriority = mSetup.getLogPriorityForErrorFilter();
-        mShowErrorsOnly = showErrorsOnly;
 
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Point windowDimen = new Point();
@@ -62,33 +69,79 @@ class OverlayView extends FrameLayout
         int desiredLayoutHeight = dpToPx(context, setup.getOverlayHeight());
         int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
-        // Create layout
-        // TODO: Layout bottom/top unterscheiden: mSetup.getShowAtBottom() ?
+        // Create layout and get views
         View view = LayoutInflater.from(context).inflate(R.layout.overlay, null, false);
-        mCloseButton = (ImageView)view.findViewById(R.id.btClose);
-        mCollapseExpandButton = (ImageView)view.findViewById(R.id.btCollapseExpand);
-        mPauseButton = (ImageView)view.findViewById(R.id.btPause);
-        mErrorButton = (ImageView)view.findViewById(R.id.btErrors);
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.rvLogs);
+        mLabel = (TextView)view.findViewById(R.id.tvLabel);
+        mLabelErrors = (TextView)view.findViewById(R.id.tvLabelError);
+        mCloseButton = (ImageView)view.findViewById(R.id.ivClose);
+        mCollapseExpandButton = (ImageView)view.findViewById(R.id.ivCollapseExpand);
+        mPauseButton = (ImageView)view.findViewById(R.id.ivPause);
+        mFilterButton = (TextView) view.findViewById(R.id.tvFilter);
+        mLLFilters = (LinearLayout)view.findViewById(R.id.llFilter);
+        mVerboseButton = (TextView) view.findViewById(R.id.tvVerbose);
+        mDebugButton = (TextView) view.findViewById(R.id.tvDebug);
+        mInfoButton = (TextView) view.findViewById(R.id.tvInfo);
+        mWarnButton = (TextView) view.findViewById(R.id.tvWarn);
+        mErrorButton = (TextView) view.findViewById(R.id.tvError);
+
+        // Setup label views
+        mLabel.setBackgroundColor(setup.getBackgroundColor());
+        mLabelErrors.setBackgroundColor(setup.getBackgroundColor());
+
+        // Setup buttons and set listeners
         mCollapseExpandButton.setOnClickListener(new OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 mExpanded = !mExpanded;
-                updateViewState();
+                updateViewState(false);
                 updateExpandButtonIcon();
             }
         });
         updateExpandButtonIcon();
-        updateErrorButtonIcon(showErrorsOnly);
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.rvLogs);
-        mLabel = (TextView)view.findViewById(R.id.tvLabel);
-        mLabelErrors = (TextView)view.findViewById(R.id.tvLabelError);
-        mLabel.setBackgroundColor(setup.getBackgroundColor());
-        mLabelErrors.setBackgroundColor(setup.getBackgroundColor());
+        updateFilterButtonIcon(minimumVisibleLogPriority);
+        mLLFilters.setVisibility(View.GONE);
+        mFilterButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                mLLFilters.setVisibility(mLLFilters.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                updateViewState(true);
+            }
+        });
+        OnClickListener filterClickListener = new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int priority = Log.VERBOSE;
+                if (v.getId() == R.id.tvVerbose)
+                    priority = Log.VERBOSE;
+                else if (v.getId() == R.id.tvDebug)
+                    priority = Log.DEBUG;
+                else if (v.getId() == R.id.tvInfo)
+                    priority = Log.INFO;
+                else if (v.getId() == R.id.tvWarn)
+                    priority = Log.WARN;
+                else if (v.getId() == R.id.tvError)
+                    priority = Log.ERROR;
+                mFilterChangedListener.onFilterChanged(priority);
+                updateErrorFilter(priority);
+                mLLFilters.setVisibility(View.GONE);
+                updateViewState(true);
+            }
+        };
+        mVerboseButton.setOnClickListener(filterClickListener);
+        mDebugButton.setOnClickListener(filterClickListener);
+        mInfoButton.setOnClickListener(filterClickListener);
+        mWarnButton.setOnClickListener(filterClickListener);
+        mErrorButton.setOnClickListener(filterClickListener);
 
         // Setup RecyclerView
-        mAdapter = new LogAdapter(mMinimumLogPriority, showErrorsOnly);
+        mAdapter = new LogAdapter(minimumVisibleLogPriority);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         linearLayoutManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -112,21 +165,21 @@ class OverlayView extends FrameLayout
         addView(view);
 
         // Attach and display View
-        mWindowManager.addView(this, calcWindowParams());
+        mWindowManager.addView(this, calcWindowParams(false));
     }
 
     private void updateLabels(Integer index)
     {
         if (index == null)
             index = ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-        mLabel.setText(mLabel.getContext().getString(mShowErrorsOnly ? R.string.lumberjack_overlay_label_errors_only : R.string.lumberjack_overlay_label, index + 1,  mAdapter.getItemCount()));
-        mLabelErrors.setVisibility(!mShowErrorsOnly && mErrors > 0 ? View.VISIBLE : View.GONE);
+        mLabel.setText(mLabel.getContext().getString(R.string.lumberjack_overlay_label, index + 1,  mAdapter.getItemCount()));
+        mLabelErrors.setVisibility(mErrors > 0 ? View.VISIBLE : View.GONE);
         mLabelErrors.setText(mErrors > 0 ? mLabelErrors.getContext().getString(R.string.lumberjack_overlay_label_errors, mErrors) : "");
     }
 
     public void checkOrientation(int orientation)
     {
-        updateViewState();
+        updateViewState(false);
     }
 
     private void updateExpandButtonIcon()
@@ -134,18 +187,37 @@ class OverlayView extends FrameLayout
         mCollapseExpandButton.setImageResource(mExpanded ? R.drawable.ic_collapse_circle : R.drawable.ic_expand_circle);
     }
 
-    private void updateErrorButtonIcon(boolean showErrorsOnly)
+    private void updateFilterButtonIcon(int minimumVisibleLogPriority)
     {
-        mErrorButton.setImageResource(showErrorsOnly ? R.drawable.ic_error_outline_circle : R.drawable.ic_error_outline_circle_disabled);
+        String label = "";
+        switch (minimumVisibleLogPriority)
+        {
+            case Log.VERBOSE:
+                label = "V";
+                break;
+            case Log.DEBUG:
+                label = "D";
+                break;
+            case Log.INFO:
+                label = "I";
+                break;
+            case Log.WARN:
+                label = "W";
+                break;
+            case Log.ERROR:
+                label = "E";
+                break;
+        }
+        mFilterButton.setText(label);
     }
 
-    private void updateViewState()
+    private void updateViewState(boolean disableAnimations)
     {
-        mWindowManager.updateViewLayout(this, calcWindowParams());
         mRecyclerView.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
+        mWindowManager.updateViewLayout(this, calcWindowParams(disableAnimations));
     }
 
-    private WindowManager.LayoutParams calcWindowParams()
+    private WindowManager.LayoutParams calcWindowParams(boolean disableAnimations)
     {
         Point windowDimen = new Point();
         mWindowManager.getDefaultDisplay().getSize(windowDimen);
@@ -154,19 +226,40 @@ class OverlayView extends FrameLayout
         int desiredLayoutHeight = dpToPx(getContext(), mSetup.getOverlayHeight());
         if (!mExpanded)
             desiredLayoutHeight = buttonHeight;
+        if (mLLFilters.getVisibility() == View.VISIBLE)
+            desiredLayoutHeight += 5 * buttonHeight;
         int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
-        WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams(
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 layoutHeight,
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
-        windowParams.gravity = Gravity.TOP | Gravity.LEFT;
-        windowParams.x = 0;
-        windowParams.y = windowDimen.y - layoutHeight;
+        lp.gravity = Gravity.TOP | Gravity.LEFT;
+        lp.x = 0;
+        lp.y = windowDimen.y - layoutHeight;
 
-        return windowParams;
+        // Deactivate animations
+        if (disableAnimations)
+        {
+            lp.windowAnimations = 0;
+            Field field = null;
+            try
+            {
+                field = WindowManager.LayoutParams.class.getDeclaredField("privateFlags");
+                field.setAccessible(true);
+                int flag = field.getInt(lp);
+                flag |= 0x00000040;
+                field.set(lp, flag);
+            } catch (NoSuchFieldException e)
+            {
+            } catch (IllegalAccessException e)
+            {
+            }
+        }
+
+        return lp;
     }
 
     private int dpToPx(Context context, int dp)
@@ -190,15 +283,14 @@ class OverlayView extends FrameLayout
 
     void showView()
     {
-        mWindowManager.addView(this, calcWindowParams());
+        mWindowManager.addView(this, calcWindowParams(false));
     }
 
-    void updateErrorFilter(boolean showErrorsOnly)
+    void updateErrorFilter(int minimumVisibleLogPriority)
     {
-        mShowErrorsOnly = showErrorsOnly;
-        mAdapter.setFiltered(showErrorsOnly);
+        mAdapter.setFiltered(minimumVisibleLogPriority);
         updateLabels(mAdapter.getItemCount() - 1);
-        updateErrorButtonIcon(showErrorsOnly);
+        updateFilterButtonIcon(minimumVisibleLogPriority);
     }
 
     View getCloseButton()
@@ -206,13 +298,13 @@ class OverlayView extends FrameLayout
         return mCloseButton;
     }
 
-    View getErrorButton()
-    {
-        return mErrorButton;
-    }
-
     View getPauseButton()
     {
         return mPauseButton;
+    }
+
+    public interface IFilterChangedListener
+    {
+        void onFilterChanged(int priority);
     }
 }

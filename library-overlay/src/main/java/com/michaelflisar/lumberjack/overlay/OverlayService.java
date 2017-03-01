@@ -50,12 +50,12 @@ public class OverlayService extends Service
     };
     private boolean mPaused = false;
 
-    private boolean mErrorFilterActive;
+    private int mMinimumVisibleLogPriority;
 
     public void setSetup(OverlayLoggingSetup setup)
     {
         mSetup = setup;
-        mErrorFilterActive = mSetup.getStartWithShowErrorsOnly();
+        mMinimumVisibleLogPriority = mSetup.getDefaultMinVisibleLogPriority();
     }
 
     @Override
@@ -120,7 +120,14 @@ public class OverlayService extends Service
         if (mView != null)
             return;
 
-        mView = new OverlayView(getApplicationContext(), mSetup, mErrorFilterActive);
+        mView = new OverlayView(getApplicationContext(), mSetup, mMinimumVisibleLogPriority, new OverlayView.IFilterChangedListener()
+        {
+            @Override
+            public void onFilterChanged(int priority)
+            {
+                mMinimumVisibleLogPriority = priority;
+            }
+        });
         mView.getCloseButton().setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -128,15 +135,6 @@ public class OverlayService extends Service
             {
                 destroyView();
                 stopSelf();
-            }
-        });
-        mView.getErrorButton().setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                mErrorFilterActive = !mErrorFilterActive;
-                mView.updateErrorFilter(mErrorFilterActive);
             }
         });
         mView.getPauseButton().setOnClickListener(new View.OnClickListener()

@@ -19,8 +19,7 @@ public class OverlayLoggingSetup
     private int mTextSizeInDp = 12;
     private int mOverlayHeightInDp = 150;
     private boolean mStartExpanded = true;
-    private int mLogPriorityForErrorFilter = Log.ERROR;
-    private boolean mStartWithShowErrorsOnly = false;
+    private int mDefaultMinVisibleLogPriority = Log.VERBOSE;
 
     private int mPermissionRequestCode = 200;
     private String mNotificationTitle = "Overlay logger";
@@ -165,26 +164,14 @@ public class OverlayLoggingSetup
     }
 
     /**
-     * only show logs of the defined level or higher in overlay logger if error filter is on
-     * DEFAULT: Log.ERRROR
+     * default value for miimimum visible log priority, by default all logs are visible
+     * DEFAULT: Log.VERBOSE
      *
-     * @param logPriority define the minimum log level that is visible in the overlay logger if error filter is on
+     * @param logPriority define the minimum log level that is visible in the overlay logger
      */
-    public OverlayLoggingSetup withMinimumLogPriority(int logPriority)
+    public OverlayLoggingSetup withDefaultMinimumVisibleLogPriority(int logPriority)
     {
-        mLogPriorityForErrorFilter = logPriority;
-        return this;
-    }
-
-    /**
-     * start the overlay logger with active error filter
-     * DEFAULT: false
-     *
-     * @param startWithShowErrorsOnly true to start the overlay logger with active error filter
-     */
-    public OverlayLoggingSetup withStartWithShowErrorsOnly(boolean startWithShowErrorsOnly)
-    {
-        mStartWithShowErrorsOnly = startWithShowErrorsOnly;
+        mDefaultMinVisibleLogPriority = logPriority;
         return this;
     }
 
@@ -247,14 +234,9 @@ public class OverlayLoggingSetup
         return mStartExpanded;
     }
 
-    public int getLogPriorityForErrorFilter()
+    public int getDefaultMinVisibleLogPriority()
     {
-        return mLogPriorityForErrorFilter;
-    }
-
-    public boolean getStartWithShowErrorsOnly()
-    {
-        return mStartWithShowErrorsOnly;
+        return mDefaultMinVisibleLogPriority;
     }
 
     public String getNotificationTitle()

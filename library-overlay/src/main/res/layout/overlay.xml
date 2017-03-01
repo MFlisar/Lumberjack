@@ -13,26 +13,92 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/btPause"
+            android:id="@+id/ivPause"
             android:src="@drawable/ic_pause_circle"
+            android:layout_gravity="bottom"
             android:layout_width="36dp"
             android:layout_height="36dp"/>
 
-        <ImageView
-            android:id="@+id/btErrors"
-            android:src="@drawable/ic_error_outline_circle"
-            android:layout_width="36dp"
-            android:layout_height="36dp"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/llFilter"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvVerbose"
+                    android:text="V"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_circle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp" />
+
+                <TextView
+                    android:id="@+id/tvDebug"
+                    android:text="D"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_circle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp" />
+
+                <TextView
+                    android:id="@+id/tvInfo"
+                    android:text="I"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_circle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp" />
+
+                <TextView
+                    android:id="@+id/tvWarn"
+                    android:text="W"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_circle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp" />
+
+                <TextView
+                    android:id="@+id/tvError"
+                    android:text="E"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_circle"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvFilter"
+                android:text="E"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bg_circle"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/btCollapseExpand"
+            android:id="@+id/ivCollapseExpand"
             android:src="@drawable/ic_collapse_circle"
+            android:layout_gravity="bottom"
             android:layout_width="36dp"
             android:layout_height="36dp"/>
 
         <ImageView
-            android:id="@+id/btClose"
+            android:id="@+id/ivClose"
             android:src="@drawable/ic_close_circle"
+            android:layout_gravity="bottom"
             android:layout_marginLeft="4dp"
             android:layout_width="36dp"
             android:layout_height="36dp"/>
@@ -60,8 +126,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvLogs"
         android:layout_below="@+id/llButtoons"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
 
