@@ -26,7 +26,6 @@ public class OverlayLoggingSetup
     private String mNotificationTitle = "Overlay logger";
     private String mNotificationText = "Currently paused, click to resume";
     private int mNotificationId = 500;
-    private boolean mShowAtBottom = true;
 
     public OverlayLoggingSetup()
     {
@@ -223,18 +222,6 @@ public class OverlayLoggingSetup
         return this;
     }
 
-    /**
-     * the position of the overlay
-     * DEFAULT: true
-     *
-     * @param showAtBottom true to show the overlay at the bottom, false to show it at top
-     */
-    public OverlayLoggingSetup withShowAtBottom(boolean showAtBottom)
-    {
-        mShowAtBottom = showAtBottom;
-        return this;
-    }
-
     public int getBackgroundColor()
     {
         return mBackgroundColor;
@@ -283,11 +270,6 @@ public class OverlayLoggingSetup
     public int getNotificationId()
     {
         return mNotificationId;
-    }
-
-    public boolean getShowAtBottom()
-    {
-        return mShowAtBottom;
     }
 
     public int getColor(int priority)

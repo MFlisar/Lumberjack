@@ -156,10 +156,15 @@ class OverlayView extends FrameLayout
             desiredLayoutHeight = buttonHeight;
         int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
-        WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, layoutHeight, WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+        WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                layoutHeight,
+                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
         windowParams.gravity = Gravity.TOP | Gravity.LEFT;
         windowParams.x = 0;
-        windowParams.y = mSetup.getShowAtBottom() ? (windowDimen.y - layoutHeight) : 0;
+        windowParams.y = windowDimen.y - layoutHeight;
 
         return windowParams;
     }
