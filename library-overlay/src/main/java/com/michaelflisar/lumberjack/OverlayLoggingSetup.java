@@ -17,7 +17,7 @@ public class OverlayLoggingSetup
     private int mColorError = Color.RED;
     private int mColorAssert = Color.RED;
     private int mTextSizeInDp = 12;
-    private int mOverlayHeightInDp = 150;
+    private int mOverlayRecyclerViewHeightInDp = 100;
     private boolean mStartExpanded = true;
     private int mDefaultMinVisibleLogPriority = Log.VERBOSE;
 
@@ -140,14 +140,14 @@ public class OverlayLoggingSetup
     }
 
     /**
-     * define a custom height for the overlay
-     * DEFAULT: 150dp
+     * define a custom height for the overlays recycler view
+     * DEFAULT: 100dp
      *
-     * @param dp The ovverlay height in dp
+     * @param dp The overlay's recycler view height in dp
      */
-    public OverlayLoggingSetup withOverlayHeightInDp(int dp)
+    public OverlayLoggingSetup withOverlayRecyclerViewHeightInDp(int dp)
     {
-        mOverlayHeightInDp = dp;
+        mOverlayRecyclerViewHeightInDp = dp;
         return this;
     }
 
@@ -224,9 +224,9 @@ public class OverlayLoggingSetup
         return mTextSizeInDp;
     }
 
-    public int getOverlayHeight()
+    public int getOverlayRecyclerViewHeight()
     {
-        return mOverlayHeightInDp;
+        return mOverlayRecyclerViewHeightInDp;
     }
 
     public boolean getWithStartExpanded()

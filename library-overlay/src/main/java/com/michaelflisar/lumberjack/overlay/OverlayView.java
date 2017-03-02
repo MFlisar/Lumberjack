@@ -1,6 +1,7 @@
 package com.michaelflisar.lumberjack.overlay;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.michaelflisar.lumberjack.OverlayLoggingSetup;
@@ -31,6 +36,7 @@ import java.lang.reflect.Field;
 class OverlayView extends FrameLayout
 {
     private OverlayLoggingSetup mSetup;
+    private LinearLayout mLLHeader;
     private ImageView mCloseButton;
     private ImageView mCollapseExpandButton;
     private ImageView mPauseButton;
@@ -48,6 +54,36 @@ class OverlayView extends FrameLayout
     private int mErrors = 0;
     private LogAdapter mAdapter;
     private boolean mExpanded = true;
+    private boolean mFilterShown = false;
+    private int mRvHeight;
+    private int mButtonHeight;
+    private Animation.AnimationListener mAnimationListener = new Animation.AnimationListener()
+    {
+        @Override
+        public void onAnimationStart(Animation animation)
+        {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation)
+        {
+            final WindowManager.LayoutParams lp = (WindowManager.LayoutParams)getLayoutParams();
+            lp.height = calcHeight();
+            post(new Runnable() {
+
+                public void run() {
+                    updateViewState(true);
+                }
+            });
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation)
+        {
+
+        }
+    };
 
     private IOverlayListener mOverlayListener;
 
@@ -60,20 +96,19 @@ class OverlayView extends FrameLayout
         mSetup = setup;
 
         mExpanded = mSetup.getWithStartExpanded();
+        mRvHeight = dpToPx(getContext(), mSetup.getOverlayRecyclerViewHeight());
+        mButtonHeight = dpToPx(getContext(), 36);
 
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Point windowDimen = new Point();
         mWindowManager.getDefaultDisplay().getSize(windowDimen);
-
-        int buttonHeight = dpToPx(context, 36);
-        int desiredLayoutHeight = dpToPx(context, setup.getOverlayHeight());
-        int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
 
         // Create layout and get views
         View view = LayoutInflater.from(context).inflate(R.layout.overlay, null, false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.rvLogs);
         mLabel = (TextView)view.findViewById(R.id.tvLabel);
         mLabelErrors = (TextView)view.findViewById(R.id.tvLabelError);
+        mLLHeader = (LinearLayout)view.findViewById(R.id.llHeader);
         mCloseButton = (ImageView)view.findViewById(R.id.ivClose);
         mCollapseExpandButton = (ImageView)view.findViewById(R.id.ivCollapseExpand);
         mPauseButton = (ImageView)view.findViewById(R.id.ivPause);
@@ -96,19 +131,21 @@ class OverlayView extends FrameLayout
             public void onClick(View v)
             {
                 mExpanded = !mExpanded;
-                updateViewState(false);
+                updateRecyclerViewHeight(true);
+                updateViewState(true);
                 updateExpandButtonIcon();
             }
         });
         updateExpandButtonIcon();
         updateFilterButtonIcon(minimumVisibleLogPriority);
-        mLLFilters.setVisibility(View.GONE);
+        updateFilterButtonsHeight(false);
         mFilterButton.setOnClickListener(new OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                mLLFilters.setVisibility(mLLFilters.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                mFilterShown = !mFilterShown;
+                updateFilterButtonsHeight(true);
                 updateViewState(true);
             }
         });
@@ -146,7 +183,8 @@ class OverlayView extends FrameLayout
                     priority = Log.ERROR;
                 mOverlayListener.onFilterChanged(priority);
                 updateErrorFilter(priority);
-                mLLFilters.setVisibility(View.GONE);
+                mFilterShown = false;
+                updateFilterButtonsHeight(true);
                 updateViewState(true);
             }
         };
@@ -163,7 +201,6 @@ class OverlayView extends FrameLayout
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setBackgroundColor(setup.getBackgroundColor());
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.getLayoutParams().height = layoutHeight - buttonHeight;
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
@@ -175,13 +212,47 @@ class OverlayView extends FrameLayout
                     updateLabels(null);
             }
         });
-        mRecyclerView.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
+        updateRecyclerViewHeight(false);
 
         // Add view
         addView(view);
 
         // Attach and display View
         mWindowManager.addView(this, calcWindowParams(false));
+    }
+
+    private void updateRecyclerViewHeight(boolean animate)
+    {
+        int expandedHeight = dpToPx(mRecyclerView.getContext(), mSetup.getOverlayRecyclerViewHeight());
+//        int rvHeight = expandedHeight;
+        int rvHeight = mExpanded ? expandedHeight : 0;
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)mRecyclerView.getLayoutParams();
+        lp.height = rvHeight;
+        mRecyclerView.setLayoutParams(lp);
+
+//        if (animate)
+//        {
+//            if (mExpanded)
+//                updateViewState(true);
+//
+//            TranslateAnimation translate1 = new TranslateAnimation(0f, 0f, mExpanded ? expandedHeight : 0f, mExpanded ? 0f : expandedHeight);
+//            translate1.setFillAfter(false);
+//            translate1.setDuration(500);
+//            mRecyclerView.startAnimation(translate1);
+//            TranslateAnimation translate2 = new TranslateAnimation(0f, 0f, mExpanded ? expandedHeight : 0f, mExpanded ? 0f : expandedHeight);
+//            translate2.setFillAfter(false);
+//            translate2.setDuration(500);
+//            if (!mExpanded)
+//                translate2.setAnimationListener(mAnimationListener);
+//            mLLHeader.startAnimation(translate2);
+//        }
+    }
+
+    private void updateFilterButtonsHeight(boolean animate)
+    {
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams)mLLFilters.getLayoutParams();
+        lp.height = mFilterShown ? RelativeLayout.LayoutParams.WRAP_CONTENT : 0;
+        mLLFilters.setLayoutParams(lp);
     }
 
     private void updateLabels(Integer index)
@@ -195,7 +266,7 @@ class OverlayView extends FrameLayout
 
     public void checkOrientation(int orientation)
     {
-        updateViewState(false);
+        updateViewState(true);
     }
 
     private void updateExpandButtonIcon()
@@ -227,55 +298,57 @@ class OverlayView extends FrameLayout
         mFilterButton.setText(label);
     }
 
-    private void updateViewState(boolean disableAnimations)
+    private void updateViewState(boolean reuseParams)
     {
-        mRecyclerView.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
-        mWindowManager.updateViewLayout(this, calcWindowParams(disableAnimations));
+        mWindowManager.updateViewLayout(this, calcWindowParams(reuseParams));
     }
 
-    private WindowManager.LayoutParams calcWindowParams(boolean disableAnimations)
+    private WindowManager.LayoutParams calcWindowParams(boolean reuseParams)
     {
-        Point windowDimen = new Point();
-        mWindowManager.getDefaultDisplay().getSize(windowDimen);
-
-        int buttonHeight = dpToPx(getContext(), 36);
-        int desiredLayoutHeight = dpToPx(getContext(), mSetup.getOverlayHeight());
-        if (!mExpanded)
-            desiredLayoutHeight = buttonHeight;
-        if (mLLFilters.getVisibility() == View.VISIBLE)
-            desiredLayoutHeight += 5 * buttonHeight;
-        int layoutHeight = desiredLayoutHeight < windowDimen.y ? desiredLayoutHeight : windowDimen.y;
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                layoutHeight,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT);
-        lp.gravity = Gravity.TOP | Gravity.LEFT;
-        lp.x = 0;
-        lp.y = windowDimen.y - layoutHeight;
-
-        // Deactivate animations
-        if (disableAnimations)
+        WindowManager.LayoutParams lp = (WindowManager.LayoutParams)getLayoutParams();
+        if (!reuseParams)
         {
-            lp.windowAnimations = 0;
-            Field field = null;
-            try
+            lp = new WindowManager.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    calcHeight(),//ViewGroup.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_PHONE,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT);
+
+            lp.gravity = Gravity.BOTTOM | Gravity.LEFT;
+            lp.x = 0;
+            lp.y = 0;
+
+            // Deactivate animations
+            if (true)
             {
-                field = WindowManager.LayoutParams.class.getDeclaredField("privateFlags");
-                field.setAccessible(true);
-                int flag = field.getInt(lp);
-                flag |= 0x00000040;
-                field.set(lp, flag);
-            } catch (NoSuchFieldException e)
-            {
-            } catch (IllegalAccessException e)
-            {
+                lp.windowAnimations = 0;
+                Field field = null;
+                try
+                {
+                    field = WindowManager.LayoutParams.class.getDeclaredField("privateFlags");
+                    field.setAccessible(true);
+                    int flag = field.getInt(lp);
+                    flag |= 0x00000040;
+                    field.set(lp, flag);
+                }
+                catch (NoSuchFieldException e)
+                {
+                }
+                catch (IllegalAccessException e)
+                {
+                }
             }
         }
+        else
+            lp.height = calcHeight();
 
         return lp;
+    }
+
+    private int calcHeight()
+    {
+        return (mExpanded ? mRvHeight + mButtonHeight : mButtonHeight) + (mFilterShown ? mButtonHeight * 5 : 0);
     }
 
     private int dpToPx(Context context, int dp)
@@ -299,7 +372,7 @@ class OverlayView extends FrameLayout
 
     void showView()
     {
-        mWindowManager.addView(this, calcWindowParams(false));
+        mWindowManager.addView(this, calcWindowParams(true));
     }
 
     void updateErrorFilter(int minimumVisibleLogPriority)
