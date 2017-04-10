@@ -18,7 +18,7 @@ public class FileLoggingSetup
 
     // DEFAULT SETUP
     int mLogsToKeep = 7;
-    String mLogPattern = "%d{HH:mm:ss.SSS}\t%logger{36}\t%msg%n";
+    String mLogPattern = "%d\t%logger{36}\t%msg%n";
     String mFileName = "log";
     String mFileExtension= "log";
 
