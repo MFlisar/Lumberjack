@@ -1,4 +1,4 @@
-###Lumberjack [![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
+### Lumberjack [![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
 
 ### What does it do?
 
@@ -46,7 +46,7 @@ dependencies {
 }
 ```
 
-###Example - LOGGING
+### Example - LOGGING
 
 The logger is simply used like following:
 
@@ -65,7 +65,7 @@ L.d(L.labeledValueBuilder()
 ```
 
 
-###Example - OUTPUT
+### Example - OUTPUT
 
 This is what the demo setup will print out (to your file, to the notification, to console, to the overlay). It has pretty printing enabled and prints first 5 values of an array automatically. It as well prints caller class and group combined as tag. The demo shows that
 
@@ -116,10 +116,10 @@ java.lang.Throwable: ERROR
 [MainActivity:54 onCreate]: String=Value, Integer=999, Long=5 (MainActivity.java:54)
 ```
 
-###Usage
+### Usage
 
 The best place to start is the [WIKI](https://github.com/MFlisar/Lumberjack/wiki) and the [Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java).
 
-###Credits
+### Credits
 
 The overlay logger is based on Hannes Dorfmann's DebugOverlay: https://github.com/sockeqwe/debugoverlay
