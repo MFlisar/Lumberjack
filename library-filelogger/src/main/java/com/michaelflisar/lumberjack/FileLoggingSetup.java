@@ -18,7 +18,7 @@ public class FileLoggingSetup
 
     // DEFAULT SETUP
     int mLogsToKeep = 7;
-    String mLogPattern = "%d\t%logger{36}\t%msg%n";
+    String mLogPattern = "%d\t%msg%n";
     String mFileName = "log";
     String mFileExtension= "log";
 
@@ -99,7 +99,7 @@ public class FileLoggingSetup
      * define the mode you want to use
      * Select between {@link Mode#DateFiles} and {@link Mode#NumberedFiles}
      * {@link Mode#DateFiles} will create a log file per day
-     * {@link Mode#NumberedFiles} will create a new log file after the size defined via {@link FileLoggingSetup#withNumberedFileSizeLimit(String)} is reached
+     * {@link Mode#NumberedFiles} will create a new_settings log file after the size defined via {@link FileLoggingSetup#withNumberedFileSizeLimit(String)} is reached
      *
      * @param mode the mode you want
      */

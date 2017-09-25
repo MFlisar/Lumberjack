@@ -184,6 +184,30 @@ public class L
     }
 
     // --------------------
+    // Logging - Priority
+    // --------------------
+
+    public static void log(int priority, String message, Object... args)
+    {
+        new LogBuilder().log(priority, message, args);
+    }
+
+    public static void log(int priority, Throwable t, String message, Object... args)
+    {
+        new LogBuilder().log(priority, t, message, args);
+    }
+
+    public static void log(int priority, Throwable t)
+    {
+        new LogBuilder().log(priority, t);
+    }
+
+    public static void log(int priority, LogLabelValuePairsBuilder builder)
+    {
+        new LogBuilder().log(priority, "%s", builder.prepareLog());
+    }
+
+    // --------------------
     // Formatter
     // --------------------
 
