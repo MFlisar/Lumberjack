@@ -14,17 +14,17 @@ android {
     }
     else
     {
-        compileSdkVersion 24
-        buildToolsVersion "24.0.2"
+        compileSdkVersion 27
+        buildToolsVersion "27.0.3"
         defaultConfig {
             minSdkVersion 16
-            targetSdkVersion 24
+            targetSdkVersion 27
         }
     }
 
     if (!project.hasProperty('versions.supportLib'))
     {
-        project.ext.set("versions", ["supportLib" : "24.2.1"]);
+        project.ext.set("versions", ["supportLib" : "27.0.2"]);
     }
 }
 
