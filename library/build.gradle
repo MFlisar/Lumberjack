@@ -15,14 +15,14 @@ android {
     else
     {
         compileSdkVersion 25
-        buildToolsVersion "25.0.2"
+        buildToolsVersion "27.0.3"
         defaultConfig {
             minSdkVersion 16
-            targetSdkVersion 25
+            targetSdkVersion 27
         }
     }
 }
 
 dependencies {
-    compile 'com.jakewharton.timber:timber:4.3.1'
+    compile 'com.jakewharton.timber:timber:4.6.0'
 }
