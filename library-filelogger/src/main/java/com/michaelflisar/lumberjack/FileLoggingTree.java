@@ -1,5 +1,7 @@
 package com.michaelflisar.lumberjack;
 
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 
 import com.michaelflisar.lumberjack.filter.ILogFilter;
@@ -12,36 +14,41 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.FixedWindowRollingPolicy;
 import ch.qos.logback.core.rolling.RollingFileAppender;
-import ch.qos.logback.core.rolling.RollingPolicyBase;
 import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TriggeringPolicy;
 import timber.log.BaseTree;
-import timber.log.Lumberjack;
 
 /**
  * Created by Michael on 17.10.2016.
  */
 
-public class FileLoggingTree extends BaseTree
-{
+public class FileLoggingTree extends BaseTree {
     public static final String DATE_FILE_NAME_PATTERN = "%s_\\d{8}.%s";
     public static final String NUMBERED_FILE_NAME_PATTERN = "%s\\d*.%s";
 
+    private HandlerThread mHandlerThread = null;
+    private Handler mBackgroundHandler = null;
+
     static Logger mLogger = LoggerFactory.getLogger(FileLoggingTree.class);//Logger.ROOT_LOGGER_NAME);
 
-    public FileLoggingTree(boolean combineTags, FileLoggingSetup setup, ILogFilter filter)
-    {
+    public FileLoggingTree(boolean combineTags, FileLoggingSetup setup, ILogFilter filter) {
         super(combineTags, false, filter);
 
-        if (setup == null)
+        if (setup == null) {
             throw new RuntimeException("You can't create a FileLoggingTree without providing a setup!");
+        }
+
+        if (setup.logOnBackgroundThread) {
+            mHandlerThread = new HandlerThread("FileLoggingTree");
+            mHandlerThread.start();
+            mBackgroundHandler = new Handler(mHandlerThread.getLooper());
+        }
 
         init(setup);
     }
 
-    private void init(FileLoggingSetup setup)
-    {
+    private void init(FileLoggingSetup setup) {
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         lc.reset();
 
@@ -59,10 +66,8 @@ public class FileLoggingTree extends BaseTree
 
         // 3) FileLoggingSetup - Rolling policy (one log per day)
         TriggeringPolicy<ILoggingEvent> triggeringPolicy = null;
-        switch (setup.mMode)
-        {
-            case DateFiles:
-            {
+        switch (setup.mMode) {
+            case DateFiles: {
                 TimeBasedRollingPolicy timeBasedRollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
                 timeBasedRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
                 timeBasedRollingPolicy.setMaxHistory(setup.mLogsToKeep);
@@ -73,8 +78,7 @@ public class FileLoggingTree extends BaseTree
                 triggeringPolicy = timeBasedRollingPolicy;
                 break;
             }
-            case NumberedFiles:
-            {
+            case NumberedFiles: {
                 FixedWindowRollingPolicy fixedWindowRollingPolicy = new FixedWindowRollingPolicy();
                 fixedWindowRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "%i." + setup.mFileExtension);
                 fixedWindowRollingPolicy.setMinIndex(1);
@@ -108,11 +112,22 @@ public class FileLoggingTree extends BaseTree
     }
 
     @Override
-    protected void doLog(int priority, String tag, String message, Throwable t)
-    {
-        String logMessage = L.getFormatter().formatLine(tag, message);
-        switch (priority)
-        {
+    protected void doLog(final int priority, String tag, String message, Throwable t) {
+        final String logMessage = L.getFormatter().formatLine(tag, message);
+        if (mBackgroundHandler == null) {
+            doRealLog(priority, logMessage);
+        } else {
+            mBackgroundHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    doRealLog(priority, logMessage);
+                }
+            });
+        }
+    }
+
+    private void doRealLog(int priority, String logMessage) {
+        switch (priority) {
             case Log.VERBOSE:
                 mLogger.debug(logMessage);
                 break;

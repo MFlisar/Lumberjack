@@ -6,10 +6,8 @@ import android.content.Context;
  * Created by Michael on 17.10.2016.
  */
 
-public class FileLoggingSetup
-{
-    public enum Mode
-    {
+public class FileLoggingSetup {
+    public enum Mode {
         DateFiles,
         NumberedFiles
     }
@@ -20,7 +18,7 @@ public class FileLoggingSetup
     int mLogsToKeep = 7;
     String mLogPattern = "%d\t%msg%n";
     String mFileName = "log";
-    String mFileExtension= "log";
+    String mFileExtension = "log";
 
     // Mode
     Mode mMode = Mode.DateFiles;
@@ -28,8 +26,9 @@ public class FileLoggingSetup
     // MODE: NumberedFiles
     String mNumberedFileSizeLimit = "1MB";
 
-    public FileLoggingSetup(Context context)
-    {
+    boolean logOnBackgroundThread = false;
+
+    public FileLoggingSetup(Context context) {
         // setup a default folder in the apps default path
         mFolder = context.getFileStreamPath("").getAbsolutePath();
     }
@@ -40,8 +39,7 @@ public class FileLoggingSetup
      *
      * @param folderPath The path of the folder
      */
-    public FileLoggingSetup withFolder(String folderPath)
-    {
+    public FileLoggingSetup withFolder(String folderPath) {
         mFolder = folderPath;
         return this;
     }
@@ -52,8 +50,7 @@ public class FileLoggingSetup
      *
      * @param fileName The basic file name of your log files
      */
-    public FileLoggingSetup withFileName(String fileName)
-    {
+    public FileLoggingSetup withFileName(String fileName) {
         mFileName = fileName;
         return this;
     }
@@ -64,8 +61,7 @@ public class FileLoggingSetup
      *
      * @param fileExtension The file extension of your log files
      */
-    public FileLoggingSetup withFileExtension(String fileExtension)
-    {
+    public FileLoggingSetup withFileExtension(String fileExtension) {
         mFileExtension = fileExtension;
         return this;
     }
@@ -76,8 +72,7 @@ public class FileLoggingSetup
      *
      * @param logsToKeep number of log files to keep
      */
-    public FileLoggingSetup withLogsToKeep(int logsToKeep)
-    {
+    public FileLoggingSetup withLogsToKeep(int logsToKeep) {
         mLogsToKeep = logsToKeep;
         return this;
     }
@@ -89,8 +84,7 @@ public class FileLoggingSetup
      *
      * @param pattern the log pattern
      */
-    public FileLoggingSetup withPattern(String pattern)
-    {
+    public FileLoggingSetup withPattern(String pattern) {
         mLogPattern = pattern;
         return this;
     }
@@ -103,8 +97,7 @@ public class FileLoggingSetup
      *
      * @param mode the mode you want
      */
-    public FileLoggingSetup withMode(Mode mode)
-    {
+    public FileLoggingSetup withMode(Mode mode) {
         mMode = mode;
         return this;
     }
@@ -116,9 +109,19 @@ public class FileLoggingSetup
      *
      * @param size the size
      */
-    public FileLoggingSetup withNumberedFileSizeLimit(String size)
-    {
+    public FileLoggingSetup withNumberedFileSizeLimit(String size) {
         mNumberedFileSizeLimit = size;
+        return this;
+    }
+
+    /**
+     * define if the logging should happen on background thread to avoid IO operations on main thread
+     * DEFAULT: false
+     *
+     * @param enabled true if background thread should be used
+     */
+    public FileLoggingSetup withLogOnBackgroundThread(boolean enabled) {
+        logOnBackgroundThread = enabled;
         return this;
     }
 }

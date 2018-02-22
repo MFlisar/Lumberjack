@@ -62,6 +62,11 @@ public class L
     {
         return new LogBuilder().withCallStackCorrection(correction).withDecreaseCallStackCorrection();
     }
+
+    public static LogBuilder onlyIf(boolean enable)
+    {
+        return new LogBuilder().withIf(enable).withDecreaseCallStackCorrection();
+    }
     
     // --------------------
     // Logging - VERBOSE - direct forwards to builder
@@ -276,6 +281,7 @@ public class L
 
     public static class LogBuilder
     {
+        boolean enable = true;
         String group = null;
         Integer callStackCorrection = null;
 
@@ -290,6 +296,12 @@ public class L
         public LogBuilder withGroup(String group)
         {
             this.group = group;
+            return this;
+        }
+
+        public LogBuilder withIf(boolean enable)
+        {
+            this.enable = enable;
             return this;
         }
 
@@ -443,6 +455,9 @@ public class L
 
         public void log(int priority, String message, Object... args)
         {
+            if (!enable)
+                return;
+
             // 1) set tag
             updateTag(group);
 
