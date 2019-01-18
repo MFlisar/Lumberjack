@@ -81,7 +81,7 @@ This is what the demo setup will print out (to your file, to the notification, t
         at java.lang.reflect.Method.invoke(Native Method)
         at com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:327)
         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1374)
-CUSTOM-TAG: 4 - Test message with custom tag (MainActivity.kt:29)
+[<CUSTOM-TAG> MainActivity:29 onCreate]: 4 - Test message with custom tag (MainActivity.kt:29)
 [MainActivity:32 onCreate]: 5 - Test log based on boolen flag  (MainActivity.kt:32)	
 [MainActivity$onCreate:50 run]: 8 - Timer data: Started: true | Laps: 1 | Total = 1501ms | Running: false (MainActivity.kt:50)
 ```

@@ -35,14 +35,15 @@ abstract class BaseTree : Timber.Tree() {
         var callStackCorrection = getCallStackCorrection() ?: 0
         lastStackData = StackData.create(CALL_STACK_INDEX + callStackCorrection)
 
-        // 2) return default tag if one exists
-        val tag = super.getTag()
-        if (tag != null) {
-            return tag
-        }
+        // 2) get custom tag if one exists
+        val customTag = super.getTag()
 
-        // 3) create a custom tag for the logs => we use the
-        return "[${lastStackData.getStackTag()}]"
+        // 3) create a custom tag for the logs
+        return if (customTag != null) {
+            "[<$customTag> ${lastStackData.getStackTag()}]"
+        } else {
+            "[${lastStackData.getStackTag()}]"
+        }
     }
 
     protected fun formatLine(tag: String?, message: String) = "[$tag]: $message"

@@ -31,6 +31,5 @@ object FileLoggingUtil {
             FileLoggingSetup.Mode.DateFiles -> throw RuntimeException("Can't get file, because for the date mode this file will always change!")
             FileLoggingSetup.Mode.NumberedFiles -> return setup.folder + "/" + setup.fileName + "." + setup.fileExtension
         }
-        return null
     }
 }

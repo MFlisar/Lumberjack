@@ -81,7 +81,7 @@ class FileLoggingTree(setup: FileLoggingSetup?) : BaseTree() {
                 fixedWindowRollingPolicy.start()
             }
         }
-        triggeringPolicy!!.start()
+        triggeringPolicy.start()
 
         rollingFileAppender.setTriggeringPolicy(triggeringPolicy)
         rollingFileAppender.setEncoder(encoder1)
