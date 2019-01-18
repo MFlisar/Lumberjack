@@ -39,8 +39,6 @@ dependencies {
 }
 ```
 
-### TODO - Adjust to kotlin
-
 ### Example - LOGGING
 
 The logger is simply used like following:
