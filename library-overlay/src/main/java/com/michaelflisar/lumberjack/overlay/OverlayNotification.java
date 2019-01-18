@@ -3,8 +3,8 @@ package com.michaelflisar.lumberjack.overlay;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.michaelflisar.lumberjack.OverlayLoggingSetup;
 import com.michaelflisar.lumberjack.overlay.OverlayService;

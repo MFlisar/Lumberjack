@@ -1,16 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion setup.compileSdk
-    buildToolsVersion setup.buildTools
 
     defaultConfig {
         applicationId "com.michaelflisar.lumberjack.demo"
         minSdkVersion setup.minSdk
         targetSdkVersion setup.targetSdk
         vectorDrawables.useSupportLibrary = true
-
-//        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -22,13 +20,13 @@ android {
 
 dependencies {
 
-    compile "com.android.support:support-v4:${versions.supportLib}"
-    compile "com.android.support:support-core-ui:${versions.supportLib}"
-    compile "com.android.support:appcompat-v7:${versions.supportLib}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlinVersion"
 
-    compile project(':lumberjack-library')
-    compile project(':lumberjack-filelogger')
-    compile project(':lumberjack-notification')
-    debugCompile project(':lumberjack-overlay')
-    releaseCompile project(':lumberjack-overlay-noop')
+    implementation "androidx.appcompat:appcompat:${androidx.appcompat}"
+
+    implementation project(':lumberjack-library')
+    implementation project(':lumberjack-filelogger')
+//    compile project(':lumberjack-notification')
+//    debugCompile project(':lumberjack-overlay')
+//    releaseCompile project(':lumberjack-overlay-noop')
 }

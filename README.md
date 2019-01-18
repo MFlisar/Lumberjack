@@ -6,18 +6,14 @@
 
 A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber) logging library with following *features*:
 
-* defining group of log messages and filter them, even filter them on a per tree base
-* register custom log formatters to *automatically* format classes in your logs
-* automatically log first n values of lists/arrays (this *automatically* respects custom log formatters for classes in the collections!)
 * trees for:
   * logging to console (with the ability to add clickable links to the calling line in the calling class)
   * files (one file per day, select between numbered log file names or date based log file names)
-  * notification (with filter functionality per group, next/prev log buttons and more...)
-  * overlay logging (expandable/collapseable overlay, show errors only, pausing)
-* customise each tree to whatever you want or extend them
+* customise each tree to whatever you want or extend them or add your own tree
 * little utility class to log time and laps
+* by default, this library will create tags if no custom tag is provided like "[CLASSNAME:LINE] FUNCTION" e.g. `[MainActivity:32 onCreate]: Some log`
 
-**All features are splitted into seperate modules, just include the modules you want to use!**
+**All features are splitted into separate modules, just include the modules you want to use!**
 
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
@@ -34,25 +30,24 @@ repositories {
 ```groovy
 dependencies {
     // base module (NECESSARY)
-	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:2.0.4'
+	compile 'com.github.MFlisar.Lumberjack:lumberjack-library:3.0.0'
     // modules (OPTIONAL)
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:2.0.4'
-    compile 'com.github.MFlisar.Lumberjack:lumberjack-notification:2.0.4'
-	debugCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay:2.0.4'
-	releaseCompile 'com.github.MFlisar.Lumberjack:lumberjack-overlay-noop:2.0.4'
+    compile 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:3.0.0'
     
     // ALTERNATIVELY you can add ALL modules at once like following
-    // compile 'com.github.MFlisar:Lumberjack:2.0.4'
+    // compile 'com.github.MFlisar:Lumberjack:3.0.0'
 }
 ```
+
+### TODO - Adjust to kotlin
 
 ### Example - LOGGING
 
 The logger is simply used like following:
 
-```groovy
+```kotlin
 // this simply logs a message
-L.d("Simpe log");
+L.d { "Simpe log" }
 // arrays/lists can simple be logged directly, the formatter will take care of it
 L.d("Simple array log: %s", new ArrayList<>(Arrays.asList("array value 1", "array value 2")));
 // group your logs, the formatter takes care of printing the groups and you can filter out groups if you want to

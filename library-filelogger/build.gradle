@@ -1,37 +1,25 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.MFlisar'
 
 android {
-    if (project.hasProperty('setup.compileSdk'))
-    {
-        compileSdkVersion setup.compileSdk
-        buildToolsVersion setup.buildTools
-        defaultConfig {
-            minSdkVersion setup.minSdk
-            targetSdkVersion setup.targetSdk
-        }
-    }
-    else
-    {
-        compileSdkVersion 27
-        buildToolsVersion "27.0.3"
-        defaultConfig {
-            minSdkVersion 16
-            targetSdkVersion 27
-        }
+    compileSdkVersion setup.compileSdk ?: 28
+    defaultConfig {
+        minSdkVersion setup.minSdk ?: 16
+        targetSdkVersion setup.targetSdk ?: 28
     }
 }
 
 dependencies {
-    compile project(':lumberjack-library')
 
-    compile 'org.slf4j:slf4j-api:1.7.21'
-    compile ('com.github.tony19:logback-android:1.1.1-8'){
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlinVersion"
+
+    implementation project(':lumberjack-library')
+
+    implementation "org.slf4j:slf4j-api:${versions.slf4j ?: '1.7.21'}"
+    implementation("com.github.tony19:logback-android:${versions.logback ?: '1.1.1-8'}") {
         exclude group: 'com.google.android', module: 'android'
     }
-//    compile ('com.github.tony19:logback-android-classic:1.1.1-6') {
-//        exclude group: 'com.google.android', module: 'android'
-//    }
 }

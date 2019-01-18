@@ -4,31 +4,13 @@ apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.MFlisar'
 
 android {
-    if (project.hasProperty('setup.compileSdk'))
-    {
-        compileSdkVersion setup.compileSdk
-        buildToolsVersion setup.buildTools
-        defaultConfig {
-            minSdkVersion setup.minSdk
-            targetSdkVersion setup.targetSdk
-        }
-    }
-    else
-    {
-        compileSdkVersion 27
-        buildToolsVersion "27.0.3"
-        defaultConfig {
-            minSdkVersion 16
-            targetSdkVersion 27
-        }
-    }
-
-    if (!project.hasProperty('versions.supportLib'))
-    {
-        project.ext.set("versions", ["supportLib" : "27.0.2"]);
+    compileSdkVersion setup.compileSdk ?: 28
+    defaultConfig {
+        minSdkVersion setup.minSdk ?: 16
+        targetSdkVersion setup.targetSdk ?: 28
     }
 }
 
 dependencies {
-    compile project(':lumberjack-library')
+    implementation project(':lumberjack-library')
 }
