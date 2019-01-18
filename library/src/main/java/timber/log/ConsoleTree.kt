@@ -50,8 +50,7 @@ class ConsoleTree(val appendClickableLink: Boolean = true) : BaseTree() {
     }
 
     private fun appendLink(message: String): String {
-        val stackData = StackData.create(CALL_STACK_INDEX)
-        val link = stackData.getLink()
+        val link = lastStackData.getLink()
         val lines = message.split("\r\n|\r|\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         if (lines.size <= 1) {
             return message + " (" + link + ")"

@@ -33,17 +33,4 @@ class StackData(private val className: String, private val simpleFileName: Strin
     fun getStackTag() = "$simpleClassName:$line $methodName"
 
     fun getLink() = "$simpleFileName:$line"
-
-    fun appendLink(source: String): String {
-        val lines = source.split("\r\n|\r|\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        if (lines.size <= 1)
-            return "$source (${getLink()})"
-        else {
-            lines[0] = lines[0] + " (" + getLink() + ")"
-            val builder = StringBuilder()
-            for (s in lines)
-                builder.append(s).append("\n")
-            return builder.toString()
-        }// this makes sure that links always works, like for example if pretty print for collections is enabled
-    }
 }
