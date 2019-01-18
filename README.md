@@ -90,7 +90,15 @@ CUSTOM-TAG: 4 - Test message with custom tag (MainActivity.kt:29)
 
 ### Usage
 
-The best place to start is the [WIKI](https://github.com/MFlisar/Lumberjack/wiki) and the [Demo Activity](https://github.com/MFlisar/Lumberjack/blob/master/demo/app/src/main/java/com/michaelflisar/lumberjack/demo/MainActivity.java).
+Once in your app do following:
+
+```kotlin
+// simply console logger
+L.plant(ConsoleTree())
+// a file logger
+val fileLoggingSetup = FileLoggingSetup(context) // default setup keeps log files for 7 days and creates a new file each day
+L.plant(FileLoggingTree(fileLoggingSetup))
+```
 
 ### Credits
 
