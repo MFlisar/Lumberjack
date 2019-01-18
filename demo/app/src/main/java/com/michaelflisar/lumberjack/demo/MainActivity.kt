@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // Test 1: a few simple test messages
         L.d { "1 - Main activity created" }
         L.d { "2a - Test message - count: $count" } // kotlin style args
-        L.d({ "2b - Test message - count: %d" }, count) // java style args
+        L.d("2b - Test message - count: %d", count) // java style args - non lazy!!!
         L.e(Throwable("ERROR"), { "3 - Test error" })
         L.tag("CUSTOM-TAG").d { "4 - Test message with custom tag" }
 
@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             T.stop(timer1)
             L.d { "8 - Timer data: ${T.print(timer1)}" }
         }.run()
+
+        JavaTest.test()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
