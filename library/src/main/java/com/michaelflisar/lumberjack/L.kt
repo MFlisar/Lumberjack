@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack
 
+import timber.log.BaseTree
 import timber.log.Timber
 
 /*
@@ -29,6 +30,11 @@ object L {
 
     fun tag(tag: String): L {
         Timber.tag(tag)
+        return L
+    }
+
+    fun callStackCorrection(value: Int): L {
+        setCallStackCorrection(value)
         return L
     }
 
@@ -72,7 +78,6 @@ object L {
 
     inline fun wtf(message: () -> String) = log { Timber.wtf(message()) }
 
-
     // --------------
     // timber forward functions
     // --------------
@@ -94,6 +99,16 @@ object L {
     internal inline fun log(logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
             logBlock()
+        }
+    }
+
+    internal fun setCallStackCorrection(correction: Int) {
+        val forest = Timber.forest()
+        var i = 0
+        for (tree in forest) {
+            if (tree is BaseTree) {
+                tree.setCallStackCorrection(correction)
+            }
         }
     }
 }
