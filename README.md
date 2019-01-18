@@ -101,4 +101,5 @@ L.plant(FileLoggingTree(fileLoggingSetup))
 ### Credits
 
 The overlay logger is based on Hannes Dorfmann's DebugOverlay: https://github.com/sockeqwe/debugoverlay
+
 The idea for kotlin inline functions is based on https://github.com/ajalt/timberkt
