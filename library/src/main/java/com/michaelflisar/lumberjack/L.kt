@@ -104,7 +104,6 @@ object L {
 
     internal fun setCallStackCorrection(correction: Int) {
         val forest = Timber.forest()
-        var i = 0
         for (tree in forest) {
             if (tree is BaseTree) {
                 tree.setCallStackCorrection(correction)

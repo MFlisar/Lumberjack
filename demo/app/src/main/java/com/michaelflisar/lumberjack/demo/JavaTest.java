@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack.demo;
 
+import com.michaelflisar.gallery.logs.LabeledValueBuilder;
 import com.michaelflisar.lumberjack.L2;
 
 public class JavaTest
@@ -14,5 +15,12 @@ public class JavaTest
         L2.e(new Throwable("ERROR"), "JAVA 4 - Test error");
 
         L2.tag("CUSTOM-TAG").d("JAVA 5 - Test message with custom tag");
+
+        L2.d(new LabeledValueBuilder()
+                // Add pairs of <String, Object> here...
+                .addPair("Value 1", 1)
+                .addPair("Value 2", 5L)
+                .addPair("Value 3", 3.5f)
+                .build());
     }
 }

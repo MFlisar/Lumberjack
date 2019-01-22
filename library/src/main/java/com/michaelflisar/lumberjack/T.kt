@@ -102,7 +102,7 @@ object T {
 
         val lap = lap(key) ?: return "NULL"
         val data = getTimer(key)
-        val total = data.getLastLapTotal()!!
+        val total = data.getLastLapTotal() ?: "NULL"
         return "Total = " + total + "ms | Lap = " + lap + "ms"
     }
 
@@ -126,17 +126,17 @@ object T {
 
     fun getStart(key: Any): Long? {
         val data = mTimers[key]
-        return data!!.getStart()
+        return data?.getStart()
     }
 
     fun getLaps(key: Any): List<Long>? {
         val data = mTimers[key]
-        return data!!.getLaps()
+        return data?.getLaps()
     }
 
     fun getEnd(key: Any): Long? {
         val data = mTimers[key]
-        return data!!.getEnd()
+        return data?.getEnd()
     }
 
 // ------------------

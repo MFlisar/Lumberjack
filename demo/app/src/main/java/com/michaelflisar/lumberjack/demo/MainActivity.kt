@@ -46,8 +46,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             Thread.sleep(500)
             T.lap(timer1)
             Thread.sleep(1000)
+            L.d { "8 - printAndLap: ${T.printAndLap(timer1)}" }
+            Thread.sleep(1000)
             T.stop(timer1)
-            L.d { "8 - Timer data: ${T.print(timer1)}" }
+            L.d { "9 - Timer data: ${T.print(timer1)}" }
         }.run()
 
         JavaTest.test()
