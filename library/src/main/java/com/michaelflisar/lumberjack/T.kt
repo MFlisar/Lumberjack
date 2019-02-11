@@ -102,7 +102,7 @@ object T {
 
         val lap = lap(key) ?: return "NULL"
         val data = getTimer(key)
-        val total = data.getLastLapTotal() ?: "NULL"
+        val total = data.getTotal() ?: "NULL"
         return "Total = " + total + "ms | Lap = " + lap + "ms"
     }
 
