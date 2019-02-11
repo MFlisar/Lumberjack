@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack.data
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -7,6 +8,10 @@ import java.util.*
  */
 
 class TimerData {
+
+    companion object {
+        val TIME_FORMATTER = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+    }
 
     private var mStart: Long = 0
     private var mEnd: Long = 0
@@ -25,6 +30,8 @@ class TimerData {
     fun getLastLapTotal(): Long? = if (wasStarted() || mLaps == null) null else mLaps!![mLaps!!.size - 1] - mStart
 
     fun getTotal(): Long? = if (wasEnded()) mEnd - mStart else (if (wasStarted()) System.currentTimeMillis() - mStart else null)
+
+    fun getStartTime() : String = if (wasStarted()) TIME_FORMATTER.format(mStart) else "NOT STARTED"
 
     // -------------
     // helper functions

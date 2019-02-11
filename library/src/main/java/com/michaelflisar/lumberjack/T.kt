@@ -20,10 +20,12 @@ object T {
      * and will reset any already existing data bound to that key
      *
      * @param key the key that this timer should be bound to
+     * @return true, if another timer has been replaced, false if not
      */
-    fun start(key: Any) {
-        clear(key)
+    fun start(key: Any): Boolean {
+        val timerData = clear(key)
         mTimers[key] = TimerData().start()
+        return timerData != null
     }
 
     /**
@@ -52,9 +54,10 @@ object T {
      * Clears all data that exists for a given key
      *
      * @param key the key that the desired timer is bound to
+     * @return the removed data or null, if key did not exist
      */
-    fun clear(key: Any) {
-        mTimers.remove(key)
+    fun clear(key: Any): TimerData? {
+        return mTimers.remove(key)
     }
 
     /**
@@ -69,6 +72,19 @@ object T {
     // ------------------
     // Convenient action functions with pretty result print as result
     // ------------------
+
+    /**
+     * start a time log accessable (and bound to) the provided key
+     * and will reset any already existing data bound to that key
+     *
+     * @param key the key that this timer should be bound to
+     * @return a logable message that the timer has been started
+     */
+    fun printAndStart(key: Any): String {
+        val replaced = start(key)
+        val data = getTimer(key)
+        return "New timer started at ${data.getStartTime()}${if (replaced) " [old timer has been replaced!]" else ""}"
+    }
 
     /**
      * adds a lap to the timer bound to the provider key
@@ -99,7 +115,6 @@ object T {
      * @return the last laps duration and the total duration as a readable string or null, if key does not exist or timer was stopped already
      */
     fun printAndLapTotal(key: Any): String {
-
         val lap = lap(key) ?: return "NULL"
         val data = getTimer(key)
         val total = data.getTotal() ?: "NULL"
