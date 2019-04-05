@@ -17,6 +17,7 @@ import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.rolling.TriggeringPolicy;
+import ch.qos.logback.core.util.FileSize;
 import timber.log.BaseTree;
 
 /**
@@ -87,7 +88,7 @@ public class FileLoggingTree extends BaseTree {
                 fixedWindowRollingPolicy.setContext(lc);
 
                 SizeBasedTriggeringPolicy<ILoggingEvent> sizeBasedTriggeringPolicy = new SizeBasedTriggeringPolicy<>();
-                sizeBasedTriggeringPolicy.setMaxFileSize(setup.mNumberedFileSizeLimit);
+                sizeBasedTriggeringPolicy.setMaxFileSize(FileSize.valueOf(setup.mNumberedFileSizeLimit));
 
                 triggeringPolicy = sizeBasedTriggeringPolicy;
 
