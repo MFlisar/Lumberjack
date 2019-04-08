@@ -7,6 +7,7 @@ import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.rolling.*
+import ch.qos.logback.core.util.FileSize
 import org.slf4j.LoggerFactory
 import timber.log.BaseTree
 
@@ -72,7 +73,7 @@ class FileLoggingTree(setup: FileLoggingSetup?) : BaseTree() {
                 fixedWindowRollingPolicy.context = lc
 
                 val sizeBasedTriggeringPolicy = SizeBasedTriggeringPolicy<ILoggingEvent>()
-                sizeBasedTriggeringPolicy.maxFileSize = setup.numberedFileSizeLimit
+                sizeBasedTriggeringPolicy.maxFileSize = FileSize.valueOf(setup.numberedFileSizeLimit)
 
                 triggeringPolicy = sizeBasedTriggeringPolicy
 

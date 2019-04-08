@@ -5,10 +5,10 @@ apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.MFlisar'
 
 android {
-    compileSdkVersion setup.compileSdk ?: 28
+    compileSdkVersion setup.compileSdk
     defaultConfig {
-        minSdkVersion setup.minSdk ?: 16
-        targetSdkVersion setup.targetSdk ?: 28
+        minSdkVersion setup.minSdk
+        targetSdkVersion setup.targetSdk
     }
 }
 
@@ -18,8 +18,6 @@ dependencies {
 
     implementation project(':lumberjack-library')
 
-    implementation "org.slf4j:slf4j-api:${versions.slf4j ?: '1.7.21'}"
-    implementation("com.github.tony19:logback-android:${versions.logback ?: '1.1.1-8'}") {
-        exclude group: 'com.google.android', module: 'android'
-    }
+    implementation "org.slf4j:slf4j-api:$versions.slf4j"
+    implementation("com.github.tony19:logback-android:$versions.logback")
 }
