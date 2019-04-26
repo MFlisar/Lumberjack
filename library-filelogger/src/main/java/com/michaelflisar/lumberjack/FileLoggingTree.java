@@ -40,7 +40,7 @@ public class FileLoggingTree extends BaseTree {
             throw new RuntimeException("You can't create a FileLoggingTree without providing a setup!");
         }
 
-        if (setup.logOnBackgroundThread) {
+        if (setup.isLogOnBackgroundThread()) {
             mHandlerThread = new HandlerThread("FileLoggingTree");
             mHandlerThread.start();
             mBackgroundHandler = new Handler(mHandlerThread.getLooper());
@@ -56,7 +56,7 @@ public class FileLoggingTree extends BaseTree {
         // 1) FileLoggingSetup - Encoder for File
         PatternLayoutEncoder encoder1 = new PatternLayoutEncoder();
         encoder1.setContext(lc);
-        encoder1.setPattern(setup.mLogPattern);
+        encoder1.setPattern(setup.getLogPattern());
         encoder1.start();
 
         // 2) FileLoggingSetup - rolling file appender
@@ -67,11 +67,11 @@ public class FileLoggingTree extends BaseTree {
 
         // 3) FileLoggingSetup - Rolling policy (one log per day)
         TriggeringPolicy<ILoggingEvent> triggeringPolicy = null;
-        switch (setup.mFileLoggingMode) {
+        switch (setup.getFileLoggingMode()) {
             case DATE_FILES: {
                 TimeBasedRollingPolicy timeBasedRollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
-                timeBasedRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
-                timeBasedRollingPolicy.setMaxHistory(setup.mLogsToKeep);
+                timeBasedRollingPolicy.setFileNamePattern(setup.getFolder() + "/" + setup.getFileName() + "_%d{yyyyMMdd}." + setup.getFileExtension());
+                timeBasedRollingPolicy.setMaxHistory(setup.getLogsToKeep());
                 timeBasedRollingPolicy.setCleanHistoryOnStart(true);
                 timeBasedRollingPolicy.setParent(rollingFileAppender);
                 timeBasedRollingPolicy.setContext(lc);
@@ -81,14 +81,14 @@ public class FileLoggingTree extends BaseTree {
             }
             case NUMBERED_FILES: {
                 FixedWindowRollingPolicy fixedWindowRollingPolicy = new FixedWindowRollingPolicy();
-                fixedWindowRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "%i." + setup.mFileExtension);
+                fixedWindowRollingPolicy.setFileNamePattern(setup.getFolder() + "/" + setup.getFileName() + "%i." + setup.getFileExtension());
                 fixedWindowRollingPolicy.setMinIndex(1);
-                fixedWindowRollingPolicy.setMaxIndex(setup.mLogsToKeep);
+                fixedWindowRollingPolicy.setMaxIndex(setup.getLogsToKeep());
                 fixedWindowRollingPolicy.setParent(rollingFileAppender);
                 fixedWindowRollingPolicy.setContext(lc);
 
                 SizeBasedTriggeringPolicy<ILoggingEvent> sizeBasedTriggeringPolicy = new SizeBasedTriggeringPolicy<>();
-                sizeBasedTriggeringPolicy.setMaxFileSize(FileSize.valueOf(setup.mNumberedFileSizeLimit));
+                sizeBasedTriggeringPolicy.setMaxFileSize(FileSize.valueOf(setup.getNumberedFileSizeLimit()));
 
                 triggeringPolicy = sizeBasedTriggeringPolicy;
 
