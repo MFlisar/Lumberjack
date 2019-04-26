@@ -7,10 +7,6 @@ import android.content.Context;
  */
 
 public class FileLoggingSetup {
-    public enum Mode {
-        DateFiles,
-        NumberedFiles
-    }
 
     String mFolder;
 
@@ -20,10 +16,10 @@ public class FileLoggingSetup {
     String mFileName = "log";
     String mFileExtension = "log";
 
-    // Mode
-    Mode mMode = Mode.DateFiles;
+    // FileLoggingMode
+    FileLoggingMode mFileLoggingMode = FileLoggingMode.DATE_FILES;
 
-    // MODE: NumberedFiles
+    // MODE: NUMBERED_FILES
     String mNumberedFileSizeLimit = "1MB";
 
     boolean logOnBackgroundThread = false;
@@ -90,20 +86,20 @@ public class FileLoggingSetup {
     }
 
     /**
-     * define the mode you want to use
-     * Select between {@link Mode#DateFiles} and {@link Mode#NumberedFiles}
-     * {@link Mode#DateFiles} will create a log file per day
-     * {@link Mode#NumberedFiles} will create a new_settings log file after the size defined via {@link FileLoggingSetup#withNumberedFileSizeLimit(String)} is reached
+     * define the fileLoggingMode you want to use
+     * Select between {@link FileLoggingMode#DATE_FILES} and {@link FileLoggingMode#NUMBERED_FILES}
+     * {@link FileLoggingMode#DATE_FILES} will create a log file per day
+     * {@link FileLoggingMode#NUMBERED_FILES} will create a new_settings log file after the size defined via {@link FileLoggingSetup#withNumberedFileSizeLimit(String)} is reached
      *
-     * @param mode the mode you want
+     * @param fileLoggingMode the fileLoggingMode you want
      */
-    public FileLoggingSetup withMode(Mode mode) {
-        mMode = mode;
+    public FileLoggingSetup withMode(FileLoggingMode fileLoggingMode) {
+        mFileLoggingMode = fileLoggingMode;
         return this;
     }
 
     /**
-     * define the size limit for the file logger with mode {@link Mode#NumberedFiles}
+     * define the size limit for the file logger with mode {@link FileLoggingMode#NUMBERED_FILES}
      * you can use 1KB, 1MB and similar strings
      * DEFAULT: 1MB
      *

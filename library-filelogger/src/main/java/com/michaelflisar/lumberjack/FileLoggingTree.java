@@ -67,8 +67,8 @@ public class FileLoggingTree extends BaseTree {
 
         // 3) FileLoggingSetup - Rolling policy (one log per day)
         TriggeringPolicy<ILoggingEvent> triggeringPolicy = null;
-        switch (setup.mMode) {
-            case DateFiles: {
+        switch (setup.mFileLoggingMode) {
+            case DATE_FILES: {
                 TimeBasedRollingPolicy timeBasedRollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
                 timeBasedRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "_%d{yyyyMMdd}." + setup.mFileExtension);
                 timeBasedRollingPolicy.setMaxHistory(setup.mLogsToKeep);
@@ -79,7 +79,7 @@ public class FileLoggingTree extends BaseTree {
                 triggeringPolicy = timeBasedRollingPolicy;
                 break;
             }
-            case NumberedFiles: {
+            case NUMBERED_FILES: {
                 FixedWindowRollingPolicy fixedWindowRollingPolicy = new FixedWindowRollingPolicy();
                 fixedWindowRollingPolicy.setFileNamePattern(setup.mFolder + "/" + setup.mFileName + "%i." + setup.mFileExtension);
                 fixedWindowRollingPolicy.setMinIndex(1);
