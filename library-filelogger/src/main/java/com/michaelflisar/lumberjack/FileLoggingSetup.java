@@ -3,40 +3,62 @@ package com.michaelflisar.lumberjack;
 import android.content.Context;
 
 /**
+ * The File logging configuration.
+ *
  * Created by Michael on 17.10.2016.
  */
 
 public class FileLoggingSetup {
+    /**
+     * The folder where the logs must be generated
+     */
     private final String mFolder;
-    private final int mLogsToKeep;
-    private final String mLogPattern;
+    /**
+     * The log filename without the extension
+     */
     private final String mFileName;
+    /**
+     * The log file extension
+     */
     private final String mFileExtension;
+    /**
+     * The max log file size.
+     * if {@link FileLoggingMode#DATE_FILES}
+     */
+    private final String mFileSizeLimit;
+    /**
+     * The number of log files to keep if {@link FileLoggingSetup#mFileLoggingMode = }
+     * {@link FileLoggingMode#NUMBERED_FILES}
+     */
+    private final int mLogFilesToKeep;
+    /**
+     * The log message pattern
+     */
+    private final String mLogPattern;
+    /**
+     * The File logging mode
+     */
     private final FileLoggingMode mFileLoggingMode;
-    private final String mNumberedFileSizeLimit;
+    /**
+     * If the file logging(IO operations) must happen on a Non-UI thread.
+     */
     private final boolean logOnBackgroundThread;
 
-    private FileLoggingSetup(String mFolder, int mLogsToKeep, String mLogPattern, String mFileName, String mFileExtension, FileLoggingMode mFileLoggingMode, String mNumberedFileSizeLimit, boolean logOnBackgroundThread) {
+    private FileLoggingSetup(String mFolder, int mLogFilesToKeep, String mLogPattern, String mFileName,
+                             String mFileExtension, FileLoggingMode mFileLoggingMode,
+                             String mFileSizeLimit, boolean logOnBackgroundThread) {
         this.mFolder = mFolder;
-        this.mLogsToKeep = mLogsToKeep;
+        this.mLogFilesToKeep = mLogFilesToKeep;
         this.mLogPattern = mLogPattern;
         this.mFileName = mFileName;
         this.mFileExtension = mFileExtension;
         this.mFileLoggingMode = mFileLoggingMode;
-        this.mNumberedFileSizeLimit = mNumberedFileSizeLimit;
+        this.mFileSizeLimit = mFileSizeLimit;
         this.logOnBackgroundThread = logOnBackgroundThread;
     }
 
     public String getFolder() {
         return mFolder;
-    }
-
-    public int getLogsToKeep() {
-        return mLogsToKeep;
-    }
-
-    public String getLogPattern() {
-        return mLogPattern;
     }
 
     public String getFileName() {
@@ -47,37 +69,49 @@ public class FileLoggingSetup {
         return mFileExtension;
     }
 
+    public int getLogFilesToKeep() {
+        return mLogFilesToKeep;
+    }
+
+    public String getLogPattern() {
+        return mLogPattern;
+    }
+
     public FileLoggingMode getFileLoggingMode() {
         return mFileLoggingMode;
     }
 
-    public String getNumberedFileSizeLimit() {
-        return mNumberedFileSizeLimit;
+    public String getFileSizeLimit() {
+        return mFileSizeLimit;
     }
 
     public boolean isLogOnBackgroundThread() {
         return logOnBackgroundThread;
     }
 
-
+    /**
+     * Use this Builder to generate the FileLoggingSetup
+     */
     public static class Builder {
         private String mFolder;
-        private int mLogsToKeep;
-        private String mLogPattern;
         private String mFileName;
         private String mFileExtension;
+        private String mFileSizeLimit;
+        private int mLogFilesToKeep;
+        private String mLogPattern;
         private FileLoggingMode mFileLoggingMode;
-        private String mNumberedFileSizeLimit;
         private boolean logOnBackgroundThread;
 
         public Builder(Context context) {
+            requireNonNull(context);
+
             mFolder = context.getFileStreamPath("").getAbsolutePath();
-            mLogsToKeep = 7;
+            mLogFilesToKeep = 7;
             mLogPattern = "%d\t%msg%n";
             mFileName = "log";
             mFileExtension = "log";
             mFileLoggingMode = FileLoggingMode.DATE_FILES;
-            mNumberedFileSizeLimit = "1MB";
+            mFileSizeLimit = "1MB";
             logOnBackgroundThread = false;
         }
 
@@ -88,6 +122,7 @@ public class FileLoggingSetup {
          * @param folderPath The path of the folder
          */
         public Builder setFolder(String folderPath) {
+            requireNonNull(folderPath);
             this.mFolder = folderPath;
             return this;
         }
@@ -99,6 +134,7 @@ public class FileLoggingSetup {
          * @param fileName The basic file name of your log files
          */
         public Builder setFileName(String fileName) {
+            requireNonNull(fileName);
             this.mFileName = fileName;
             return this;
         }
@@ -110,6 +146,7 @@ public class FileLoggingSetup {
          * @param fileExtension The file extension of your log files
          */
         public Builder setFileExtension(String fileExtension) {
+            requireNonNull(fileExtension);
             this.mFileExtension = fileExtension;
             return this;
         }
@@ -118,10 +155,12 @@ public class FileLoggingSetup {
          * define a custom log file pattern
          * DEFAULT: 7
          *
-         * @param logsToKeep number of log files to keep
+         * @param logFilesToKeep number of log files to keep
          */
-        public Builder setLogsToKeep(int logsToKeep) {
-            this.mLogsToKeep = logsToKeep;
+        public Builder setLogFilesToKeep(int logFilesToKeep) {
+            if (logFilesToKeep <= 0)
+                throw new IllegalArgumentException("logFilesToKeep must be > 0");
+            this.mLogFilesToKeep = logFilesToKeep;
             return this;
         }
 
@@ -133,6 +172,7 @@ public class FileLoggingSetup {
          * @param pattern the log pattern
          */
         public Builder setLogPattern(String pattern) {
+            requireNonNull(pattern);
             this.mLogPattern = pattern;
             return this;
         }
@@ -144,7 +184,7 @@ public class FileLoggingSetup {
          *
          * - {@link FileLoggingMode#DATE_FILES} will create a log file per day
          * - {@link FileLoggingMode#NUMBERED_FILES} will create a new log file after the fileSizeLimit
-         * defined via {@link FileLoggingSetup#mNumberedFileSizeLimit} is reached.
+         * defined via {@link FileLoggingSetup#mFileSizeLimit} is reached.
          *
          * @param fileLoggingMode the fileLoggingMode you want
          */
@@ -160,8 +200,9 @@ public class FileLoggingSetup {
          *
          * @param fileSizeLimit the size
          */
-        public Builder setNumberedFileSizeLimit(String fileSizeLimit) {
-            this.mNumberedFileSizeLimit = fileSizeLimit;
+        public Builder setFileSizeLimit(String fileSizeLimit) {
+            requireNonNull(fileSizeLimit);
+            this.mFileSizeLimit = fileSizeLimit;
             return this;
         }
 
@@ -177,8 +218,13 @@ public class FileLoggingSetup {
         }
 
         public FileLoggingSetup build() {
-            return new FileLoggingSetup(mFolder, mLogsToKeep, mLogPattern, mFileName, mFileExtension,
-                    mFileLoggingMode, mNumberedFileSizeLimit, logOnBackgroundThread);
+            return new FileLoggingSetup(mFolder, mLogFilesToKeep, mLogPattern, mFileName, mFileExtension,
+                    mFileLoggingMode, mFileSizeLimit, logOnBackgroundThread);
         }
+    }
+
+    static void requireNonNull(Object object) {
+        if (object == null)
+            throw new IllegalArgumentException("This object should not be null");
     }
 }

@@ -71,7 +71,7 @@ public class FileLoggingTree extends BaseTree {
             case DATE_FILES: {
                 TimeBasedRollingPolicy timeBasedRollingPolicy = new TimeBasedRollingPolicy<ILoggingEvent>();
                 timeBasedRollingPolicy.setFileNamePattern(setup.getFolder() + "/" + setup.getFileName() + "_%d{yyyyMMdd}." + setup.getFileExtension());
-                timeBasedRollingPolicy.setMaxHistory(setup.getLogsToKeep());
+                timeBasedRollingPolicy.setMaxHistory(setup.getLogFilesToKeep());
                 timeBasedRollingPolicy.setCleanHistoryOnStart(true);
                 timeBasedRollingPolicy.setParent(rollingFileAppender);
                 timeBasedRollingPolicy.setContext(lc);
@@ -83,12 +83,12 @@ public class FileLoggingTree extends BaseTree {
                 FixedWindowRollingPolicy fixedWindowRollingPolicy = new FixedWindowRollingPolicy();
                 fixedWindowRollingPolicy.setFileNamePattern(setup.getFolder() + "/" + setup.getFileName() + "%i." + setup.getFileExtension());
                 fixedWindowRollingPolicy.setMinIndex(1);
-                fixedWindowRollingPolicy.setMaxIndex(setup.getLogsToKeep());
+                fixedWindowRollingPolicy.setMaxIndex(setup.getLogFilesToKeep());
                 fixedWindowRollingPolicy.setParent(rollingFileAppender);
                 fixedWindowRollingPolicy.setContext(lc);
 
                 SizeBasedTriggeringPolicy<ILoggingEvent> sizeBasedTriggeringPolicy = new SizeBasedTriggeringPolicy<>();
-                sizeBasedTriggeringPolicy.setMaxFileSize(FileSize.valueOf(setup.getNumberedFileSizeLimit()));
+                sizeBasedTriggeringPolicy.setMaxFileSize(FileSize.valueOf(setup.getFileSizeLimit()));
 
                 triggeringPolicy = sizeBasedTriggeringPolicy;
 
