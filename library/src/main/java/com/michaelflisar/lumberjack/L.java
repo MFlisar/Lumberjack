@@ -3,6 +3,7 @@ package com.michaelflisar.lumberjack;
 import android.util.Log;
 import android.util.Pair;
 
+import com.michaelflisar.lumberjack.formatter.DefaultLogFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogClassFormatter;
 import com.michaelflisar.lumberjack.formatter.ILogFormatter;
 
@@ -40,7 +41,8 @@ public class L
     {
         // if the user has not provided a custom formatter, we create the default one!
         if (mLogFormatter == null)
-            throw new RuntimeException("You did not initialise the logger's formatter!");
+            mLogFormatter = new DefaultLogFormatter(5, true, true);
+            //throw new RuntimeException("You did not initialise the logger's formatter!");
         return mLogFormatter;
     }
 

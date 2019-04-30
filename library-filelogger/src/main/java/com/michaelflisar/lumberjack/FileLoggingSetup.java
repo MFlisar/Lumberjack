@@ -12,7 +12,7 @@ public class FileLoggingSetup {
     /**
      * The folder where the logs must be generated
      */
-    private final String mFolder;
+    private final String mFolderPath;
     /**
      * The log filename without the extension
      */
@@ -42,10 +42,10 @@ public class FileLoggingSetup {
      */
     private final boolean logOnBackgroundThread;
 
-    private FileLoggingSetup(String mFolder, int mLogFilesToKeep, String mLogPattern, String mFileName,
+    private FileLoggingSetup(String mFolderPath, int mLogFilesToKeep, String mLogPattern, String mFileName,
                              String mFileExtension, FileLoggingMode mFileLoggingMode,
                              String mFileSizeLimit, boolean logOnBackgroundThread) {
-        this.mFolder = mFolder;
+        this.mFolderPath = mFolderPath;
         this.mLogFilesToKeep = mLogFilesToKeep;
         this.mLogPattern = mLogPattern;
         this.mFileName = mFileName;
@@ -55,8 +55,8 @@ public class FileLoggingSetup {
         this.logOnBackgroundThread = logOnBackgroundThread;
     }
 
-    public String getFolder() {
-        return mFolder;
+    public String getFolderPath() {
+        return mFolderPath;
     }
 
     public String getFileName() {
@@ -91,7 +91,7 @@ public class FileLoggingSetup {
      * Use this Builder to generate the FileLoggingSetup
      */
     public static class Builder {
-        private String mFolder;
+        private String mFolderPath;
         private String mFileName;
         private String mFileExtension;
         private String mFileSizeLimit;
@@ -103,13 +103,13 @@ public class FileLoggingSetup {
         public Builder(Context context) {
             requireNonNull(context);
 
-            mFolder = context.getFileStreamPath("").getAbsolutePath();
+            mFolderPath = context.getFileStreamPath("").getAbsolutePath();
             mLogFilesToKeep = 7;
             mLogPattern = "%d\t%msg%n";
             mFileName = "log";
             mFileExtension = "log";
             mFileLoggingMode = FileLoggingMode.DAILY_ROLLOVER;
-            mFileSizeLimit = "1MB";
+            mFileSizeLimit = "10MB";
             logOnBackgroundThread = false;
         }
 
@@ -119,9 +119,9 @@ public class FileLoggingSetup {
          *
          * @param folderPath The path of the folder
          */
-        public Builder setFolder(String folderPath) {
+        public Builder setFolderPath(String folderPath) {
             requireNonNull(folderPath);
-            this.mFolder = folderPath;
+            this.mFolderPath = folderPath;
             return this;
         }
 
@@ -211,7 +211,7 @@ public class FileLoggingSetup {
         }
 
         public FileLoggingSetup build() {
-            return new FileLoggingSetup(mFolder, mLogFilesToKeep, mLogPattern, mFileName, mFileExtension,
+            return new FileLoggingSetup(mFolderPath, mLogFilesToKeep, mLogPattern, mFileName, mFileExtension,
                     mFileLoggingMode, mFileSizeLimit, logOnBackgroundThread);
         }
     }

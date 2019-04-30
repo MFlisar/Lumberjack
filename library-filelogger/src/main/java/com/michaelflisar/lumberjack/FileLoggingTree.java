@@ -62,12 +62,11 @@ public class FileLoggingTree extends BaseTree {
         TriggeringPolicy<ILoggingEvent> triggeringPolicy = null;
         switch (setup.getFileLoggingMode()) {
             case DAILY_ROLLOVER:
-            case WEEKLY_ROLLOVER:
-            case MONTHLY_ROLLOVER: //all 3 time based policy cases are taken care by their file naming pattern
+            case WEEKLY_ROLLOVER://both time based policy cases are taken care by their file naming pattern
                 TimeBasedRollingPolicy<ILoggingEvent> timeBasedRollingPolicy = new TimeBasedRollingPolicy<>();
-                timeBasedRollingPolicy.setFileNamePattern(setup.getFolder()
-                        + setup.getFileLoggingMode().getFileNamePattern()
-                        + "/" + setup.getFileName() + "." + setup.getFileExtension()
+                timeBasedRollingPolicy.setFileNamePattern(setup.getFolderPath() + "/"
+                        + setup.getFileName() + setup.getFileLoggingMode().getFileNamePattern()
+                        + "." + setup.getFileExtension()
                 );
                 timeBasedRollingPolicy.setMaxHistory(setup.getLogFilesToKeep());
                 timeBasedRollingPolicy.setCleanHistoryOnStart(true);
@@ -77,11 +76,25 @@ public class FileLoggingTree extends BaseTree {
                 triggeringPolicy = timeBasedRollingPolicy;
                 break;
 
+            case MONTHLY_ROLLOVER:
+                TimeBasedRollingPolicy<ILoggingEvent> monthlyRollingPolicy = new TimeBasedRollingPolicy<>();
+                monthlyRollingPolicy.setFileNamePattern(setup.getFolderPath() + "/"
+                        + setup.getFileLoggingMode().getFileNamePattern()
+                        + setup.getFileName() + "." + setup.getFileExtension()
+                );
+                monthlyRollingPolicy.setMaxHistory(setup.getLogFilesToKeep());
+                monthlyRollingPolicy.setCleanHistoryOnStart(true);
+                monthlyRollingPolicy.setParent(rollingFileAppender);
+                monthlyRollingPolicy.setContext(lc);
+                monthlyRollingPolicy.setTotalSizeCap(FileSize.valueOf(setup.getFileSizeLimit()));
+                triggeringPolicy = monthlyRollingPolicy;
+                break;
+
             case FILE_SIZE_ROLLOVER:
                 FixedWindowRollingPolicy fixedWindowRollingPolicy = new FixedWindowRollingPolicy();
-                fixedWindowRollingPolicy.setFileNamePattern(setup.getFolder()
-                        + setup.getFileLoggingMode().getFileNamePattern()
-                        + "/" + setup.getFileName() + "." + setup.getFileExtension()
+                fixedWindowRollingPolicy.setFileNamePattern(setup.getFolderPath() + "/"
+                        + setup.getFileName() + setup.getFileLoggingMode().getFileNamePattern()
+                        + "." + setup.getFileExtension()
                 );
                 fixedWindowRollingPolicy.setMinIndex(1);
                 fixedWindowRollingPolicy.setMaxIndex(setup.getLogFilesToKeep());
@@ -93,7 +106,7 @@ public class FileLoggingTree extends BaseTree {
 
                 triggeringPolicy = sizeBasedTriggeringPolicy;
 
-                rollingFileAppender.setFile(setup.getFolder() + "/" + setup.getFileName() + "." + setup.getFileExtension());
+                rollingFileAppender.setFile(setup.getFolderPath() + "/" + setup.getFileName() + "." + setup.getFileExtension());
                 rollingFileAppender.setRollingPolicy(fixedWindowRollingPolicy);
                 fixedWindowRollingPolicy.start();
                 break;
