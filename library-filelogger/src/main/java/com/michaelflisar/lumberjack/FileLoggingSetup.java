@@ -22,13 +22,11 @@ public class FileLoggingSetup {
      */
     private final String mFileExtension;
     /**
-     * The max log file size.
-     * if {@link FileLoggingMode#DATE_FILES}
+     * This is the maximum file size limit for all log files generated
      */
     private final String mFileSizeLimit;
     /**
-     * The number of log files to keep if {@link FileLoggingSetup#mFileLoggingMode = }
-     * {@link FileLoggingMode#NUMBERED_FILES}
+     * The number of log files to keep
      */
     private final int mLogFilesToKeep;
     /**
@@ -110,7 +108,7 @@ public class FileLoggingSetup {
             mLogPattern = "%d\t%msg%n";
             mFileName = "log";
             mFileExtension = "log";
-            mFileLoggingMode = FileLoggingMode.DATE_FILES;
+            mFileLoggingMode = FileLoggingMode.DAILY_ROLLOVER;
             mFileSizeLimit = "1MB";
             logOnBackgroundThread = false;
         }
@@ -180,12 +178,7 @@ public class FileLoggingSetup {
         /**
          * define the fileLoggingMode you want to use
          *
-         * Select between {@link FileLoggingMode#DATE_FILES} and {@link FileLoggingMode#NUMBERED_FILES}
-         *
-         * - {@link FileLoggingMode#DATE_FILES} will create a log file per day
-         * - {@link FileLoggingMode#NUMBERED_FILES} will create a new log file after the fileSizeLimit
-         * defined via {@link FileLoggingSetup#mFileSizeLimit} is reached.
-         *
+         * Select between different {@link FileLoggingMode}
          * @param fileLoggingMode the fileLoggingMode you want
          */
         public Builder setFileLoggingMode(FileLoggingMode fileLoggingMode) {
@@ -194,9 +187,9 @@ public class FileLoggingSetup {
         }
 
         /**
-         * define the size limit for the file logger with mode {@link FileLoggingMode#NUMBERED_FILES}
+         * define the size limit for the file logger
          * you can use 1KB, 1MB and similar strings
-         * DEFAULT: 1MB
+         * DEFAULT: no file size limit
          *
          * @param fileSizeLimit the size
          */
