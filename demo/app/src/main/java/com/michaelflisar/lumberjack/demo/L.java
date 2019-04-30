@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.michaelflisar.lumberjack.FileLoggingSetup;
 import com.michaelflisar.lumberjack.FileLoggingTree;
-import com.michaelflisar.lumberjack.FileLoggingUtil;
 import com.michaelflisar.lumberjack.NotificationLoggingSetup;
 import com.michaelflisar.lumberjack.NotificationLoggingTree;
 import com.michaelflisar.lumberjack.OverlayLoggerUtil;
@@ -25,6 +24,7 @@ import timber.log.Timber;
 
 public class L extends com.michaelflisar.lumberjack.L {
 
+    /*
     // -----------------------------
     // Basic minimal setup
     // -----------------------------
@@ -104,7 +104,8 @@ public class L extends com.michaelflisar.lumberjack.L {
     // Advanced - File Logger
     // -----------------------------
 
-    private static final FileLoggingSetup FILE_LOG_SETUP = new FileLoggingSetup(MainApp.get());
+    private static final FileLoggingSetup FILE_LOG_SETUP = new FileLoggingSetup.Builder(MainApp.get())
+            .build();
 
     // -----------------------------
     // Advanced - Notification Logger
@@ -132,4 +133,5 @@ public class L extends com.michaelflisar.lumberjack.L {
             return type + ": [" + value + "]";
         return value;
     }
+    */
 }

@@ -2,26 +2,22 @@ package com.michaelflisar.lumberjack.demo;
 
 import android.app.Application;
 
-import java.util.HashMap;
+import com.michaelflisar.lumberjack.FileLoggingSetup;
+import com.michaelflisar.lumberjack.FileLoggingTree;
+import com.michaelflisar.lumberjack.demo.filelogging.FileLoggingSetupsUtil;
+
+import timber.log.Timber;
 
 /**
  * Created by Michael on 03.11.2016.
  */
 
 public class MainApp extends Application {
-
-    private static MainApp mInstance = null;
-
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
-        mInstance = this;
+        FileLoggingSetup setup = FileLoggingSetupsUtil.getFileSizedLoggingSetup(this);
 
-        L.initLumberjack();
-    }
-
-    public static MainApp get()
-    {
-        return mInstance;
+        Timber.plant(new FileLoggingTree(false, setup, null));
+        Timber.plant(new Timber.DebugTree());
     }
 }

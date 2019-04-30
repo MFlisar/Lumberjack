@@ -21,10 +21,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btLog).setOnClickListener(this);
         findViewById(R.id.btLogError).setOnClickListener(this);
+        L.d("Simple log here");
 
+        /*
         // here we can ask for the permission, so we init the overlay logger in here
         // make sure to pass on the result of the permission dialog to the overlay logger!
-        L.initOverlayLogger(this);
+        //L.initOverlayLogger(this);
 
         // Test 1: a few simple test messages (no groups used)
         L.d("Main activity created");
@@ -55,11 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             .addPair("String", "Value")
             .addPair("Integer", 999)
             .addPair("Long", 5L));
+            */
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        L.handleOverlayPermissionDialogResult(requestCode, resultCode, data);
+        //L.handleOverlayPermissionDialogResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
