@@ -115,7 +115,7 @@ object L2 {
     fun log(logBlock: () -> Unit) {
         if (L.enabled && Timber.treeCount() > 0) {
             L.callStackCorrection(4)
-            if (L.packageNameFilter?.let { it.invoke(StackData.create(0).className) } != false)
+            if (L.packageNameFilter?.let { it.invoke(StackData.create(null, 0).className) } != false)
                 logBlock()
         }
     }

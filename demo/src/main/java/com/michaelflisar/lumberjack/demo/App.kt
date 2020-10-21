@@ -1,8 +1,7 @@
 package com.michaelflisar.lumberjack.demo
 
 import android.app.Application
-import com.michaelflisar.lumberjack.FileLoggingSetup
-import com.michaelflisar.lumberjack.FileLoggingTree
+import android.util.Log
 import com.michaelflisar.lumberjack.L
 import timber.log.ConsoleTree
 
@@ -18,6 +17,9 @@ class App : Application() {
         L.enabled = BuildConfig.DEBUG
 
         // we can filter out logs based on caller class names like following e.g.:
-        // L.packageNameFilter = { packageName -> !packageName.startsWith(MainActivity::class.java.name) }
+//        L.packageNameFilter = {
+//            Log.d("PACKAGE_NAME_FILTER", "packageName = $it")
+//             !it.startsWith(MainActivity::class.java.name)
+//        }
     }
 }
