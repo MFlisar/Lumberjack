@@ -34,7 +34,25 @@ dependencies {
     
     // ALTERNATIVELY you can add ALL modules at once like following
     // implementation 'com.github.MFlisar:Lumberjack:<LATEST-VERSION>'
+
+    // Wrapper for java => will provide a class `L2` with all the functions from `L` but without the inlining feature because this is not possible in java
+    // can be used to use Lumberjack in mixed java and kotlin projects
+    // implementation 'com.github.MFlisar.Lumberjack:lumberjack-java-wrapper:<LATEST-VERSION>'
 }
+```
+
+### Usage
+
+Once in your app do following:
+
+```kotlin
+// simply console logger
+L.plant(ConsoleTree())
+// a file logger (optional)
+val fileLoggingSetup = FileLoggingSetup(context) // default setup keeps log files for 7 days and creates a new file each day
+L.plant(FileLoggingTree(fileLoggingSetup))
+// if desired, disable all logging in release
+// L.enabled = Build.DEBUG
 ```
 
 ### Example - LOGGING
@@ -47,8 +65,8 @@ L.d { "Simpe log" }
 // simply log with custom tag
 L.tag("CUSTOM-TAG").d { "Some message with a tag" }
 // Log and only run log code based on a function / boolean flag
-L.logIf { true }.d { "Is logged, as flag is true" }
-L.logIf { someFunction() }.d { "Is logged and only executed if someFunction returns true" }
+L.logIf { true }?.d { "Is logged, as flag is true" }
+L.logIf { someFunction() }?.d { "Is logged and only executed if someFunction returns true" }
 ```
 
 If used with `logIf` the expression is only executed if `logIf` returns true so it's save to keep all the logging lines in production code.
@@ -73,18 +91,4 @@ If used with `logIf` the expression is only executed if `logIf` returns true so 
         at java.lang.reflect.Method.invoke(Native Method)
         at com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:327)
         at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1374)
-```
-
-### Usage
-
-Once in your app do following:
-
-```kotlin
-// simply console logger
-L.plant(ConsoleTree())
-// a file logger
-val fileLoggingSetup = FileLoggingSetup(context) // default setup keeps log files for 7 days and creates a new file each day
-L.plant(FileLoggingTree(fileLoggingSetup))
-// if desired, disable all logging in release
-// L.enabled = Build.DEBUG
 ```

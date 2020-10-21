@@ -4,7 +4,7 @@ import java.util.regex.Pattern
 
 
 class StackData(
-        private val className: String,
+        val className: String,
         private val simpleFileName: String,
         private val methodName: String,
         private val line: Int

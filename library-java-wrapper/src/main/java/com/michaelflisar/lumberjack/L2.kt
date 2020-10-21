@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack
 
+import com.michaelflisar.lumberjack.data.StackData
 import timber.log.Timber
 
 /*
@@ -16,7 +17,7 @@ object L2 {
 
     @JvmStatic
     fun callStackCorrection(value: Int): L2 {
-        L.setCallStackCorrection(value)
+        L.callStackCorrection(value)
         return L2
     }
 
@@ -113,8 +114,9 @@ object L2 {
 
     fun log(logBlock: () -> Unit) {
         if (L.enabled && Timber.treeCount() > 0) {
-            L.setCallStackCorrection(4)
-            logBlock()
+            L.callStackCorrection(4)
+            if (L.packageNameFilter?.let { it.invoke(StackData.create(0).className) } != false)
+                logBlock()
         }
     }
 }

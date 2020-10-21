@@ -23,7 +23,7 @@ object L {
     /*
      * provide a filter for stacks - you will get the full stack trace package name
      */
-    var packageNameFilter: ((String) -> Boolean)? = null
+    var packageNameFilter: ((packageName: String) -> Boolean)? = null
 
     // --------------
     // special functions
@@ -107,7 +107,7 @@ object L {
     @PublishedApi
     internal inline fun log(logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
-            if (packageNameFilter?.let { it.invoke(StackData.create(0).getStackTag()) } != false)
+            if (packageNameFilter?.let { it.invoke(StackData.create(0).className) } != false)
                 logBlock()
         }
     }
