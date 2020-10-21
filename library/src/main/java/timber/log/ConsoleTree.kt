@@ -2,22 +2,29 @@ package timber.log
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.michaelflisar.lumberjack.data.StackData
 
 /**
  * Created by flisar on 17.01.2019.
  */
 
 class ConsoleTree(
-        val appendClickableLink: Boolean = true
+    private val appendClickableLink: Boolean = true
 ) : BaseTree() {
 
     companion object {
         private const val MAX_LOG_LENGTH = 4000
     }
 
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+    override fun log(
+        priority: Int,
+        tag: String?,
+        message: String,
+        t: Throwable?,
+        stackData: StackData
+    ) {
 
-        val fullMessage = if (appendClickableLink) appendLink(message) else message
+        val fullMessage = if (appendClickableLink) appendLink(message, stackData) else message
 
         if (fullMessage.length < MAX_LOG_LENGTH) {
             logLine(priority, tag, fullMessage)
@@ -40,11 +47,12 @@ class ConsoleTree(
         }
     }
 
+    // tag is logged anyways, so we do NOT add it to the message!
+    override fun formatLine(tag: String?, message: String) = "$message"
+
     @SuppressLint("LogNotTimber")
     private fun logLine(priority: Int, tag: String?, message: String) {
-        // tag is logged anyways, so we do NOT add it to the message!
-        val logMessage = message//formatLine(tag, message)
-
+        val logMessage = formatLine(tag, message)
         if (priority == Log.ASSERT) {
             Log.wtf(tag, logMessage)
         } else {
@@ -52,19 +60,8 @@ class ConsoleTree(
         }
     }
 
-    private fun appendLink(message: String): String {
-        val link = lastStackData.getLink()
-        val lines = message.split("\r\n|\r|\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        if (lines.size <= 1) {
-            return "$message ($link)"
-        }
-        // this makes sure that links always works, like for example if pretty print for collections is enabled
-        else {
-            lines[0] = lines[0] + " (" + link + ")"
-            val builder = StringBuilder()
-            for (s in lines)
-                builder.append(s).append("\n")
-            return builder.toString()
-        }
+    private fun appendLink(message: String, stackData: StackData): String {
+        val link = stackData.link
+        return "$message ($link)"
     }
 }

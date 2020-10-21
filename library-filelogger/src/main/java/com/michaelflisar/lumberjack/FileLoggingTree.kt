@@ -8,6 +8,7 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.rolling.*
 import ch.qos.logback.core.util.FileSize
+import com.michaelflisar.lumberjack.data.StackData
 import org.slf4j.LoggerFactory
 import timber.log.BaseTree
 
@@ -15,7 +16,9 @@ import timber.log.BaseTree
  * Created by Michael on 17.10.2016.
  */
 
-class FileLoggingTree(setup: FileLoggingSetup?) : BaseTree() {
+class FileLoggingTree(
+    setup: FileLoggingSetup?
+) : BaseTree() {
 
     private var mHandlerThread: HandlerThread? = null
     private var mBackgroundHandler: Handler? = null
@@ -56,7 +59,8 @@ class FileLoggingTree(setup: FileLoggingSetup?) : BaseTree() {
         when (setup.mode) {
             FileLoggingSetup.Mode.DateFiles -> {
                 val timeBasedRollingPolicy = TimeBasedRollingPolicy<ILoggingEvent>()
-                timeBasedRollingPolicy.fileNamePattern = setup.folder + "/" + setup.fileName + "_%d{yyyyMMdd}." + setup.fileExtension
+                timeBasedRollingPolicy.fileNamePattern =
+                    setup.folder + "/" + setup.fileName + "_%d{yyyyMMdd}." + setup.fileExtension
                 timeBasedRollingPolicy.maxHistory = setup.logsToKeep
                 timeBasedRollingPolicy.isCleanHistoryOnStart = true
                 timeBasedRollingPolicy.setParent(rollingFileAppender)
@@ -66,14 +70,16 @@ class FileLoggingTree(setup: FileLoggingSetup?) : BaseTree() {
             }
             FileLoggingSetup.Mode.NumberedFiles -> {
                 val fixedWindowRollingPolicy = FixedWindowRollingPolicy()
-                fixedWindowRollingPolicy.fileNamePattern = setup.folder + "/" + setup.fileName + "%i." + setup.fileExtension
+                fixedWindowRollingPolicy.fileNamePattern =
+                    setup.folder + "/" + setup.fileName + "%i." + setup.fileExtension
                 fixedWindowRollingPolicy.minIndex = 1
                 fixedWindowRollingPolicy.maxIndex = setup.logsToKeep
                 fixedWindowRollingPolicy.setParent(rollingFileAppender)
                 fixedWindowRollingPolicy.context = lc
 
                 val sizeBasedTriggeringPolicy = SizeBasedTriggeringPolicy<ILoggingEvent>()
-                sizeBasedTriggeringPolicy.maxFileSize = FileSize.valueOf(setup.numberedFileSizeLimit)
+                sizeBasedTriggeringPolicy.maxFileSize =
+                    FileSize.valueOf(setup.numberedFileSizeLimit)
 
                 triggeringPolicy = sizeBasedTriggeringPolicy
 
@@ -95,7 +101,7 @@ class FileLoggingTree(setup: FileLoggingSetup?) : BaseTree() {
         root.addAppender(rollingFileAppender)
     }
 
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?, stackData: StackData) {
         val logMessage = formatLine(tag, message)
         if (mBackgroundHandler == null) {
             doRealLog(priority, logMessage)
@@ -119,6 +125,7 @@ class FileLoggingTree(setup: FileLoggingSetup?) : BaseTree() {
         val DATE_FILE_NAME_PATTERN = "%s_\\d{8}.%s"
         val NUMBERED_FILE_NAME_PATTERN = "%s\\d*.%s"
 
-        internal var mLogger = LoggerFactory.getLogger(FileLoggingTree::class.java)//Logger.ROOT_LOGGER_NAME);
+        internal var mLogger =
+            LoggerFactory.getLogger(FileLoggingTree::class.java)//Logger.ROOT_LOGGER_NAME);
     }
 }

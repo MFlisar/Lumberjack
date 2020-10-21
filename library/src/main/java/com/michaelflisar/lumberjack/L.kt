@@ -21,9 +21,14 @@ object L {
     var enabled = true
 
     /*
-     * provide a filter for stacks - you will get the full stack trace package name
+     * provide a filter for package names - you will get the callers package name
      */
     var packageNameFilter: ((packageName: String) -> Boolean)? = null
+
+    /*
+     * provide a filter for tags
+     */
+    var tagNameFilter: ((tags: String) -> Boolean)? = null
 
     // --------------
     // special functions
@@ -51,41 +56,41 @@ object L {
     // log functions - lazy
     // --------------
 
-    inline fun v(t: Throwable? = null, message: () -> String) = log { Timber.v(t, message()) }
+    inline fun v(t: Throwable? = null, message: () -> String) = log(t) { Timber.v(t, message()) }
 
-    inline fun v(t: Throwable?) = log { Timber.v(t) }
+    inline fun v(t: Throwable?) = log(t) { Timber.v(t) }
 
-    inline fun v(message: () -> String) = log { Timber.v(message()) }
+    inline fun v(message: () -> String) = log(null) { Timber.v(message()) }
 
-    inline fun d(t: Throwable? = null, message: () -> String) = log { Timber.d(t, message()) }
+    inline fun d(t: Throwable? = null, message: () -> String) = log(t) { Timber.d(t, message()) }
 
-    inline fun d(t: Throwable?) = log { Timber.d(t) }
+    inline fun d(t: Throwable?) = log(t) { Timber.d(t) }
 
-    inline fun d(message: () -> String) = log { Timber.d(message()) }
+    inline fun d(message: () -> String) = log(null) { Timber.d(message()) }
 
-    inline fun i(t: Throwable? = null, message: () -> String) = log { Timber.i(t, message()) }
+    inline fun i(t: Throwable? = null, message: () -> String) = log(t) { Timber.i(t, message()) }
 
-    inline fun i(t: Throwable?) = log { Timber.i(t) }
+    inline fun i(t: Throwable?) = log(t) { Timber.i(t) }
 
-    inline fun i(message: () -> String) = log { Timber.i(message()) }
+    inline fun i(message: () -> String) = log(null) { Timber.i(message()) }
 
-    inline fun w(t: Throwable? = null, message: () -> String) = log { Timber.w(t, message()) }
+    inline fun w(t: Throwable? = null, message: () -> String) = log(t) { Timber.w(t, message()) }
 
-    inline fun w(t: Throwable?) = log { Timber.w(t) }
+    inline fun w(t: Throwable?) = log(t) { Timber.w(t) }
 
-    inline fun w(message: () -> String) = log { Timber.w(message()) }
+    inline fun w(message: () -> String) = log(null) { Timber.w(message()) }
 
-    inline fun e(t: Throwable? = null, message: () -> String) = log { Timber.e(t, message()) }
+    inline fun e(t: Throwable? = null, message: () -> String) = log(t) { Timber.e(t, message()) }
 
-    inline fun e(t: Throwable?) = log { Timber.e(t) }
+    inline fun e(t: Throwable?) = log(t) { Timber.e(t) }
 
-    inline fun e(message: () -> String) = log { Timber.e(message()) }
+    inline fun e(message: () -> String) = log(null) { Timber.e(message()) }
 
-    inline fun wtf(t: Throwable? = null, message: () -> String) = log { Timber.wtf(t, message()) }
+    inline fun wtf(t: Throwable? = null, message: () -> String) = log(t) { Timber.wtf(t, message()) }
 
-    inline fun wtf(t: Throwable?) = log { Timber.wtf(t) }
+    inline fun wtf(t: Throwable?) = log(t) { Timber.wtf(t) }
 
-    inline fun wtf(message: () -> String) = log { Timber.wtf(message()) }
+    inline fun wtf(message: () -> String) = log(null) { Timber.wtf(message()) }
 
     // --------------
     // timber forward functions
@@ -105,9 +110,9 @@ object L {
 
     /** @suppress */
     @PublishedApi
-    internal inline fun log(logBlock: () -> Unit) {
+    internal inline fun log(t: Throwable?, logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
-            if (packageNameFilter?.let { it.invoke(StackData.create(0).className) } != false)
+            if (packageNameFilter?.let { it.invoke(StackData.create(t, 0).className) } != false)
                 logBlock()
         }
     }

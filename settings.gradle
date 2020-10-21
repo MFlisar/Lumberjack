@@ -5,3 +5,6 @@ project(':lumberjack-filelogger').projectDir = new File(settingsDir, 'library-fi
 
 include ':lumberjack-java-wrapper'
 project(':lumberjack-java-wrapper').projectDir = new File(settingsDir, 'library-java-wrapper')
+
+include ':demo'
+project(':demo').projectDir = new File(settingsDir, 'demo')

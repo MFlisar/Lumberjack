@@ -31,9 +31,6 @@ dependencies {
 	implementation 'com.github.MFlisar.Lumberjack:lumberjack-library:<LATEST-VERSION>'
     // modules (OPTIONAL)
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:<LATEST-VERSION>'
-    
-    // ALTERNATIVELY you can add ALL modules at once like following
-    // implementation 'com.github.MFlisar:Lumberjack:<LATEST-VERSION>'
 
     // Wrapper for java => will provide a class `L2` with all the functions from `L` but without the inlining feature because this is not possible in java
     // can be used to use Lumberjack in mixed java and kotlin projects
