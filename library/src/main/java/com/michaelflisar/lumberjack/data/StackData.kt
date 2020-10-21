@@ -3,7 +3,12 @@ package com.michaelflisar.lumberjack.data
 import java.util.regex.Pattern
 
 
-class StackData(private val className: String, private val simpleFileName: String, private val methodName: String, private val line: Int) {
+class StackData(
+        private val className: String,
+        private val simpleFileName: String,
+        private val methodName: String,
+        private val line: Int
+) {
 
     companion object {
         private val ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$")

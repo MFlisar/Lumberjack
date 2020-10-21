@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack
 
+import com.michaelflisar.lumberjack.data.StackData
 import timber.log.BaseTree
 import timber.log.Timber
 
@@ -14,7 +15,15 @@ object L {
     // public fields because fields are accessed in inline functions
     // --------------
 
+    /*
+     * if false, all logging is disabled
+     */
     var enabled = true
+
+    /*
+     * provide a filter for stacks - you will get the full stack trace package name
+     */
+    var packageNameFilter: ((String) -> Boolean)? = null
 
     // --------------
     // special functions
@@ -98,7 +107,8 @@ object L {
     @PublishedApi
     internal inline fun log(logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
-            logBlock()
+            if (packageNameFilter?.let { it.invoke(StackData.create(0).getStackTag()) } != false)
+                logBlock()
         }
     }
 

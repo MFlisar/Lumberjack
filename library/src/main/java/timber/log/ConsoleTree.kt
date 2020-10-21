@@ -1,13 +1,15 @@
 package timber.log
 
+import android.annotation.SuppressLint
 import android.util.Log
-import com.michaelflisar.lumberjack.data.StackData
 
 /**
  * Created by flisar on 17.01.2019.
  */
 
-class ConsoleTree(val appendClickableLink: Boolean = true) : BaseTree() {
+class ConsoleTree(
+        val appendClickableLink: Boolean = true
+) : BaseTree() {
 
     companion object {
         private const val MAX_LOG_LENGTH = 4000
@@ -38,6 +40,7 @@ class ConsoleTree(val appendClickableLink: Boolean = true) : BaseTree() {
         }
     }
 
+    @SuppressLint("LogNotTimber")
     private fun logLine(priority: Int, tag: String?, message: String) {
         // tag is logged anyways, so we do NOT add it to the message!
         val logMessage = message//formatLine(tag, message)
@@ -53,7 +56,7 @@ class ConsoleTree(val appendClickableLink: Boolean = true) : BaseTree() {
         val link = lastStackData.getLink()
         val lines = message.split("\r\n|\r|\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         if (lines.size <= 1) {
-            return message + " (" + link + ")"
+            return "$message ($link)"
         }
         // this makes sure that links always works, like for example if pretty print for collections is enabled
         else {

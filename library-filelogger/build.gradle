@@ -5,19 +5,42 @@ apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.MFlisar'
 
 android {
+
     compileSdkVersion setup.compileSdk
+
     defaultConfig {
         minSdkVersion setup.minSdk
         targetSdkVersion setup.targetSdk
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlinVersion"
+    // ------------------------
+    // Kotlin
+    // ------------------------
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlinVersion}"
+
+    // ------------------------
+    // Library
+    // ------------------------
 
     implementation project(':lumberjack-library')
 
-    implementation "org.slf4j:slf4j-api:$versions.slf4j"
-    implementation("com.github.tony19:logback-android:$versions.logback")
+    // ------------------------
+    // Others
+    // ------------------------
+
+    implementation "org.slf4j:slf4j-api:${versions.slf4j}"
+    implementation "com.github.tony19:logback-android:${versions.logback}"
 }

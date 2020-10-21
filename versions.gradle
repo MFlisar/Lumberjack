@@ -1,15 +1,17 @@
 ext {
 
     setup = [
-            compileSdk       : 28,
-            enableDataBinding: true,
+            compileSdk       : 30,
+            enableDataBinding: false,
+            enableViewBinding: true,
             minSdk           : 16,
-            targetSdk        : 28]
+            targetSdk        : 30]
 
     versions = [
-            kotlinVersion: "1.3.21",
-            gradlePlugin : "3.3.2",
+            kotlinVersion: "1.4.10",
+            gradlePlugin : "4.0.2",
             mavenVersion : "2.0",
+
             slf4j        : "1.7.25",
             logback      : "2.0.0",
             timber       : "4.7.1"

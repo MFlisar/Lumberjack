@@ -10,7 +10,7 @@ import com.michaelflisar.lumberjack.data.StackData
 abstract class BaseTree : Timber.Tree() {
 
     companion object {
-        internal val CALL_STACK_INDEX = 6
+        internal const val CALL_STACK_INDEX = 6
     }
 
     private val callStackCorrection = ThreadLocal<Int>()
@@ -29,11 +29,15 @@ abstract class BaseTree : Timber.Tree() {
         callStackCorrection.set(value)
     }
 
+    private fun createStackData(): StackData {
+        val callStackCorrection = getCallStackCorrection() ?: 0
+        return StackData.create(CALL_STACK_INDEX + callStackCorrection)
+    }
+
     internal override fun getTag(): String? {
 
         // 1) get stack data
-        var callStackCorrection = getCallStackCorrection() ?: 0
-        lastStackData = StackData.create(CALL_STACK_INDEX + callStackCorrection)
+        lastStackData = createStackData()
 
         // 2) get custom tag if one exists
         val customTag = super.getTag()
