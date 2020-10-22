@@ -30,6 +30,12 @@ object L {
      */
     var tagNameFilter: ((tags: String) -> Boolean)? = null
 
+    /*
+     * if enabled, Lumberjack will try to log find out a lambdas caller and append this info to the log tag
+     * does not work perfectly, we would to distinguish between lambdas called directly or by a coroutine and more...
+     */
+    internal val advancedLambdaLogging = false
+
     // --------------
     // special functions
     // --------------
@@ -112,7 +118,7 @@ object L {
     @PublishedApi
     internal inline fun log(t: Throwable?, logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
-            if (packageNameFilter?.let { it.invoke(StackData.create(t, 0).className) } != false)
+            if (packageNameFilter?.let { it.invoke(StackData(t, 0).getCallingPackageName()) } != false)
                 logBlock()
         }
     }

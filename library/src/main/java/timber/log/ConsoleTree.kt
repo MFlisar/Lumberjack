@@ -61,7 +61,7 @@ class ConsoleTree(
     }
 
     private fun appendLink(message: String, stackData: StackData): String {
-        val link = stackData.link
-        return "$message ($link)"
+        val link = stackData.getLink()
+        return "$message $link"
     }
 }

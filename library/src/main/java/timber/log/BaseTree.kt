@@ -168,7 +168,7 @@ abstract class BaseTree : Timber.Tree() {
 
         // custom: we create a stack data object
         val callStackCorrection = getCallStackCorrection() ?: 0
-        val stackData = StackData.create(t, CALL_STACK_INDEX + callStackCorrection)
+        val stackData = StackData(t, CALL_STACK_INDEX + callStackCorrection)
 
         // Consume tag even when message is not loggable so that next message is correctly tagged.
         @Suppress("NAME_SHADOWING") var message = message
@@ -228,9 +228,9 @@ abstract class BaseTree : Timber.Tree() {
 
         // 2) create a custom tag for the logs
         return if (customTag != null) {
-            "[<$customTag> ${stackData.stackTag}]"
+            "[<$customTag> ${stackData.getStackTag()}]"
         } else {
-            "[${stackData.stackTag}]"
+            "[${stackData.getStackTag()}]"
         }
     }
 

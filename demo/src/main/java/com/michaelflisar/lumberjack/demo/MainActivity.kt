@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         L.d { "1 - MainActivity onCreate was just called" }
         L.logIf { false }?.d {
-            // sleep 60s - no problem, this block will never be executed
+            // sleep 60s - no problem, this block will never be executed thanks to lazy evaluation
             Thread.sleep(1000 * 60)
             "2 - this log will never be printed nor will this block ever be executed"
         }
@@ -25,16 +25,16 @@ class MainActivity : AppCompatActivity() {
         // Specials
         // --------------
 
-        val func = {
-            L.d { "5 - from within lambda" }
-            // 2 steps up, one for func and one for the func invoke => the link in the console logger won't work because the caller line is the function call... but it points to the correct line
-            L.callStackCorrection(2)
-                .d { "6 - from within lambda and forcefully telling Lumberjack that we want to log the func callers line" }
+        val func = { info: String ->
+            L.d { "5 - from within lambda: $info" }
         }
-        func()
+
+        func("func call 1...")
+        func("func call 2...")
+        func("func call 3...")
 
         lifecycle.coroutineScope.launch(Dispatchers.IO) {
-            L.d { "7 - from within coroutine on background thread: ${Thread.currentThread()}" }
+            L.d { "6 - from within coroutine on background thread: ${Thread.currentThread()}" }
         }
     }
 
