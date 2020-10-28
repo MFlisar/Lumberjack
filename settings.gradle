@@ -2,6 +2,8 @@ include ':lumberjack-library'
 project(':lumberjack-library').projectDir = new File(settingsDir, 'library')
 include ':lumberjack-filelogger'
 project(':lumberjack-filelogger').projectDir = new File(settingsDir, 'library-filelogger')
+include ':lumberjack-feedback'
+project(':lumberjack-feedback').projectDir = new File(settingsDir, 'library-feedback')
 
 include ':lumberjack-java-wrapper'
 project(':lumberjack-java-wrapper').projectDir = new File(settingsDir, 'library-java-wrapper')

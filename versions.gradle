@@ -8,13 +8,15 @@ ext {
             targetSdk        : 30]
 
     versions = [
-            kotlinVersion: "1.4.10",
-            gradlePlugin : "4.0.2",
-            mavenVersion : "2.0",
+            kotlinVersion  : "1.4.10",
+            gradlePlugin   : "4.0.2",
+            mavenVersion   : "2.0",
 
-            slf4j        : "1.7.25",
-            logback      : "2.0.0",
-            timber       : "4.7.1"
+            feedbackManager: "1.3",
+
+            slf4j          : "1.7.25",
+            logback        : "2.0.0",
+            timber         : "4.7.1"
     ]
 
     debugSetup = [useMultiDex: false]

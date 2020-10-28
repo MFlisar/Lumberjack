@@ -215,7 +215,7 @@ abstract class BaseTree : Timber.Tree() {
     // custom code - extended tag
     // --------------------
 
-    protected open fun formatLine(tag: String?, message: String) = "[$tag]: $message"
+    protected open fun formatLine(tag: String?, message: String) = "$tag: $message"
 
     // --------------------
     // custom code - extended tag

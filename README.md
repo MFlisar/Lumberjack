@@ -10,6 +10,9 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
 * customise each tree to whatever you want or extend them or add your own tree
 * little utility class to log time and laps (the `T` class) 
 * by default, this library will create tags if no custom tag is provided like "[CLASSNAME:LINE] FUNCTION" e.g. `[MainActivity:32 onCreate]: Some log`
+* feedback module that contains extension functions for `L` to send feedback or to show a notification that will send a feedback on click:
+  * L.sendFeedback()... sends a feedback via IntentChooser with an optional files appended
+  * L.showCrashNotification()... shows a notification which will send a feedback if clicked
 
 **All features are splitted into separate modules, just include the modules you want to use!**
 
@@ -31,9 +34,12 @@ dependencies {
 	implementation 'com.github.MFlisar.Lumberjack:lumberjack-library:<LATEST-VERSION>'
     // modules (OPTIONAL)
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:<LATEST-VERSION>'
+    implementation 'com.github.MFlisar.Lumberjack:lumberjack-feedback:<LATEST-VERSION>'
 
     // Wrapper for java => will provide a class `L2` with all the functions from `L` but without the inlining feature because this is not possible in java
     // can be used to use Lumberjack in mixed java and kotlin projects
+	// of course you can always use the lambda functions in java as well, but the L2 calls are shorter:
+	// JAVA Code: L2.d("Test") vs. L.INSTANCE.d(() -> "Test")
     // implementation 'com.github.MFlisar.Lumberjack:lumberjack-java-wrapper:<LATEST-VERSION>'
 }
 ```
@@ -46,7 +52,7 @@ Once in your app do following:
 // simply console logger
 L.plant(ConsoleTree())
 // a file logger (optional)
-val fileLoggingSetup = FileLoggingSetup(context) // default setup keeps log files for 7 days and creates a new file each day
+val fileLoggingSetup = FileLoggingSetup.DateFiles(context) // default setup keeps log files for 7 days and creates a new file each day
 L.plant(FileLoggingTree(fileLoggingSetup))
 // if desired, disable all logging in release
 // L.enabled = Build.DEBUG

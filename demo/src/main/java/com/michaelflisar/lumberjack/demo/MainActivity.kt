@@ -1,9 +1,11 @@
 package com.michaelflisar.lumberjack.demo
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.coroutineScope
 import com.michaelflisar.lumberjack.L
+import com.michaelflisar.lumberjack.sendFeedback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,6 +37,19 @@ class MainActivity : AppCompatActivity() {
 
         lifecycle.coroutineScope.launch(Dispatchers.IO) {
             L.d { "6 - from within coroutine on background thread: ${Thread.currentThread()}" }
+        }
+
+        findViewById<Button>(R.id.btSendFeedback).setOnClickListener {
+            L.sendFeedback(
+                this,
+                LogHelper.FILE_LOGGING_SETUP,
+                // provide a valid email here if you want to test this
+                "mflisar.development@gmail.com"//""invalid.mail@invalid.com"
+            )
+        }
+        findViewById<Button>(R.id.btResetLogFiles).setOnClickListener {
+            LogHelper.clearLogFiles()
+            L.d { "Old log files deleted and newest log file cleared, this is the only line in the log file!" }
         }
     }
 

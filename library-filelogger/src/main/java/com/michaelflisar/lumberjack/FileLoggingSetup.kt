@@ -1,128 +1,86 @@
 package com.michaelflisar.lumberjack
 
 import android.content.Context
+import java.io.File
+import java.io.PrintWriter
+import java.util.regex.Pattern
 
-/**
- * Created by Michael on 17.10.2016.
- */
+sealed class FileLoggingSetup {
 
-class FileLoggingSetup(context: Context) {
+    protected abstract val pattern: String
+    abstract val context: Context
+    abstract val folder: String
+    abstract val logOnBackgroundThread: Boolean
+    abstract val setup: Setup
 
-    internal var folder: String
+    fun getAllExistingLogFiles() = getFilesInFolder().filter { Pattern.matches(pattern, it.name) }
+    open fun getLatestLogFiles() = getAllExistingLogFiles().sortedByDescending { it.lastModified() }.firstOrNull()
 
-    // DEFAULT SETUP
-    internal var logsToKeep = 7
-    internal var logPattern = "%d\t%msg%n"
-    internal var fileName = "log"
-    internal var fileExtension = "log"
-
-    // Mode
-    internal var mode = Mode.DateFiles
-
-    // MODE: NumberedFiles
-    internal var numberedFileSizeLimit = "1MB"
-
-    internal var logOnBackgroundThread = false
-
-    enum class Mode {
-        DateFiles,
-        NumberedFiles
+    fun clearLogFiles() {
+        val newestFile = getLatestLogFiles()
+        val filesToDelete = getAllExistingLogFiles().filter { it != newestFile }
+        filesToDelete.forEach {
+            it.delete()
+        }
+        newestFile?.let {
+            val writer = PrintWriter(it)
+            writer.print("")
+            writer.close()
+        }
     }
 
-    init {
-        // setup a default folder in the apps default path
-        folder = context.getFileStreamPath("").absolutePath
+    class NumberedFiles(
+        override val context: Context,
+        override val folder: String = context.getFileStreamPath("").absolutePath,
+        override val logOnBackgroundThread: Boolean = true,
+        val sizeLimit: String = "1MB",
+        override val setup: Setup = Setup()
+    ) : FileLoggingSetup() {
+        override val pattern = String.format(
+            FileLoggingTree.NUMBERED_FILE_NAME_PATTERN,
+            setup.fileName,
+            setup.fileExtension
+        )
+        val baseFilePath = folder + "/" + setup.fileName + "." + setup.fileExtension
+        /*
+         * we know the file name of the newest file before hand, no need to check all files in the folder
+         */
+        override fun getLatestLogFiles() = File(baseFilePath)
     }
 
-    /**
-     * define a custom path for the folder, in which you want to create your log files
-     * DEFAULT: the apps cache directory
-     *
-     * @param folderPath The path of the folder
+    class DateFiles(
+        override val context: Context,
+        override val folder: String = context.getFileStreamPath("").absolutePath,
+        override val logOnBackgroundThread: Boolean = true,
+        override val setup: Setup = Setup()
+    ) : FileLoggingSetup() {
+        override val pattern = String.format(
+            FileLoggingTree.DATE_FILE_NAME_PATTERN,
+            setup.fileName,
+            setup.fileExtension
+        )
+    }
+
+    /*
+     * logsToKeep...    define how many log files will be kept
+     * logPattern...    define a custom file logger format
+     *                  Refer to https://github.com/tony19/logback-android and https://www.slf4j.org/ for more infos
+     *                  DEFAULT: %d{HH:mm:ss.SSS}	%logger{36}	%msg%n
+     * fileName...      define a custom basic file name for your log files
+     * fileExtension... define a custom file extension for your log files
      */
-    fun withFolder(folderPath: String): FileLoggingSetup {
-        folder = folderPath
-        return this
-    }
+    class Setup(
+        val logsToKeep: Int = 7,
+        val logPattern: String = "%d\t%msg%n",
+        val fileName: String = "log",
+        val fileExtension: String = "log"
+    )
 
-    /**
-     * define a custom basic file name for your log files
-     * DEFAULT: log
-     *
-     * @param fileName The basic file name of your log files
-     */
-    fun withFileName(fileName: String): FileLoggingSetup {
-        this.fileName = fileName
-        return this
-    }
-
-    /**
-     * define a custom file extension for your log files
-     * DEFAULT: log
-     *
-     * @param fileExtension The file extension of your log files
-     */
-    fun withFileExtension(fileExtension: String): FileLoggingSetup {
-        this.fileExtension = fileExtension
-        return this
-    }
-
-    /**
-     * define a custom log file pattern
-     * DEFAULT: 7
-     *
-     * @param logsToKeep number of log files to keep
-     */
-    fun withLogsToKeep(logsToKeep: Int): FileLoggingSetup {
-        this.logsToKeep = logsToKeep
-        return this
-    }
-
-    /**
-     * define a custom file logger format
-     * Refer to https://github.com/tony19/logback-android and https://www.slf4j.org/ for more infos
-     * DEFAULT: %d{HH:mm:ss.SSS}	%logger{36}	%msg%n
-     *
-     * @param pattern the log pattern
-     */
-    fun withPattern(pattern: String): FileLoggingSetup {
-        logPattern = pattern
-        return this
-    }
-
-    /**
-     * define the mode you want to use
-     * Select between [Mode.DateFiles] and [Mode.NumberedFiles]
-     * [Mode.DateFiles] will create a log file per day
-     * [Mode.NumberedFiles] will create a new_settings log file after the size defined via [FileLoggingSetup.withNumberedFileSizeLimit] is reached
-     *
-     * @param mode the mode you want
-     */
-    fun withMode(mode: Mode): FileLoggingSetup {
-        this.mode = mode
-        return this
-    }
-
-    /**
-     * define the size limit for the file logger with mode [Mode.NumberedFiles]
-     * you can use 1KB, 1MB and similar strings
-     * DEFAULT: 1MB
-     *
-     * @param size the size
-     */
-    fun withNumberedFileSizeLimit(size: String): FileLoggingSetup {
-        numberedFileSizeLimit = size
-        return this
-    }
-
-    /**
-     * define if the logging should happen on background thread to avoid IO operations on main thread
-     * DEFAULT: false
-     *
-     * @param enabled true if background thread should be used
-     */
-    fun withLogOnBackgroundThread(enabled: Boolean): FileLoggingSetup {
-        logOnBackgroundThread = enabled
-        return this
+    protected fun getFilesInFolder(): List<File> {
+        val folder = File(folder)
+        if (!folder.exists()) {
+            return emptyList()
+        }
+        return folder.listFiles()?.filter { it.isFile } ?: emptyList()
     }
 }

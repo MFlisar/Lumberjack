@@ -30,9 +30,10 @@ class FileLoggingTree(
         }
 
         if (setup.logOnBackgroundThread) {
-            mHandlerThread = HandlerThread("FileLoggingTree")
-            mHandlerThread!!.start()
-            mBackgroundHandler = Handler(mHandlerThread!!.looper)
+            mHandlerThread = HandlerThread("FileLoggingTree").apply {
+                start()
+                mBackgroundHandler = Handler(looper)
+            }
         }
 
         init(setup)
@@ -45,7 +46,7 @@ class FileLoggingTree(
         // 1) FileLoggingSetup - Encoder for File
         val encoder1 = PatternLayoutEncoder()
         encoder1.context = lc
-        encoder1.pattern = setup.logPattern
+        encoder1.pattern = setup.setup.logPattern
         encoder1.start()
 
         // 2) FileLoggingSetup - rolling file appender
@@ -56,42 +57,42 @@ class FileLoggingTree(
 
         // 3) FileLoggingSetup - Rolling policy (one log per day)
         var triggeringPolicy: TriggeringPolicy<ILoggingEvent>? = null
-        when (setup.mode) {
-            FileLoggingSetup.Mode.DateFiles -> {
+        when (setup) {
+            is FileLoggingSetup.DateFiles -> {
                 val timeBasedRollingPolicy = TimeBasedRollingPolicy<ILoggingEvent>()
                 timeBasedRollingPolicy.fileNamePattern =
-                    setup.folder + "/" + setup.fileName + "_%d{yyyyMMdd}." + setup.fileExtension
-                timeBasedRollingPolicy.maxHistory = setup.logsToKeep
+                    setup.folder + "/" + setup.setup.fileName + "_%d{yyyyMMdd}." + setup.setup.fileExtension
+                timeBasedRollingPolicy.maxHistory = setup.setup.logsToKeep
                 timeBasedRollingPolicy.isCleanHistoryOnStart = true
                 timeBasedRollingPolicy.setParent(rollingFileAppender)
                 timeBasedRollingPolicy.context = lc
 
                 triggeringPolicy = timeBasedRollingPolicy
             }
-            FileLoggingSetup.Mode.NumberedFiles -> {
+            is FileLoggingSetup.NumberedFiles -> {
                 val fixedWindowRollingPolicy = FixedWindowRollingPolicy()
                 fixedWindowRollingPolicy.fileNamePattern =
-                    setup.folder + "/" + setup.fileName + "%i." + setup.fileExtension
+                    setup.folder + "/" + setup.setup.fileName + "%i." + setup.setup.fileExtension
                 fixedWindowRollingPolicy.minIndex = 1
-                fixedWindowRollingPolicy.maxIndex = setup.logsToKeep
+                fixedWindowRollingPolicy.maxIndex = setup.setup.logsToKeep
                 fixedWindowRollingPolicy.setParent(rollingFileAppender)
                 fixedWindowRollingPolicy.context = lc
 
                 val sizeBasedTriggeringPolicy = SizeBasedTriggeringPolicy<ILoggingEvent>()
                 sizeBasedTriggeringPolicy.maxFileSize =
-                    FileSize.valueOf(setup.numberedFileSizeLimit)
+                    FileSize.valueOf(setup.sizeLimit)
 
                 triggeringPolicy = sizeBasedTriggeringPolicy
 
-                rollingFileAppender.file = FileLoggingUtil.getDefaultLogFile(setup)
+                rollingFileAppender.file = setup.baseFilePath
                 rollingFileAppender.rollingPolicy = fixedWindowRollingPolicy
                 fixedWindowRollingPolicy.start()
             }
         }
         triggeringPolicy.start()
 
-        rollingFileAppender.setTriggeringPolicy(triggeringPolicy)
-        rollingFileAppender.setEncoder(encoder1)
+        rollingFileAppender.triggeringPolicy = triggeringPolicy
+        rollingFileAppender.encoder = encoder1
         rollingFileAppender.start()
 
         // add the newly created appenders to the root logger;
@@ -103,11 +104,7 @@ class FileLoggingTree(
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?, stackData: StackData) {
         val logMessage = formatLine(tag, message)
-        if (mBackgroundHandler == null) {
-            doRealLog(priority, logMessage)
-        } else {
-            mBackgroundHandler!!.post { doRealLog(priority, logMessage) }
-        }
+        mBackgroundHandler?.post { doRealLog(priority, logMessage) } ?: doRealLog(priority, logMessage)
     }
 
     private fun doRealLog(priority: Int, logMessage: String) {
@@ -122,8 +119,8 @@ class FileLoggingTree(
 
     companion object {
 
-        val DATE_FILE_NAME_PATTERN = "%s_\\d{8}.%s"
-        val NUMBERED_FILE_NAME_PATTERN = "%s\\d*.%s"
+        const val DATE_FILE_NAME_PATTERN = "%s_\\d{8}.%s"
+        const val NUMBERED_FILE_NAME_PATTERN = "%s\\d*.%s"
 
         internal var mLogger =
             LoggerFactory.getLogger(FileLoggingTree::class.java)//Logger.ROOT_LOGGER_NAME);
