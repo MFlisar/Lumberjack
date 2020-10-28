@@ -11,8 +11,8 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
 * little utility class to log time and laps (the `T` class) 
 * by default, this library will create tags if no custom tag is provided like "[CLASSNAME:LINE] FUNCTION" e.g. `[MainActivity:32 onCreate]: Some log`
 * feedback module that contains extension functions for `L` to send feedback or to show a notification that will send a feedback on click:
-  * L.sendFeedback()... sends a feedback via IntentChooser with an optional files appended
-  * L.showCrashNotification()... shows a notification which will send a feedback if clicked
+  * `L.sendFeedback()`... sends a feedback via IntentChooser with an optional files appended
+  * `L.showCrashNotification()`... shows a notification which will send a feedback if clicked
 
 **All features are splitted into separate modules, just include the modules you want to use!**
 
@@ -51,12 +51,32 @@ Once in your app do following:
 ```kotlin
 // simply console logger
 L.plant(ConsoleTree())
-// a file logger (optional)
-val fileLoggingSetup = FileLoggingSetup.DateFiles(context) // default setup keeps log files for 7 days and creates a new file each day
-L.plant(FileLoggingTree(fileLoggingSetup))
 // if desired, disable all logging in release
 // L.enabled = Build.DEBUG
 ```
+
+With the `filelogger` module you need to do following:
+
+```kotlin
+// a file logger (optional)
+// here you can setup a date file or a number file file logger - all variables like folder, filename, extension, file to keep and so on can be customised
+// when creating the setup
+// following default setup keeps log files for 7 days and creates a new file each day and names them "log_YYYYmmdd.log" by default
+val fileLoggingSetup = FileLoggingSetup.DateFiles(context) 
+L.plant(FileLoggingTree(fileLoggingSetup))
+```
+
+With the `feedback` module you can also do following:
+
+```kotlin
+// send feedback with the log file appended (chooser to select a mail will be opened, no internet permission needed!)
+L.sendFeedback(context, fileLoggingSetup, "some.mail@gmail.com")
+
+// show a notification to allow the user the report some interesting internal proplems
+L.showCrashNotification(context, fileLoggingSetup, "some.mail@gmail.com", R.mipmap.ic_launcher, "NotificationChannelID", 1234 /* notification id */)
+```
+
+Check out the demo to see more
 
 ### Example - LOGGING
 

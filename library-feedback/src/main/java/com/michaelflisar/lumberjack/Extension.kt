@@ -43,7 +43,6 @@ fun L.sendFeedback(
 fun L.showCrashNotification(
     context: Context,
     fileLoggingSetup: FileLoggingSetup,
-    appendLogFile: Boolean,
     receiver: String,
     appIcon: Int,
     notificationChannelId: String,
@@ -51,6 +50,7 @@ fun L.showCrashNotification(
     notificationTitle: String = "Rare exception found",
     notificationText: String = "Please report this error by clicking this notification, thanks",
     subject: String = "Exception found in ${context.packageName}",
+    appendLogFile: Boolean = true,
     titleForChooser: String = "Send report with",
     filesToAppend: List<File> = emptyList()
 ) {
