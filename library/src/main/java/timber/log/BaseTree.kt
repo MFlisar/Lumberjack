@@ -10,22 +10,22 @@ abstract class BaseTree : Timber.Tree() {
 
     // we overwrite all log functions because the base classes Timber.prepareLog is private and we need to make a small adjustment
     // to get correct line numbers for kotlin exceptions (only the IDE does convert the line limbers correctly based on a mapping table)
-
+    
     override fun v(message: String?, vararg args: Any?) {
         prepareLog(
-            Log.VERBOSE,
-            null,
-            message,
-            args
+                Log.VERBOSE,
+                null,
+                message,
+                *args
         )
     }
 
     override fun v(t: Throwable?, message: String?, vararg args: Any?) {
         prepareLog(
-            Log.VERBOSE,
-            t,
-            message,
-            args
+                Log.VERBOSE,
+                t,
+                message,
+                *args
         )
     }
 
@@ -34,15 +34,15 @@ abstract class BaseTree : Timber.Tree() {
     }
 
     override fun d(message: String?, vararg args: Any?) {
-        prepareLog(Log.DEBUG, null, message, args)
+        prepareLog(Log.DEBUG, null, message, *args)
     }
 
     override fun d(t: Throwable?, message: String?, vararg args: Any?) {
         prepareLog(
-            Log.DEBUG,
-            t,
-            message,
-            args
+                Log.DEBUG,
+                t,
+                message,
+                *args
         )
     }
 
@@ -51,15 +51,15 @@ abstract class BaseTree : Timber.Tree() {
     }
 
     override fun i(message: String?, vararg args: Any?) {
-        prepareLog(Log.INFO, null, message, args)
+        prepareLog(Log.INFO, null, message, *args)
     }
 
     override fun i(t: Throwable?, message: String?, vararg args: Any?) {
         prepareLog(
-            Log.INFO,
-            t,
-            message,
-            args
+                Log.INFO,
+                t,
+                message,
+                *args
         )
     }
 
@@ -68,15 +68,15 @@ abstract class BaseTree : Timber.Tree() {
     }
 
     override fun w(message: String?, vararg args: Any?) {
-        prepareLog(Log.WARN, null, message, args)
+        prepareLog(Log.WARN, null, message, *args)
     }
 
     override fun w(t: Throwable?, message: String?, vararg args: Any?) {
         prepareLog(
-            Log.WARN,
-            t,
-            message,
-            args
+                Log.WARN,
+                t,
+                message,
+                *args
         )
     }
 
@@ -85,15 +85,15 @@ abstract class BaseTree : Timber.Tree() {
     }
 
     override fun e(message: String?, vararg args: Any?) {
-        prepareLog(Log.ERROR, null, message, args)
+        prepareLog(Log.ERROR, null, message, *args)
     }
 
     override fun e(t: Throwable?, message: String?, vararg args: Any?) {
         prepareLog(
-            Log.ERROR,
-            t,
-            message,
-            args
+                Log.ERROR,
+                t,
+                message,
+                *args
         )
     }
 
@@ -103,19 +103,19 @@ abstract class BaseTree : Timber.Tree() {
 
     override fun wtf(message: String?, vararg args: Any?) {
         prepareLog(
-            Log.ASSERT,
-            null,
-            message,
-            args
+                Log.ASSERT,
+                null,
+                message,
+                *args
         )
     }
 
     override fun wtf(t: Throwable?, message: String?, vararg args: Any?) {
         prepareLog(
-            Log.ASSERT,
-            t,
-            message,
-            args
+                Log.ASSERT,
+                t,
+                message,
+                *args
         )
     }
 
@@ -125,19 +125,19 @@ abstract class BaseTree : Timber.Tree() {
 
     override fun log(priority: Int, message: String?, vararg args: Any?) {
         prepareLog(
-            priority,
-            null,
-            message,
-            args
+                priority,
+                null,
+                message,
+                *args
         )
     }
 
     override fun log(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {
         prepareLog(
-            priority,
-            t,
-            message,
-            args
+                priority,
+                t,
+                message,
+                *args
         )
     }
 
@@ -185,7 +185,7 @@ abstract class BaseTree : Timber.Tree() {
             }
             message = getStackTraceString(t)
         } else {
-            if (args != null && args.isNotEmpty()) {
+            if (args.isNotEmpty()) {
                 message = String.format(message, *args)
             }
             if (t != null) {
@@ -196,19 +196,20 @@ abstract class BaseTree : Timber.Tree() {
     }
 
     final override fun log(
-        priority: Int,
-        tag: String?,
-        message: String,
-        t: Throwable?
-    ) { /* empty, we use our own function with StackData */
+            priority: Int,
+            tag: String?,
+            message: String,
+            t: Throwable?
+    ) {
+        /* empty, we use our own function with StackData */
     }
 
     abstract fun log(
-        priority: Int,
-        tag: String?,
-        message: String,
-        t: Throwable?,
-        stackData: StackData
+            priority: Int,
+            tag: String?,
+            message: String,
+            t: Throwable?,
+            stackData: StackData
     )
 
     // --------------------
