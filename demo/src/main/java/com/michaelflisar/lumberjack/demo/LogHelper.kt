@@ -30,7 +30,7 @@ object LogHelper {
     }
 
     fun clearLogFiles() {
-        // do NOT delete all files directly, just delete old ones and clear the newest one => the folling function does do that for you
+        // do NOT delete all files directly, just delete old ones and clear the newest one => the following function does do that for you
         FILE_LOGGING_SETUP.clearLogFiles()
     }
 }

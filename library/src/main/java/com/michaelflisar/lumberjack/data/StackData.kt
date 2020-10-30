@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack.data
 
+import android.util.Log
 import com.michaelflisar.lumberjack.L
 import java.util.regex.Pattern
 
@@ -74,12 +75,13 @@ class StackData {
     // ------------------------
 
     private fun getElement(stackTrace: Array<StackTraceElement>, index: Int): StackTraceElement {
+        var i = index
         if (stackTrace.size <= index) {
-            throw IllegalStateException(
-                    "Synthetic stacktrace didn't have enough elements: are you using proguard?"
-            )
+            i = stackTrace.size - 1
+            //Log.e("L", "Synthetic stacktrace didn't have enough elements: are you using proguard?")
+            L.e { "Synthetic stacktrace didn't have enough elements: are you using proguard?" }
         }
-        return stackTrace[index]
+        return stackTrace[i]
     }
 
     private fun getClassName(element: StackTraceElement?): String {
