@@ -1,16 +1,20 @@
 package com.michaelflisar.lumberjack.data
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.michaelflisar.lumberjack.L
 import java.util.regex.Pattern
 
-class StackData {
+class StackData(
+    t: Throwable?,
+    callStackIndex: Int
+) {
 
     companion object {
         private val ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$")
     }
 
-    lateinit var element: StackTraceElement
+    var element: StackTraceElement? = null
         private set
     var element2: StackTraceElement? = null
         private set
@@ -23,7 +27,7 @@ class StackData {
         getClassName(element2)
     }
 
-    constructor(t: Throwable?, callStackIndex: Int) {
+    init {
 
         val stackTrace = t?.stackTrace ?: Throwable().stackTrace
         val index = if (t != null) 0 else (callStackIndex + 1)
@@ -31,8 +35,8 @@ class StackData {
         element = getElement(stackTrace, index)
         if (L.advancedLambdaLogging) {
             // functions can not start with numbers, so of the class name ends with a number, this must be a lambda which is handled as anonymous function
-            val split = element.className.split("$")
-            if (split.lastOrNull()?.toIntOrNull() != null) {
+            val split = element?.className?.split("$")
+            if (split?.lastOrNull()?.toIntOrNull() != null) {
                 // example from demo:
                 // com.michaelflisar.lumberjack.demo.MainActivity$onCreate$func$1
                 // => so we need to go up +2, because we want to get the line in onCreate where the caller executes the lambda
@@ -48,7 +52,7 @@ class StackData {
 
     fun getStackTag(): String {
         val simpleClassName = getSimpleClassName(className)
-        var tag = "$simpleClassName:${element.lineNumber} ${element.methodName}"
+        var tag = "$simpleClassName:${element?.lineNumber} ${element?.methodName}"
         element2?.let {
             val simpleClassName2 = getSimpleClassName(className2)
             val extra = simpleClassName2.replace(simpleClassName, "")
@@ -58,7 +62,7 @@ class StackData {
     }
 
     fun getLink(): String {
-        var link = "(${element.fileName}:${element.lineNumber})"
+        var link = "(${element?.fileName}:${element?.lineNumber})"
         // AndroidStudio does not support 2 clickable links...
         element2?.let {
             link += " | (${it.fileName}:${it.lineNumber})"
@@ -74,12 +78,14 @@ class StackData {
     // private helper functions
     // ------------------------
 
-    private fun getElement(stackTrace: Array<StackTraceElement>, index: Int): StackTraceElement {
+    @SuppressLint("LogNotTimber")
+    private fun getElement(stackTrace: Array<StackTraceElement>, index: Int): StackTraceElement? {
+        if (stackTrace.isEmpty())
+            return null
         var i = index
-        if (stackTrace.size <= index) {
+        if (index >= stackTrace.size) {
             i = stackTrace.size - 1
-            //Log.e("L", "Synthetic stacktrace didn't have enough elements: are you using proguard?")
-            L.e { "Synthetic stacktrace didn't have enough elements: are you using proguard?" }
+            Log.e("L", "Synthetic stacktrace didn't have enough elements: are you using proguard?")
         }
         return stackTrace[i]
     }
