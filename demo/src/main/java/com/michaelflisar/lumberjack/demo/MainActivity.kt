@@ -1,18 +1,23 @@
 package com.michaelflisar.lumberjack.demo
 
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.michaelflisar.lumberjack.L
+import com.michaelflisar.lumberjack.demo.databinding.ActivityMainBinding
 import com.michaelflisar.lumberjack.sendFeedback
+import com.michaelflisar.lumberjack.showLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         L.d { "1 - MainActivity onCreate was just called" }
         L.logIf { false }?.d {
@@ -35,11 +40,11 @@ class MainActivity : AppCompatActivity() {
         func("func call 2...")
         func("func call 3...")
 
-        lifecycle.coroutineScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch(Dispatchers.IO) {
             L.d { "6 - from within coroutine on background thread: ${Thread.currentThread()}" }
         }
 
-        findViewById<Button>(R.id.btSendFeedback).setOnClickListener {
+        binding.btSendFeedback.setOnClickListener {
             L.sendFeedback(
                 this,
                 LogHelper.FILE_LOGGING_SETUP,
@@ -47,9 +52,16 @@ class MainActivity : AppCompatActivity() {
                 "mflisar.development@gmail.com"//""invalid.mail@invalid.com"
             )
         }
-        findViewById<Button>(R.id.btResetLogFiles).setOnClickListener {
+        binding.btResetLogFiles.setOnClickListener {
             LogHelper.clearLogFiles()
             L.d { "Old log files deleted and newest log file cleared, this is the only line in the log file!" }
+        }
+        binding.btShowLogFile.setOnClickListener {
+            L.showLog(this, LogHelper.FILE_LOGGING_SETUP)
+        }
+
+        for (i in 0..500) {
+            L.d { "Test $i" }
         }
     }
 

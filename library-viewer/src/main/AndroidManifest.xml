@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.michaelflisar.lumberjack.viewer">
+
+    <application>
+        <activity
+            android:name="com.michaelflisar.lumberjack.LumberjackViewerActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+    </application>
+</manifest>

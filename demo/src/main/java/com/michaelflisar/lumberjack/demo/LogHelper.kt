@@ -13,9 +13,18 @@ object LogHelper {
     fun init(context: Context) {
         L.plant(ConsoleTree())
         // OPTIONAL: we could plant a file logger here if desired
-        FILE_LOGGING_SETUP = FileLoggingSetup.DateFiles(
+        //FILE_LOGGING_SETUP = FileLoggingSetup.DateFiles(
+        //    context,
+        //    setup = FileLoggingSetup.Setup(fileExtension = "txt")
+        //)
+        FILE_LOGGING_SETUP = FileLoggingSetup.NumberedFiles(
             context,
-            setup = FileLoggingSetup.Setup(fileExtension = "txt")
+            setup = FileLoggingSetup.Setup(
+                fileName = "log",
+                fileExtension = "txt",
+                logsToKeep = 20
+            ),
+            sizeLimit = "1MB"
         )
         L.plant(FileLoggingTree(FILE_LOGGING_SETUP))
 
