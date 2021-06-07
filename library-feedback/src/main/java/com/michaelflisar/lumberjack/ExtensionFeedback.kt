@@ -1,9 +1,14 @@
 package com.michaelflisar.lumberjack
 
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.core.app.NotificationCompat
 import com.michaelflisar.feedbackmanager.FeedbackBuilder
 import java.io.File
+
 
 /*
  * convenient extension to simply send a feedback via email with an intent chooser
@@ -76,6 +81,29 @@ fun L.showCrashNotification(
             notificationChannelId,
             notificationId
         )
+}
+
+/*
+ * convenient extension to simply show a notification for exceptions/infos/whatever that the user should report if possible
+ *
+ * - app version will be appended to the subject automatically
+ * - file should be local and accessible files - they will be exposed via a ContentProvider so that the email client can access the file
+ */
+fun L.showInfoNotification(
+    context: Context,
+    notificationChannelId: String,
+    notificationId: Int,
+    notificationTitle: String,
+    notificationText: String,
+    notificationIcon: Int,
+) {
+    val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, notificationChannelId)
+        .setSmallIcon(notificationIcon)
+        .setContentTitle(notificationTitle)
+        .setContentText(notificationText)
+    val notificationManager =
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.notify(notificationId, builder.build())
 }
 
 // -------------------
