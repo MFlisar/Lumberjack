@@ -22,14 +22,17 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         val FILE = "FILE"
 
         fun show(context: Context, file: File) {
-            context.startActivity(
-                Intent(
-                    context,
-                    LumberjackViewerActivity::class.java
-                ).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    putExtra(FILE, file)
-                })
+            context.startActivity(createIntent(context, file))
+        }
+
+        fun createIntent(context: Context, file: File) : Intent {
+            return Intent(
+                context,
+                LumberjackViewerActivity::class.java
+            ).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                putExtra(FILE, file)
+            }
         }
     }
 

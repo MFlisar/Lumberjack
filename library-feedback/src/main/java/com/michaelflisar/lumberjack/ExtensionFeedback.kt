@@ -84,10 +84,7 @@ fun L.showCrashNotification(
 }
 
 /*
- * convenient extension to simply show a notification for exceptions/infos/whatever that the user should report if possible
- *
- * - app version will be appended to the subject automatically
- * - file should be local and accessible files - they will be exposed via a ContentProvider so that the email client can access the file
+ * convenient extension to simply show a notification to the user or for debugging infos
  */
 fun L.showInfoNotification(
     context: Context,
@@ -95,12 +92,13 @@ fun L.showInfoNotification(
     notificationId: Int,
     notificationTitle: String,
     notificationText: String,
-    notificationIcon: Int,
+    notificationIcon: Int
 ) {
     val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, notificationChannelId)
         .setSmallIcon(notificationIcon)
         .setContentTitle(notificationTitle)
         .setContentText(notificationText)
+
     val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     notificationManager.notify(notificationId, builder.build())
