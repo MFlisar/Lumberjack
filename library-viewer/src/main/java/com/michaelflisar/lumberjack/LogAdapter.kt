@@ -132,7 +132,7 @@ internal class LogAdapter(
             TRACE(true, -1),
             DEBUG(true, -1),
             INFO(true, -1),
-            WARN(false, Color.parseColor("#FFA500")),
+            WARN(false, Color.parseColor("#FFA500") /* orange */),
             ERROR(false, Color.RED),
             UNKNOWN(false, android.R.color.transparent)
             ;
