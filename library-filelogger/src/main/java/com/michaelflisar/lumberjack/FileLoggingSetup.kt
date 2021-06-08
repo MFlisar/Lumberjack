@@ -71,7 +71,7 @@ sealed class FileLoggingSetup {
      */
     class Setup(
         val logsToKeep: Int = 7,
-        val logPattern: String = "%d\t%msg%n",
+        val logPattern: String = "%d %-5level %msg%n",
         val fileName: String = "log",
         val fileExtension: String = "log"
     )

@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import kotlin.math.log
 
 internal class LumberjackViewerActivity : AppCompatActivity() {
 
@@ -68,15 +69,15 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                     if (it.firstOrNull()?.isWhitespace() == true) {
                         logEntry += "\n" + it
                     } else {
-                        allLogs.add(LogAdapter.Item(allLogs.size, logEntry!!))
+                        val item = createLogItem(allLogs.size, logEntry!!)
+                        item?.let { allLogs.add(it) }
                         logEntry = it
                     }
                 }
             }
-            if (logEntry != null) {
-                allLogs.add(LogAdapter.Item(allLogs.size, logEntry!!))
-                logEntry = null
-            }
+
+            val item = logEntry?.let { createLogItem(allLogs.size, it) }
+            item?.let { allLogs.add(item) }
 
             logs = allLogs
 
@@ -87,6 +88,26 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                 updateFilter(binding.etFilter.text.toString(), true)
             }
         }
+    }
+
+    private fun createLogItem(existingEntry: Int, logEntry: String): LogAdapter.Item? {
+        if (logEntry.trim().isNotEmpty()) {
+            var level: LogAdapter.Item.Level = LogAdapter.Item.Level.UNKNOWN
+
+            // we try to get log level from default file logging format
+            // e.g. 2000-01-01 00:00:00.000 INFO Some log
+            // => 23 chars (including 1 space) + 2nd space + TAG + 3rd space + rest
+            if (logEntry.count { it == ' ' } > 3)
+            {
+                val ind1 = logEntry.indexOf(' ')
+                val ind2 = logEntry.indexOf(' ', ind1 + 1)
+                val ind3 = logEntry.indexOf(' ', ind2 + 1)
+                val levelString = logEntry.substring(ind2, ind3).trim()
+                level = LogAdapter.Item.Level.values().find { it.name == levelString } ?:  LogAdapter.Item.Level.UNKNOWN
+            }
+            return LogAdapter.Item(existingEntry, logEntry, level)
+        }
+        return null
     }
 
     private fun initFilter() {
@@ -111,7 +132,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         }
 
         filterJob = lifecycleScope.launch(Dispatchers.IO) {
-            val filtered = logs.filter { it.text.contains(filter, true) }
+            val filtered = logs.filter { it.text.contains(filter, true) || it.level.name.contains(filter, true) }
             withContext(Dispatchers.Main) {
                 adapter.update(filtered, filter)
                 updateInfos()
