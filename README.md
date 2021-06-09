@@ -58,7 +58,7 @@ L.plant(ConsoleTree())
 // L.enabled = Build.DEBUG
 ```
 
-## Module `filelogger`
+##### Module `filelogger`
 
 ```kotlin
 // a file logger (optional)
@@ -69,14 +69,14 @@ val fileLoggingSetup = FileLoggingSetup.DateFiles(context)
 L.plant(FileLoggingTree(fileLoggingSetup))
 ```
 
-## Module `feedback`
+##### Module `feedback`
 
 ```kotlin
 // send feedback with the log file appended (chooser to select a mail will be opened, no internet permission needed!)
 L.sendFeedback(context, fileLoggingSetup, "some.mail@gmail.com")
 ```
 
-## Module `notification`
+##### Module `notification`
 
 ```kotlin
 // show a crash notifcation - on notification click the user can send a feedback mail including the log file
@@ -92,7 +92,7 @@ L.showInfoNotification(context, "NotificationChannelID", 1234 /* notification id
 L.showInfoNotification(context, logFile, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
 ```
 
-## Module `viewer`
+##### Module `viewer`
 
 ```kotlin
 // show the log viewer activity
