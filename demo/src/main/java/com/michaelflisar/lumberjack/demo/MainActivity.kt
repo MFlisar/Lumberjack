@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding.btSendFeedback.setOnClickListener {
             L.sendFeedback(
                 this,
-                LogHelper.FILE_LOGGING_SETUP,
+                LogHelper.FILE_LOGGING_SETUP.getLatestLogFiles(),
                 // provide a valid email here if you want to test this
                 "mflisar.development@gmail.com"//""invalid.mail@invalid.com"
             )

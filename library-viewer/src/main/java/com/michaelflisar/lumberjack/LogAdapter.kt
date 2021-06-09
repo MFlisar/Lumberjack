@@ -48,7 +48,7 @@ internal class LogAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = LogItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         if (viewType == 1) {
-            binding.root.setBackgroundColor(Color.LTGRAY)
+            binding.root.setBackgroundColor(Color.parseColor("#11000000"))
         }
         return ViewHolder(binding)
     }
@@ -80,6 +80,7 @@ internal class LogAdapter(
             binding.tvNumber.text = "${item.row + 1}"
             binding.tvType.setTextColor(item.level.getTitleColor(binding.root.context))
             binding.tvType.text = item.level.name
+            binding.tvDate.text = item.date
             binding.tvRow.setTextColor(item.level.getTextColor(binding.root.context))
             binding.tvRow.text = getHighlightedText(item.text, filter, true)
         }
@@ -87,6 +88,7 @@ internal class LogAdapter(
         fun unbind() {
             binding.tvNumber.text = null
             binding.tvType.text = null
+            binding.tvDate.text = null
             binding.tvRow.text = null
         }
 
@@ -126,7 +128,7 @@ internal class LogAdapter(
 
     }
 
-    class Item(val row: Int, val text: String, val level: Level) {
+    class Item(val row: Int, val text: String, val level: Level, val date: String?) {
 
         enum class Level(val useDefaultTextColor: Boolean, private val color: Int) {
             TRACE(true, -1),

@@ -12,7 +12,8 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
 * by default, this library will create tags if no custom tag is provided like "[CLASSNAME:LINE] FUNCTION" e.g. `[MainActivity:32 onCreate]: Some log`
 * feedback module that contains extension functions for `L` to send feedback or to show a notification that will send a feedback on click:
   * `L.sendFeedback()`... sends a feedback via IntentChooser with an optional files appended
-  * `L.showCrashNotification()`... shows a notification which will send a feedback if clicked
+* notification module that contains functions to show info/error notifications
+* viewer module that contains an activity to show a log file with filter functions
 
 **All features are splitted into separate modules, just include the modules you want to use!**
 
@@ -35,6 +36,8 @@ dependencies {
     // modules (OPTIONAL)
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:<LATEST-VERSION>'
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-feedback:<LATEST-VERSION>'
+    implementation 'com.github.MFlisar.Lumberjack:lumberjack-notification:<LATEST-VERSION>'
+    implementation 'com.github.MFlisar.Lumberjack:lumberjack-viwer:<LATEST-VERSION>'
 
     // Wrapper for java => will provide a class `L2` with all the functions from `L` but without the inlining feature because this is not possible in java
     // can be used to use Lumberjack in mixed java and kotlin projects
@@ -71,10 +74,32 @@ With the `feedback` module you can also do following:
 ```kotlin
 // send feedback with the log file appended (chooser to select a mail will be opened, no internet permission needed!)
 L.sendFeedback(context, fileLoggingSetup, "some.mail@gmail.com")
+```
+
+With the `notification` module you can also do following:
+
+```kotlin
+// show a crash notifcation - on notification click the user can send a feedback mail including the log file
+L.showCrashNotification(context, logFile /* may be null */, "some.mail@gmail.com", R.mipmap.ic_launcher, "NotificationChannelID", 1234 /* notification id */)
 
 // show a notification to allow the user the report some interesting internal proplems
 L.showCrashNotification(context, fileLoggingSetup, "some.mail@gmail.com", R.mipmap.ic_launcher, "NotificationChannelID", 1234 /* notification id */)
+
+// show an information notification to the user (or for dev purposes)
+L.showInfoNotification(context, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
+
+// as above, but on notification click it will open the log viewer showing the provided log file
+L.showInfoNotification(context, logFile, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
 ```
+
+With the `viewer` module you can also do following:
+
+```kotlin
+// show the log viewer activity
+L.showLog(context, fileLoggingSetup)
+```
+
+![Viewer](screenshots/viewer.jpg)
 
 Check out the demo to see more
 

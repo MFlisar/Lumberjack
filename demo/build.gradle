@@ -52,6 +52,7 @@ dependencies {
     // ------------------------
 
     implementation project(':lumberjack-library')
+    implementation project(':lumberjack-notification')
     implementation project(':lumberjack-filelogger')
     implementation project(':lumberjack-feedback')
     implementation project(':lumberjack-viewer')

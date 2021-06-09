@@ -1,7 +1,5 @@
 package com.michaelflisar.lumberjack
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -14,28 +12,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import kotlin.math.log
 
 internal class LumberjackViewerActivity : AppCompatActivity() {
-
-    companion object {
-
-        val FILE = "FILE"
-
-        fun show(context: Context, file: File) {
-            context.startActivity(createIntent(context, file))
-        }
-
-        fun createIntent(context: Context, file: File) : Intent {
-            return Intent(
-                context,
-                LumberjackViewerActivity::class.java
-            ).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                putExtra(FILE, file)
-            }
-        }
-    }
 
     private var loading: Boolean = true
     private lateinit var binding: ActivityLumberjackViewerBinding
@@ -55,7 +33,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
     private fun initList() {
         binding.rvLogs.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val file = intent.extras!!.getSerializable(FILE) as File
+        val file = intent.extras!!.getSerializable(LumberjackViewer.FILE) as File
         lifecycleScope.launch(Dispatchers.IO) {
             val lines = file.readLines()
 
@@ -92,6 +70,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
     private fun createLogItem(existingEntry: Int, logEntry: String): LogAdapter.Item? {
         if (logEntry.trim().isNotEmpty()) {
+            var date: String? = null
             var level: LogAdapter.Item.Level = LogAdapter.Item.Level.UNKNOWN
 
             // we try to get log level from default file logging format
@@ -103,9 +82,10 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                 val ind2 = logEntry.indexOf(' ', ind1 + 1)
                 val ind3 = logEntry.indexOf(' ', ind2 + 1)
                 val levelString = logEntry.substring(ind2, ind3).trim()
+                date = logEntry.substring(0, ind2).trim()
                 level = LogAdapter.Item.Level.values().find { it.name == levelString } ?:  LogAdapter.Item.Level.UNKNOWN
             }
-            return LogAdapter.Item(existingEntry, logEntry, level)
+            return LogAdapter.Item(existingEntry, logEntry, level, date)
         }
         return null
     }
