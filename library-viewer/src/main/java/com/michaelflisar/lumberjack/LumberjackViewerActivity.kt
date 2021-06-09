@@ -19,9 +19,8 @@ import java.io.File
 
 internal class LumberjackViewerActivity : AppCompatActivity() {
 
-    private var loading: Boolean = true
     private lateinit var binding: ActivityLumberjackViewerBinding
-    private lateinit var adapter: LogAdapter
+    private var adapter: LogAdapter? = null
     private lateinit var logs: List<LogAdapter.Item>
     private var filterJob: Job? = null
 
@@ -64,7 +63,6 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             logs = allLogs
 
             adapter = LogAdapter(this@LumberjackViewerActivity, logs, "")
-            loading = false
             withContext(Dispatchers.Main) {
                 binding.rvLogs.adapter = adapter
                 updateFilter(true)
@@ -121,6 +119,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
     private fun updateFilter(init: Boolean) {
 
+        val loading = adapter == null
         val filter = binding.etFilter.text?.toString() ?: ""
         val level = binding.spLevel.selectedItemPosition.takeIf { it > 0 }
             ?.let { LogAdapter.Item.Level.values()[it - 1] }
@@ -136,7 +135,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         filterJob?.cancel()
 
         if (!filterIsActive) {
-            adapter.update(logs, filter)
+            adapter!!.update(logs, filter)
             updateInfos()
             return
         }
@@ -148,13 +147,15 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                             (level == null || it.level.level >= level.level)
                 }
             withContext(Dispatchers.Main) {
-                adapter.update(filtered, filter)
+                adapter!!.update(filtered, filter)
                 updateInfos()
             }
         }
     }
 
     private fun updateInfos() {
-        binding.tvInfos.text = "${adapter.items.size} / ${logs.size}"
+        binding.tvInfos.text = adapter?.let {
+            "${it.items.size} / ${logs.size}"
+        } ?: ""
     }
 }
