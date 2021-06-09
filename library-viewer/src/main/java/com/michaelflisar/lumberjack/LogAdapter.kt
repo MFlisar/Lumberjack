@@ -3,37 +3,29 @@ package com.michaelflisar.lumberjack
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import com.michaelflisar.lumberjack.viewer.databinding.LogItemRowBinding
 
 internal class LogAdapter(
+    context: Context,
     var items: List<Item>,
     var filter: String
 ) : RecyclerView.Adapter<LogAdapter.ViewHolder>() {
 
-    companion object {
-        @ColorInt
-        private fun getColorFromAttr(
-            context: Context,
-            @AttrRes attrColor: Int,
-            typedValue: TypedValue = TypedValue(),
-            resolveRefs: Boolean = true
-        ): Int {
-            context.theme.resolveAttribute(attrColor, typedValue, resolveRefs)
-            return typedValue.data
-        }
-    }
+    private val bgColor1: Int = if (context.isCurrentThemeDark()) Color.BLACK else Color.WHITE
+    private val bgColor2: Int = if (context.isCurrentThemeDark()) Color.DKGRAY else Color.LTGRAY
+    private val highlightColor: Int =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) context.getColorFromAttr(android.R.attr.colorPrimary) else Color.BLUE
+    private val textColor: Int = TextView(context).textColors.defaultColor
 
     fun update(items: List<Item>, filter: String) {
         this.items = items
@@ -47,10 +39,8 @@ internal class LogAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = LogItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        if (viewType == 1) {
-            binding.root.setBackgroundColor(Color.parseColor("#11000000"))
-        }
-        return ViewHolder(binding)
+        binding.root.setBackgroundColor(if (viewType == 0) bgColor1 else bgColor2)
+        return ViewHolder(binding, highlightColor, textColor)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -65,23 +55,18 @@ internal class LogAdapter(
     override fun getItemCount(): Int = items.size
 
     class ViewHolder(
-        private val binding: LogItemRowBinding
+        private val binding: LogItemRowBinding,
+        private val highlightColor: Int,
+        private val textColor: Int
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val highlightColor by lazy {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                getColorFromAttr(binding.root.context, android.R.attr.colorPrimary)
-            } else {
-                Color.BLUE
-            }
-        }
 
         fun bind(item: Item, filter: String, pos: Int) {
             binding.tvNumber.text = "${item.row + 1}"
-            binding.tvType.setTextColor(item.level.getTitleColor(binding.root.context))
+            binding.tvType.setTextColor(item.level.getTitleColor(textColor))
             binding.tvType.text = item.level.name
             binding.tvDate.text = item.date
-            binding.tvRow.setTextColor(item.level.getTextColor(binding.root.context))
+            binding.tvRow.setTextColor(item.level.getTextColor(textColor))
             binding.tvRow.text = getHighlightedText(item.text, filter, true)
         }
 
@@ -130,35 +115,27 @@ internal class LogAdapter(
 
     class Item(val row: Int, val text: String, val level: Level, val date: String?) {
 
-        enum class Level(val useDefaultTextColor: Boolean, private val color: Int) {
-            TRACE(true, -1),
-            DEBUG(true, -1),
-            INFO(true, -1),
-            WARN(false, Color.parseColor("#FFA500") /* orange */),
-            ERROR(false, Color.RED),
-            UNKNOWN(false, android.R.color.transparent)
+        enum class Level(val level: Int, val useDefaultTextColor: Boolean, private val color: Int) {
+            TRACE(0, true, -1),
+            DEBUG(1, true, -1),
+            INFO(2, true, -1),
+            WARN(3, false, Color.parseColor("#FFA500") /* orange */),
+            ERROR(4, false, Color.RED),
+            UNKNOWN(-1, false, android.R.color.transparent)
             ;
 
             private var c: Int? = null
             private var c2: Int? = null
 
-            fun getTitleColor(context: Context) : Int {
-                if (c == null) {
-                    c = if (useDefaultTextColor) {
-                        TextView(context).textColors.defaultColor
-                    } else color
-                }
-                return c!!
+            fun getTitleColor(textColor: Int): Int {
+                return if (useDefaultTextColor) textColor else color
             }
 
-            fun getTextColor(context: Context) : Int {
-                val c = getTitleColor(context)
-                if (c2 == null) {
-                    c2 = if (!useDefaultTextColor && getTitleColor(context) == android.R.color.transparent)
-                        TextView(context).textColors.defaultColor
-                    else c
-                }
-                return c2!!
+            fun getTextColor(textColor: Int): Int {
+                val c = getTitleColor(textColor)
+                return if (!useDefaultTextColor && c == android.R.color.transparent)
+                    textColor
+                else c
             }
         }
     }

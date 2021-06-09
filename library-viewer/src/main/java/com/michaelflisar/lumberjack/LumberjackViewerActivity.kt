@@ -1,6 +1,10 @@
 package com.michaelflisar.lumberjack
 
+import android.R
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -59,11 +63,11 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
             logs = allLogs
 
-            adapter = LogAdapter(logs, "")
+            adapter = LogAdapter(this@LumberjackViewerActivity, logs, "")
             loading = false
             withContext(Dispatchers.Main) {
                 binding.rvLogs.adapter = adapter
-                updateFilter(binding.etFilter.text.toString(), true)
+                updateFilter(true)
             }
         }
     }
@@ -76,14 +80,14 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             // we try to get log level from default file logging format
             // e.g. 2000-01-01 00:00:00.000 INFO Some log
             // => 23 chars (including 1 space) + 2nd space + TAG + 3rd space + rest
-            if (logEntry.count { it == ' ' } > 3)
-            {
+            if (logEntry.count { it == ' ' } > 3) {
                 val ind1 = logEntry.indexOf(' ')
                 val ind2 = logEntry.indexOf(' ', ind1 + 1)
                 val ind3 = logEntry.indexOf(' ', ind2 + 1)
                 val levelString = logEntry.substring(ind2, ind3).trim()
                 date = logEntry.substring(0, ind2).trim()
-                level = LogAdapter.Item.Level.values().find { it.name == levelString } ?:  LogAdapter.Item.Level.UNKNOWN
+                level = LogAdapter.Item.Level.values().find { it.name == levelString }
+                    ?: LogAdapter.Item.Level.UNKNOWN
             }
             return LogAdapter.Item(existingEntry, logEntry, level, date)
         }
@@ -92,27 +96,57 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
     private fun initFilter() {
         binding.etFilter.doAfterTextChanged {
-            updateFilter(it?.toString() ?: "", false)
+            updateFilter(false)
+        }
+
+        val items = mutableListOf("ALL")
+        items.addAll(LogAdapter.Item.Level.values().filter { it.level != -1 }.map { it.name })
+        binding.spLevel.adapter = ArrayAdapter(this, R.layout.simple_spinner_item, items).apply {
+            setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        }
+        binding.spLevel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                updateFilter(false)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
     }
 
-    private fun updateFilter(filter: String, init: Boolean) {
+    private fun updateFilter(init: Boolean) {
 
-        if (loading || (init && filter.isEmpty())) {
+        val filter = binding.etFilter.text?.toString() ?: ""
+        val level = binding.spLevel.selectedItemPosition.takeIf { it > 0 }
+            ?.let { LogAdapter.Item.Level.values()[it - 1] }
+        val filterIsActive = filter.isNotEmpty() || level != null
+
+        L.d { "updateFilter: $init | $filter | $level | $filterIsActive" }
+
+        if (loading || (init && !filterIsActive)) {
             updateInfos()
             return
         }
 
         filterJob?.cancel()
 
-        if (filter.isEmpty()) {
+        if (!filterIsActive) {
             adapter.update(logs, filter)
             updateInfos()
             return
         }
 
         filterJob = lifecycleScope.launch(Dispatchers.IO) {
-            val filtered = logs.filter { it.text.contains(filter, true) || it.level.name.contains(filter, true) }
+            val filtered = logs
+                .filter {
+                    (it.text.contains(filter, true) || it.level.name.contains(filter, true)) &&
+                            (level == null || it.level.level >= level.level)
+                }
             withContext(Dispatchers.Main) {
                 adapter.update(filtered, filter)
                 updateInfos()

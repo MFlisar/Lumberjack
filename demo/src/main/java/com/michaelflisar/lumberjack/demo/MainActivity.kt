@@ -2,6 +2,7 @@ package com.michaelflisar.lumberjack.demo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.michaelflisar.lumberjack.L
 import com.michaelflisar.lumberjack.demo.databinding.ActivityMainBinding
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        updateTheme()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -59,10 +61,23 @@ class MainActivity : AppCompatActivity() {
         binding.btShowLogFile.setOnClickListener {
             L.showLog(this, LogHelper.FILE_LOGGING_SETUP)
         }
+        binding.cbDarkTheme.apply {
+            isChecked = App.darkTheme
+            setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked != App.darkTheme) {
+                    App.darkTheme = isChecked
+                    updateTheme()
+                }
+            }
+        }
 
         for (i in 0..500) {
             L.d { "Test $i" }
         }
+    }
+
+    private fun updateTheme() {
+        AppCompatDelegate.setDefaultNightMode(if (App.darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     private class TestException(msg: String) : Throwable(msg) {

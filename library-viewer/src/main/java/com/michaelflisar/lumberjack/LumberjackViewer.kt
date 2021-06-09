@@ -7,7 +7,7 @@ import java.io.File
 
 object LumberjackViewer : ILumberjackViewActivityProvider {
 
-    val FILE = "FILE"
+    const val FILE = "FILE"
 
     fun show(context: Context, file: File) {
         context.startActivity(createIntent(context, file))
