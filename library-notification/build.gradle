@@ -33,6 +33,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlinVersion}"
 
     // ------------------------
+    // AndroidX
+    // ------------------------
+
+    implementation "androidx.core:core-ktx:${versions.core}"
+
+    // ------------------------
     // Library
     // ------------------------
 

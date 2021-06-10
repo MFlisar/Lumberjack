@@ -1,7 +1,8 @@
 package com.michaelflisar.lumberjack
 
 import android.content.Context
-import com.michaelflisar.feedbackmanager.FeedbackBuilder
+import com.michaelflisar.feedbackmanager.Feedback
+import com.michaelflisar.feedbackmanager.FeedbackFile
 import com.michaelflisar.lumberjack.core.CoreUtil
 import java.io.File
 
@@ -19,12 +20,12 @@ fun L.sendFeedback(
     titleForChooser: String = "Send feedback with",
     filesToAppend: List<File> = emptyList()
 ) {
-    val builder = FeedbackBuilder.create()
-        .withSubject(CoreUtil.getRealSubject(context, subject))
-        .addReceiver(receiver)
-    logFile?.let { builder.addFile(it) }
-    filesToAppend.forEach {
-        builder.addFile(it)
-    }
-    builder.startEmailChooser(context, titleForChooser)
+    val allFiles = filesToAppend.toMutableList()
+    logFile?.let { allFiles.add(0, it) }
+    val feedback = Feedback(
+        listOf(receiver),
+        CoreUtil.getRealSubject(context, subject),
+        attachments = allFiles.map { FeedbackFile.DefaultName(it) }
+    )
+    feedback.startEmailChooser(context, titleForChooser)
 }
