@@ -21,7 +21,7 @@ object DefaultDataExtractor : IDataExtractor {
                 val ind3 = fullLogLine.indexOf(' ', ind2 + 1)
                 val levelString = fullLogLine.substring(ind2, ind3).trim()
                 date = fullLogLine.substring(0, ind2).trim()
-                level = Level.values().find { it.name == levelString }
+                level = Level.values().find { it.getFileMarker() == levelString }
                     ?: Level.UNKNOWN
                 log = fullLogLine.substring(ind3).trimStart()
 

@@ -1,5 +1,7 @@
 package com.michaelflisar.lumberjack.view
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +13,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.michaelflisar.lumberjack.DefaultDataExtractor
 import com.michaelflisar.lumberjack.FileLoggingSetup
 import com.michaelflisar.lumberjack.L
 import com.michaelflisar.lumberjack.core.Level
@@ -28,6 +31,38 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_FILE = "FILE"
+
+        const val FILE_LOGGING_SETUP = "FILE-LOGGING_SETUP"
+        const val DATA_EXTRACTOR = "DATA-EXTRACTOR"
+        const val TITLE = "TITLE"
+
+        fun show(
+            context: Context,
+            fileLoggingSetup: IFileLoggingSetup,
+            dataExtractor: IDataExtractor = DefaultDataExtractor,
+            title: String? = null
+        ) {
+            context.startActivity(createIntent(context, fileLoggingSetup, dataExtractor, title))
+        }
+
+        fun createIntent(
+            context: Context,
+            fileLoggingSetup: IFileLoggingSetup,
+            dataExtractor: IDataExtractor,
+            title: String?
+        ): Intent {
+            return Intent(
+                context,
+                LumberjackViewerActivity::class.java
+            ).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                putExtra(FILE_LOGGING_SETUP, fileLoggingSetup)
+                putExtra(DATA_EXTRACTOR, dataExtractor)
+                title?.let {
+                    putExtra(TITLE, title)
+                }
+            }
+        }
     }
 
     private lateinit var dataExtractor: IDataExtractor
@@ -49,8 +84,13 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        dataExtractor = intent.extras!!.getParcelable(LumberjackViewer.DATA_EXTRACTOR)!!
-        fileLoggingSetup = intent.extras!!.getParcelable(LumberjackViewer.FILE_LOGGING_SETUP)!!
+        val title = if (intent.extras!!.containsKey(TITLE)) intent.extras!!.getString(TITLE)!! else null
+        title?.let {
+            supportActionBar?.title = it
+        }
+
+        dataExtractor = intent.extras!!.getParcelable(DATA_EXTRACTOR)!!
+        fileLoggingSetup = intent.extras!!.getParcelable(FILE_LOGGING_SETUP)!!
 
         if (savedInstanceState?.containsKey(KEY_FILE) == true) {
             selectedFile = savedInstanceState.getSerializable(KEY_FILE) as File
@@ -73,6 +113,18 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.menu_scroll_to_top -> {
+                binding.rvLogs.adapter?.itemCount?.takeIf { it > 0 }?.let {
+                    binding.rvLogs.layoutManager?.scrollToPosition(0)
+                }
+                true
+            }
+            R.id.menu_scroll_to_bottom -> {
+                binding.rvLogs.adapter?.itemCount?.minus(1)?.takeIf { it >= 0 }?.let {
+                    binding.rvLogs.layoutManager?.scrollToPosition(it)
+                }
+                true
+            }
             R.id.menu_clear_log_files -> {
                 fileLoggingSetup.clearLogFiles()
                 loadListData()

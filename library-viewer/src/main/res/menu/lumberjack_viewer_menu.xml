@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/menu_scroll_to_bottom"
+        android:icon="@drawable/ic_baseline_keyboard_arrow_down_24"
+        android:title="Scroll to bottom"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_scroll_to_top"
+        android:icon="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:title="Scroll to top"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_clear_log_files"
-        app:showAsAction="never"
-        android:title="Clear log file(s)" />
+        android:title="Clear log file(s)"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_select_file"
-        app:showAsAction="never"
-        android:title="Select log file">
+        android:title="Select log file"
+        app:showAsAction="never">
 
-        <menu>
-        </menu>
+        <menu></menu>
 
     </item>
 

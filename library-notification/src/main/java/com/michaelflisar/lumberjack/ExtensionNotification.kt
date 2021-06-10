@@ -3,11 +3,10 @@ package com.michaelflisar.lumberjack
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.michaelflisar.feedbackmanager.FeedbackBuilder
 import com.michaelflisar.lumberjack.core.CoreUtil
-import com.michaelflisar.lumberjack.interfaces.IFileLoggingSetup
-import com.michaelflisar.lumberjack.interfaces.ILumberjackViewActivityProvider
 import java.io.File
 
 /*
@@ -77,17 +76,15 @@ fun L.showInfoNotification(
  */
 fun L.showInfoNotification(
     context: Context,
-    fileLoggingSetup: IFileLoggingSetup?,
     notificationChannelId: String,
     notificationId: Int,
     notificationTitle: String,
     notificationText: String,
     notificationIcon: Int,
-    lumberjackViewerActivityProvider: ILumberjackViewActivityProvider
+    clickIntent: Intent
 ) {
-    val pendingIntent: PendingIntent? = fileLoggingSetup?.let {
-        val clickIntent = lumberjackViewerActivityProvider.createIntent(context, fileLoggingSetup)
-        PendingIntent.getActivity(context, 0, clickIntent, 0)
+    val pendingIntent: PendingIntent? = clickIntent?.let {
+        PendingIntent.getActivity(context, 0, it, 0)
     }
 
     val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, notificationChannelId)

@@ -74,6 +74,16 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..500) {
             L.d { "Test $i" }
         }
+
+
+        lifecycleScope.launchWhenStarted {
+            L.tag("LEVEL").v { "Verbose log..." }
+            L.tag("LEVEL").d { "Debug log..." }
+            L.tag("LEVEL").i { "Info log..." }
+            L.tag("LEVEL").w { "Warn log..." }
+            L.tag("LEVEL").e { "Error log..." }
+            L.tag("LEVEL").wtf { "WTF log..." }
+        }
     }
 
     private fun updateTheme() {

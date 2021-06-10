@@ -3,6 +3,7 @@ package com.michaelflisar.lumberjack
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
+import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.LoggerContext
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.classic.spi.ILoggingEvent
@@ -10,7 +11,9 @@ import ch.qos.logback.core.rolling.*
 import ch.qos.logback.core.util.FileSize
 import com.michaelflisar.lumberjack.data.StackData
 import org.slf4j.LoggerFactory
+import org.slf4j.MarkerFactory
 import timber.log.BaseTree
+
 
 /**
  * Created by Michael on 17.10.2016.
@@ -100,6 +103,9 @@ class FileLoggingTree(
         val root = mLogger as ch.qos.logback.classic.Logger
         root.detachAndStopAllAppenders()
         root.addAppender(rollingFileAppender)
+
+        // enable all log level
+        root.level = Level.ALL
     }
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?, stackData: StackData) {
@@ -107,13 +113,19 @@ class FileLoggingTree(
         mBackgroundHandler?.post { doRealLog(priority, logMessage) } ?: doRealLog(priority, logMessage)
     }
 
+    private val WTF_MARKER = MarkerFactory.getMarker("WTF ")
+
     private fun doRealLog(priority: Int, logMessage: String) {
+        // slf4j:   TRACE   <   DEBUG < INFO < WARN < ERROR < FATAL
+        // Android: VERBOSE <   DEBUG < INFO < WARN < ERROR < ASSERT
+
         when (priority) {
-            Log.VERBOSE -> mLogger.debug(logMessage)
+            Log.VERBOSE -> mLogger.trace(logMessage)
             Log.DEBUG -> mLogger.debug(logMessage)
             Log.INFO -> mLogger.info(logMessage)
             Log.WARN -> mLogger.warn(logMessage)
             Log.ERROR -> mLogger.error(logMessage)
+            Log.ASSERT -> mLogger.error(WTF_MARKER, logMessage)
         }
     }
 
