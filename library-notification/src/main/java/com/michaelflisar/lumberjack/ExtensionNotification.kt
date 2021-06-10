@@ -57,31 +57,9 @@ fun L.showInfoNotification(
     notificationId: Int,
     notificationTitle: String,
     notificationText: String,
-    notificationIcon: Int
-) {
-    val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, notificationChannelId)
-        .setSmallIcon(notificationIcon)
-        .setContentTitle(notificationTitle)
-        .setContentText(notificationText)
-
-    val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(notificationId, builder.build())
-}
-
-/*
- * convenient extension to simply show a notification to the user or for debugging infos
- *
- * on click this will open the log file in an activity
- */
-fun L.showInfoNotification(
-    context: Context,
-    notificationChannelId: String,
-    notificationId: Int,
-    notificationTitle: String,
-    notificationText: String,
     notificationIcon: Int,
-    clickIntent: Intent
+    clickIntent: Intent? = null,
+    apply: ((builder: NotificationCompat.Builder) -> Unit)? = null
 ) {
     val pendingIntent: PendingIntent? = clickIntent?.let {
         PendingIntent.getActivity(context, 0, it, 0)
@@ -92,6 +70,7 @@ fun L.showInfoNotification(
         .setContentTitle(notificationTitle)
         .setContentText(notificationText)
     pendingIntent?.let { builder.setContentIntent(it) }
+    apply?.let { it(builder) }
 
     val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
