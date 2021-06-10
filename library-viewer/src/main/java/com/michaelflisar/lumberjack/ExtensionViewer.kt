@@ -1,19 +1,15 @@
 package com.michaelflisar.lumberjack
 
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.pm.PackageManager
-import androidx.core.app.NotificationCompat
-import com.michaelflisar.feedbackmanager.FeedbackBuilder
-import java.io.File
+import com.michaelflisar.lumberjack.interfaces.IFileLoggingSetup
+import com.michaelflisar.lumberjack.view.LumberjackViewer
 
 /*
  * convenient extension to show a log file
  */
 fun L.showLog(
     context: Context,
-    fileLoggingSetup: FileLoggingSetup
+    fileLoggingSetup: IFileLoggingSetup
 ) {
-    LumberjackViewer.show(context, fileLoggingSetup.getLatestLogFiles()!!)
+    LumberjackViewer.show(context, fileLoggingSetup)
 }

@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import com.michaelflisar.feedbackmanager.FeedbackBuilder
 import com.michaelflisar.lumberjack.core.CoreUtil
+import com.michaelflisar.lumberjack.interfaces.IFileLoggingSetup
 import com.michaelflisar.lumberjack.interfaces.ILumberjackViewActivityProvider
 import java.io.File
 
@@ -76,7 +77,7 @@ fun L.showInfoNotification(
  */
 fun L.showInfoNotification(
     context: Context,
-    logFile: File?,
+    fileLoggingSetup: IFileLoggingSetup?,
     notificationChannelId: String,
     notificationId: Int,
     notificationTitle: String,
@@ -84,8 +85,8 @@ fun L.showInfoNotification(
     notificationIcon: Int,
     lumberjackViewerActivityProvider: ILumberjackViewActivityProvider
 ) {
-    val pendingIntent: PendingIntent? = logFile?.let {
-        val clickIntent = lumberjackViewerActivityProvider.createIntent(context, logFile)
+    val pendingIntent: PendingIntent? = fileLoggingSetup?.let {
+        val clickIntent = lumberjackViewerActivityProvider.createIntent(context, fileLoggingSetup)
         PendingIntent.getActivity(context, 0, clickIntent, 0)
     }
 

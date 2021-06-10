@@ -1,4 +1,4 @@
-package com.michaelflisar.lumberjack
+package com.michaelflisar.lumberjack.view
 
 import android.content.Context
 import android.graphics.Color
@@ -13,11 +13,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
+import com.michaelflisar.lumberjack.getColorFromAttr
+import com.michaelflisar.lumberjack.core.Level
+import com.michaelflisar.lumberjack.interfaces.IDataExtractor
+import com.michaelflisar.lumberjack.isCurrentThemeDark
 import com.michaelflisar.lumberjack.viewer.databinding.LogItemRowBinding
 
 internal class LogAdapter(
     context: Context,
-    var items: List<Item>,
+    var items: List<IDataExtractor.Data>,
     var filter: String
 ) : RecyclerView.Adapter<LogAdapter.ViewHolder>() {
 
@@ -27,7 +31,11 @@ internal class LogAdapter(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) context.getColorFromAttr(android.R.attr.colorPrimary) else Color.BLUE
     private val textColor: Int = TextView(context).textColors.defaultColor
 
-    fun update(items: List<Item>, filter: String) {
+    fun clear() {
+        update(emptyList(), "")
+    }
+
+    fun update(items: List<IDataExtractor.Data>, filter: String) {
         this.items = items
         this.filter = filter
         notifyDataSetChanged()
@@ -61,13 +69,13 @@ internal class LogAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(item: Item, filter: String, pos: Int) {
-            binding.tvNumber.text = "${item.row + 1}"
+        fun bind(item: IDataExtractor.Data, filter: String, pos: Int) {
+            binding.tvNumber.text = "${item.line + 1}"
             binding.tvType.setTextColor(item.level.getTitleColor(textColor))
             binding.tvType.text = item.level.name
             binding.tvDate.text = item.date
             binding.tvRow.setTextColor(item.level.getTextColor(textColor))
-            binding.tvRow.text = getHighlightedText(item.text, filter, true)
+            binding.tvRow.text = getHighlightedText(item.log, filter, true)
         }
 
         fun unbind() {
@@ -108,35 +116,6 @@ internal class LogAdapter(
                 offset = ofe + search.length
             }
             return wordToSpan
-        }
-
-
-    }
-
-    class Item(val row: Int, val text: String, val level: Level, val date: String?) {
-
-        enum class Level(val level: Int, val useDefaultTextColor: Boolean, private val color: Int) {
-            TRACE(0, true, -1),
-            DEBUG(1, true, -1),
-            INFO(2, true, -1),
-            WARN(3, false, Color.parseColor("#FFA500") /* orange */),
-            ERROR(4, false, Color.RED),
-            UNKNOWN(-1, false, android.R.color.transparent)
-            ;
-
-            private var c: Int? = null
-            private var c2: Int? = null
-
-            fun getTitleColor(textColor: Int): Int {
-                return if (useDefaultTextColor) textColor else color
-            }
-
-            fun getTextColor(textColor: Int): Int {
-                val c = getTitleColor(textColor)
-                return if (!useDefaultTextColor && c == android.R.color.transparent)
-                    textColor
-                else c
-            }
         }
     }
 }

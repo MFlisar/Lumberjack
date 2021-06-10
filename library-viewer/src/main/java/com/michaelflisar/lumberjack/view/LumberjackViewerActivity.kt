@@ -1,7 +1,8 @@
-package com.michaelflisar.lumberjack
+package com.michaelflisar.lumberjack.view
 
-import android.R
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -10,6 +11,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.michaelflisar.lumberjack.FileLoggingSetup
+import com.michaelflisar.lumberjack.L
+import com.michaelflisar.lumberjack.core.Level
+import com.michaelflisar.lumberjack.interfaces.IDataExtractor
+import com.michaelflisar.lumberjack.interfaces.IFileLoggingSetup
+import com.michaelflisar.lumberjack.viewer.R
 import com.michaelflisar.lumberjack.viewer.databinding.ActivityLumberjackViewerBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,9 +26,21 @@ import java.io.File
 
 internal class LumberjackViewerActivity : AppCompatActivity() {
 
+    companion object {
+        const val KEY_FILE = "FILE"
+    }
+
+    private lateinit var dataExtractor: IDataExtractor
+    private lateinit var fileLoggingSetup: IFileLoggingSetup
+
+    private var selectedFile: File? = null
+
     private lateinit var binding: ActivityLumberjackViewerBinding
+    private val fileMenuItems: HashMap<MenuItem, File> = HashMap()
+
+    private lateinit var logs: List<IDataExtractor.Data>
     private var adapter: LogAdapter? = null
-    private lateinit var logs: List<LogAdapter.Item>
+
     private var filterJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +49,62 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        dataExtractor = intent.extras!!.getParcelable(LumberjackViewer.DATA_EXTRACTOR)!!
+        fileLoggingSetup = intent.extras!!.getParcelable(LumberjackViewer.FILE_LOGGING_SETUP)!!
+
+        if (savedInstanceState?.containsKey(KEY_FILE) == true) {
+            selectedFile = savedInstanceState.getSerializable(KEY_FILE) as File
+        }
+
         initList()
         initFilter()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.lumberjack_viewer_menu, menu)
+        menu?.findItem(R.id.menu_select_file)?.subMenu?.let { subMenu ->
+            fileLoggingSetup.getAllExistingLogFiles().forEachIndexed { index, file ->
+                val menu = subMenu.add(0, index, Menu.NONE, file.name)
+                fileMenuItems[menu] = file
+            }
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_clear_log_files -> {
+                fileLoggingSetup.clearLogFiles()
+                loadListData()
+                true
+            }
+            R.id.menu_select_file -> {
+                true
+            }
+            else -> {
+                selectedFile = fileMenuItems[item]
+                loadListData()
+                true
+            }
+        }
+    }
+
     private fun initList() {
         binding.rvLogs.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val file = intent.extras!!.getSerializable(LumberjackViewer.FILE) as File
-        lifecycleScope.launch(Dispatchers.IO) {
-            val lines = file.readLines()
+        loadListData()
+    }
 
-            val allLogs = ArrayList<LogAdapter.Item>()
+    // ----------------
+    // helper functions
+    // ----------------
+
+    private fun loadListData() {
+        binding.pbLoading.visibility = View.VISIBLE
+        adapter?.clear()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val lines = (selectedFile ?: fileLoggingSetup.getLatestLogFiles())?.readLines() ?: emptyList()
+
+            val allLogs = ArrayList<IDataExtractor.Data>()
             var logEntry: String? = null
             lines.forEach {
                 if (logEntry == null) {
@@ -61,35 +125,21 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             item?.let { allLogs.add(item) }
 
             logs = allLogs
-
-            adapter = LogAdapter(this@LumberjackViewerActivity, logs, "")
             withContext(Dispatchers.Main) {
-                binding.rvLogs.adapter = adapter
+                binding.pbLoading.visibility = View.GONE
+                if (adapter == null) {
+                    adapter = LogAdapter(this@LumberjackViewerActivity, logs, "")
+                    binding.rvLogs.adapter = adapter
+                } else {
+                    adapter!!.update(logs, "")
+                }
                 updateFilter(true)
             }
         }
     }
 
-    private fun createLogItem(existingEntry: Int, logEntry: String): LogAdapter.Item? {
-        if (logEntry.trim().isNotEmpty()) {
-            var date: String? = null
-            var level: LogAdapter.Item.Level = LogAdapter.Item.Level.UNKNOWN
-
-            // we try to get log level from default file logging format
-            // e.g. 2000-01-01 00:00:00.000 INFO Some log
-            // => 23 chars (including 1 space) + 2nd space + TAG + 3rd space + rest
-            if (logEntry.count { it == ' ' } > 3) {
-                val ind1 = logEntry.indexOf(' ')
-                val ind2 = logEntry.indexOf(' ', ind1 + 1)
-                val ind3 = logEntry.indexOf(' ', ind2 + 1)
-                val levelString = logEntry.substring(ind2, ind3).trim()
-                date = logEntry.substring(0, ind2).trim()
-                level = LogAdapter.Item.Level.values().find { it.name == levelString }
-                    ?: LogAdapter.Item.Level.UNKNOWN
-            }
-            return LogAdapter.Item(existingEntry, logEntry, level, date)
-        }
-        return null
+    private fun createLogItem(existingEntries: Int, logEntry: String): IDataExtractor.Data? {
+        return dataExtractor.extract(existingEntries, logEntry)
     }
 
     private fun initFilter() {
@@ -98,9 +148,9 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         }
 
         val items = mutableListOf("ALL")
-        items.addAll(LogAdapter.Item.Level.values().filter { it.level != -1 }.map { it.name })
-        binding.spLevel.adapter = ArrayAdapter(this, R.layout.simple_spinner_item, items).apply {
-            setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        items.addAll(Level.values().filter { it.level != -1 }.map { ">= ${it.name}" })
+        binding.spLevel.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
         binding.spLevel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -122,7 +172,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         val loading = adapter == null
         val filter = binding.etFilter.text?.toString() ?: ""
         val level = binding.spLevel.selectedItemPosition.takeIf { it > 0 }
-            ?.let { LogAdapter.Item.Level.values()[it - 1] }
+            ?.let { Level.values()[it - 1] }
         val filterIsActive = filter.isNotEmpty() || level != null
 
         L.d { "updateFilter: $init | $filter | $level | $filterIsActive" }
@@ -143,7 +193,10 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         filterJob = lifecycleScope.launch(Dispatchers.IO) {
             val filtered = logs
                 .filter {
-                    (it.text.contains(filter, true) || it.level.name.contains(filter, true)) &&
+                    (it.fullLogLine.contains(filter, true) || it.level.name.contains(
+                        filter,
+                        true
+                    )) &&
                             (level == null || it.level.level >= level.level)
                 }
             withContext(Dispatchers.Main) {

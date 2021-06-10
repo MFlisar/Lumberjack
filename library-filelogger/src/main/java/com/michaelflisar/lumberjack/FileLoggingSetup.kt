@@ -1,22 +1,24 @@
 package com.michaelflisar.lumberjack
 
 import android.content.Context
+import android.os.Parcelable
+import com.michaelflisar.lumberjack.interfaces.IFileLoggingSetup
+import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.io.PrintWriter
 import java.util.regex.Pattern
 
-sealed class FileLoggingSetup {
+sealed class FileLoggingSetup : IFileLoggingSetup {
 
     protected abstract val pattern: String
-    abstract val context: Context
     abstract val folder: String
     abstract val logOnBackgroundThread: Boolean
     abstract val setup: Setup
 
-    fun getAllExistingLogFiles() = getFilesInFolder().filter { Pattern.matches(pattern, it.name) }
-    open fun getLatestLogFiles() = getAllExistingLogFiles().sortedByDescending { it.lastModified() }.firstOrNull()
+    override fun getAllExistingLogFiles() = getFilesInFolder().filter { Pattern.matches(pattern, it.name) }
+    override fun getLatestLogFiles() = getAllExistingLogFiles().sortedByDescending { it.lastModified() }.firstOrNull()
 
-    fun clearLogFiles() {
+    override fun clearLogFiles() {
         val newestFile = getLatestLogFiles()
         val filesToDelete = getAllExistingLogFiles().filter { it != newestFile }
         filesToDelete.forEach {
@@ -29,13 +31,20 @@ sealed class FileLoggingSetup {
         }
     }
 
+    @Parcelize
     class NumberedFiles(
-        override val context: Context,
-        override val folder: String = context.getFileStreamPath("").absolutePath,
-        override val logOnBackgroundThread: Boolean = true,
-        val sizeLimit: String = "1MB",
-        override val setup: Setup = Setup()
+        override val folder: String,
+        override val logOnBackgroundThread: Boolean,
+        val sizeLimit: String,
+        override val setup: Setup
     ) : FileLoggingSetup() {
+
+        constructor(context: Context,
+                    folder: String = context.getFileStreamPath("").absolutePath,
+                    logOnBackgroundThread: Boolean = true,
+                    sizeLimit: String = "1MB",
+                    setup: Setup = Setup()) : this(folder, logOnBackgroundThread, sizeLimit, setup)
+
         override val pattern = String.format(
             FileLoggingTree.NUMBERED_FILE_NAME_PATTERN,
             setup.fileName,
@@ -48,12 +57,18 @@ sealed class FileLoggingSetup {
         override fun getLatestLogFiles() = File(baseFilePath)
     }
 
+    @Parcelize
     class DateFiles(
-        override val context: Context,
-        override val folder: String = context.getFileStreamPath("").absolutePath,
-        override val logOnBackgroundThread: Boolean = true,
-        override val setup: Setup = Setup()
+        override val folder: String,
+        override val logOnBackgroundThread: Boolean,
+        override val setup: Setup
     ) : FileLoggingSetup() {
+
+        constructor(context: Context,
+                    folder: String = context.getFileStreamPath("").absolutePath,
+                    logOnBackgroundThread: Boolean = true,
+                    setup: Setup = Setup()) : this(folder, logOnBackgroundThread, setup)
+
         override val pattern = String.format(
             FileLoggingTree.DATE_FILE_NAME_PATTERN,
             setup.fileName,
@@ -69,12 +84,13 @@ sealed class FileLoggingSetup {
      * fileName...      define a custom basic file name for your log files
      * fileExtension... define a custom file extension for your log files
      */
+    @Parcelize
     class Setup(
         val logsToKeep: Int = 7,
         val logPattern: String = "%d %-5level %msg%n",
         val fileName: String = "log",
         val fileExtension: String = "log"
-    )
+    ) : Parcelable
 
     protected fun getFilesInFolder(): List<File> {
         val folder = File(folder)

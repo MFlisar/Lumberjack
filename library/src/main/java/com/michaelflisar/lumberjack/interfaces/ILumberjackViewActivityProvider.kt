@@ -5,5 +5,6 @@ import android.content.Intent
 import java.io.File
 
 interface ILumberjackViewActivityProvider {
-    fun createIntent(context: Context, file: File) : Intent
+    fun createIntent(context: Context, fileLoggingSetup: IFileLoggingSetup): Intent
+    fun createIntent(context: Context, fileLoggingSetup: IFileLoggingSetup, dataExtractor: IDataExtractor): Intent
 }

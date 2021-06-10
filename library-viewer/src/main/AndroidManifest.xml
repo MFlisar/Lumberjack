@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.michaelflisar.lumberjack.LumberjackViewerActivity"
+            android:name="com.michaelflisar.lumberjack.view.LumberjackViewerActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
     </application>
 </manifest>
