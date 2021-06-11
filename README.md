@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:<LATEST-VERSION>'
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-feedback:<LATEST-VERSION>'
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-notification:<LATEST-VERSION>'
-    implementation 'com.github.MFlisar.Lumberjack:lumberjack-viwer:<LATEST-VERSION>'
+    implementation 'com.github.MFlisar.Lumberjack:lumberjack-viewer:<LATEST-VERSION>'
 
     // Wrapper for java => will provide a class `L2` with all the functions from `L` but without the inlining feature because this is not possible in java
     // can be used to use Lumberjack in mixed java and kotlin projects
