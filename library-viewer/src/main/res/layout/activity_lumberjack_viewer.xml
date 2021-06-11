@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -44,13 +43,14 @@
                     android:layout_gravity="center_vertical" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFilter"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:hint="Filter"
-                    tools:ignore="HardcodedText">
+                    android:hint="@string/lumberjack_filter"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFilter"
@@ -62,12 +62,29 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvInfos"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:padding="5dp" />
+                android:orientation="horizontal"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
+
+                <TextView
+                    android:id="@+id/tvFile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:paddingEnd="4dp"
+                    android:paddingRight="4dp" />
+
+                <TextView
+                    android:id="@+id/tvInfos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1" />
+
+            </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -75,6 +92,7 @@
             android:id="@+id/rvLogs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

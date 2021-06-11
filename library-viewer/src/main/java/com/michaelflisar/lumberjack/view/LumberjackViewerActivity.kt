@@ -125,6 +125,10 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                 }
                 true
             }
+            R.id.menu_reload_file -> {
+                loadListData()
+                true
+            }
             R.id.menu_clear_log_files -> {
                 fileLoggingSetup.clearLogFiles()
                 loadListData()
@@ -154,7 +158,8 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         binding.pbLoading.visibility = View.VISIBLE
         adapter?.clear()
         lifecycleScope.launch(Dispatchers.IO) {
-            val lines = (selectedFile ?: fileLoggingSetup.getLatestLogFiles())?.readLines() ?: emptyList()
+            val file = selectedFile ?: fileLoggingSetup.getLatestLogFiles()
+            val lines = file?.readLines() ?: emptyList()
 
             val allLogs = ArrayList<IDataExtractor.Data>()
             var logEntry: String? = null
@@ -179,6 +184,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             logs = allLogs
             withContext(Dispatchers.Main) {
                 binding.pbLoading.visibility = View.GONE
+                binding.tvFile.text = file?.name
                 if (adapter == null) {
                     adapter = LogAdapter(this@LumberjackViewerActivity, logs, "")
                     binding.rvLogs.adapter = adapter
@@ -197,6 +203,10 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
     private fun initFilter() {
         binding.etFilter.doAfterTextChanged {
             updateFilter(false)
+        }
+
+        binding.tilFilter.setEndIconOnClickListener {
+            binding.etFilter.setText("")
         }
 
         val items = mutableListOf("ALL")
@@ -227,7 +237,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             ?.let { Level.values()[it - 1] }
         val filterIsActive = filter.isNotEmpty() || level != null
 
-        L.d { "updateFilter: $init | $filter | $level | $filterIsActive" }
+        //L.d { "updateFilter: $init | $filter | $level | $filterIsActive" }
 
         if (loading || (init && !filterIsActive)) {
             updateInfos()

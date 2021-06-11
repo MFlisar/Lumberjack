@@ -113,7 +113,7 @@ class FileLoggingTree(
         mBackgroundHandler?.post { doRealLog(priority, logMessage) } ?: doRealLog(priority, logMessage)
     }
 
-    private val WTF_MARKER = MarkerFactory.getMarker("WTF ")
+    private val WTF_MARKER = MarkerFactory.getMarker("WTF-")
 
     private fun doRealLog(priority: Int, logMessage: String) {
         // slf4j:   TRACE   <   DEBUG < INFO < WARN < ERROR < FATAL

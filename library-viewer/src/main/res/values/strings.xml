@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="lumberjack_filter">Filter</string>
+    <string name="lumberjack_menu_scroll_to_bottom">Scroll to bottom</string>
+    <string name="lumberjack_menu_scroll_to_top">Scroll to top</string>
+    <string name="lumberjack_reload_files">Reload file</string>
+    <string name="lumberjack_clear_log_files">Clear log file(s)</string>
+    <string name="lumberjack_select_log_file">Select log file</string>
+
+</resources>
