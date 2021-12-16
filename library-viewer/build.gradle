@@ -62,3 +62,5 @@ dependencies {
 
     implementation "com.quiph.ui:recyclerviewfastscroller:${versions.fastscroller}"
 }
+
+apply from: '../maven.gradle'

@@ -51,3 +51,5 @@ dependencies {
 
     implementation "com.github.MFlisar:FeedbackManager:${versions.feedbackManager}"
 }
+
+apply from: '../maven.gradle'

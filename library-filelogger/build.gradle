@@ -47,3 +47,5 @@ dependencies {
     implementation "org.slf4j:slf4j-api:${versions.slf4j}"
     implementation "com.github.tony19:logback-android:${versions.logback}"
 }
+
+apply from: '../maven.gradle'

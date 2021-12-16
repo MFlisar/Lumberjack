@@ -39,3 +39,5 @@ dependencies {
 
     api "com.jakewharton.timber:timber:${versions.timber}"
 }
+
+apply from: '../maven.gradle'
