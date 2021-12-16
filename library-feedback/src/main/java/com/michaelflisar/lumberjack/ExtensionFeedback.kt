@@ -15,7 +15,7 @@ import java.io.File
 fun L.sendFeedback(
     context: Context,
     logFile: File?,
-    receiver: String,
+    receiver: String = context.getString(R.string.lumberjack_mail_receiver),
     subject: String = "Feedback for ${context.packageName}",
     titleForChooser: String = "Send feedback with",
     filesToAppend: List<File> = emptyList()

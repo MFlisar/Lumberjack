@@ -7,5 +7,7 @@
     <string name="lumberjack_reload_files">Reload file</string>
     <string name="lumberjack_clear_log_files">Clear log file(s)</string>
     <string name="lumberjack_select_log_file">Select log file</string>
+    <string name="lumberjack_send_log_file">Mail log file</string>
+    <string name="lumberjack_mail_receiver_missing">Mail receiver missing - send mail aborted</string>
 
 </resources>

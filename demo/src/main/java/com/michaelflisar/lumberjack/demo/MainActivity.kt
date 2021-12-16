@@ -1,6 +1,7 @@
 package com.michaelflisar.lumberjack.demo
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         updateTheme()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         L.d { "1 - MainActivity onCreate was just called" }
         L.logIf { false }?.d {
@@ -47,12 +49,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btSendFeedback.setOnClickListener {
-            L.sendFeedback(
-                this,
-                LogHelper.FILE_LOGGING_SETUP.getLatestLogFiles(),
-                // provide a valid email here if you want to test this
-                "mflisar.development@gmail.com"//""invalid.mail@invalid.com"
-            )
+            // TODO: provide a valid email here if you want to test this
+            val receiver = getString(R.string.lumberjack_mail_receiver)
+            if (receiver.isEmpty())
+                Toast.makeText(this, "You must provide a valid email address to test this function!", Toast.LENGTH_SHORT).show()
+            else
+                L.sendFeedback(this, LogHelper.FILE_LOGGING_SETUP.getLatestLogFiles(), receiver)
         }
         binding.btResetLogFiles.setOnClickListener {
             LogHelper.clearLogFiles()

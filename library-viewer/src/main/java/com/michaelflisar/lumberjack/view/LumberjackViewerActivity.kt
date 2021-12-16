@@ -8,17 +8,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.michaelflisar.lumberjack.DefaultDataExtractor
-import com.michaelflisar.lumberjack.FileLoggingSetup
 import com.michaelflisar.lumberjack.L
 import com.michaelflisar.lumberjack.core.Level
 import com.michaelflisar.lumberjack.interfaces.IDataExtractor
 import com.michaelflisar.lumberjack.interfaces.IFileLoggingSetup
+import com.michaelflisar.lumberjack.sendFeedback
 import com.michaelflisar.lumberjack.viewer.R
 import com.michaelflisar.lumberjack.viewer.databinding.ActivityLumberjackViewerBinding
 import kotlinx.coroutines.Dispatchers
@@ -103,10 +104,12 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.lumberjack_viewer_menu, menu)
         menu?.findItem(R.id.menu_select_file)?.subMenu?.let { subMenu ->
-            fileLoggingSetup.getAllExistingLogFiles().forEachIndexed { index, file ->
-                val menu = subMenu.add(0, index, Menu.NONE, file.name)
-                fileMenuItems[menu] = file
-            }
+            fileLoggingSetup.getAllExistingLogFiles()
+                .sortedBy { it.name }
+                .forEachIndexed { index, file ->
+                    val menu = subMenu.add(0, index, Menu.NONE, file.name)
+                    fileMenuItems[menu] = file
+                }
         }
         return true
     }
@@ -132,6 +135,14 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             R.id.menu_clear_log_files -> {
                 fileLoggingSetup.clearLogFiles()
                 loadListData()
+                true
+            }
+            R.id.menu_send_log_file -> {
+                val receiver = getString(R.string.lumberjack_mail_receiver)
+                if (receiver.isEmpty())
+                    Toast.makeText(this, R.string.lumberjack_mail_receiver_missing, Toast.LENGTH_SHORT).show()
+                else
+                    L.sendFeedback(this, selectedFile, receiver)
                 true
             }
             R.id.menu_select_file -> {

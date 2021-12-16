@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LumberjackTheme" parent="@style/Theme.Material3.DayNight.NoActionBar" />
+
+    <style name="LumberjackFastScrollerPopupTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?colorOnPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>

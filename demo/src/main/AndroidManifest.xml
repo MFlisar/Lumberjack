@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.michaelflisar.lumberjack.demo">
 
-
     <application
         android:name=".App"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="Lumberjack Demo"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -15,6 +14,7 @@
         <activity
             android:name=".MainActivity"
             android:label="Lumberjack Demo"
+            android:exported="true"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

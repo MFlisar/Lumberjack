@@ -53,10 +53,11 @@ dependencies {
 
     implementation project(':lumberjack-library')
     implementation project(':lumberjack-filelogger')
+    implementation project(':lumberjack-feedback')
 
     // ------------------------
     // Others
     // ------------------------
 
-    implementation "com.github.MFlisar:FeedbackManager:${versions.feedbackManager}"
+    implementation "com.quiph.ui:recyclerviewfastscroller:${versions.fastscroller}"
 }

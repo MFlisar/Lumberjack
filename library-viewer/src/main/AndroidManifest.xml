@@ -4,6 +4,8 @@
     <application>
         <activity
             android:name="com.michaelflisar.lumberjack.view.LumberjackViewerActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+            android:exported="true"
+            android:theme="@style/LumberjackTheme" />
     </application>
+
 </manifest>

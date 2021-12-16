@@ -88,14 +88,24 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLogs"
+        <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+            android:id="@+id/fastscroller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:popupTextStyle="@style/LumberjackFastScrollerPopupTextStyle"
+            app:handleDrawable="@drawable/lumberjack_fastscroller_background"
+            app:popupDrawable="@drawable/lumberjack_fastscroller_background">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLogs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp" />
+
+        </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -18,12 +18,13 @@ import com.michaelflisar.lumberjack.core.Level
 import com.michaelflisar.lumberjack.interfaces.IDataExtractor
 import com.michaelflisar.lumberjack.isCurrentThemeDark
 import com.michaelflisar.lumberjack.viewer.databinding.LogItemRowBinding
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 
 internal class LogAdapter(
     context: Context,
     var items: List<IDataExtractor.Data>,
     var filter: String
-) : RecyclerView.Adapter<LogAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LogAdapter.ViewHolder>(), RecyclerViewFastScroller.OnPopupTextUpdate {
 
     private val bgColor1: Int = if (context.isCurrentThemeDark()) Color.BLACK else Color.WHITE
     private val bgColor2: Int = if (context.isCurrentThemeDark()) Color.DKGRAY else Color.LTGRAY
@@ -117,5 +118,13 @@ internal class LogAdapter(
             }
             return wordToSpan
         }
+    }
+
+    // ---------------
+    // FastScroller
+    // ---------------
+
+    override fun onChange(position: Int): CharSequence {
+        return (position + 1).toString()
     }
 }

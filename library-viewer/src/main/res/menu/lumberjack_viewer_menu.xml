@@ -26,6 +26,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_send_log_file"
+        android:title="@string/lumberjack_send_log_file"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_select_file"
         android:title="@string/lumberjack_select_log_file"
         app:showAsAction="never">
