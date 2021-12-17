@@ -12,15 +12,17 @@ import com.michaelflisar.lumberjack.view.LumberjackViewerActivity
 fun L.showLog(
     context: Context,
     fileLoggingSetup: IFileLoggingSetup,
+    receiver: String? = null,
     dataExtractor: IDataExtractor = DefaultDataExtractor,
     title: String? = null
 ) {
-    LumberjackViewerActivity.show(context, fileLoggingSetup, dataExtractor, title)
+    LumberjackViewerActivity.show(context, fileLoggingSetup, receiver, dataExtractor, title)
 }
 
 fun L.createViewerIntent(
     context: Context,
     fileLoggingSetup: IFileLoggingSetup,
+    receiver: String? = null,
     dataExtractor: IDataExtractor = DefaultDataExtractor,
     title: String? = null
-): Intent = LumberjackViewerActivity.createIntent(context, fileLoggingSetup, dataExtractor, title)
+): Intent = LumberjackViewerActivity.createIntent(context, fileLoggingSetup, receiver, dataExtractor, title)

@@ -49,19 +49,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btSendFeedback.setOnClickListener {
-            // TODO: provide a valid email here if you want to test this
-            val receiver = getString(R.string.lumberjack_mail_receiver)
-            if (receiver.isEmpty())
-                Toast.makeText(this, "You must provide a valid email address to test this function!", Toast.LENGTH_SHORT).show()
-            else
-                L.sendFeedback(this, LogHelper.FILE_LOGGING_SETUP.getLatestLogFiles(), receiver)
+            val receiver = binding.tvReceiver.text.toString()
+            receiver.takeIf { it.isNotEmpty() }?.let {
+                L.sendFeedback(this, LogHelper.FILE_LOGGING_SETUP.getLatestLogFiles(), it)
+            } ?: Toast.makeText(this, "You must provide a valid email address to test this function!", Toast.LENGTH_SHORT).show()
         }
         binding.btResetLogFiles.setOnClickListener {
             LogHelper.clearLogFiles()
             L.d { "Old log files deleted and newest log file cleared, this is the only line in the log file!" }
         }
         binding.btShowLogFile.setOnClickListener {
-            L.showLog(this, LogHelper.FILE_LOGGING_SETUP)
+            val receiver = binding.tvReceiver.text.toString()
+            L.showLog(this, LogHelper.FILE_LOGGING_SETUP, receiver)
         }
         binding.cbDarkTheme.apply {
             isChecked = App.darkTheme

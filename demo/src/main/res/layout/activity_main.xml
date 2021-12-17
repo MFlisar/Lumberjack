@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,36 +16,55 @@
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.MaterialComponents.Dark" />
 
-    <CheckBox
-        android:id="@+id/cbDarkTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Use dark theme"
-        tools:ignore="HardcodedText" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btSendFeedback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Send log file via mail"
-        tools:ignore="HardcodedText" />
+        <CheckBox
+            android:id="@+id/cbDarkTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Use dark theme" />
 
-    <Button
-        android:id="@+id/btResetLogFiles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Reset log file(s)"
-        tools:ignore="HardcodedText" />
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="Mail receiver"
+            app:endIconMode="clear_text">
 
-    <Button
-        android:id="@+id/btShowLogFile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Show log file"
-        tools:ignore="HardcodedText" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvReceiver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btSendFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Send log file via mail" />
+
+        <Button
+            android:id="@+id/btResetLogFiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Reset log file(s)" />
+
+        <Button
+            android:id="@+id/btShowLogFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Show log file" />
+
+    </LinearLayout>
 
 </LinearLayout>

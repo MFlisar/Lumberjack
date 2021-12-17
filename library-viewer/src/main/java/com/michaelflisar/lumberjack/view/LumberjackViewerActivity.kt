@@ -36,19 +36,22 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         const val FILE_LOGGING_SETUP = "FILE-LOGGING_SETUP"
         const val DATA_EXTRACTOR = "DATA-EXTRACTOR"
         const val TITLE = "TITLE"
+        const val MAIL = "MAIL"
 
         fun show(
             context: Context,
             fileLoggingSetup: IFileLoggingSetup,
+            receiver: String?,
             dataExtractor: IDataExtractor = DefaultDataExtractor,
             title: String? = null
         ) {
-            context.startActivity(createIntent(context, fileLoggingSetup, dataExtractor, title))
+            context.startActivity(createIntent(context, fileLoggingSetup, receiver, dataExtractor, title))
         }
 
         fun createIntent(
             context: Context,
             fileLoggingSetup: IFileLoggingSetup,
+            receiver: String?,
             dataExtractor: IDataExtractor,
             title: String?
         ): Intent {
@@ -59,6 +62,9 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 putExtra(FILE_LOGGING_SETUP, fileLoggingSetup)
                 putExtra(DATA_EXTRACTOR, dataExtractor)
+                receiver?.let {
+                    putExtra(MAIL, it)
+                }
                 title?.let {
                     putExtra(TITLE, title)
                 }
@@ -68,6 +74,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
     private lateinit var dataExtractor: IDataExtractor
     private lateinit var fileLoggingSetup: IFileLoggingSetup
+    private var receiver: String? = null
 
     private var selectedFile: File? = null
 
@@ -89,12 +96,15 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         title?.let {
             supportActionBar?.title = it
         }
+        receiver = if (intent.extras!!.containsKey(MAIL)) intent.extras!!.getString(MAIL)!! else null
 
         dataExtractor = intent.extras!!.getParcelable(DATA_EXTRACTOR)!!
         fileLoggingSetup = intent.extras!!.getParcelable(FILE_LOGGING_SETUP)!!
 
         if (savedInstanceState?.containsKey(KEY_FILE) == true) {
             selectedFile = savedInstanceState.getSerializable(KEY_FILE) as File
+        } else {
+            selectedFile = fileLoggingSetup.getLatestLogFiles()
         }
 
         initList()
@@ -111,6 +121,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                     fileMenuItems[menu] = file
                 }
         }
+        menu?.findItem(R.id.menu_send_log_file)?.isVisible = receiver?.isNotEmpty() == true
         return true
     }
 
@@ -138,11 +149,8 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_send_log_file -> {
-                val receiver = getString(R.string.lumberjack_mail_receiver)
-                if (receiver.isEmpty())
-                    Toast.makeText(this, R.string.lumberjack_mail_receiver_missing, Toast.LENGTH_SHORT).show()
-                else
-                    L.sendFeedback(this, selectedFile, receiver)
+                // receiver must be valid if this menu entry is visible
+                L.sendFeedback(this, selectedFile, receiver!!)
                 true
             }
             R.id.menu_select_file -> {
@@ -169,7 +177,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         binding.pbLoading.visibility = View.VISIBLE
         adapter?.clear()
         lifecycleScope.launch(Dispatchers.IO) {
-            val file = selectedFile ?: fileLoggingSetup.getLatestLogFiles()
+            val file = selectedFile
             val lines = file?.readLines() ?: emptyList()
 
             val allLogs = ArrayList<IDataExtractor.Data>()

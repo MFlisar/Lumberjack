@@ -54,6 +54,7 @@ Once in your app do following:
 ```kotlin
 // simply console logger
 L.plant(ConsoleTree())
+
 // if desired, disable all logging in release
 // L.enabled = Build.DEBUG
 ```
@@ -76,7 +77,6 @@ L.plant(FileLoggingTree(fileLoggingSetup))
 // mail receiver is optional, it defaults to the lumberjack_mail_receiver resource string so its fine if you instead of providing the mail address here
 // you simply set the resource string to your mail address instead
 L.sendFeedback(context, fileLoggingSetup, "some.mail@gmail.com")
-
 ```
 
 ##### Module `notification`
@@ -98,11 +98,8 @@ L.showInfoNotification(context, logFile, "NotificationChannelID", 1234 /* notifi
 ##### Module `viewer`
 
 ```kotlin
-// show the log viewer activity
-L.showLog(context, fileLoggingSetup)
-
-// additionally you need to override following string resource if you want that the "send mail" menu entry of the viewer will work:
-// <string name="lumberjack_mail_receiver">...ENTER YOUR MAIL ADDRESS...</string>
+// show the log viewer activity (mail address is optional, if it's null, the send mail entry will be removed from the viewers menu)
+L.showLog(context, fileLoggingSetup, "some.mail@gmail.com")
 ```
 
 ![Viewer](screenshots/viewer.jpg)
