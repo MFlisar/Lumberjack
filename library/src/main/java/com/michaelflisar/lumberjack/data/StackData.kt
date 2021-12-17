@@ -51,10 +51,10 @@ class StackData(
     // ------------------------
 
     fun getStackTag(): String {
-        val simpleClassName = getSimpleClassName(className)
+        val simpleClassName = L.classNameFormatter.invoke(className)
         var tag = "$simpleClassName:${element?.lineNumber} ${element?.methodName}"
         element2?.let {
-            val simpleClassName2 = getSimpleClassName(className2)
+            val simpleClassName2 = L.classNameFormatter.invoke(className2)
             val extra = simpleClassName2.replace(simpleClassName, "")
             tag += " ($extra:${it.lineNumber})"
         }
@@ -99,9 +99,5 @@ class StackData(
             tag = m.replaceAll("")
         }
         return tag
-    }
-
-    private fun getSimpleClassName(className: String): String {
-        return className.substring(className.lastIndexOf('.') + 1)
     }
 }

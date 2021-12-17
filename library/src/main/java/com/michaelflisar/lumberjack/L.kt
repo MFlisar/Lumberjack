@@ -31,10 +31,20 @@ object L {
     var tagNameFilter: ((tags: String) -> Boolean)? = null
 
     /*
-     * if enabled, Lumberjack will try to log find out a lambdas caller and append this info to the log tag
-     * does not work perfectly, we would to distinguish between lambdas called directly or by a coroutine and more...
+     * if enabled, Lumberjack will try to find out a lambdas caller and append this info to the log tag
+     * does not work perfectly, we would need to distinguish between lambdas called directly or by a coroutine and more...
      */
     internal val advancedLambdaLogging = false
+
+    /*
+     * by default, this converts a class name into a simple class name
+     * this function defines, how the class name part of a log line will be logged
+     *
+     * e.g. com.michaelflisar.lumberjack.demo.MainActivity => MainActivity
+     */
+    var classNameFormatter: (className: String) -> String = {
+        it.substring(it.lastIndexOf('.') + 1)
+    }
 
     // --------------
     // special functions
