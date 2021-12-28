@@ -146,7 +146,7 @@ abstract class BaseTree : Timber.Tree() {
     }
 
     override fun isLoggable(tag: String?, priority: Int): Boolean {
-        return tag == null || (L.tagNameFilter?.invoke(tag) ?: true)
+        return tag == null || (L.filter?.isTagEnabled(this, tag) ?: true)
     }
 
     // copied from Timber.Tree because it's private in the base class
@@ -222,17 +222,13 @@ abstract class BaseTree : Timber.Tree() {
     // custom code - extended tag
     // --------------------
 
-    private fun getTag(stackData: StackData): String? {
+    private fun getTag(stackData: StackData): String {
 
         // 1) get custom tag if one exists
         val customTag = super.getTag()
 
-        // 2) create a custom tag for the logs
-        return if (customTag != null) {
-            "[<$customTag> ${stackData.getStackTag()}]"
-        } else {
-            "[${stackData.getStackTag()}]"
-        }
+        // 2) create a tag (prefix) for the log
+        return L.formatter.formatLogPrefix(customTag, stackData)
     }
 
     // --------------------

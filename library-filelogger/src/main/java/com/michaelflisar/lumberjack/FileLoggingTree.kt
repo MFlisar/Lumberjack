@@ -23,8 +23,8 @@ class FileLoggingTree(
     setup: FileLoggingSetup?
 ) : BaseTree() {
 
-    private var mHandlerThread: HandlerThread? = null
-    private var mBackgroundHandler: Handler? = null
+    private var handlerThread: HandlerThread? = null
+    private var backgroundHandler: Handler? = null
 
     init {
 
@@ -33,9 +33,9 @@ class FileLoggingTree(
         }
 
         if (setup.logOnBackgroundThread) {
-            mHandlerThread = HandlerThread("FileLoggingTree").apply {
+            handlerThread = HandlerThread("FileLoggingTree").apply {
                 start()
-                mBackgroundHandler = Handler(looper)
+                backgroundHandler = Handler(looper)
             }
         }
 
@@ -110,7 +110,7 @@ class FileLoggingTree(
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?, stackData: StackData) {
         val logMessage = formatLine(tag, message)
-        mBackgroundHandler?.post { doRealLog(priority, logMessage) } ?: doRealLog(priority, logMessage)
+        backgroundHandler?.post { doRealLog(priority, logMessage) } ?: doRealLog(priority, logMessage)
     }
 
     private val WTF_MARKER = MarkerFactory.getMarker("WTF-")

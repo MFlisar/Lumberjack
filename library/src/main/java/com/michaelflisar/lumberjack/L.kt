@@ -1,6 +1,9 @@
 package com.michaelflisar.lumberjack
 
+import com.michaelflisar.lumberjack.core.DefaultFormatter
 import com.michaelflisar.lumberjack.data.StackData
+import com.michaelflisar.lumberjack.interfaces.IFilter
+import com.michaelflisar.lumberjack.interfaces.IFormatter
 import timber.log.BaseTree
 import timber.log.Timber
 
@@ -12,7 +15,6 @@ object L {
 
     // --------------
     // setup
-    // public fields because fields are accessed in inline functions
     // --------------
 
     /*
@@ -21,30 +23,25 @@ object L {
     var enabled = true
 
     /*
-     * provide a filter for package names - you will get the callers package name
-     */
-    var packageNameFilter: ((packageName: String) -> Boolean)? = null
-
-    /*
-     * provide a filter for tags
-     */
-    var tagNameFilter: ((tags: String) -> Boolean)? = null
-
-    /*
      * if enabled, Lumberjack will try to find out a lambdas caller and append this info to the log tag
      * does not work perfectly, we would need to distinguish between lambdas called directly or by a coroutine and more...
      */
     internal val advancedLambdaLogging = false
 
     /*
-     * by default, this converts a class name into a simple class name
-     * this function defines, how the class name part of a log line will be logged
+     * provide a custom formatter to influence, how tags and class names are logged
      *
-     * e.g. com.michaelflisar.lumberjack.demo.MainActivity => MainActivity
+     * you can change the whole log prefix if desired; there's also an open default formatter
+     * that you can use to extend your custom formatter from: [com.michaelflisar.lumberjack.core.DefaultFormatter]
      */
-    var classNameFormatter: (className: String) -> String = {
-        it.substring(it.lastIndexOf('.') + 1)
-    }
+    var formatter: IFormatter = DefaultFormatter()
+
+    /*
+     * provide a custom filter to filter out logs based on content, tags, class names, ...
+     *
+     * by default nothing is filtered
+     */
+    var filter: IFilter? = null
 
     // --------------
     // special functions
@@ -128,7 +125,7 @@ object L {
     @PublishedApi
     internal inline fun log(t: Throwable?, logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
-            if (packageNameFilter?.let { it.invoke(StackData(t, 0).getCallingPackageName()) } != false)
+            if (filter?.isPackageNameEnabled(StackData(t, 0).getCallingPackageName()) != false)
                 logBlock()
         }
     }

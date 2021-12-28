@@ -50,17 +50,6 @@ class StackData(
     // functions
     // ------------------------
 
-    fun getStackTag(): String {
-        val simpleClassName = L.classNameFormatter.invoke(className)
-        var tag = "$simpleClassName:${element?.lineNumber} ${element?.methodName}"
-        element2?.let {
-            val simpleClassName2 = L.classNameFormatter.invoke(className2)
-            val extra = simpleClassName2.replace(simpleClassName, "")
-            tag += " ($extra:${it.lineNumber})"
-        }
-        return tag
-    }
-
     fun getLink(): String {
         var link = "(${element?.fileName}:${element?.lineNumber})"
         // AndroidStudio does not support 2 clickable links...
