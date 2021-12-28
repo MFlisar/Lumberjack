@@ -2,12 +2,23 @@ package com.michaelflisar.lumberjack.core
 
 import com.michaelflisar.lumberjack.data.StackData
 import com.michaelflisar.lumberjack.interfaces.IFormatter
+import timber.log.BaseTree
+import timber.log.ConsoleTree
 
 open class DefaultFormatter : IFormatter {
 
-    override fun formatLogPrefix(customTag: String?, stackData: StackData) : String {
-        return if (customTag != null) {
-            "[<$customTag> ${getStackTag(stackData)}]"
+    override fun formatLine(tree: BaseTree, prefix: String, message: String) : String {
+        return if (tree is ConsoleTree) {
+            // tag is logged anyways inside the console, so we do NOT add it to the message!
+            message
+        } else {
+            "$prefix: $message"
+        }
+    }
+
+    override fun formatLogPrefix(lumberjackTag: String?, stackData: StackData) : String {
+        return if (lumberjackTag != null) {
+            "[<$lumberjackTag> ${getStackTag(stackData)}]"
         } else {
             "[${getStackTag(stackData)}]"
         }

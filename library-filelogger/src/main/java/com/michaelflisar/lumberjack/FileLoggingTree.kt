@@ -108,8 +108,8 @@ class FileLoggingTree(
         root.level = Level.ALL
     }
 
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?, stackData: StackData) {
-        val logMessage = formatLine(tag, message)
+    override fun log(priority: Int, prefix: String, message: String, t: Throwable?, stackData: StackData) {
+        val logMessage = formatLine(prefix, message)
         backgroundHandler?.post { doRealLog(priority, logMessage) } ?: doRealLog(priority, logMessage)
     }
 

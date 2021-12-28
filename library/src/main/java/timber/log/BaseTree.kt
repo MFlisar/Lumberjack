@@ -172,8 +172,9 @@ abstract class BaseTree : Timber.Tree() {
 
         // Consume tag even when message is not loggable so that next message is correctly tagged.
         @Suppress("NAME_SHADOWING") var message = message
-        val tag = getTag(stackData)
-        if (!isLoggable(tag, priority)) {
+        val customTag = super.getTag()
+        val prefix = getPrefix(customTag, stackData)
+        if (!isLoggable(customTag, priority)) {
             return
         }
         if (message != null && message.isEmpty()) {
@@ -192,7 +193,7 @@ abstract class BaseTree : Timber.Tree() {
                 message += "${getStackTraceString(t)}".trimIndent()
             }
         }
-        log(priority, tag, message, t, stackData)
+        log(priority, prefix, message, t, stackData)
     }
 
     final override fun log(
@@ -206,7 +207,7 @@ abstract class BaseTree : Timber.Tree() {
 
     abstract fun log(
             priority: Int,
-            tag: String?,
+            prefix: String,
             message: String,
             t: Throwable?,
             stackData: StackData
@@ -216,18 +217,13 @@ abstract class BaseTree : Timber.Tree() {
     // custom code - extended tag
     // --------------------
 
-    protected open fun formatLine(tag: String?, message: String) = "$tag: $message"
+    protected fun formatLine(prefix: String, message: String) = L.formatter.formatLine(this, prefix, message)
 
     // --------------------
     // custom code - extended tag
     // --------------------
 
-    private fun getTag(stackData: StackData): String {
-
-        // 1) get custom tag if one exists
-        val customTag = super.getTag()
-
-        // 2) create a tag (prefix) for the log
+    private fun getPrefix(customTag: String?, stackData: StackData): String {
         return L.formatter.formatLogPrefix(customTag, stackData)
     }
 

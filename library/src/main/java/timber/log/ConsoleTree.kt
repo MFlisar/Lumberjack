@@ -18,7 +18,7 @@ class ConsoleTree(
 
     override fun log(
         priority: Int,
-        tag: String?,
+        prefix: String,
         message: String,
         t: Throwable?,
         stackData: StackData
@@ -27,7 +27,7 @@ class ConsoleTree(
         val fullMessage = if (appendClickableLink) appendLink(message, stackData) else message
 
         if (fullMessage.length < MAX_LOG_LENGTH) {
-            logLine(priority, tag, fullMessage)
+            logLine(priority, prefix, fullMessage)
             return
         }
 
@@ -40,23 +40,20 @@ class ConsoleTree(
             do {
                 val end = Math.min(newline, i + MAX_LOG_LENGTH)
                 val part = fullMessage.substring(i, end)
-                logLine(priority, tag, part)
+                logLine(priority, prefix, part)
                 i = end
             } while (i < newline)
             i++
         }
     }
 
-    // tag is logged anyways, so we do NOT add it to the message!
-    override fun formatLine(tag: String?, message: String) = "$message"
-
     @SuppressLint("LogNotTimber")
-    private fun logLine(priority: Int, tag: String?, message: String) {
-        val logMessage = formatLine(tag, message)
+    private fun logLine(priority: Int, prefix: String, message: String) {
+        val logMessage = formatLine(prefix, message)
         if (priority == Log.ASSERT) {
-            Log.wtf(tag, logMessage)
+            Log.wtf(prefix, logMessage)
         } else {
-            Log.println(priority, tag, logMessage)
+            Log.println(priority, prefix, logMessage)
         }
     }
 
