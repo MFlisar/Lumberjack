@@ -9,8 +9,5 @@ project(':lumberjack-notification').projectDir = new File(settingsDir, 'library-
 include ':lumberjack-viewer'
 project(':lumberjack-viewer').projectDir = new File(settingsDir, 'library-viewer')
 
-include ':lumberjack-java-wrapper'
-project(':lumberjack-java-wrapper').projectDir = new File(settingsDir, 'library-java-wrapper')
-
 include ':demo'
 project(':demo').projectDir = new File(settingsDir, 'demo')

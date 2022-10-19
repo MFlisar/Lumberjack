@@ -1,6 +1,7 @@
 package com.michaelflisar.lumberjack.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -18,26 +19,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        updateTheme()
+        if (updateTheme()) {
+            // activity is recreated, we skip this on create...
+            return
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        L.d { "1 - MainActivity onCreate was just called" }
+        L.d { "TEST-LOG - 1a - MainActivity onCreate was just called" }
+        L.e(Exception("TEST")) { "TEST-LOG - 1b - MainActivity onCreate was just called" }
+        L.logIf { true }?.d { "TEST-LOG - 1c - MainActivity onCreate was just called" }
+
         L.logIf { false }?.d {
             // sleep 60s - no problem, this block will never be executed thanks to lazy evaluation
             Thread.sleep(1000 * 60)
-            "2 - this log will never be printed nor will this block ever be executed"
+            "TEST-LOG - 2 - this log will never be printed nor will this block ever be executed"
         }
-        L.e { "3 - Some error message" }
-        L.e(TestException("4 - TestException"))
+        L.e { "TEST-LOG - 3 - Some error message" }
+        L.e(TestException("TEST-LOG - 4 - TestException"))
 
         // --------------
         // Specials
         // --------------
 
         val func = { info: String ->
-            L.d { "5 - from within lambda: $info" }
+            L.d { "TEST-LOG - 5 - from within lambda: $info" }
         }
 
         func("func call 1...")
@@ -45,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         func("func call 3...")
 
         lifecycleScope.launch(Dispatchers.IO) {
-            L.d { "6 - from within coroutine on background thread: ${Thread.currentThread()}" }
+            L.d { "TEST-LOG - 6 - from within coroutine on background thread: ${Thread.currentThread()}" }
         }
 
         binding.btSendFeedback.setOnClickListener {
@@ -56,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btResetLogFiles.setOnClickListener {
             LogHelper.clearLogFiles()
-            L.d { "Old log files deleted and newest log file cleared, this is the only line in the log file!" }
+            L.d { "TEST-LOG - Old log files deleted and newest log file cleared, this is the only line in the log file!" }
         }
         binding.btShowLogFile.setOnClickListener {
             val receiver = binding.tvReceiver.text.toString()
@@ -72,23 +79,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        for (i in 0..500) {
-            L.d { "Test $i" }
+        for (i in 0..10) {
+            L.d { "TEST-LOG - Test $i" }
         }
 
 
         lifecycleScope.launchWhenStarted {
-            L.tag("LEVEL").v { "Verbose log..." }
-            L.tag("LEVEL").d { "Debug log..." }
-            L.tag("LEVEL").i { "Info log..." }
-            L.tag("LEVEL").w { "Warn log..." }
-            L.tag("LEVEL").e { "Error log..." }
-            L.tag("LEVEL").wtf { "WTF log..." }
+            L.tag("LEVEL").v { "TEST-LOG - Verbose log..." }
+            L.tag("LEVEL").d { "TEST-LOG - Debug log..." }
+            L.tag("LEVEL").i { "TEST-LOG - Info log..." }
+            L.tag("LEVEL").w { "TEST-LOG - Warn log..." }
+            L.tag("LEVEL").e { "TEST-LOG - Error log..." }
+            L.tag("LEVEL").wtf { "TEST-LOG - WTF log..." }
         }
     }
 
-    private fun updateTheme() {
-        AppCompatDelegate.setDefaultNightMode(if (App.darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+    private fun updateTheme() : Boolean {
+        val isDark = Util.isNightMode(this)
+        return if (isDark != App.darkTheme) {
+            AppCompatDelegate.setDefaultNightMode(if (App.darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            true
+        } else false
     }
 
     private class TestException(msg: String) : Throwable(msg) {

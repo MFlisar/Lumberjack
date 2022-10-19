@@ -167,8 +167,8 @@ abstract class BaseTree : Timber.Tree() {
     private fun prepareLog(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {
 
         // custom: we create a stack data object
-        val callStackCorrection = getCallStackCorrection() ?: 0
-        val stackData = StackData(t, CALL_STACK_INDEX + callStackCorrection)
+        //val callStackCorrection = getCallStackCorrection() ?: 0
+        val stackData = getStackTrace()//StackData(t, CALL_STACK_INDEX + callStackCorrection)
 
         // Consume tag even when message is not loggable so that next message is correctly tagged.
         @Suppress("NAME_SHADOWING") var message = message
@@ -190,7 +190,7 @@ abstract class BaseTree : Timber.Tree() {
                 message = String.format(message, *args)
             }
             if (t != null) {
-                message += "${getStackTraceString(t)}".trimIndent()
+                message += " - " + getStackTraceString(t).trimIndent()
             }
         }
         log(priority, prefix, message, t, stackData)
@@ -231,6 +231,7 @@ abstract class BaseTree : Timber.Tree() {
     // custom code - callstack depth
     // --------------------
 
+    /*
     companion object {
         internal const val CALL_STACK_INDEX = 4
     }
@@ -246,5 +247,16 @@ abstract class BaseTree : Timber.Tree() {
 
     internal fun setCallStackCorrection(value: Int) {
         callStackCorrection.set(value)
+    }
+*/
+    private val stackTrace = ThreadLocal<StackData>()
+    private fun getStackTrace(): StackData {
+        val trace = stackTrace.get()!!
+        stackTrace.remove()
+        return trace
+    }
+
+    internal fun setStackTrace(trace: StackData) {
+        stackTrace.set(trace)
     }
 }

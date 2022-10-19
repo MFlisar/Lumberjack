@@ -6,7 +6,7 @@ import com.michaelflisar.lumberjack.L
 import java.util.regex.Pattern
 
 class StackData(
-    t: Throwable?,
+    stackTrace: Array<StackTraceElement>,
     callStackIndex: Int
 ) {
 
@@ -28,10 +28,7 @@ class StackData(
     }
 
     init {
-
-        val stackTrace = t?.stackTrace ?: Throwable().stackTrace
-        val index = if (t != null) 0 else (callStackIndex + 1)
-
+        val index = callStackIndex
         element = getElement(stackTrace, index)
         if (L.advancedLambdaLogging) {
             // functions can not start with numbers, so of the class name ends with a number, this must be a lambda which is handled as anonymous function

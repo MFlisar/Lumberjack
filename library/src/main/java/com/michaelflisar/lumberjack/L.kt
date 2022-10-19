@@ -59,51 +59,69 @@ object L {
         Timber.tag(tag)
         return L
     }
-
+/*
     fun callStackCorrection(value: Int): L {
         setCallStackCorrection(value)
         return L
     }
-
+*/
     // --------------
     // log functions - lazy
     // --------------
 
-    inline fun v(t: Throwable? = null, message: () -> String) = log(t) { Timber.v(t, message()) }
+    @JvmStatic
+    fun v(t: Throwable, message: () -> String) = log(t, t) { Timber.v(t, message()) }
 
-    inline fun v(t: Throwable?) = log(t) { Timber.v(t) }
+    @JvmStatic
+    fun v(t: Throwable) = log(t, t) { Timber.v(t) }
 
-    inline fun v(message: () -> String) = log(null) { Timber.v(message()) }
+    @JvmStatic
+    fun v(message: () -> String) = log(null, Throwable()) { Timber.v(message()) }
 
-    inline fun d(t: Throwable? = null, message: () -> String) = log(t) { Timber.d(t, message()) }
+    @JvmStatic
+    fun d(t: Throwable, message: () -> String) = log(t, t) { Timber.d(t, message()) }
 
-    inline fun d(t: Throwable?) = log(t) { Timber.d(t) }
+    @JvmStatic
+    fun d(t: Throwable) = log(t, t) { Timber.d(t) }
 
-    inline fun d(message: () -> String) = log(null) { Timber.d(message()) }
+    @JvmStatic
+    fun d(message: () -> String) = log(null, Throwable()) { Timber.d(message()) }
 
-    inline fun i(t: Throwable? = null, message: () -> String) = log(t) { Timber.i(t, message()) }
+    @JvmStatic
+    fun i(t: Throwable, message: () -> String) = log(t, t) { Timber.i(t, message()) }
 
-    inline fun i(t: Throwable?) = log(t) { Timber.i(t) }
+    @JvmStatic
+    fun i(t: Throwable) = log(t, t) { Timber.i(t) }
 
-    inline fun i(message: () -> String) = log(null) { Timber.i(message()) }
+    @JvmStatic
+    fun i(message: () -> String) = log(null, Throwable()) { Timber.i(message()) }
 
-    inline fun w(t: Throwable? = null, message: () -> String) = log(t) { Timber.w(t, message()) }
+    @JvmStatic
+    fun w(t: Throwable, message: () -> String) = log(t, t) { Timber.w(t, message()) }
 
-    inline fun w(t: Throwable?) = log(t) { Timber.w(t) }
+    @JvmStatic
+    fun w(t: Throwable) = log(t, t) { Timber.w(t) }
 
-    inline fun w(message: () -> String) = log(null) { Timber.w(message()) }
+    @JvmStatic
+    fun w(message: () -> String) = log(null, Throwable()) { Timber.w(message()) }
 
-    inline fun e(t: Throwable? = null, message: () -> String) = log(t) { Timber.e(t, message()) }
+    @JvmStatic
+    fun e(t: Throwable, message: () -> String) = log(t, t) { Timber.e(t, message()) }
 
-    inline fun e(t: Throwable?) = log(t) { Timber.e(t) }
+    @JvmStatic
+    fun e(t: Throwable) = log(t, t) { Timber.e(t) }
 
-    inline fun e(message: () -> String) = log(null) { Timber.e(message()) }
+    @JvmStatic
+    fun e(message: () -> String) = log(null, Throwable()) { Timber.e(message()) }
 
-    inline fun wtf(t: Throwable? = null, message: () -> String) = log(t) { Timber.wtf(t, message()) }
+    @JvmStatic
+    fun wtf(t: Throwable, message: () -> String) = log(t, t) { Timber.wtf(t, message()) }
 
-    inline fun wtf(t: Throwable?) = log(t) { Timber.wtf(t) }
+    @JvmStatic
+    fun wtf(t: Throwable) = log(t, t) { Timber.wtf(t) }
 
-    inline fun wtf(message: () -> String) = log(null) { Timber.wtf(message()) }
+    @JvmStatic
+    fun wtf(message: () -> String) = log(null, Throwable()) { Timber.wtf(message()) }
 
     // --------------
     // timber forward functions
@@ -123,18 +141,32 @@ object L {
 
     /** @suppress */
     @PublishedApi
-    internal inline fun log(t: Throwable?, logBlock: () -> Unit) {
+    internal inline fun log(t: Throwable?, t2: Throwable, logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
-            if (filter?.isPackageNameEnabled(StackData(t, 0).getCallingPackageName()) != false)
+            val stackTrace = StackData(t?.stackTrace ?: t2.stackTrace, if (t == null) 1 else 0)
+            if (filter?.isPackageNameEnabled(stackTrace.getCallingPackageName()) != false) {
+                setStackTraceData(stackTrace)
                 logBlock()
+            }
         }
+        return
     }
 
+    /*
     internal fun setCallStackCorrection(correction: Int) {
         val forest = Timber.forest()
         for (tree in forest) {
             if (tree is BaseTree) {
                 tree.setCallStackCorrection(correction)
+            }
+        }
+    }
+*/
+    fun setStackTraceData(stackTraceData: StackData) {
+        val forest = Timber.forest()
+        for (tree in forest) {
+            if (tree is BaseTree) {
+                tree.setStackTrace(stackTraceData)
             }
         }
     }
