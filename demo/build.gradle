@@ -42,7 +42,7 @@ dependencies {
     // ------------------------
 
     implementation "com.google.android.material:material:${versions.material}"
-    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation "com.android.support.constraint:constraint-layout:${versions.constraintlayout}"
 
     implementation "androidx.core:core-ktx:${versions.core}"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}"

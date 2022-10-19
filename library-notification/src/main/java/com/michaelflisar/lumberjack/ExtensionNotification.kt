@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.michaelflisar.feedbackmanager.Feedback
 import com.michaelflisar.feedbackmanager.FeedbackFile
@@ -62,8 +63,11 @@ fun L.showInfoNotification(
     clickIntent: Intent? = null,
     apply: ((builder: NotificationCompat.Builder) -> Unit)? = null
 ) {
-    val pendingIntent: PendingIntent? = clickIntent?.let {
-        PendingIntent.getActivity(context, 0, it, 0)
+    val pendingIntent = clickIntent?.let {
+        val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.FLAG_IMMUTABLE
+        } else 0
+        PendingIntent.getActivity(context, 0, it, flag)
     }
 
     val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, notificationChannelId)

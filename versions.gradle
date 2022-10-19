@@ -1,28 +1,28 @@
 ext {
 
     setup = [
-            compileSdk       : 31,
-            enableDataBinding: false,
-            enableViewBinding: true,
-            minSdk           : 16,
-            targetSdk        : 31]
+            compileSdk: 33,
+            minSdk    : 16,
+            targetSdk : 33
+    ]
 
     versions = [
-            kotlinVersion  : "1.6.10",
-            gradlePlugin   : "7.0.4",
-            mavenVersion   : "2.0",
+            kotlinVersion   : "1.7.20",
+            gradlePlugin    : "7.2.2",
+            mavenVersion    : "2.0",
 
-            material       : "1.6.0-alpha01",
-            recyclerview   : "1.2.1",
-            lifecycle      : "2.4.0",
-            core           : "1.7.0",
+            material        : "1.7.0-rc01",
+            recyclerview    : "1.2.1",
+            lifecycle       : "2.5.1",
+            core            : "1.9.0",
+            constraintlayout: "2.0.4",
 
-            feedbackManager: "2.0.2",
+            feedbackManager : "2.0.3",
 
-            fastscroller   : "1.0.0",
-            slf4j          : "1.7.32",
-            logback        : "2.0.0",
-            timber         : "4.7.1"
+            fastscroller    : "1.0.0",
+            slf4j           : "1.7.32",
+            logback         : "2.0.0",
+            timber          : "4.7.1"
     ]
 
     debugSetup = [useMultiDex: false]

@@ -111,9 +111,9 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         initFilter()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.lumberjack_viewer_menu, menu)
-        menu?.findItem(R.id.menu_select_file)?.subMenu?.let { subMenu ->
+        menu.findItem(R.id.menu_select_file)?.subMenu?.let { subMenu ->
             fileLoggingSetup.getAllExistingLogFiles()
                 .sortedBy { it.name }
                 .forEachIndexed { index, file ->
@@ -121,7 +121,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                     fileMenuItems[menu] = file
                 }
         }
-        menu?.findItem(R.id.menu_send_log_file)?.isVisible = receiver?.isNotEmpty() == true
+        menu.findItem(R.id.menu_send_log_file)?.isVisible = receiver?.isNotEmpty() == true
         return true
     }
 
