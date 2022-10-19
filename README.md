@@ -2,7 +2,7 @@
 
 ### What does it do?
 
-A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber) logging library with following *features*:
+A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber) logging library (v4!) with following *features*:
 
 * trees for:
   * logging to console (with the ability to add clickable links to the calling line in the calling class)
@@ -38,12 +38,6 @@ dependencies {
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-feedback:<LATEST-VERSION>'
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-notification:<LATEST-VERSION>'
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-viewer:<LATEST-VERSION>'
-
-    // Wrapper for java => will provide a class `L2` with all the functions from `L` but without the inlining feature because this is not possible in java
-    // can be used to use Lumberjack in mixed java and kotlin projects
-	// of course you can always use the lambda functions in java as well, but the L2 calls are shorter:
-	// JAVA Code: L2.d("Test") vs. L.INSTANCE.d(() -> "Test")
-    // implementation 'com.github.MFlisar.Lumberjack:lumberjack-java-wrapper:<LATEST-VERSION>'
 }
 ```
 
