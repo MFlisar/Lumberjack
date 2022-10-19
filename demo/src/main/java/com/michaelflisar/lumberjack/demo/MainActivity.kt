@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.michaelflisar.lumberjack.L
+import com.michaelflisar.lumberjack.demo.classes.DemoLibraryWithInternalLogger
 import com.michaelflisar.lumberjack.demo.databinding.ActivityMainBinding
 import com.michaelflisar.lumberjack.sendFeedback
 import com.michaelflisar.lumberjack.showLog
@@ -83,7 +84,6 @@ class MainActivity : AppCompatActivity() {
             L.d { "TEST-LOG - Test $i" }
         }
 
-
         lifecycleScope.launchWhenStarted {
             L.tag("LEVEL").v { "TEST-LOG - Verbose log..." }
             L.tag("LEVEL").d { "TEST-LOG - Debug log..." }
@@ -92,6 +92,10 @@ class MainActivity : AppCompatActivity() {
             L.tag("LEVEL").e { "TEST-LOG - Error log..." }
             L.tag("LEVEL").wtf { "TEST-LOG - WTF log..." }
         }
+
+        // call stack correction inside forwarded logger
+        // this should log THIS line inside the custom logger
+        DemoLibraryWithInternalLogger.run()
     }
 
     private fun updateTheme() : Boolean {

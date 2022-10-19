@@ -59,12 +59,12 @@ object L {
         Timber.tag(tag)
         return L
     }
-/*
+
     fun callStackCorrection(value: Int): L {
         setCallStackCorrection(value)
         return L
     }
-*/
+
     // --------------
     // log functions - lazy
     // --------------
@@ -143,7 +143,7 @@ object L {
     @PublishedApi
     internal inline fun log(t: Throwable?, t2: Throwable, logBlock: () -> Unit) {
         if (enabled && Timber.treeCount() > 0) {
-            val stackTrace = StackData(t?.stackTrace ?: t2.stackTrace, if (t == null) 1 else 0)
+            val stackTrace = StackData(t ?: t2, if (t == null) 1 else 0)
             if (filter?.isPackageNameEnabled(stackTrace.getCallingPackageName()) != false) {
                 setStackTraceData(stackTrace)
                 logBlock()
@@ -152,7 +152,6 @@ object L {
         return
     }
 
-    /*
     internal fun setCallStackCorrection(correction: Int) {
         val forest = Timber.forest()
         for (tree in forest) {
@@ -161,7 +160,7 @@ object L {
             }
         }
     }
-*/
+
     fun setStackTraceData(stackTraceData: StackData) {
         val forest = Timber.forest()
         for (tree in forest) {

@@ -5,10 +5,15 @@ import android.util.Log
 import com.michaelflisar.lumberjack.L
 import java.util.regex.Pattern
 
-class StackData(
-    stackTrace: Array<StackTraceElement>,
-    callStackIndex: Int
+data class StackData(
+    val stackTrace: List<StackTraceElement>,
+    val callStackIndex: Int
 ) {
+
+    constructor(
+        t: Throwable,
+        callStackIndex: Int
+    ) : this(t.stackTrace.toList(), callStackIndex)
 
     companion object {
         private val ANONYMOUS_CLASS = Pattern.compile("(\\$\\d+)+$")
@@ -65,7 +70,7 @@ class StackData(
     // ------------------------
 
     @SuppressLint("LogNotTimber")
-    private fun getElement(stackTrace: Array<StackTraceElement>, index: Int): StackTraceElement? {
+    private fun getElement(stackTrace: List<StackTraceElement>, index: Int): StackTraceElement? {
         if (stackTrace.isEmpty())
             return null
         var i = index
