@@ -6,11 +6,10 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.MaterialComponents.Dark" />
+        android:minHeight="?attr/actionBarSize" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/clHeader"
@@ -92,10 +91,10 @@
             android:id="@+id/fastscroller"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:popupTextStyle="@style/LumberjackFastScrollerPopupTextStyle"
             app:handleDrawable="@drawable/lumberjack_fastscroller_background"
-            app:popupDrawable="@drawable/lumberjack_fastscroller_background">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:popupDrawable="@drawable/lumberjack_fastscroller_background"
+            app:popupTextStyle="@style/LumberjackFastScrollerPopupTextStyle">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLogs"
