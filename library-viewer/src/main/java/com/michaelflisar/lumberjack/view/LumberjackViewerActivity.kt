@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -37,15 +36,26 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         const val DATA_EXTRACTOR = "DATA-EXTRACTOR"
         const val TITLE = "TITLE"
         const val MAIL = "MAIL"
+        const val THEME = "THEME"
 
         fun show(
             context: Context,
             fileLoggingSetup: IFileLoggingSetup,
             receiver: String?,
             dataExtractor: IDataExtractor = DefaultDataExtractor,
-            title: String? = null
+            title: String? = null,
+            theme: Int? = null
         ) {
-            context.startActivity(createIntent(context, fileLoggingSetup, receiver, dataExtractor, title))
+            context.startActivity(
+                createIntent(
+                    context,
+                    fileLoggingSetup,
+                    receiver,
+                    dataExtractor,
+                    title,
+                    theme
+                )
+            )
         }
 
         fun createIntent(
@@ -53,7 +63,8 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             fileLoggingSetup: IFileLoggingSetup,
             receiver: String?,
             dataExtractor: IDataExtractor,
-            title: String?
+            title: String?,
+            theme: Int? = null
         ): Intent {
             return Intent(
                 context,
@@ -66,7 +77,10 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
                     putExtra(MAIL, it)
                 }
                 title?.let {
-                    putExtra(TITLE, title)
+                    putExtra(TITLE, it)
+                }
+                theme?.let {
+                    putExtra(THEME, it)
                 }
             }
         }
@@ -87,16 +101,20 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
     private var filterJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val theme = if (intent.extras!!.containsKey(THEME)) intent.extras!!.getInt(THEME) else null
+        theme?.let { setTheme(it) }
         super.onCreate(savedInstanceState)
         binding = ActivityLumberjackViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        val title = if (intent.extras!!.containsKey(TITLE)) intent.extras!!.getString(TITLE)!! else null
+        val title =
+            if (intent.extras!!.containsKey(TITLE)) intent.extras!!.getString(TITLE)!! else null
         title?.let {
             supportActionBar?.title = it
         }
-        receiver = if (intent.extras!!.containsKey(MAIL)) intent.extras!!.getString(MAIL)!! else null
+        receiver =
+            if (intent.extras!!.containsKey(MAIL)) intent.extras!!.getString(MAIL)!! else null
 
         dataExtractor = intent.extras!!.getParcelable(DATA_EXTRACTOR)!!
         fileLoggingSetup = intent.extras!!.getParcelable(FILE_LOGGING_SETUP)!!
@@ -230,9 +248,10 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
         val items = mutableListOf("ALL")
         items.addAll(Level.values().filter { it.level != -1 }.map { ">= ${it.name}" })
-        binding.spLevel.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
+        binding.spLevel.adapter =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, items).apply {
+                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            }
         binding.spLevel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,

@@ -14,9 +14,10 @@ fun L.showLog(
     fileLoggingSetup: IFileLoggingSetup,
     receiver: String? = null,
     dataExtractor: IDataExtractor = DefaultDataExtractor,
-    title: String? = null
+    title: String? = null,
+    theme: Int? = null
 ) {
-    LumberjackViewerActivity.show(context, fileLoggingSetup, receiver, dataExtractor, title)
+    LumberjackViewerActivity.show(context, fileLoggingSetup, receiver, dataExtractor, title, theme)
 }
 
 fun L.createViewerIntent(
@@ -24,5 +25,6 @@ fun L.createViewerIntent(
     fileLoggingSetup: IFileLoggingSetup,
     receiver: String? = null,
     dataExtractor: IDataExtractor = DefaultDataExtractor,
-    title: String? = null
-): Intent = LumberjackViewerActivity.createIntent(context, fileLoggingSetup, receiver, dataExtractor, title)
+    title: String? = null,
+    theme: Int? = null
+): Intent = LumberjackViewerActivity.createIntent(context, fileLoggingSetup, receiver, dataExtractor, title, theme)
