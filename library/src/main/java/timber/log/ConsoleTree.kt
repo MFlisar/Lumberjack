@@ -3,6 +3,7 @@ package timber.log
 import android.annotation.SuppressLint
 import android.util.Log
 import com.michaelflisar.lumberjack.data.StackData
+import kotlin.math.min
 
 /**
  * Created by flisar on 17.01.2019.
@@ -10,7 +11,7 @@ import com.michaelflisar.lumberjack.data.StackData
 
 class ConsoleTree(
     private val appendClickableLink: Boolean = true,
-    private val replaceBracketsIfAppendableLinks: Boolean = true
+    private val replaceBracketsIfAppendableLinks: Boolean = false
 ) : BaseTree() {
 
     companion object {
@@ -24,6 +25,7 @@ class ConsoleTree(
         t: Throwable?,
         stackData: StackData
     ) {
+
 
         val msg = if (replaceBracketsIfAppendableLinks && appendClickableLink) message.replace("(", "{").replace(")", "}") else message
         val fullMessage = if (appendClickableLink) appendLink(msg, stackData) else msg
@@ -41,7 +43,7 @@ class ConsoleTree(
             var newline = fullMessage.indexOf('\n', i)
             newline = if (newline != -1) newline else length
             do {
-                val end = Math.min(newline, i + MAX_LOG_LENGTH)
+                val end = min(newline, i + MAX_LOG_LENGTH)
                 val part = fullMessage.substring(i, end)
                 logLine(priority, prefix, part)
                 i = end

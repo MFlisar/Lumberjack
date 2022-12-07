@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             "TEST-LOG - 2 - this log will never be printed nor will this block ever be executed"
         }
         L.e { "TEST-LOG - 3 - Some error message" }
-        L.e(TestException("TEST-LOG - 4 - TestException"))
+        L.e(TestException("TEST-LOG - 4 - TestException (some info)"))
 
         // --------------
         // Specials
