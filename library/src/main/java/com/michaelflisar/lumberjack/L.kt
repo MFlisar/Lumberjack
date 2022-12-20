@@ -123,6 +123,15 @@ object L {
     @JvmStatic
     fun wtf(message: () -> String) = log(null, Throwable()) { Timber.wtf(message()) }
 
+    @JvmStatic
+    fun log(priority: Int, t: Throwable, message: () -> String) = log(t, t) { Timber.log(priority, t, message()) }
+
+    @JvmStatic
+    fun log(priority: Int, t: Throwable) = log(t, t) { Timber.log(priority, t) }
+
+    @JvmStatic
+    fun log(priority: Int, message: () -> String) = log(null, Throwable()) { Timber.log(priority, message()) }
+
     // --------------
     // timber forward functions
     // --------------

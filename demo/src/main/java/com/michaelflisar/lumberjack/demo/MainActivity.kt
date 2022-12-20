@@ -96,6 +96,10 @@ class MainActivity : AppCompatActivity() {
         // call stack correction inside forwarded logger
         // this should log THIS line inside the custom logger
         DemoLibraryWithInternalLogger.run()
+
+        // Logging with level
+        L.tag("MANUAL LEVEL").log(Log.DEBUG) { "Debug log..." }
+        L.tag("MANUAL LEVEL").log(Log.ERROR, Exception("EX")) { "Error log..." }
     }
 
     private fun updateTheme() : Boolean {
