@@ -1,15 +1,18 @@
-### Lumberjack [![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
+### About
+
+[![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
+![License](https://img.shields.io/github/license/MFlisar/Lumberjack)
 
 ### What does it do?
 
-A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber) logging library (v4!) with following *features*:
+A simple logger for *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!) with following *features*:
 
 * trees for:
   * logging to console (with the ability to add clickable links to the calling line in the calling class)
   * files (one file per day, select between numbered log file names or date based log file names)
 * customise each tree to whatever you want or extend them or add your own tree
 * little utility class to log time and laps (the `T` class) 
-* by default, this library will create tags if no custom tag is provided like "[CLASSNAME:LINE] FUNCTION" e.g. `[MainActivity:32 onCreate]: Some log`
+* by default, this library will create tags if no custom tag is provided like **[CLASSNAME:LINE] FUNCTION** e.g. `[MainActivity:32 onCreate]: Some log`
 * feedback module that contains extension functions for `L` to send feedback or to show a notification that will send a feedback on click:
   * `L.sendFeedback()`... sends a feedback via IntentChooser with an optional files appended
 * notification module that contains functions to show info/error notifications

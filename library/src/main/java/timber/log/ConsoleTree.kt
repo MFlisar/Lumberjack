@@ -25,11 +25,12 @@ class ConsoleTree(
         t: Throwable?,
         stackData: StackData
     ) {
-
-
-        val msg = if (replaceBracketsIfAppendableLinks && appendClickableLink) message.replace("(", "{").replace(")", "}") else message
+        val msg = if (replaceBracketsIfAppendableLinks && appendClickableLink) {
+            message
+                .replace("(", "{")
+                .replace(")", "}")
+        } else message
         val fullMessage = if (appendClickableLink) appendLink(msg, stackData) else msg
-
 
         if (fullMessage.length < MAX_LOG_LENGTH) {
             logLine(priority, prefix, fullMessage)
