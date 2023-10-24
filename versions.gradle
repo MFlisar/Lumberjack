@@ -1,9 +1,9 @@
 ext {
 
     setup = [
-            compileSdk: 33,
+            compileSdk: 34,
             minSdk    : 16,
-            targetSdk : 33
+            targetSdk : 34
     ]
 
     versions = [
