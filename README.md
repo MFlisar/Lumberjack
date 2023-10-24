@@ -17,11 +17,17 @@ A simple logger for JackWhartons [Timber](https://github.com/JakeWharton/timber)
 
 **All features are splitted into separate modules, just include the modules you want to use!**
 
+### Dependencies
+
+| Dependency | Version |
+|:-|-:|
+| [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
+
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
 1) add jitpack to your project's `build.gradle`:
 
-```
+```groovy
 repositories {
     maven { url "https://jitpack.io" }
 }
@@ -29,10 +35,11 @@ repositories {
 
 2) add the compile statement to your module's `build.gradle`:
 
-```
+```groovy
 dependencies {
+  
     // base module (NECESSARY)
-	implementation 'com.github.MFlisar.Lumberjack:lumberjack-library:<LATEST-VERSION>'
+    implementation 'com.github.MFlisar.Lumberjack:lumberjack-library:<LATEST-VERSION>'
     // modules (OPTIONAL)
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:<LATEST-VERSION>'
     implementation 'com.github.MFlisar.Lumberjack:lumberjack-feedback:<LATEST-VERSION>'
