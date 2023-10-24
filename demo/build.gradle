@@ -5,10 +5,13 @@ plugins {
 
 android {
 
+    namespace "com.michaelflisar.lumberjack.demo"
+
     compileSdkVersion setup.compileSdk
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     defaultConfig {

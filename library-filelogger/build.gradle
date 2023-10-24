@@ -5,9 +5,9 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.github.MFlisar'
-
 android {
+
+    namespace "com.michaelflisar.lumberjack.filelogger"
 
     compileSdkVersion setup.compileSdk
 

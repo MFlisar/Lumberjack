@@ -4,15 +4,14 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.github.MFlisar'
-
 android {
+
+    namespace "com.michaelflisar.lumberjack"
 
     compileSdkVersion setup.compileSdk
 
     defaultConfig {
         minSdkVersion setup.minSdk
-        targetSdkVersion setup.targetSdk
     }
 
     compileOptions {

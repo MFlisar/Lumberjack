@@ -6,21 +6,22 @@ buildscript {
 	apply from: './versions.gradle'
 
     repositories {
-        jcenter()
-        maven { url "https://maven.google.com" }
+        mavenCentral()
         google()
+        gradlePluginPortal()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:' + versions.gradlePlugin
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:' + versions.mavenVersion
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:' + versions.kotlinVersion
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
-        maven { url "https://maven.google.com" }
+        mavenCentral()
+        google()
+        gradlePluginPortal()
         maven { url "https://jitpack.io" }
     }
 }
