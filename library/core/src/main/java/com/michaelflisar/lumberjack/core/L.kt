@@ -31,4 +31,8 @@ object L : AbstractLogger() {
     override fun isEnabled(): Boolean {
        return implementation!!.isEnabled()
     }
+
+    override fun enable(enabled: Boolean) {
+        implementation!!.enable(enabled)
+    }
 }

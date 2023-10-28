@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack.extensions.composeviewer
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -21,8 +22,10 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,6 +51,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -56,14 +61,39 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
+import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileNotFoundException
+
+object LumberjackView {
+    class Style internal constructor(
+        val useAlternatingRowColors: Boolean,
+        val color1: Color,
+        val color2: Color
+    )
+}
+
+object LumberjackViewDefaults {
+
+    @Composable
+    fun style(
+        useAlternatingRowColors: Boolean = true,
+        color1: Color = MaterialTheme.colorScheme.background,
+        color2: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = .1f),
+    ) = LumberjackView.Style(
+        useAlternatingRowColors = useAlternatingRowColors,
+        color1 = color1,
+        color2 = color2
+    )
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,7 +101,9 @@ fun LumberjackDialog(
     visible: MutableState<Boolean>,
     title: String,
     setup: IFileLoggingSetup,
-    darkTheme: Boolean = isSystemInDarkTheme()
+    style: LumberjackView.Style = LumberjackViewDefaults.style(),
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    mail: String? = null
 ) {
     if (visible.value) {
         Dialog(
@@ -84,6 +116,7 @@ fun LumberjackDialog(
                     .imePadding(),
                 color = MaterialTheme.colorScheme.background
             ) {
+                val context = LocalContext.current
                 val scope = rememberCoroutineScope()
                 val listState = rememberLazyListState()
                 var showMenu by remember { mutableStateOf(false) }
@@ -154,6 +187,26 @@ fun LumberjackDialog(
                                                 showMenu2 = true
                                             }
                                         )
+                                        if (mail != null) {
+                                            Divider()
+                                            DropdownMenuItem(
+                                                text = { Text("Send Mail") },
+                                                leadingIcon = {
+                                                    Icon(
+                                                        Icons.Default.Mail,
+                                                        null
+                                                    )
+                                                },
+                                                onClick = {
+                                                    L.sendFeedback(
+                                                        context,
+                                                        setup.getLatestLogFiles(),
+                                                        mail
+                                                    )
+                                                    showMenu2 = true
+                                                }
+                                            )
+                                        }
                                     }
                                 }
                                 if (showMenu2) {
@@ -198,7 +251,7 @@ fun LumberjackDialog(
                         }
                     )
                     LumberjackView(
-                        setup,
+                        setup = setup,
                         file = logFile,
                         reload = reload,
                         modifier = Modifier.weight(1f),
@@ -227,17 +280,18 @@ fun rememberReloadFile(reload: Boolean = true): MutableState<Boolean> {
 
 @Composable
 fun LumberjackView(
-    fileLoggingSetup: IFileLoggingSetup,
+    modifier: Modifier = Modifier,
+    setup: IFileLoggingSetup,
     file: MutableState<File?> = rememberLogFile(),
     reload: MutableState<Boolean> = rememberReloadFile(),
-    modifier: Modifier = Modifier,
     state: LazyListState = rememberLazyListState(),
-    darkTheme: Boolean = isSystemInDarkTheme()
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    style: LumberjackView.Style = LumberjackViewDefaults.style(),
 ) {
     val data = remember { mutableStateOf<Data>(Data.None) }
     LaunchedEffect(reload.value, file.value) {
         if (file.value == null) {
-            file.value = fileLoggingSetup.getLatestLogFiles()
+            file.value = setup.getLatestLogFiles()
         }
         val f = file.value
         if (reload.value && f != null) {
@@ -252,7 +306,7 @@ fun LumberjackView(
                     } catch (e: FileNotFoundException) {
                         // ignore
                     }
-                    val logs = fileLoggingSetup.fileConverter.parseFile(lines)
+                    val logs = setup.fileConverter.parseFile(lines)
                     data.value = Data.Loaded(logs)
                 }
             }
@@ -305,12 +359,15 @@ fun LumberjackView(
                             }
                     }
                 }
+                LaunchedEffect(filteredEntries) {
+                    state.scrollToItem(filteredEntries.size - 1)
+                }
                 LazyColumn(
                     state = state
                 ) {
                     filteredEntries.forEach {
                         item(key = it.lineNumber) {
-                            LogEntry(it, filter2.value, darkTheme, spanStyle)
+                            LogEntry(it, filter2.value, darkTheme, spanStyle, style)
                         }
                     }
                 }
@@ -415,11 +472,17 @@ private fun LogEntry(
     entry: IFileConverter.Entry,
     filter: String,
     darkTheme: Boolean,
-    spanStyle: SpanStyle
+    spanStyle: SpanStyle,
+    style: LumberjackView.Style
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .then(
+                if (style.useAlternatingRowColors) {
+                    Modifier.background(if (entry.lineNumber % 2 == 0) style.color1 else style.color2)
+                } else Modifier
+            )
             .padding(horizontal = 16.dp)
     ) {
         val level by remember(entry.level, filter) {

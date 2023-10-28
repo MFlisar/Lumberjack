@@ -133,10 +133,11 @@ class MainActivity : DemoActivity() {
         }
 
         LumberjackDialog(
-            showComposeLogView,
-            "Logs",
-            App.FILE_LOGGING_SETUP,
-            darkTheme = theme.isDark()
+            visible = showComposeLogView,
+            title = "Logs",
+            setup = App.FILE_LOGGING_SETUP,
+            darkTheme = theme.isDark(),
+            //mail = "...@gmail.com"
         )
     }
 }

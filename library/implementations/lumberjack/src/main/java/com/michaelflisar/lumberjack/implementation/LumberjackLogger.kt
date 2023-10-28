@@ -21,7 +21,7 @@ object LumberjackLogger : AbstractLogger() {
         implementations += implementation
     }
 
-    fun enable(enabled: Boolean) {
+    override fun enable(enabled: Boolean) {
         LumberjackLogger.enabled = enabled
     }
 

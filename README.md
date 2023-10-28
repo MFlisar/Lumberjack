@@ -7,6 +7,19 @@ This is a full logging library with a build in way to log to **console**, **file
 
 Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!).
 
+**Example logs**
+
+### Example - OUTPUT
+
+##### Console
+
+![Viewer](screenshots/log1.png)
+![Viewer](screenshots/log2.png)
+
+##### File
+
+![Viewer](examples/log.txt)
+
 ### Features
 
 * supports arbitrary loggers and provides data like **class name**, **function name**, **line number**
@@ -22,20 +35,20 @@ Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/
 
 | Modules | Dependency | Version |
 |:-|:-|-:|
-| `core` | no dependency |  |
-| `implementation-lumberjack` | no dependency |  |
+| `core` | - |  |
+| `implementation-lumberjack` | - |  |
 | `implementation-timber` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
-| `logger-console` | no dependency |  |
-| `logger-file` | no dependency |  |
-| `logger-timber-console` | no dependency |  |
-| `logger-timber-file` | no dependency |  |
+| `logger-console` | - |  |
+| `logger-file` | - |  |
+| `logger-timber-console` | - |  |
+| `logger-timber-file` | - |  |
 | | [slf4j](https://www.slf4j.org/) | `2.0.7` |
 | | [logback-android](https://github.com/tony19/logback-android) | `3.0.0` |
 | `extension-feedback` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
 | `extension-notification` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
 | `extension-viewer` | [FastScroller](https://github.com/quiph/RecyclerView-FastScroller) | `1.0.0` |
-| `extension-viewer` | no dependency | `2.0.3` |
-| `extension-composeviewer` | no dependency | `2.0.3` |
+| `extension-viewer` | - | `2.0.3` |
+| `extension-composeviewer` | - | `2.0.3` |
 
 Following dependency only applies to the **extension-composeviewer** module:
 
@@ -58,50 +71,146 @@ repositories {
 
 ```groovy
 dependencies {
+
+  val lumberjack = "<LATEST-VERSION>"
+
+  // 1) core module
+  implementation("com.github.MFlisar.Lumberjack:core:$lumberjack")
   
-    // base module (NECESSARY)
-    implementation 'com.github.MFlisar.Lumberjack:lumberjack-library:<LATEST-VERSION>'
-    // modules (OPTIONAL)
-    implementation 'com.github.MFlisar.Lumberjack:lumberjack-filelogger:<LATEST-VERSION>'
-    implementation 'com.github.MFlisar.Lumberjack:lumberjack-feedback:<LATEST-VERSION>'
-    implementation 'com.github.MFlisar.Lumberjack:lumberjack-notification:<LATEST-VERSION>'
-    implementation 'com.github.MFlisar.Lumberjack:lumberjack-viewer:<LATEST-VERSION>'
+  // 2) select a implementation (whichever one you prefer - my suggestion is to don't use timber if you don't need to
+  //    as my own implementation is more compact
+  // + select the desired loggers (or trees for timber) you want to use
+  
+  // 2.1) lumberjack versions
+  implementation("com.github.MFlisar.Lumberjack:implementation-lumberjack:$lumberjack")
+  implementation("com.github.MFlisar.Lumberjack:logger-console:$lumberjack")
+  implementation("com.github.MFlisar.Lumberjack:logger-file:$lumberjack")
+  
+  // 2.2) timber versions
+  implementation("com.github.MFlisar.Lumberjack:implementation-timber:$lumberjack")
+  implementation("com.github.MFlisar.Lumberjack:logger-timber-console:$lumberjack")
+  implementation("com.github.MFlisar.Lumberjack:logger-timber-file:$lumberjack")
+  
+  // 3) select optional extensions if needed
+  implementation("com.github.MFlisar.Lumberjack:extension-feedback:$lumberjack")
+  implementation("com.github.MFlisar.Lumberjack:extension-notification:$lumberjack")
+  implementation("com.github.MFlisar.Lumberjack:extension-viewer:$lumberjack")
+  implementation("com.github.MFlisar.Lumberjack:extension-composeviewer:$lumberjack")
 }
 ```
 
+### Setup
+
+You should initialise `Lumberjack` once only - the best place is your apps `application`.
+
+```kotlin
+class App : Application() {
+    override fun onCreate() {
+      
+      // ------------------------
+      // Variant 1: the lumberjack version
+      // ------------------------
+
+      // 1) install the implemantion
+      L.init(LumberjackLogger)
+      
+      // 2) install loggers
+      L.plant(ConsoleLogger())
+      val setup = FileLoggerSetup.Daily(this)
+      L.plant(FileLogger(setup))
+
+      // ------------------------
+      // Variant 2: the timber version
+      // ------------------------
+
+      // 1) install the implemantion
+      L.init(TimberLogger)
+
+      // 2) install loggers (trees) 
+      Timber.plant(ConsoleTree())
+      val setup = FileLoggingSetup.DateFiles(this  )
+      Timber.plant(FileLoggingTree(setup))
+    }
+}
+```
+
+That's it - now you can use `Lumberjack` everywhere in your app.
+
 ### Usage
 
-Once in your app do following:
-
 ```kotlin
-// simply console logger
-L.plant(ConsoleTree())
 
-// if desired, disable all logging in release
-// L.enabled = Build.DEBUG
+// whereever you want use one of L.* functions for logging
+// all the functions are implemented as inline functions with lambdas, this means, everything inside the lambda is only executed if the log is really executed
+L.d { "a debug log" }
+L.e { "a error log" }
+L.e(e)
+L.e(e) { "an exception log with an additonal message" }
+L.v { "TEST-LOG - Verbose log..." }
+L.d { "TEST-LOG - Debug log..." }
+L.i { "TEST-LOG - Info log..." }
+L.w { "TEST-LOG - Warn log..." }
+L.e { "TEST-LOG - Error log..." }
+L.wtf { "TEST-LOG - WTF log..." }
+
+// optional tags work like following
+L.tag("LEVEL").d { "Tagged log message..." }
+
+// you can log something optionally like following
+L.logIf { false }?.d { "This will never be logged because logIf evaluates to false..." }
+
+// manual log levels
+L.log(Level.DEBUG) { "Debug level log via L.log instead of L.d" }
+
+// -----------------------
+// Settings for Lumberjack
+// -----------------------
+
+// if desired you can enable/disable all logs completely - e.g. in release like following
+L.enable(BuildConfig.DEBUG)
+
+// -----------------------
+// Filtering
+// -----------------------
+
+// for the lumberjack implementation you can provide a custom filter for each logging implementation
+// => you get ALL data of the log to decide if you want to filter it out (classname, filename, line, log message, level, exception, ...)
+// => simple provide a `LumberjackFilter` instance when instantiating the loggers
+val consoleLogger = ConsoleLogger(
+  filter = DefaultLumberjackFilter
+)
+val fileLogger = FileLogger(
+  filter = DefaultLumberjackFilter
+)
+
+// for the timber implementation you can't filter such granualary, just by tag and 
+TimberLogger.filter = object: IFilter {
+    override fun isTagEnabled(baseTree: BaseTree, tag: String): Boolean {
+        // decide if you want to log this tag on this tree...
+        return true
+    }
+    override fun isPackageNameEnabled(packageName: String): Boolean {
+      // decide if you want to log if the log comes from a class within the provided package name
+        return true
+    }
+}
 ```
 
-##### Module `filelogger`
+### Extensions
+
+Extensions work with all implementations!
+
+##### `Extension Feedback`
+
+This small extension simply allows you to send a log file via mail (no internet connection required). This will be done by sharing the file as email `Intent`.
 
 ```kotlin
-// a file logger (optional)
-// here you can setup a date file or a number file file logger - all variables like folder, filename, extension, file to keep and so on can be customised
-// when creating the setup
-// following default setup keeps log files for 7 days and creates a new file each day and names them "log_YYYYmmdd.log" by default
-val fileLoggingSetup = FileLoggingSetup.DateFiles(context) 
-L.plant(FileLoggingTree(fileLoggingSetup))
+ L.sendFeedback(context, <file-logging-setup>.getLatestLogFiles(), receiverMailAddress)
 ```
 
-##### Module `feedback`
+##### `Extension Notification`
 
-```kotlin
-// send feedback with the log file appended (chooser to select a mail will be opened, no internet permission needed!)
-// mail receiver is optional, it defaults to the lumberjack_mail_receiver resource string so its fine if you instead of providing the mail address here
-// you simply set the resource string to your mail address instead
-L.sendFeedback(context, fileLoggingSetup, "some.mail@gmail.com")
-```
-
-##### Module `notification`
+This small extension provides you with with 2 functions to create notifications (for app testers for example) that can be clicked and then will allow the user to send the log file to you via the `extension-feedback`.
 
 ```kotlin
 // show a crash notifcation - on notification click the user can send a feedback mail including the log file
@@ -117,51 +226,35 @@ L.showInfoNotification(context, "NotificationChannelID", 1234 /* notification id
 L.showInfoNotification(context, logFile, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
 ```
 
-##### Module `viewer`
+##### `Extension ComposeViewer`
+
+If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
+
+```kotlin
+val showLogViewer = rememberSaveable {
+    mutableStateOf(false)
+}
+LumberjackDialog(
+    visible = showLogViewer,
+    title = "Logs",
+    setup = <a file logging setup>,
+    mail = "some.mail@gmail.com"
+)
+```
+
+![Viewer](screenshots/compose-viewer1.jpg)
+![Viewer](screenshots/compose-viewer2.jpg)
+
+##### `Extension Viewer`
+
+If you do not use compose, here's a view based alternative to show log files inside your app.
 
 ```kotlin
 // show the log viewer activity (mail address is optional, if it's null, the send mail entry will be removed from the viewers menu)
 L.showLog(context, fileLoggingSetup, "some.mail@gmail.com")
 ```
 
-![Viewer](screenshots/viewer.jpg)
+![Viewer](screenshots/viewer1.jpg)
+![Viewer](screenshots/viewer2.jpg)
 
 Check out the demo to see more
-
-### Example - LOGGING
-
-The logger is simply used like following:
-
-```kotlin
-// this simply logs a message
-L.d { "Simpe log" }
-// simply log with custom tag
-L.tag("CUSTOM-TAG").d { "Some message with a tag" }
-// Log and only run log code based on a function / boolean flag
-L.logIf { true }?.d { "Is logged, as flag is true" }
-L.logIf { someFunction() }?.d { "Is logged and only executed if someFunction returns true" }
-```
-
-If used with `logIf` the expression is only executed if `logIf` returns true so it's save to keep all the logging lines in production code.
-
-### Example - OUTPUT
-
-```
-[MainActivity:26 onCreate]: Main activity created (MainActivity.kt:26)
-[MainActivity:27 onCreate]: Test message - count: 0 (MainActivity.kt:27)
-[MainActivity:28 onCreate]: Test error (MainActivity.kt:28)
-    java.lang.Throwable: ERROR
-        at com.michaelflisar.lumberjack.demo.MainActivity.onCreate(MainActivity.kt:28)
-        at android.app.Activity.performCreate(Activity.java:7183)
-        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1220)
-        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2908)
-        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3030)
-        at android.app.ActivityThread.-wrap11(Unknown Source:0)
-        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1696)
-        at android.os.Handler.dispatchMessage(Handler.java:105)
-        at android.os.Looper.loop(Looper.java:164)
-        at android.app.ActivityThread.main(ActivityThread.java:6938)
-        at java.lang.reflect.Method.invoke(Native Method)
-        at com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:327)
-        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1374)
-```

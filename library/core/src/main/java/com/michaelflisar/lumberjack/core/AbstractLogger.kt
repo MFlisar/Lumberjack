@@ -68,5 +68,6 @@ abstract class AbstractLogger {
     )
 
     abstract fun isEnabled(): Boolean
+    abstract fun enable(enabled: Boolean)
 }
 

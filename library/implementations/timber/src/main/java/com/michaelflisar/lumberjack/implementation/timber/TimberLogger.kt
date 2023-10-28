@@ -63,6 +63,10 @@ object TimberLogger : AbstractLogger() {
         return enabled
     }
 
+    override fun enable(enabled: Boolean) {
+        this.enabled = enabled
+    }
+
     override fun doLog(level: Level, message: String?, t: Throwable?, t2: Throwable) {
         if (enabled && Timber.treeCount() > 0) {
             val stackTrace = StackData(t ?: t2, if (t == null) 1 else 0)
