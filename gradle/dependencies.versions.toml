@@ -6,7 +6,7 @@ logback =           "3.0.0"
 fastscroller =      "1.0.0"
 
 # mflisar
-feedbackManager =           "2.0.3"
+feedback =           "2.0.3"
 composedemobaseactivity =   "0.1"
 
 # google
@@ -24,7 +24,7 @@ logback = 				        			{ module = "com.github.tony19:logback-android", 							
 fastscroller = 				        		{ module = "com.quiph.ui:recyclerviewfastscroller", 							    version.ref = "fastscroller" }
 
 #mflisar
-feedbackManager =                           { module = "com.github.MFlisar:FeedbackManager", 									version.ref = "feedbackManager" }
+feedback =                                  { module = "com.github.MFlisar:FeedbackManager", 									version.ref = "feedback" }
 composedemobaseactivity =                   { module = "com.github.MFlisar:ComposeDemoBaseActivity", 						    version.ref = "composedemobaseactivity" }
 
 # google

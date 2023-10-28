@@ -48,7 +48,7 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(deps.feedbackManager)
+    implementation(deps.feedback)
 }
 
 project.afterEvaluate {
