@@ -1,3 +1,0 @@
-jdk:
-  - openjdk17
-  - ./gradlew build :lib:publishToMavenLocal

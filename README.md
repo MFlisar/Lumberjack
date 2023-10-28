@@ -3,22 +3,46 @@
 [![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
 ![License](https://img.shields.io/github/license/MFlisar/Lumberjack)
 
-### What does it do?
+This is a full logging library with a build in way to log to **console**, **file** or any **custom** place.
 
-A simple logger for *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!) with following *features*:
+Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!).
 
-* trees for:
-  * logging to console (with the ability to add clickable links to the calling line in the calling class)
-  * files (one file per day, select between numbered log file names or date based log file names)
-* customise each tree to whatever you want or extend them or add your own tree
-* little utility class to log time and laps (the `T` class) 
-* by default, this library will create tags if no custom tag is provided like **[CLASSNAME:LINE] FUNCTION** e.g. `[MainActivity:32 onCreate]: Some log`
-* feedback module that contains extension functions for `L` to send feedback or to show a notification that will send a feedback on click:
-  * `L.sendFeedback()`... sends a feedback via IntentChooser with an optional files appended
-* notification module that contains functions to show info/error notifications
-* viewer module that contains an activity to show a log file with filter functions
+### Features
+
+* supports arbitrary loggers and provides data like **class name**, **function name**, **line number**
+* can be used with a very small custom logging implementation or timber, whatever you prefer
+* has extensions for
+  * sending a log file via mail (no internet permissions - this is done by appending the log file to an `Intent` and let the user choose an email client)
+  * a log file viewer (view or compose based)
+  * a notification extension which allows you to show a notification which can show a non crashing but unexpected error and allows the user to click it and send a log file if desired
 
 **All features are splitted into separate modules, just include the modules you want to use!**
+
+### Dependencies
+
+| Modules | Dependency | Version |
+|:-|:-|-:|
+| `core` | no dependency |  |
+| `implementation-lumberjack` | no dependency |  |
+| `implementation-timber` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
+| `logger-console` | `implementation-lumberjack` |  |
+| `logger-file` | `implementation-lumberjack` |  |
+| `logger-timber-console` | `implementation-timber` |  |
+| `logger-timber-file` | `implementation-timber` |  |
+| | [slf4j](https://www.slf4j.org/) | `2.0.7` |
+| | [logback-android](https://github.com/tony19/logback-android) | `3.0.0` |
+| `extension-feedback` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
+| `extension-notification` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
+| `extension-viewer` | no dependency | `2.0.3` |
+| `extension-composeviewer` | no dependency | `2.0.3` |
+
+**following dependency only applies to the *extension-composeviewer* module**
+
+| Dependency | Version | Infos |
+|:-|-:|:-:|
+| [Compose BOM](https://developer.android.com/jetpack/compose/bom/bom) | `2023.10.01` | [Mapping](https://developer.android.com/jetpack/compose/bom/bom-mapping) |
+| Material3 | `1.1.2` | |
+
 
 ### Dependencies
 
