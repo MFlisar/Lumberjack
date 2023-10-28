@@ -25,30 +25,24 @@ Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/
 | `core` | no dependency |  |
 | `implementation-lumberjack` | no dependency |  |
 | `implementation-timber` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
-| `logger-console` | `implementation-lumberjack` |  |
-| `logger-file` | `implementation-lumberjack` |  |
-| `logger-timber-console` | `implementation-timber` |  |
-| `logger-timber-file` | `implementation-timber` |  |
+| `logger-console` | no dependency |  |
+| `logger-file` | no dependency |  |
+| `logger-timber-console` | no dependency |  |
+| `logger-timber-file` | no dependency |  |
 | | [slf4j](https://www.slf4j.org/) | `2.0.7` |
 | | [logback-android](https://github.com/tony19/logback-android) | `3.0.0` |
 | `extension-feedback` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
 | `extension-notification` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
+| `extension-viewer` | [FastScroller](https://github.com/quiph/RecyclerView-FastScroller) | `1.0.0` |
 | `extension-viewer` | no dependency | `2.0.3` |
 | `extension-composeviewer` | no dependency | `2.0.3` |
 
-**following dependency only applies to the *extension-composeviewer* module**
+Following dependency only applies to the **extension-composeviewer** module:
 
 | Dependency | Version | Infos |
 |:-|-:|:-:|
 | [Compose BOM](https://developer.android.com/jetpack/compose/bom/bom) | `2023.10.01` | [Mapping](https://developer.android.com/jetpack/compose/bom/bom-mapping) |
 | Material3 | `1.1.2` | |
-
-
-### Dependencies
-
-| Dependency | Version |
-|:-|-:|
-| [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
 
 ### Gradle (via [JitPack.io](https://jitpack.io/))
 
