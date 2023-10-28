@@ -7,6 +7,8 @@ This is a full logging library with a build in way to log to **console**, **file
 
 Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!).
 
+From v6 on this library's priority is to not use timber but it will still continue timber support! More about it [here](README - TIMBER.md).
+
 **Example logs**
 
 ### Example - OUTPUT
@@ -18,7 +20,7 @@ Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/
 
 ##### File
 
-![Example log file](examples/log.txt)
+[Example log file](examples/log.txt)
 
 ### Features
 
@@ -195,6 +197,12 @@ TimberLogger.filter = object: IFilter {
     }
 }
 ```
+
+### File Loggers
+
+There's something to say about file loggers. The `timber` version used `slf4j` + `logback-android` which adds quite some overhead to your app. But those libraries are well tested and solid.
+
+Beginning with v6 I decided to also provide non timber versions of my library and the file logger for this one does not have any dependencies - it simply logs in a background thread with the help of coroutines. This makes this alternative very tiny.
 
 ### Extensions
 
