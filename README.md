@@ -18,7 +18,7 @@ Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/
 
 ##### File
 
-![Viewer](examples/log.txt)
+![Example log file](examples/log.txt)
 
 ### Features
 
@@ -40,8 +40,8 @@ Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/
 | `implementation-timber` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
 | `logger-console` | - |  |
 | `logger-file` | - |  |
-| `logger-timber-console` | - |  |
-| `logger-timber-file` | - |  |
+| `logger-timber-console` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
+| `logger-timber-file` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
 | | [slf4j](https://www.slf4j.org/) | `2.0.7` |
 | | [logback-android](https://github.com/tony19/logback-android) | `3.0.0` |
 | `extension-feedback` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
