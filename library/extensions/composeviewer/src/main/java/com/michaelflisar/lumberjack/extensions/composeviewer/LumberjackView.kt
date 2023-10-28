@@ -253,6 +253,7 @@ fun LumberjackDialog(
                     LumberjackView(
                         setup = setup,
                         file = logFile,
+                        style = style,
                         reload = reload,
                         modifier = Modifier.weight(1f),
                         state = listState,

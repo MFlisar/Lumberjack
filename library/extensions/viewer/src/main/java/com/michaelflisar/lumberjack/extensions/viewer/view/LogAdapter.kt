@@ -55,7 +55,7 @@ internal class LogAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.bind(item, filter, position)
+        holder.bind(item, filter)
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
@@ -71,7 +71,7 @@ internal class LogAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(item: IFileConverter.Entry, filter: String, pos: Int) {
+        fun bind(item: IFileConverter.Entry, filter: String) {
             binding.tvNumber.text = "${item.lineNumber}"
             binding.tvType.setTextColor(item.level.getTitleColor(textColor))
             binding.tvType.text = item.level.name

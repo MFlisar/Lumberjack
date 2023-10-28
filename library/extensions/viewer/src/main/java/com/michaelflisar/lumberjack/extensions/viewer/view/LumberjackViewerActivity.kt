@@ -129,8 +129,8 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
             fileLoggingSetup.getAllExistingLogFiles()
                 .sortedBy { it.name }
                 .forEachIndexed { index, file ->
-                    val menu = subMenu.add(0, index, Menu.NONE, file.name)
-                    fileMenuItems[menu] = file
+                    val m = subMenu.add(0, index, Menu.NONE, file.name)
+                    fileMenuItems[m] = file
                 }
         }
         menu.findItem(R.id.menu_send_log_file)?.isVisible = receiver?.isNotEmpty() == true

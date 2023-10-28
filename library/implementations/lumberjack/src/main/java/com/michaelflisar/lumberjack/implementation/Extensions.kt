@@ -14,7 +14,3 @@ fun L.uproot(implementation: ILumberjackLogger) {
 fun L.uprootAll() {
     LumberjackLogger.unregisterAll()
 }
-
-fun L.enable(enabled: Boolean) {
-    LumberjackLogger.enable(enabled)
-}

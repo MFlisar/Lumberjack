@@ -10,7 +10,6 @@ android {
     compileSdk = app.versions.compileSdk.get().toInt()
 
     buildFeatures {
-        viewBinding = true
         buildConfig = true
         compose = true
     }
@@ -47,12 +46,6 @@ dependencies {
     // ------------------------
     // AndroidX
     // ------------------------
-
-    implementation(deps.material)
-
-    implementation(androidx.core)
-    implementation(androidx.lifecylce)
-    implementation(androidx.constraintlayout)
 
     // Compose
     implementation(platform(compose.bom))
