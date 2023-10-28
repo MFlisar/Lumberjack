@@ -5,7 +5,7 @@
 
 This is a full logging library with a build in way to log to **console**, **file** or any **custom** place.
 
-Additonally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!).
+Additionally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!).
 
 From v6 on this library's priority is to not use timber but it will still continue timber support! More about it [here](README-TIMBER.md).
 
