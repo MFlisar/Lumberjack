@@ -18,9 +18,6 @@ import timber.log.Timber
 class App : Application() {
 
     companion object {
-        // just for the demo - a global "setting" value
-        var darkTheme: Boolean = false
-
         lateinit var FILE_LOGGING_SETUP: IFileLoggingSetup
     }
 
