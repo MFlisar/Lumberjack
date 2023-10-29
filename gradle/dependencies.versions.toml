@@ -1,13 +1,13 @@
 [versions]
 
-timber =            "4.7.1"
-slf4j =             "2.0.7"
-logback =           "3.0.0"
-fastscroller =      "1.0.0"
+timber =                    "4.7.1"
+slf4j =                     "2.0.7"
+logback =                   "3.0.0"
+fastscroller =              "1.0.0"
 
 # mflisar
-feedback =           "2.0.3"
-composedemobaseactivity =   "0.1"
+feedback =                  "2.0.3"
+composedemobaseactivity =   "0.3"
 
 # google
 material =					"1.10.0"

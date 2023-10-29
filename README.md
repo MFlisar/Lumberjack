@@ -69,7 +69,7 @@ Following dependency only applies to the **extension-composeviewer** module:
 
 1) add jitpack to your project's `build.gradle`:
 
-```groovy
+```gradle
 repositories {
     maven { url "https://jitpack.io" }
 }
@@ -77,7 +77,7 @@ repositories {
 
 2) add dependencies to your module's `build.gradle`:
 
-```groovy
+```gradle
 dependencies {
 
   val lumberjack = "<LATEST-VERSION>"
@@ -204,6 +204,10 @@ TimberLogger.filter = object: IFilter {
 }
 ```
 
+###  Demo
+
+A full [demo](demo/src/main/java/com/michaelflisar/lumberjack/demo) is included inside the *demo module*, it shows nearly every usage with working examples.
+
 ### File Loggers
 
 There's something to say about file loggers. The `timber` version used `slf4j` + `logback-android` which adds quite some overhead to your app. But those libraries are well tested and solid.
@@ -270,5 +274,3 @@ L.showLog(context, fileLoggingSetup, "some.mail@gmail.com")
 
 ![Viewer](screenshots/viewer1.jpg)
 ![Viewer](screenshots/viewer2.jpg)
-
-Check out the demo to see more
