@@ -39,57 +39,19 @@ From v6 on this library's priority is to not use timber but it will still contin
 |:-|:-|-:|
 | `core` | - |  |
 ||| <tr><th colspan="3">Lumberjack Loggers</th></tr> |
+|||
 | `implementation-lumberjack` | - |  |
 | `logger-console` | - |  |
 | `logger-file` | - |  |
 ||| <tr><th colspan="3">Timber Loggers</th></tr> |
+|||
 | `implementation-timber` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
-| `logger-timber-console` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
-| `logger-timber-file` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
-||| <tr><th colspan="3">Common Extensions</th></tr> |
-| `extension-feedback` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
-| `extension-notification` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
-| `extension-viewer` | [FastScroller](https://github.com/quiph/RecyclerView-FastScroller) | `1.0.0` |
-| `extension-viewer` | - | `2.0.3` |
-| `extension-composeviewer` | - | `2.0.3` |
-
-<table>
-  <tr>
-    <th>Modules</th>
-    <th>Dependency</th>
-    <th>Version</th>
-  </tr>
-  <tr>
-    <td><code>core</code></td>
-    <td>-</td>
-    <td></td>
-  </tr>
-  <tr>
-    <th colspan="3">Lumberjack Versions</th>
-  </tr>
-  <tr>
-    <td><code>implementation-lumberjack</code></td>
-    <td>-</td>
-    <td></td>
-  </tr>
-  <tr>
-    <th colspan="3">Timber Versions</th>
-  </tr>
-</table>
-
-
-
-| Modules | Dependency | Version |
-|:-|:-|-:|
-| `core` | - |  |
-| `implementation-lumberjack` | - |  |
-| `implementation-timber` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
-| `logger-console` | - |  |
-| `logger-file` | - |  |
 | `logger-timber-console` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
 | `logger-timber-file` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
 | | [slf4j](https://www.slf4j.org/) | `2.0.7` |
 | | [logback-android](https://github.com/tony19/logback-android) | `3.0.0` |
+||| <tr><th colspan="3">Common Extensions</th></tr> |
+|||
 | `extension-feedback` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
 | `extension-notification` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
 | `extension-viewer` | [FastScroller](https://github.com/quiph/RecyclerView-FastScroller) | `1.0.0` |
