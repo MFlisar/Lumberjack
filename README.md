@@ -208,6 +208,43 @@ TimberLogger.filter = object: IFilter {
 
 A full [demo](demo/src/main/java/com/michaelflisar/lumberjack/demo) is included inside the *demo module*, it shows nearly every usage with working examples.
 
+### Custom Loggers
+
+Either use the timber version and plug in your custom loggers into timber (check out timber for that please) or simple plug in a custom logger into lumberjack directly if you do not use the timber solution like following.
+
+All you need to do is implementing a single function and then add your logger to `Lumberjack` (Example is the current `ConsoleLogger` implementation)
+
+```kotlin
+class ConsoleLogger(
+    override var enabled: Boolean = true,
+    override val filter: LumberjackFilter = DefaultLumberjackFilter
+) : ILumberjackLogger {
+
+    override fun log(
+        level: Level,
+        tag: String?,
+        time: Long,
+        fileName: String,
+        className: String,
+        methodName: String,
+        line: Int,
+        msg: String?,
+        throwable: Throwable?
+    ) {
+        val link = "(${fileName}:${line})"
+        val log = listOfNotNull(
+            msg,
+            link.takeIf { throwable == null },
+            throwable?.stackTraceToString()?.let { "\n$it" }
+        ).joinToString(" ")
+        Log.println(level.priority, tag, log)
+    }
+
+}
+```
+
+That's all. You can do the logging asynchronous as well if you want - just do whatever you want inside your logger implementation.
+
 ### File Loggers
 
 There's something to say about file loggers. The `timber` version used `slf4j` + `logback-android` which adds quite some overhead to your app. But those libraries are well tested and solid.

@@ -15,13 +15,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.michaelflisar.composedemobaseactivity.DemoActivity
+import com.michaelflisar.composedemobaseactivity.DemoBaseActivity
 import com.michaelflisar.composedemobaseactivity.classes.DemoTheme
 import com.michaelflisar.composedemobaseactivity.classes.ToastHelper
 import com.michaelflisar.composedemobaseactivity.classes.listSaverKeepEntryStateList
@@ -34,7 +33,7 @@ import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
 import com.michaelflisar.lumberjack.extensions.viewer.showLog
 import kotlinx.coroutines.launch
 
-class MainActivity : DemoActivity() {
+class MainActivity : DemoBaseActivity() {
 
     @Composable
     override fun Content(modifier: Modifier, theme: DemoTheme, dynamicTheme: Boolean) {
