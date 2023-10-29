@@ -126,6 +126,7 @@ class FileLogger(
             if (files.contains(it)) {
                 if (file?.exists() == true) {
                     send(Event.ResetWriter)
+                    println("onLogFilesWillBeDeleted...")
                     loggerScope.launch {
                         channel.send(Event.ResetWriter)
                     }

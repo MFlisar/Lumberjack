@@ -5,6 +5,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,6 +45,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -122,7 +124,7 @@ fun LumberjackDialog(
                 var showMenu by remember { mutableStateOf(false) }
                 var showMenu2 by remember { mutableStateOf(false) }
                 val logFile = rememberLogFile()
-                val reload = rememberReloadFile()
+                val logFileData = rememberLogFileData()
                 Column {
                     TopAppBar(
                         title = { Text(title) },
@@ -159,7 +161,7 @@ fun LumberjackDialog(
                                             text = { Text("Reload File") },
                                             leadingIcon = { Icon(Icons.Default.Refresh, null) },
                                             onClick = {
-                                                reload.value = true
+                                                logFileData.value = Data.Reload
                                                 showMenu = false
                                             }
                                         )
@@ -169,7 +171,7 @@ fun LumberjackDialog(
                                             onClick = {
                                                 scope.launch {
                                                     setup.clearLogFiles()
-                                                    reload.value = true
+                                                    logFileData.value = Data.Reload
                                                     showMenu = false
                                                 }
                                             }
@@ -240,7 +242,7 @@ fun LumberjackDialog(
                                                 },
                                                 onClick = {
                                                     logFile.value = file
-                                                    reload.value = true
+                                                    logFileData.value = Data.Reload
                                                     showMenu2 = false
                                                 }
                                             )
@@ -254,7 +256,7 @@ fun LumberjackDialog(
                         setup = setup,
                         file = logFile,
                         style = style,
-                        reload = reload,
+                        data = logFileData,
                         modifier = Modifier.weight(1f),
                         state = listState,
                         darkTheme = darkTheme
@@ -273,10 +275,8 @@ fun rememberLogFile(file: File? = null): MutableState<File?> {
 }
 
 @Composable
-fun rememberReloadFile(reload: Boolean = true): MutableState<Boolean> {
-    return rememberSaveable {
-        mutableStateOf(reload)
-    }
+fun rememberLogFileData(data: Data = Data.Reload): MutableState<Data> {
+    return remember { mutableStateOf(data) }
 }
 
 @Composable
@@ -284,32 +284,32 @@ fun LumberjackView(
     modifier: Modifier = Modifier,
     setup: IFileLoggingSetup,
     file: MutableState<File?> = rememberLogFile(),
-    reload: MutableState<Boolean> = rememberReloadFile(),
+    data: MutableState<Data> = rememberLogFileData(),
     state: LazyListState = rememberLazyListState(),
     darkTheme: Boolean = isSystemInDarkTheme(),
     style: LumberjackView.Style = LumberjackViewDefaults.style(),
 ) {
-    val data = remember { mutableStateOf<Data>(Data.None) }
-    LaunchedEffect(reload.value, file.value) {
+    LaunchedEffect(data.value, file.value) {
         if (file.value == null) {
             file.value = setup.getLatestLogFiles()
         }
         val f = file.value
-        if (reload.value && f != null) {
-            reload.value = false
-            if (!f.exists()) {
-                data.value = Data.FileNotFound
-            } else {
-                withContext(Dispatchers.IO) {
-                    var lines = emptyList<String>()
-                    try {
-                        lines = f.readLines()
-                    } catch (e: FileNotFoundException) {
-                        // ignore
+        if (data.value == Data.Reload) {
+            if (f != null) {
+                if (!f.exists()) {
+                    data.value = Data.FileNotFound
+                } else {
+                    withContext(Dispatchers.IO) {
+                        try {
+                            val logs = setup.fileConverter.parseFile(f.readLines())
+                            data.value = Data.Loaded(logs)
+                        } catch (e: FileNotFoundException) {
+                            data.value = Data.FileNotFound
+                        }
                     }
-                    val logs = setup.fileConverter.parseFile(lines)
-                    data.value = Data.Loaded(logs)
                 }
+            } else {
+                data.value = Data.FileNotFound
             }
         }
     }
@@ -333,8 +333,8 @@ fun LumberjackView(
     val count by remember(data.value) {
         derivedStateOf { data.value.count }
     }
-    val countFiltered by remember(count) {
-        derivedStateOf { count }
+    var countFiltered by remember(count) {
+        mutableIntStateOf(-1)
     }
 
     Column(
@@ -343,7 +343,10 @@ fun LumberjackView(
         Filter(filter, filterOptions, filter2)
         Info(file.value, countFiltered, count)
         when (val d = data.value) {
-            Data.FileNotFound -> TODO()
+            Data.FileNotFound -> {
+                InfoState("File not found!")
+            }
+
             is Data.Loaded -> {
                 val filteredEntries by remember(d.entries, filter.value, filter2.value) {
                     derivedStateOf {
@@ -361,20 +364,27 @@ fun LumberjackView(
                     }
                 }
                 LaunchedEffect(filteredEntries) {
-                    state.scrollToItem(filteredEntries.size - 1)
+                    countFiltered = filteredEntries.size
+                    state.scrollToItem((filteredEntries.size - 1).coerceAtLeast(0))
                 }
-                LazyColumn(
-                    state = state
-                ) {
-                    filteredEntries.forEach {
-                        item(key = it.lineNumber) {
-                            LogEntry(it, filter2.value, darkTheme, spanStyle, style)
+                if (d.entries.isEmpty()) {
+                    InfoState("File is empty!")
+                } else if (filteredEntries.isEmpty()) {
+                    InfoState("Nothing matches the filter!")
+                } else {
+                    LazyColumn(
+                        state = state
+                    ) {
+                        filteredEntries.forEach {
+                            item(key = it.lineNumber) {
+                                LogEntry(it, filter2.value, darkTheme, spanStyle, style)
+                            }
                         }
                     }
                 }
             }
 
-            Data.None -> {
+            Data.Reload -> {
             }
         }
     }
@@ -460,10 +470,22 @@ private fun Info(file: File?, filteredCount: Int, totalCount: Int) {
             style = MaterialTheme.typography.bodySmall
         )
         Text(
-            if (filteredCount == totalCount) "$filteredCount" else "$filteredCount/$totalCount",
+            if (filteredCount == totalCount || filteredCount == -1) "$totalCount" else "$filteredCount/$totalCount",
             style = MaterialTheme.typography.bodySmall
         )
     }
+}
+
+@Composable
+private fun ColumnScope.InfoState(info: String) {
+    Text(
+        text = info,
+        modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .padding(16.dp),
+        style = MaterialTheme.typography.bodyMedium,
+        fontWeight = FontWeight.Bold
+    )
 }
 
 private val INSET = 32.dp
@@ -564,7 +586,7 @@ sealed class Data {
         override val count = 0
     }
 
-    data object None : Data() {
+    data object Reload : Data() {
         override val count = 0
     }
 }

@@ -98,7 +98,9 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
                 val filesToDelete = files.drop(if (all) 0 else filesToKeep)
                 LumberjackLogger.loggers()
                     .filterIsInstance<FileLogger>()
-                    .filter { it.setup == this }
+                    .filter {
+                        it.setup == this@Daily
+                    }
                     .forEach {
                         it.onLogFilesWillBeDeleted(filesToDelete)
                     }

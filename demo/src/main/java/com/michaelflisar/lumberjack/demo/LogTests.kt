@@ -1,10 +1,8 @@
 package com.michaelflisar.lumberjack.demo
 
-import android.widget.Toast
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.demo.classes.DemoLibraryWithInternalLogger
-import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,6 +10,7 @@ import kotlinx.coroutines.launch
 object LogTests {
 
     fun run(scope: CoroutineScope) {
+
         L.d { "TEST-LOG - 1a - MainActivity onCreate was just called" }
         L.e(Exception("TEST")) { "TEST-LOG - 1b - MainActivity onCreate was just called" }
         L.logIf { true }?.d { "TEST-LOG - 1c - MainActivity onCreate was just called" }
