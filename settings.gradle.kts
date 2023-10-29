@@ -77,6 +77,8 @@ project(":Lumberjack:Extensions:Viewer").projectDir = file("library/extensions/v
 include(":Lumberjack:Extensions:ComposeViewer")
 project(":Lumberjack:Extensions:ComposeViewer").projectDir = file("library/extensions/composeviewer")
 
-include(":demo")
-project(":demo").projectDir = file("demo")
+if (!System.getenv().containsKey("JITPACK")) {
+    include(":demo")
+    project(":demo").projectDir = file("demo")
+}
 
