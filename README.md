@@ -35,6 +35,24 @@ From v6 on this library's priority is to not use timber but it will still contin
 
 ### Dependencies
 
+| Modules | Dependency | Version |
+|:-|:-|-:|
+| `core` | - |  |
+<tr><th colspan="3">Lumberjack Loggers</th></tr>
+| `implementation-lumberjack` | - |  |
+| `logger-console` | - |  |
+| `logger-file` | - |  |
+<tr><th colspan="3">Timber Loggers</th></tr>
+| `implementation-timber` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
+| `logger-timber-console` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
+| `logger-timber-file` | [Timber](https://github.com/JakeWharton/timber) | `4.7.1` |
+<tr><th colspan="3">Common Extensions</th></tr>
+| `extension-feedback` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
+| `extension-notification` | [FeedbackManager](https://github.com/MFlisar/FeedbackManager) | `2.0.3` |
+| `extension-viewer` | [FastScroller](https://github.com/quiph/RecyclerView-FastScroller) | `1.0.0` |
+| `extension-viewer` | - | `2.0.3` |
+| `extension-composeviewer` | - | `2.0.3` |
+
 <table>
   <tr>
     <th>Modules</th>
@@ -42,7 +60,7 @@ From v6 on this library's priority is to not use timber but it will still contin
     <th>Version</th>
   </tr>
   <tr>
-    <td>`core`</td>
+    <td><code>core</code></td>
     <td>-</td>
     <td></td>
   </tr>
@@ -50,7 +68,7 @@ From v6 on this library's priority is to not use timber but it will still contin
     <th colspan="3">Lumberjack Versions</th>
   </tr>
   <tr>
-    <td>`implementation-lumberjack`</td>
+    <td><code>implementation-lumberjack</code></td>
     <td>-</td>
     <td></td>
   </tr>
