@@ -75,7 +75,7 @@ repositories {
 }
 ```
 
-2) add the compile statement to your module's `build.gradle`:
+2) add dependencies to your project's `build.gradle`:
 
 ```groovy
 dependencies {
