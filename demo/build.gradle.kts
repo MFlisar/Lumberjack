@@ -78,6 +78,4 @@ dependencies {
 
     // a minimal library that provides some useful composables that I use inside demo activities
     implementation(deps.composedemobaseactivity)
-
-    implementation(deps.timber)
 }

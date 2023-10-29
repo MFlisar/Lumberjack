@@ -35,6 +35,32 @@ From v6 on this library's priority is to not use timber but it will still contin
 
 ### Dependencies
 
+<table>
+  <tr>
+    <th>Modules</th>
+    <th>Dependency</th>
+    <th>Version</th>
+  </tr>
+  <tr>
+    <td>`core`</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="3">Lumberjack Versions</th>
+  </tr>
+  <tr>
+    <td>`implementation-lumberjack`</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="3">Timber Versions</th>
+  </tr>
+</table>
+
+
+
 | Modules | Dependency | Version |
 |:-|:-|-:|
 | `core` | - |  |
