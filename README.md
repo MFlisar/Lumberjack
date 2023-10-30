@@ -1,4 +1,4 @@
-#	ℹ️ About
+#	About
 
 [![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
 ![License](https://img.shields.io/github/license/MFlisar/Lumberjack)
