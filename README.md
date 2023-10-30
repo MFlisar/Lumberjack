@@ -240,10 +240,9 @@ A full [demo](demo/src/main/java/com/michaelflisar/lumberjack/demo) is included 
 
 # 🔷 Modules and Extensions
 
-* you must decide yourself if you want to use the timber modules or the non timber modules. MY suggestion is to prefer the non timber modules as those will save some space and will allow you to even log in a more flexible way.
-* despite that, all extensions work with any implementation (timer or non timber one)
+Depending on your preferences you must decide yourself if you want to use the timber modules or the non timber modules. My suggestion is to prefer the non timber modules as those will save some space and will allow you to even log in a more flexible way. Despite that, all extensions work with any implementation (timer or non timber one)
 
-### 1) `Extension Feedback`
+### 1) Extension Feedback
 
 This small extension simply allows you to send a log file via mail (no internet connection required). This will be done by sharing the file as email `Intent`.
 
@@ -251,7 +250,7 @@ This small extension simply allows you to send a log file via mail (no internet 
  L.sendFeedback(context, <file-logging-setup>.getLatestLogFiles(), receiverMailAddress)
 ```
 
-### 2) `Extension Notification`
+### 2) Extension Notification
 
 This small extension provides you with with 2 functions to create notifications (for app testers for example) that can be clicked and then will allow the user to send the log file to you via the `extension-feedback`.
 
@@ -269,7 +268,7 @@ L.showInfoNotification(context, "NotificationChannelID", 1234 /* notification id
 L.showInfoNotification(context, logFile, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
 ```
 
-### 3) `Extension ComposeViewer`
+### 3) Extension ComposeViewer
 
 If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
 
@@ -288,7 +287,7 @@ LumberjackDialog(
 ![Viewer](screenshots/compose-viewer1.jpg)
 ![Viewer](screenshots/compose-viewer2.jpg)
 
-### 4) `Extension Viewer`
+### 4) Extension Viewer
 
 If you do not use compose, here's a view based alternative to show log files inside your app.
 
