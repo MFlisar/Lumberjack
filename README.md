@@ -173,7 +173,9 @@ That's it - now you can use `Lumberjack` everywhere in your app.
 ```kotlin
 
 // whereever you want use one of L.* functions for logging
-// all the functions are implemented as inline functions with lambdas, this means, everything inside the lambda is only executed if the log is really executed
+// all the functions are implemented as inline functions with lambdas, this means,
+// everything inside the lambda is only executed if the log is really executed
+
 L.d { "a debug log" }
 L.e { "a error log" }
 L.e(e)
