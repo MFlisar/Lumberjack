@@ -1,29 +1,49 @@
-### About
+#	ℹ️ About
 
 [![Release](https://jitpack.io/v/MFlisar/Lumberjack.svg)](https://jitpack.io/#MFlisar/Lumberjack)
 ![License](https://img.shields.io/github/license/MFlisar/Lumberjack)
 
-This is a full logging library with a build in way to log to **console**, **file** or any **custom** place.
+This is a full logging library with a build in way to log to **console**, **file** or any **custom** place as well as optional extensions to send a log file via mail or show it on the device.
 
-Additionally it supports *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!).
+### Timber Support
 
-From v6 on this library's priority is to not use timber but it will still continue timber support! More about it [here](README-TIMBER.md).
+This library fully supports *Jack Whartons* [Timber](https://github.com/JakeWharton/timber) logging library (v4!). And was even based on it until *Lumberjack v6*. Beginning with *v6* I wrote new modules that work without timber which leads to a smaller and more versitile non timber version. I would advice you to use the non timber versions but if you want to you can simply use the timber modules I provide as well - whatever you prefer.
 
-**Example logs**
+A short summary on why I went this way can be found [here](README-TIMBER.md)
 
-### Example - OUTPUT
+# Table of content
 
-##### Console
+* [Example Outputs](#-example-outputs)
+* [Features](#-features)
+* [Dependencies](#-dependencies)
+* [Setup Gradle](%EF%B8%8F-setup-gradle)
+* [Setup Library](%EF%B8%8F-setup-library)
+* [Usage](#%EF%B8%8F-usage)
+* [Demo](#-demo)
+* [Modules and Extensions](#-modules-and-extensions)
+* [Advanced Usage](#-advanced-usage)
+* [Notes](#-notes)
 
-![Viewer](screenshots/log1.png)
-![Viewer](screenshots/log2.png)
+# 📷 Example Outputs
 
-##### File
+| Console 1 | Console 2 |
+|-|-|
+| ![Viewer](screenshots/log2.png) | ![Viewer](screenshots/log2.png) |
 
-[Example log file](examples/log.txt)
 
-### Features
+| File |
+|-|
+| [Example log file](examples/log.txt) |
 
+| Compose Viewer 1 | Compose Viewer 2 | View Viewer 1 | View Viewer 2 |
+|-|-|-|-|
+| ![Viewer](screenshots/compose-viewer1.jpg) | ![Viewer](screenshots/compose-viewer2.jpg) | ![Viewer](screenshots/viewer1.jpg) | ![Viewer](screenshots/viewer2.jpg) |
+
+# ✅ Features
+
+* logs will be created with **class name**, **function name** abd **line number** of the calling place automatically
+* logs are evaluated lazily, this means, if the content of a log is not needed, it won't be evaluated
+* loggers can be *enabled*/*disabled*  and do support filtering logs
 * supports arbitrary loggers and provides data like **class name**, **function name**, **line number**
 * can be used with a very small custom logging implementation or timber, whatever you prefer
 * has extensions for
@@ -33,7 +53,7 @@ From v6 on this library's priority is to not use timber but it will still contin
 
 **All features are splitted into separate modules, just include the modules you want to use!**
 
-### Dependencies
+# 🔗 Dependencies
 
 | Modules | Dependency | Version |
 |:-|:-|-:|
@@ -65,9 +85,11 @@ Following dependency only applies to the **extension-composeviewer** module:
 | [Compose BOM](https://developer.android.com/jetpack/compose/bom/bom) | `2023.10.01` | [Mapping](https://developer.android.com/jetpack/compose/bom/bom-mapping) |
 | Material3 | `1.1.2` | |
 
-### Gradle (via [JitPack.io](https://jitpack.io/))
+# 🛠️ Setup Gradle
 
-1) add jitpack to your project's `build.gradle`:
+This library is distributed via [JitPack.io](https://jitpack.io/).
+
+### 1) Add jitpack to your project's `build.gradle`:
 
 ```gradle
 repositories {
@@ -75,7 +97,7 @@ repositories {
 }
 ```
 
-2) add dependencies to your module's `build.gradle`:
+### 2) Add dependencies to your module's `build.gradle`:
 
 ```gradle
 dependencies {
@@ -107,12 +129,13 @@ dependencies {
 }
 ```
 
-### Setup
+# 🛠️ Setup Library
 
 You should initialise `Lumberjack` once only - the best place is your apps `application`.
 
 ```kotlin
 class App : Application() {
+
     override fun onCreate() {
       
       // ------------------------
@@ -139,12 +162,13 @@ class App : Application() {
       val setup = FileLoggingSetup.DateFiles(this  )
       Timber.plant(FileLoggingTree(setup))
     }
+
 }
 ```
 
 That's it - now you can use `Lumberjack` everywhere in your app.
 
-### Usage
+# ⌨️ Usage
 
 ```kotlin
 
@@ -204,9 +228,78 @@ TimberLogger.filter = object: IFilter {
 }
 ```
 
-###  Demo
+# 🧬 Demo
 
 A full [demo](demo/src/main/java/com/michaelflisar/lumberjack/demo) is included inside the *demo module*, it shows nearly every usage with working examples.
+
+# 🔷 Modules and Extensions
+
+### Modules
+
+You must decide yourself if you want to use the timber modules or the non timber modules.
+
+### Extensions
+
+Extensions work with all implementations!
+
+##### 1) `Extension Feedback`
+
+This small extension simply allows you to send a log file via mail (no internet connection required). This will be done by sharing the file as email `Intent`.
+
+```kotlin
+ L.sendFeedback(context, <file-logging-setup>.getLatestLogFiles(), receiverMailAddress)
+```
+
+##### 2) `Extension Notification`
+
+This small extension provides you with with 2 functions to create notifications (for app testers for example) that can be clicked and then will allow the user to send the log file to you via the `extension-feedback`.
+
+```kotlin
+// show a crash notifcation - on notification click the user can send a feedback mail including the log file
+L.showCrashNotification(context, logFile /* may be null */, "some.mail@gmail.com", R.mipmap.ic_launcher, "NotificationChannelID", 1234 /* notification id */)
+
+// show a notification to allow the user the report some interesting internal proplems
+L.showCrashNotification(context, fileLoggingSetup, "some.mail@gmail.com", R.mipmap.ic_launcher, "NotificationChannelID", 1234 /* notification id */)
+
+// show an information notification to the user (or for dev purposes)
+L.showInfoNotification(context, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
+
+// as above, but on notification click it will open the log viewer showing the provided log file
+L.showInfoNotification(context, logFile, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
+```
+
+##### 3) `Extension ComposeViewer`
+
+If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
+
+```kotlin
+val showLogViewer = rememberSaveable {
+    mutableStateOf(false)
+}
+LumberjackDialog(
+    visible = showLogViewer,
+    title = "Logs",
+    setup = <a file logging setup>,
+    mail = "some.mail@gmail.com"
+)
+```
+
+![Viewer](screenshots/compose-viewer1.jpg)
+![Viewer](screenshots/compose-viewer2.jpg)
+
+##### 4) `Extension Viewer`
+
+If you do not use compose, here's a view based alternative to show log files inside your app.
+
+```kotlin
+// show the log viewer activity (mail address is optional, if it's null, the send mail entry will be removed from the viewers menu)
+L.showLog(context, fileLoggingSetup, "some.mail@gmail.com")
+```
+
+![Viewer](screenshots/viewer1.jpg)
+![Viewer](screenshots/viewer2.jpg)
+
+# 📗 Advanced Usage
 
 ### Custom Loggers
 
@@ -245,69 +338,10 @@ class ConsoleLogger(
 
 That's all. You can do the logging asynchronous as well if you want - just do whatever you want inside your logger implementation.
 
+# 📓 Notes
+
 ### File Loggers
 
 There's something to say about file loggers. The `timber` version used `slf4j` + `logback-android` which adds quite some overhead to your app. But those libraries are well tested and solid.
 
 Beginning with v6 I decided to also provide non timber versions of my library and the file logger for this one does not have any dependencies - it simply logs in a background thread with the help of coroutines. This makes this alternative very tiny.
-
-### Extensions
-
-Extensions work with all implementations!
-
-##### `Extension Feedback`
-
-This small extension simply allows you to send a log file via mail (no internet connection required). This will be done by sharing the file as email `Intent`.
-
-```kotlin
- L.sendFeedback(context, <file-logging-setup>.getLatestLogFiles(), receiverMailAddress)
-```
-
-##### `Extension Notification`
-
-This small extension provides you with with 2 functions to create notifications (for app testers for example) that can be clicked and then will allow the user to send the log file to you via the `extension-feedback`.
-
-```kotlin
-// show a crash notifcation - on notification click the user can send a feedback mail including the log file
-L.showCrashNotification(context, logFile /* may be null */, "some.mail@gmail.com", R.mipmap.ic_launcher, "NotificationChannelID", 1234 /* notification id */)
-
-// show a notification to allow the user the report some interesting internal proplems
-L.showCrashNotification(context, fileLoggingSetup, "some.mail@gmail.com", R.mipmap.ic_launcher, "NotificationChannelID", 1234 /* notification id */)
-
-// show an information notification to the user (or for dev purposes)
-L.showInfoNotification(context, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
-
-// as above, but on notification click it will open the log viewer showing the provided log file
-L.showInfoNotification(context, logFile, "NotificationChannelID", 1234 /* notification id */, "Notification Title", "Notification Text", R.mipmap.ic_launcher)
-```
-
-##### `Extension ComposeViewer`
-
-If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
-
-```kotlin
-val showLogViewer = rememberSaveable {
-    mutableStateOf(false)
-}
-LumberjackDialog(
-    visible = showLogViewer,
-    title = "Logs",
-    setup = <a file logging setup>,
-    mail = "some.mail@gmail.com"
-)
-```
-
-![Viewer](screenshots/compose-viewer1.jpg)
-![Viewer](screenshots/compose-viewer2.jpg)
-
-##### `Extension Viewer`
-
-If you do not use compose, here's a view based alternative to show log files inside your app.
-
-```kotlin
-// show the log viewer activity (mail address is optional, if it's null, the send mail entry will be removed from the viewers menu)
-L.showLog(context, fileLoggingSetup, "some.mail@gmail.com")
-```
-
-![Viewer](screenshots/viewer1.jpg)
-![Viewer](screenshots/viewer2.jpg)
