@@ -306,7 +306,7 @@ L.showLog(context, fileLoggingSetup, "some.mail@gmail.com")
 
 Either use the timber version and plug in your custom loggers into timber (check out timber for that please) or simple plug in a custom logger into lumberjack directly if you do not use the timber solution like following.
 
-All you need to do is implementing a single function and then add your logger to `Lumberjack` (Example is the current `ConsoleLogger` implementation)
+All you need to do is implementing a single function and then add your logger to `Lumberjack` (following example is the current `ConsoleLogger` implementation).
 
 ```kotlin
 class ConsoleLogger(
@@ -339,10 +339,10 @@ class ConsoleLogger(
 
 That's all. You can do the logging asynchronous as well if you want - just do whatever you want inside your logger implementation.
 
-# 📓 Notes
+# 📄 Notes
 
 ### File Loggers
 
-There's something to say about file loggers. The `timber` version used `slf4j` + `logback-android` which adds quite some overhead to your app. But those libraries are well tested and solid.
+There's something to say about file loggers. The `timber` version uses `slf4j` + `logback-android` which adds quite some overhead to your app. But those libraries are well tested and solid.
 
 Beginning with v6 I decided to also provide non timber versions of my library and the file logger for this one does not have any dependencies - it simply logs in a background thread with the help of coroutines. This makes this alternative very tiny.
