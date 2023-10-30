@@ -210,14 +210,18 @@ L.enable(BuildConfig.DEBUG)
 // for the lumberjack implementation you can provide a custom filter for each logging implementation
 // => you get ALL data of the log to decide if you want to filter it out (classname, filename, line, log message, level, exception, ...)
 // => simple provide a `LumberjackFilter` instance when instantiating the loggers
-val consoleLogger = ConsoleLogger(
-  filter = DefaultLumberjackFilter
-)
-val fileLogger = FileLogger(
-  filter = DefaultLumberjackFilter
-)
+// definition of the interface looks like following:
+// typealias LumberjackFilter = (level: Level, tag: String?, time: Long, fileName: String, className: String, methodName: String, line: Int, msg: String?, throwable: Throwable?) -> Boolean
+val filter = object : LumberjackFilter {
+    override fun invoke( level: Level, tag: String?, time: Long,fileName: String,className: String,methodName: String,line: Int,msg: String?,throwable: Throwable?): Boolean {
+        // decide if you want to log this message...
+        return true
+    }
+}
+val consoleLogger = ConsoleLogger(filter = filter)
+val fileLogger = FileLogger(filter = filter)
 
-// for the timber implementation you can't filter such granualary, just by tag and 
+// for the timber implementation you can't filter such granualary, just by tag and package name
 TimberLogger.filter = object: IFilter {
     override fun isTagEnabled(baseTree: BaseTree, tag: String): Boolean {
         // decide if you want to log this tag on this tree...
