@@ -1,4 +1,4 @@
-name: Android Build
+name: Add binaries to release
 
 env:
 
