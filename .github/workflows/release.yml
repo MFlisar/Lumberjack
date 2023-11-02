@@ -5,7 +5,8 @@ env:
   main_project_module: demo
   assemble_type: assembleRelease
   build_type: debug
-  apk_name_unsigned_apk: demo-debug-unsigned.apk
+  # demo-release-unsigned.apk
+  apk_name_unsigned_apk: demo-debug.apk
   
 on:
   push:
