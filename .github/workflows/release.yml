@@ -1,9 +1,10 @@
-name: Add binaries to release
+name: Add apk to release
 
 env:
 
-  # The name of the main module repository
   main_project_module: demo
+  build_type: assembleRelease
+  apk_name_unsigned_release: demo-release-unsigned.apk
   
 on:
   push:
@@ -19,18 +20,9 @@ on:
   
 jobs:
   build:
-    name: Creating new release
+    name: Building apk and adding it to the latest release
     runs-on: ubuntu-latest
     steps:
-    
-        # Set Current Date As Env Variable
-        - name: Set current date as env variable
-          run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-
-        # Set Repository Name As Env Variable
-        - name: Set repository name as env variable
-          run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
-
     
         # 1) Checkout
         - uses: actions/checkout@v3
@@ -49,13 +41,13 @@ jobs:
 
         # 4) build apk
         - name: Build with Gradle
-          run: ./gradlew assembleRelease --stacktrace
+          run: ./gradlew ${{ env.build_type }} --stacktrace
 
         # 5) upload apk
         # - name: Upload APK Build Artifact
         #   uses: actions/upload-artifact@master
         #   with:
-        #     name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) release generated
+        #     name: ${{ github.repository }} - APK(s) release generated
         #     path: ${{ env.main_project_module }}/build/outputs/apk/release/
            
         # 6) create release
@@ -66,8 +58,8 @@ jobs:
           uses: svenstaro/upload-release-action@v2
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ${{ env.main_project_module }}/build/outputs/apk/release/demo-release-unsigned.apk
+            file: ${{ env.main_project_module }}/build/outputs/apk/release/${{ envapk_name_unsigned_release }}.apk
             asset_name: demo-$tag.apk
             tag: ${{ github.ref }}
-            overwrite: true
-            body: "Release created by action"
+            #overwrite: true
+            #body: "Release created by action"
