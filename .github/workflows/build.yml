@@ -1,0 +1,30 @@
+name: Android Build
+
+on:
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - 'floss'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 2
+      - name: Generate Debug APK
+        run: ./gradlew assembleDebug
+        
+      # 3
+      - uses: actions/upload-artifact@master
+        with:
+          name: release.apk
+          path: ${{steps.sign_app.outputs.unsignedDebugFile}}
+      # 7
+      - uses: actions/upload-artifact@master
+        with:
+          name: mapping.txt
+          path: app/build/outputs/mapping/debug/mapping.txt
+
