@@ -3,7 +3,7 @@ name: Add apk to release
 env:
 
   main_project_module: demo
-  assemble_type: assembleRelease
+  assemble_type: assembleDebug
   build_type: debug
   # demo-release-unsigned.apk
   apk_name_unsigned_apk: demo-debug.apk
