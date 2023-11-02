@@ -1,34 +1,73 @@
-name: Github Publish
+name: Android Build
 
+env:
+
+  # The name of the main module repository
+  main_project_module: demo
+  
 on:
-  workflow_dispatch:
-#  push:
-#    branches:
-#      - 'master'
+  push:
+    tags:
+      - '*'
+
+# push:
+#   branches:
+#     - 'release/**'
+#
+# # Allows you to run this workflow manually from the Actions tab
+# workflow_dispatch:
+  
 jobs:
   build:
+    name: Creating new release
     runs-on: ubuntu-latest
     steps:
-      # 1
-      - uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: build.yml
-          workflow_conclusion: success
-          branch: master
-          name: debug.apk
-          path: downloads
-          if_no_artifact_found: fail
-      # 2
-      - name: Generate release tag
-        id: tag
-        run: |
-          echo "::set-output name=release_tag::$(date +"%Y.%m.%d_%H-%M")"
-      # 3
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
-          files: downloads/app-debug-unsigned-signed.apk
+    
+        # Set Current Date As Env Variable
+        - name: Set current date as env variable
+          run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+        # Set Repository Name As Env Variable
+        - name: Set repository name as env variable
+          run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+
+    
+        # 1) Checkout
+        - uses: actions/checkout@v3
+
+        # 2) Setup JAVA
+        - name: set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+            cache: gradle
+
+        # 3) gradlew permissions
+        - name: Grant execute permission for gradlew
+          run: chmod +x gradlew
+
+        # 4) build apk
+        - name: Build with Gradle
+          run: ./gradlew assembleRelease --stacktrace
+
+        # 5) upload apk
+        # - name: Upload APK Build Artifact
+        #   uses: actions/upload-artifact@master
+        #   with:
+        #     name: ${{ env.date_today }} - ${{ env.repository_name }} - APK(s) release generated
+        #     path: ${{ env.main_project_module }}/build/outputs/apk/release/
+           
+        # 6) create release
+
+            # demo-release-unsigned.apk
+            
+        - name: Upload binaries to release
+          uses: svenstaro/upload-release-action@v2
+          with:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
+            file: ${{ env.main_project_module }}/build/outputs/apk/release/demo-release-unsigned.apk
+            asset_name: demo-$tag.apk
+            tag: ${{ github.ref }}
+            overwrite: true
+            body: "Release created by action"
