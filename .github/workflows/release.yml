@@ -58,7 +58,7 @@ jobs:
           uses: svenstaro/upload-release-action@v2
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ${{ env.main_project_module }}/build/outputs/apk/release/${{ env.apk_name_unsigned_release }}.apk
+            file: ${{ env.main_project_module }}/build/outputs/apk/release/${{ env.apk_name_unsigned_release }}
             asset_name: demo-$tag.apk
             tag: ${{ github.ref }}
             #overwrite: true
