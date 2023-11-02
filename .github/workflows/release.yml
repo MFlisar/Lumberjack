@@ -5,7 +5,7 @@ env:
   main_project_module: demo
   assemble_type: assembleRelease
   build_type: debug
-  apk_name_unsigned_release: demo-release-unsigned.apk
+  apk_name_unsigned_apk: demo-debug-unsigned.apk
   
 on:
   push:
@@ -59,7 +59,7 @@ jobs:
           uses: svenstaro/upload-release-action@v2
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ${{ env.main_project_module }}/build/outputs/apk/${{ env.build_type }}/${{ env.apk_name_unsigned_release }}
+            file: ${{ env.main_project_module }}/build/outputs/apk/${{ env.build_type }}/${{ env.apk_name_unsigned_apk }}
             asset_name: demo-$tag.apk
             tag: ${{ github.ref }}
             #overwrite: true
