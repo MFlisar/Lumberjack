@@ -21,6 +21,18 @@ android {
         versionName = "1.0"
     }
 
+    // custom build type for github apk (no signing but minified)
+    buildTypes {
+        create("github") {
+            initWith(getByName("debug"))
+            isMinifyEnabled = true
+            isShrinkResources = true
+            applicationIdSuffix = ".github"
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            matchingFallbacks.add("debug")
+        }
+    }
+
     // eventually use local custom signing
     val debugKeyStore = providers.gradleProperty("debugKeyStore").orNull
     if (debugKeyStore != null) {
