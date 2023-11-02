@@ -3,7 +3,8 @@ name: Add apk to release
 env:
 
   main_project_module: demo
-  build_type: assembleRelease
+  assemble_type: assembleRelease
+  build_type: debug
   apk_name_unsigned_release: demo-release-unsigned.apk
   
 on:
@@ -41,7 +42,7 @@ jobs:
 
         # 4) build apk
         - name: Build with Gradle
-          run: ./gradlew ${{ env.build_type }} --stacktrace
+          run: ./gradlew ${{ env.assemble_type }} --stacktrace
 
         # 5) upload apk
         # - name: Upload APK Build Artifact
@@ -58,7 +59,7 @@ jobs:
           uses: svenstaro/upload-release-action@v2
           with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ${{ env.main_project_module }}/build/outputs/apk/release/${{ env.apk_name_unsigned_release }}
+            file: ${{ env.main_project_module }}/build/outputs/apk/${{ env.build_type }}/${{ env.apk_name_unsigned_release }}
             asset_name: demo-$tag.apk
             tag: ${{ github.ref }}
             #overwrite: true
