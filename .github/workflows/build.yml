@@ -1,8 +1,5 @@
 name: Android Build
 
-on:
-name: Generated APK AAB (Upload - Create Artifact To Github Action)
-
 env:
   # The name of the main module repository
   main_project_module: demo
