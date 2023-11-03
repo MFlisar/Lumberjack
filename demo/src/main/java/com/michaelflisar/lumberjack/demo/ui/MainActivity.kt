@@ -113,9 +113,9 @@ class MainActivity : DemoBaseActivity() {
                     onClick = {
                         mail.takeIf { it.isNotEmpty() }?.let {
                             L.sendFeedback(
-                                context,
-                                DemoLogging.FILE_LOGGING_SETUP.getLatestLogFiles(),
-                                it
+                                context = context,
+                                receiver = it,
+                                attachments = listOfNotNull(DemoLogging.FILE_LOGGING_SETUP.getLatestLogFiles())
                             )
                         } ?: ToastHelper.show(
                             context,

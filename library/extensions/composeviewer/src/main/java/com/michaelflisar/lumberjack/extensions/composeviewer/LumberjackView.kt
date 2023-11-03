@@ -201,9 +201,9 @@ fun LumberjackDialog(
                                                 },
                                                 onClick = {
                                                     L.sendFeedback(
-                                                        context,
-                                                        setup.getLatestLogFiles(),
-                                                        mail
+                                                        context = context,
+                                                        receiver = mail,
+                                                        attachments = listOfNotNull(setup.getLatestLogFiles())
                                                     )
                                                     showMenu2 = true
                                                 }

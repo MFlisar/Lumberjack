@@ -7,26 +7,29 @@ import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.classes.CoreUtil
 import java.io.File
 
-/*
+/**
  * convenient extension to simply send a feedback via email with an intent chooser
  *
- * - app version will be appended to the subject automatically
- * - file should be local and accessible files - they will be exposed via a ContentProvider so that the email client can access the file
+ *  - app version will be appended to the subject automatically
+ *  - file should be local and accessible files - they will be exposed via a ContentProvider so that the email client can access the file
+ *
+ * @param context context for the email chooser and to retrieve default strings
+ * @param receiver the receiver email of the feedback
+ * @param subject the subject of the mail
+ * @param titleForChooser the title of the email app chooser
+ * @param attachments files that should be appended to the mail
  */
 fun L.sendFeedback(
     context: Context,
-    logFile: File?,
     receiver: String,
     subject: String = "Feedback for ${context.packageName}",
     titleForChooser: String = "Send feedback with",
-    filesToAppend: List<File> = emptyList()
+    attachments: List<File> = emptyList()
 ) {
-    val allFiles = filesToAppend.toMutableList()
-    logFile?.let { allFiles.add(0, it) }
     val feedback = Feedback(
         listOf(receiver),
         CoreUtil.getRealSubject(context, subject),
-        attachments = allFiles.map { FeedbackFile.DefaultName(it) }
+        attachments = attachments.map { FeedbackFile.DefaultName(it) }
     )
     feedback.startEmailChooser(context, titleForChooser)
 }

@@ -43,7 +43,7 @@ dependencies {
 
     implementation(androidx.core)
     implementation(androidx.recyclerview)
-    implementation(androidx.lifecylce)
+    implementation(androidx.lifecycle)
 
     implementation(deps.material)
 

@@ -168,7 +168,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
 
             R.id.menu_send_log_file -> {
                 // receiver must be valid if this menu entry is visible
-                L.sendFeedback(this, selectedFile, receiver!!)
+                L.sendFeedback(this, receiver!!, attachments = listOfNotNull(selectedFile))
                 true
             }
 

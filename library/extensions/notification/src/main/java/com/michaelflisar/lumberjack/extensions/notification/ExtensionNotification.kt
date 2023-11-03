@@ -12,73 +12,105 @@ import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.classes.CoreUtil
 import java.io.File
 
-/*
+sealed class NotificationClickHandler {
+
+    /**
+     * convenient class to simply send a feedback via clicking the notification via an intent chooser
+     *
+     *  - app version will be appended to the subject automatically
+     *  - file should be local and accessible files - they will be exposed via a ContentProvider so that the email client can access the file
+     *
+     * @param context context for the email chooser and to retrieve default strings
+     * @param receiver the receiver email of the feedback
+     * @param subject the subject of the mail
+     * @param titleForChooser the title of the email app chooser
+     * @param attachments files that should be appended to the mail
+     */
+    class SendFeedback(
+        context: Context,
+        val receiver: String,
+        val subject: String = "Exception found in ${context.packageName}",
+        val titleForChooser: String = "Send report with",
+        val attachments: List<File> = emptyList()
+    ) : NotificationClickHandler()
+
+    /**
+     * apply your custom notification click handler
+     *
+     * @param intent the intent to use when notification is clicked
+     * @param apply optional adjustment function for the notification builder
+     */
+    class ClickIntent(
+        val intent: Intent,
+        val apply: ((builder: NotificationCompat.Builder) -> Unit)? = null
+    ): NotificationClickHandler()
+
+    /**
+     * this will disable clicks on the notification => the notification will be there for information purposes only
+     */
+    data object None: NotificationClickHandler()
+}
+
+
+/**
  * convenient extension to simply show a notification for exceptions/infos/whatever that the user should report if possible
  *
- * - app version will be appended to the subject automatically
- * - file should be local and accessible files - they will be exposed via a ContentProvider so that the email client can access the file
+ * @param context context start email chooser and retrieve default strings
+ * @param notificationIcon the notification icon
+ * @param notificationChannelId the notification channel id
+ * @param notificationId the notification id
+ * @param notificationTitle the notification title
+ * @param notificationText the notification title
+ * @param clickHandler the click handler for the notification
  */
-fun L.showCrashNotification(
+fun L.showNotification(
     context: Context,
-    logFile: File?,
-    receiver: String,
-    appIcon: Int,
+    notificationIcon: Int,
     notificationChannelId: String,
     notificationId: Int,
     notificationTitle: String = "Rare exception found",
     notificationText: String = "Please report this error by clicking this notification, thanks",
-    subject: String = "Exception found in ${context.packageName}",
-    titleForChooser: String = "Send report with",
-    filesToAppend: List<File> = emptyList()
+    clickHandler: NotificationClickHandler
 ) {
-    val allFiles = filesToAppend.toMutableList()
-    logFile?.let { allFiles.add(0, it) }
-    val feedback = Feedback(
-        listOf(receiver),
-        CoreUtil.getRealSubject(context, subject),
-        attachments = allFiles.map { FeedbackFile.DefaultName(it) }
-    )
+    when (clickHandler) {
+        is NotificationClickHandler.SendFeedback -> {
+            val feedback = Feedback(
+                listOf(clickHandler.receiver),
+                CoreUtil.getRealSubject(context, clickHandler.subject),
+                attachments = clickHandler.attachments.map { FeedbackFile.DefaultName(it) }
+            )
+            feedback
+                .startNotification(
+                    context,
+                    clickHandler.titleForChooser,
+                    notificationTitle,
+                    notificationText,
+                    notificationIcon,
+                    notificationChannelId,
+                    notificationId
+                )
+        }
+        is NotificationClickHandler.ClickIntent,
+        is NotificationClickHandler.None -> {
 
-    feedback
-        .startNotification(
-            context,
-            titleForChooser,
-            notificationTitle,
-            notificationText,
-            appIcon,
-            notificationChannelId,
-            notificationId
-        )
-}
+            val pendingIntent = (clickHandler as? NotificationClickHandler.ClickIntent)?.let {
+                val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.FLAG_IMMUTABLE
+                } else 0
+                PendingIntent.getActivity(context, 0, it.intent, flag)
+            }
 
-/*
- * convenient extension to simply show a notification to the user or for debugging infos
- */
-fun L.showInfoNotification(
-    context: Context,
-    notificationChannelId: String,
-    notificationId: Int,
-    notificationTitle: String,
-    notificationText: String,
-    notificationIcon: Int,
-    clickIntent: Intent? = null,
-    apply: ((builder: NotificationCompat.Builder) -> Unit)? = null
-) {
-    val pendingIntent = clickIntent?.let {
-        val flag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_IMMUTABLE
-        } else 0
-        PendingIntent.getActivity(context, 0, it, flag)
+            val builder: NotificationCompat.Builder =
+                NotificationCompat.Builder(context, notificationChannelId)
+                    .setSmallIcon(notificationIcon)
+                    .setContentTitle(notificationTitle)
+                    .setContentText(notificationText)
+            pendingIntent?.let { builder.setContentIntent(it) }
+            (clickHandler as? NotificationClickHandler.ClickIntent)?.apply?.let { it(builder) }
+
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(notificationId, builder.build())
+        }
     }
-
-    val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, notificationChannelId)
-        .setSmallIcon(notificationIcon)
-        .setContentTitle(notificationTitle)
-        .setContentText(notificationText)
-    pendingIntent?.let { builder.setContentIntent(it) }
-    apply?.let { it(builder) }
-
-    val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(notificationId, builder.build())
 }
