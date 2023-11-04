@@ -1,6 +1,15 @@
-## :book: Documentation
+## About
 
-I do collect all my newer *open source documentations* inside one common **Github Page** (created with *MkDocs* + *Material for MkDocs*).
+![Overview](screenshots/log1.png?raw=true "Overview")
+
+<i>This is a **full logging library** with a build in way to log to **console**, **file** or any **custom** place as well as optional extensions to send a log file via mail or show it on the device.</i>
+
+## :camera: Screenshots
+
+| ![Demo](screenshots/log1.png?raw=true "Demo") | ![Demo](screenshots/log2.png?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") |
+| :-: | :-: | :-: | :-: |
+
+## :book: Documentation
 
 The readme for this library with **code samples**, **screenshots** and more can be found on following *github page*:
 
