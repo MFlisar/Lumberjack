@@ -1,13 +1,13 @@
 ## About
 
-![Overview](screenshots/log1.png?raw=true "Overview")
-
 <i>This is a **full logging library** with a build in way to log to **console**, **file** or any **custom** place as well as optional extensions to send a log file via mail or show it on the device.</i>
+
+![Overview](screenshots/log1.png?raw=true "Overview")
 
 ## :camera: Screenshots
 
-| ![Demo](screenshots/log1.png?raw=true "Demo") | ![Demo](screenshots/log2.png?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") |
-| :-: | :-: | :-: | :-: |
+| ![Demo](screenshots/log2.png?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") |
+| :-: | :-: | :-: |
 
 ## :book: Documentation
 
