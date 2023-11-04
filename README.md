@@ -13,4 +13,4 @@ The readme for this library with **code samples**, **screenshots** and more can 
 
 [![Static Badge](https://img.shields.io/badge/Open%20Documentation-lightgreen?style=for-the-badge&logo=github&logoColor=black)](https://mflisar.github.io/github-docs/libraries/lumberjack/)
 
-Additionally there is also a full working [demo app](tree/master/demo) inside the *demo module*.
+Additionally there is also a full working [demo app](demo) inside the *demo module*.
