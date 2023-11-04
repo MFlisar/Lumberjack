@@ -7,7 +7,7 @@
 
 ## :camera: Screenshots
 
-| ![Demo](screenshots/log1.png?raw=true "Demo") | ![Demo](screenshots/log2.png?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") | ![Demo](screenshots/compose-viewer1.jpg?raw=true "Demo") |
+| ![Demo](screenshots/log1.png "Demo") | ![Demo](screenshots/log2.png "Demo") | ![Demo](screenshots/compose-viewer1.jpg "Demo") | ![Demo](screenshots/compose-viewer1.jpg "Demo") |
 | :-: | :-: | :-: | :-: |
 
 ## :book: Documentation
