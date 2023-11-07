@@ -14,6 +14,6 @@ This is a **full logging library** with a build in way to log to **console**, **
 
 The readme for this library with **code samples**, **screenshots** and more can be found on following *github page*:
 
-[![Static Badge](https://img.shields.io/badge/Open%20Documentation-lightgreen?style=for-the-badge&logo=github&logoColor=black)](https://mflisar.github.io/github-docs/libraries/lumberjack/)
+[![Static Badge](https://img.shields.io/badge/Open%20Documentation-lightgreen?style=for-the-badge&logo=github&logoColor=black)](https://mflisar.github.io/github-docs/pages/libraries/lumberjack/)
 
 Additionally there is also a full working [demo app](demo) inside the *demo module*.
