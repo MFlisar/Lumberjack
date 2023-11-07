@@ -29,7 +29,7 @@ fun L.sendFeedback(
     val feedback = Feedback(
         listOf(receiver),
         CoreUtil.getRealSubject(context, subject),
-        attachments = attachments.map { FeedbackFile.DefaultName(it) }
+        attachments = attachments.map { FeedbackFile(it) }
     )
     feedback.startEmailChooser(context, titleForChooser)
 }

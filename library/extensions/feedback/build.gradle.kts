@@ -48,7 +48,12 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(deps.feedback)
+    val useLiveDependencies = providers.gradleProperty("useLiveDependencies").get().toBoolean()
+    if (useLiveDependencies) {
+      implementation(deps.feedback)
+    } else {
+        implementation(project(":FeedbackManager"))
+    }
 }
 
 project.afterEvaluate {

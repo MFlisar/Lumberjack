@@ -77,7 +77,7 @@ fun L.showNotification(
             val feedback = Feedback(
                 listOf(clickHandler.receiver),
                 CoreUtil.getRealSubject(context, clickHandler.subject),
-                attachments = clickHandler.attachments.map { FeedbackFile.DefaultName(it) }
+                attachments = clickHandler.attachments.map { FeedbackFile(it) }
             )
             feedback
                 .startNotification(
