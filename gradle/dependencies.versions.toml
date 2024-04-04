@@ -6,7 +6,7 @@ logback =                   "3.0.0"
 fastscroller =              "1.0.0"
 
 # mflisar
-feedback =                  "2.0.4"
+feedback =                  "2.0.5"
 composedemobaseactivity =   "0.6"
 
 # google
