@@ -76,7 +76,7 @@ dependencies {
     implementation(platform(compose.bom))
     implementation(compose.material3)
     implementation(compose.activity)
-    implementation(compose.material.extendedicons)
+    implementation(compose.icons.material.extendedicons)
     implementation(compose.drawablepainter)
 
     // ------------------------

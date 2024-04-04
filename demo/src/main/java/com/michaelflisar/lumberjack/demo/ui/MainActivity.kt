@@ -31,6 +31,7 @@ import com.michaelflisar.lumberjack.demo.DemoLogging
 import com.michaelflisar.lumberjack.extensions.composeviewer.LumberjackDialog
 import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
 import com.michaelflisar.lumberjack.extensions.viewer.showLog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : DemoBaseActivity() {
@@ -50,9 +51,8 @@ class MainActivity : DemoBaseActivity() {
         var mail by rememberSaveable {
             mutableStateOf("")
         }
-        val showComposeLogView = rememberSaveable {
-            mutableStateOf(false)
-        }
+        val showComposeLogView = rememberSaveable { mutableStateOf(false) }
+        val showComposeLogView2 = rememberSaveable { mutableStateOf(false) }
 
         Column(
             modifier = modifier
@@ -84,6 +84,15 @@ class MainActivity : DemoBaseActivity() {
                         showComposeLogView.value = true
                     }) {
                     Text("Log Viewer (Compose)")
+                }
+                if (DemoLogging.FILE_LOGGING_SETUP2 != null) {
+                    OutlinedButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            showComposeLogView2.value = true
+                        }) {
+                        Text("Log Viewer (Compose) - Setup2")
+                    }
                 }
             }
             DemoCollapsibleRegion(
@@ -131,6 +140,17 @@ class MainActivity : DemoBaseActivity() {
                     }) {
                     Text("Log something")
                 }
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        scope.launch(Dispatchers.IO) {
+                            (1..100).forEach {
+                                L.d { "Logging a lot $it..." }
+                            }
+                        }
+                    }) {
+                    Text("Log a lot")
+                }
             }
         }
 
@@ -141,5 +161,15 @@ class MainActivity : DemoBaseActivity() {
             darkTheme = theme.isDark(),
             //mail = "...@gmail.com"
         )
+
+        if (DemoLogging.FILE_LOGGING_SETUP2 != null) {
+            LumberjackDialog(
+                visible = showComposeLogView2,
+                title = "Logs",
+                setup = DemoLogging.FILE_LOGGING_SETUP2!!,
+                darkTheme = theme.isDark(),
+                //mail = "...@gmail.com"
+            )
+        }
     }
 }

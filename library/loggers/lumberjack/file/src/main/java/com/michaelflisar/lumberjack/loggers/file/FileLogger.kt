@@ -90,7 +90,7 @@ class FileLogger(
         withContext(Dispatchers.IO) {
             // try/catch  - in no circumstance we want that any problem crashes the app because of the logger
             try {
-                val path = setup.filePath(data.time)
+                val path = setup.filePath(data)
                 if (path != file?.path || bufferWriter == null) {
                     bufferWriter?.close()
                     file = File(path)

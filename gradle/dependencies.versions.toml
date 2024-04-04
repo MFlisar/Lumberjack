@@ -7,10 +7,10 @@ fastscroller =              "1.0.0"
 
 # mflisar
 feedback =                  "2.0.4"
-composedemobaseactivity =   "0.4"
+composedemobaseactivity =   "0.6"
 
 # google
-material =					"1.10.0"
+material =					"1.11.0"
 
 # ---------
 # libraries

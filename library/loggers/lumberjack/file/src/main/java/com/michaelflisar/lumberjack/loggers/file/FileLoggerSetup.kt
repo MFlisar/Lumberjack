@@ -1,121 +1,130 @@
 package com.michaelflisar.lumberjack.loggers.file
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
-import com.michaelflisar.lumberjack.implementation.LumberjackLogger
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
+import kotlin.math.min
 
 sealed class FileLoggerSetup : IFileLoggingSetup {
 
-    abstract fun filePath(time: Long): String
+    abstract fun filePath(data: FileLogger.Event.Data): String
     abstract fun onLogged(scope: CoroutineScope)
 
     @Parcelize
-    data class Daily private constructor(
-        val folder: File,
-        val fileBaseName: String = "log",
-        val fileExtension: String = "log",
-        val filesToKeep: Int = 1,
-        var lastFileNameKey: String = "",
-        var keyChanged: Boolean = false
-    ) : FileLoggerSetup() {
+    class Daily private constructor(
+        override val folder: File,
+        override val fileBaseName: String,
+        override val fileExtension: String,
+        private val filesToKeep: Int,
+        override var lastFileKey: String = "",
+        override var lastFileKeyChanged: Boolean = false
+    ) : BaseFileLoggerSetup() {
 
-        constructor(
-            context: Context,
-            fileBaseName: String = "log",
-            fileExtension: String = "log",
-            filesToKeep: Int = 1
-        ) : this(
-            File(context.filesDir, "lumberjack"),
-            fileBaseName,
-            fileExtension,
-            filesToKeep,
-            "",
-            false
-        )
+        companion object {
+            fun create(
+                context: Context,
+                fileBaseName: String = "log",
+                fileExtension: String = "log",
+                filesToKeep: Int = 1
+            ) = Daily(
+                File(context.filesDir, "lumberjack"),
+                fileBaseName,
+                fileExtension,
+                filesToKeep
+            )
 
-        constructor(
-            folder: File,
-            fileBaseName: String = "log",
-            fileExtension: String = "log",
-            filesToKeep: Int = 1
-        ) : this(folder, fileBaseName, fileExtension, filesToKeep, "", false)
+            fun create(
+                folder: File,
+                fileBaseName: String = "log",
+                fileExtension: String = "log",
+                filesToKeep: Int = 1
+            ) = Daily(folder, fileBaseName, fileExtension, filesToKeep)
+        }
 
-        @IgnoredOnParcel
-        override val fileConverter = FileConverter
-
+        @SuppressLint("SimpleDateFormat")
         @IgnoredOnParcel
         private val timeFormatter = SimpleDateFormat("yyyy_MM_dd")
 
         @IgnoredOnParcel
         private val date = Date()
 
-        override fun filePath(time: Long): String {
-            date.time = time
+        override fun getFileKey(data: FileLogger.Event.Data, lastPath: String): String {
+            date.time = data.time
             val key = timeFormatter.format(date)
-            val path = "${folder.path}/${fileBaseName}_${key}.$fileExtension"
-            if (key != lastFileNameKey) {
-                lastFileNameKey = key
-                keyChanged = true
-            }
-            return path
+            return key
         }
 
-        override fun onLogged(scope: CoroutineScope) {
-            if (keyChanged) {
-                keyChanged = false
-                scope.launch {
-                    clearLogFiles(false)
-                }
-            }
-        }
-
-        override suspend fun clearLogFiles() {
-            clearLogFiles(true)
-        }
-
-        override fun getAllExistingLogFiles(): List<File> {
-            return folder.listFiles()?.filter {
-                it.name.startsWith(fileBaseName)
-            }?.sortedByDescending { it.name } ?: emptyList()
-        }
-
-        override fun getLatestLogFiles(): File? {
-            return getAllExistingLogFiles().firstOrNull()
-        }
-
-        private suspend fun clearLogFiles(all: Boolean) {
-            withContext(Dispatchers.IO) {
-                val files = getAllExistingLogFiles()
-                val filesToDelete = files.drop(if (all) 0 else filesToKeep)
-                LumberjackLogger.loggers()
-                    .filterIsInstance<FileLogger>()
-                    .filter {
-                        it.setup == this@Daily
-                    }
-                    .forEach {
-                        it.onLogFilesWillBeDeleted(filesToDelete)
-                    }
-                filesToDelete.forEach {
-                    it.delete()
-                }
-            }
+        override fun filterLogFilesToDelete(files: List<File>): List<File> {
+            return files.dropLast((files.size - filesToKeep).coerceAtLeast(0))
         }
     }
-    /*
-        class FileSize(
-            val fileName: String,
-            val folder: File,
-            val maxFileSizeInBytes: Int = 5 * 1000 * 1000 // 5MB
-        ) : FileLoggerSetup() {
-            override fun provideFile() = File(folder, fileName)
-        }*/
+
+    @Parcelize
+    class FileSize private constructor(
+        override val folder: File,
+        override val fileBaseName: String,
+        override val fileExtension: String,
+        private val filesToKeep: Int,
+        private val maxFileSizeInBytes: Int,
+        override var lastFileKey: String = "",
+        override var lastFileKeyChanged: Boolean = false
+    ) : BaseFileLoggerSetup() {
+
+        companion object {
+
+            const val DEFAULT_SIZE = 5 * 1000 * 1000 // 5MB
+
+            fun create(
+                context: Context,
+                fileBaseName: String = "log",
+                fileExtension: String = "log",
+                filesToKeep: Int = 1,
+                maxFileSizeInBytes: Int = DEFAULT_SIZE
+            ) = FileSize(
+                File(context.filesDir, "lumberjack"),
+                fileBaseName,
+                fileExtension,
+                filesToKeep,
+                maxFileSizeInBytes
+            )
+
+            fun create(
+                folder: File,
+                fileBaseName: String = "log",
+                fileExtension: String = "log",
+                filesToKeep: Int = 1,
+                maxFileSizeInBytes: Int = DEFAULT_SIZE
+            ) = FileSize(folder, fileBaseName, fileExtension, filesToKeep, maxFileSizeInBytes)
+        }
+
+        @IgnoredOnParcel
+        private var fileIndex: Int? = null
+
+        override fun getFileKey(data: FileLogger.Event.Data, lastPath: String): String {
+            if (fileIndex == null) {
+                // we must find out what the highest existing log file index currently is
+                fileIndex =
+                    getAllExistingLogFiles().lastOrNull()?.let { getKeyFromFile(it).toIntOrNull() }
+                        ?: 1
+            }
+            if (lastPath.isEmpty()) {
+                return fileIndex.toString()
+            }
+            val bytes = File(lastPath).takeIf { it.exists() }?.length()
+            if ((bytes ?: 0L) >= maxFileSizeInBytes) {
+                fileIndex = fileIndex!! + 1
+            }
+            return fileIndex.toString()
+        }
+
+        override fun filterLogFilesToDelete(files: List<File>): List<File> {
+            return files.drop(filesToKeep)
+        }
+    }
 }

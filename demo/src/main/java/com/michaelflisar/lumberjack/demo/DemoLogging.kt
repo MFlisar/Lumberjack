@@ -22,6 +22,7 @@ import timber.log.Timber
 object DemoLogging {
 
     lateinit var FILE_LOGGING_SETUP: IFileLoggingSetup
+    var FILE_LOGGING_SETUP2: IFileLoggingSetup? = null
 
     fun init(context: Context) {
 
@@ -39,11 +40,16 @@ object DemoLogging {
             Timber.plant(ConsoleTree())
             Timber.plant(FileLoggingTree(setup))
         } else {
-            val setup = FileLoggerSetup.Daily(context).also {
+            val setup = FileLoggerSetup.Daily.create(context, fileBaseName = "log_daily").also {
                 FILE_LOGGING_SETUP = it
             }
             L.plant(ConsoleLogger())
             L.plant(FileLogger(setup))
+
+            val setup2 = FileLoggerSetup.FileSize.create(context, maxFileSizeInBytes = 1000 * 10 /* 10 kB */,  fileBaseName = "log_size", filesToKeep = 2).also {
+                FILE_LOGGING_SETUP2 = it
+            }
+            L.plant(FileLogger(setup2))
         }
 
         // EXAMPLE on how you could use lumberjack inside a library with the minimal dependency on the core module
