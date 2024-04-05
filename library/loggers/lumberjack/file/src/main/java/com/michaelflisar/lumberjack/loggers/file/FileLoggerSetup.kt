@@ -13,6 +13,11 @@ import kotlin.math.min
 
 sealed class FileLoggerSetup : IFileLoggingSetup {
 
+    companion object {
+        private const val DEFAULT_LOG_FILE_FOLDER = "lumberjack"
+        private const val DEFAULT_SIZE_LIMIT_5MB = 5 * 1000 * 1000 // 5MB
+    }
+
     abstract fun filePath(data: FileLogger.Event.Data): String
     abstract fun onLogged(scope: CoroutineScope)
 
@@ -33,7 +38,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
                 fileExtension: String = "log",
                 filesToKeep: Int = 1
             ) = Daily(
-                File(context.filesDir, "lumberjack"),
+                File(context.filesDir, DEFAULT_LOG_FILE_FOLDER),
                 fileBaseName,
                 fileExtension,
                 filesToKeep
@@ -61,7 +66,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
         }
 
         override fun filterLogFilesToDelete(files: List<File>): List<File> {
-            return files.dropLast((files.size - filesToKeep).coerceAtLeast(0))
+            return files.drop(filesToKeep)
         }
     }
 
@@ -78,16 +83,14 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
 
         companion object {
 
-            const val DEFAULT_SIZE = 5 * 1000 * 1000 // 5MB
-
             fun create(
                 context: Context,
                 fileBaseName: String = "log",
                 fileExtension: String = "log",
                 filesToKeep: Int = 1,
-                maxFileSizeInBytes: Int = DEFAULT_SIZE
+                maxFileSizeInBytes: Int = DEFAULT_SIZE_LIMIT_5MB
             ) = FileSize(
-                File(context.filesDir, "lumberjack"),
+                File(context.filesDir, DEFAULT_LOG_FILE_FOLDER),
                 fileBaseName,
                 fileExtension,
                 filesToKeep,
@@ -99,7 +102,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
                 fileBaseName: String = "log",
                 fileExtension: String = "log",
                 filesToKeep: Int = 1,
-                maxFileSizeInBytes: Int = DEFAULT_SIZE
+                maxFileSizeInBytes: Int = DEFAULT_SIZE_LIMIT_5MB
             ) = FileSize(folder, fileBaseName, fileExtension, filesToKeep, maxFileSizeInBytes)
         }
 
