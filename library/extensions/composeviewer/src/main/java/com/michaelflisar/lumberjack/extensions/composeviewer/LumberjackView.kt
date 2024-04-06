@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.InsertDriveFile
@@ -450,7 +451,19 @@ private fun Filter(
             modifier = Modifier.weight(2f),
             value = filter2.value,
             onValueChange = { filter2.value = it },
-            label = { Text("Filter") }
+            label = { Text("Filter") },
+            trailingIcon = if (filter2.value.isEmpty()) null else {
+                {
+                    IconButton(
+                        onClick = { filter2.value = "" }
+                    ) {
+                        Icon(
+                            Icons.Default.Clear,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
         )
     }
 }
