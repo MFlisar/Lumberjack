@@ -18,16 +18,17 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
+import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -80,7 +81,8 @@ object LumberjackView {
     class Style internal constructor(
         val useAlternatingRowColors: Boolean,
         val color1: Color,
-        val color2: Color
+        val color2: Color,
+        val singleScrollableLineView: Boolean
     )
 }
 
@@ -91,10 +93,12 @@ object LumberjackViewDefaults {
         useAlternatingRowColors: Boolean = true,
         color1: Color = MaterialTheme.colorScheme.background,
         color2: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = .1f),
+        singleScrollableLineView: Boolean = false
     ) = LumberjackView.Style(
         useAlternatingRowColors = useAlternatingRowColors,
         color1 = color1,
-        color2 = color2
+        color2 = color2,
+        singleScrollableLineView = singleScrollableLineView
     )
 
 }
@@ -125,6 +129,7 @@ fun LumberjackDialog(
                 val listState = rememberLazyListState()
                 var showMenu by remember { mutableStateOf(false) }
                 var showMenu2 by remember { mutableStateOf(false) }
+                val useScrollableLines = remember { mutableStateOf(style.singleScrollableLineView) }
                 val logFile = rememberLogFile()
                 val logFileData = rememberLogFileData()
                 Column {
@@ -182,13 +187,26 @@ fun LumberjackDialog(
                                             text = { Text("Select Log File") },
                                             leadingIcon = {
                                                 Icon(
-                                                    Icons.Default.InsertDriveFile,
+                                                    Icons.AutoMirrored.Filled.InsertDriveFile,
                                                     null
                                                 )
                                             },
                                             onClick = {
                                                 showMenu = false
                                                 showMenu2 = true
+                                            }
+                                        )
+                                        HorizontalDivider()
+                                        DropdownMenuItem(
+                                            text = { Text("Scrollable Lines") },
+                                            leadingIcon = {
+                                                Icon(
+                                                    if (useScrollableLines.value) Icons.Default.CheckBox else Icons.Default.CheckBoxOutlineBlank,
+                                                    null
+                                                )
+                                            },
+                                            onClick = {
+                                                useScrollableLines.value = !useScrollableLines.value
                                             }
                                         )
                                         if (mail != null) {
@@ -238,7 +256,7 @@ fun LumberjackDialog(
                                                 text = { Text(file.name) },
                                                 leadingIcon = {
                                                     Icon(
-                                                        Icons.Default.InsertDriveFile,
+                                                        Icons.AutoMirrored.Filled.InsertDriveFile,
                                                         null
                                                     )
                                                 },
@@ -261,7 +279,8 @@ fun LumberjackDialog(
                         data = logFileData,
                         modifier = Modifier.weight(1f),
                         state = listState,
-                        darkTheme = darkTheme
+                        darkTheme = darkTheme,
+                        useScrollableLines = useScrollableLines
                     )
                 }
             }
@@ -290,6 +309,7 @@ fun LumberjackView(
     state: LazyListState = rememberLazyListState(),
     darkTheme: Boolean = isSystemInDarkTheme(),
     style: LumberjackView.Style = LumberjackViewDefaults.style(),
+    useScrollableLines: MutableState<Boolean>,
 ) {
     LaunchedEffect(data.value, file.value) {
         if (file.value == null) {
@@ -317,7 +337,7 @@ fun LumberjackView(
     }
 
     val filterOptions by remember {
-        derivedStateOf { listOf(null) + Level.values().toList().filter { it.priority >= 0 } }
+        derivedStateOf { listOf(null) + Level.entries.filter { it.priority >= 0 } }
     }
     val filter = rememberSaveable {
         mutableStateOf(filterOptions.first())
@@ -379,7 +399,14 @@ fun LumberjackView(
                     ) {
                         filteredEntries.forEach {
                             item(key = it.lineNumber) {
-                                LogEntry(it, filter2.value, darkTheme, spanStyle, style)
+                                LogEntry(
+                                    it,
+                                    filter2.value,
+                                    darkTheme,
+                                    spanStyle,
+                                    style,
+                                    useScrollableLines
+                                )
                             }
                         }
                     }
@@ -511,7 +538,8 @@ private fun LogEntry(
     filter: String,
     darkTheme: Boolean,
     spanStyle: SpanStyle,
-    style: LumberjackView.Style
+    style: LumberjackView.Style,
+    useScrollableLines: MutableState<Boolean>
 ) {
     Column(
         modifier = Modifier
@@ -544,6 +572,7 @@ private fun LogEntry(
             Spacer(modifier = Modifier.weight(1f))
             Text(text = entry.date, style = MaterialTheme.typography.labelSmall)
         }
+
         val plainText by remember(entry.lines) {
             derivedStateOf { entry.lines.joinToString("\n") }
         }
@@ -552,15 +581,25 @@ private fun LogEntry(
                 getHighlightedText(plainText, filter, true, spanStyle)
             }
         }
+        if (useScrollableLines.value) {
+            Text(
+                text = text,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = INSET)
+                    .horizontalScroll(rememberScrollState()),
+                style = MaterialTheme.typography.bodySmall
+            )
+        } else {
+            Text(
+                text = text,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = INSET),
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
 
-        Text(
-            text = text,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = INSET)
-                .horizontalScroll(rememberScrollState()),
-            style = MaterialTheme.typography.bodySmall
-        )
     }
 }
 
