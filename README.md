@@ -278,7 +278,7 @@ Modules
 
 Advanced Stuff
 
-* [Advanced usage](readmes/advanced-usage.md)
+* [Custom Logger Example](readmes/custom-logger.md)
 
 ## :page_with_curl: Notes
 

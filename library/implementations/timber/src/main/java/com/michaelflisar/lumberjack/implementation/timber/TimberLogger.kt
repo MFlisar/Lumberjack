@@ -13,7 +13,6 @@ import timber.log.Timber
 /*
 logs LAZILY and at the callers place via kotlin inline functions
  */
-@Suppress("NOTHING_TO_INLINE")
 object TimberLogger : AbstractLogger() {
 
     // --------------
