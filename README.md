@@ -131,11 +131,21 @@ iOS would be supported theoretically, but currently I don't know iOS and don't o
 
 A full [demo](demo) is included inside the demo module, it shows nearly every usage with working examples.
 
-
-
 ## :information_source: More Informations
 
-* [Feedback Module](readmes/module-encryption.md)
-* [Notification Module](readmes/module-datastore.md)
-* [ComposeViewer Module](readmes/module-key-value.md)
-* [Viewer Module](readmes/module-key-value.md)
+Modules
+
+* [Feedback Module](readmes/module-feedback.md)
+* [Notification Module](readmes/module-notification.md)
+* [ComposeViewer Module](readmes/module-composeviewer.md)
+* [Viewer Module](readmes/module-viewer.md)
+
+Advanced Stuff
+
+* [Advanced usage](readmes/advanced-usage.md)
+
+## :page_with_curl: Notes
+
+#### File Loggers
+
+#### Timber vs Lumberjack implementation
