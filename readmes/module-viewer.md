@@ -15,4 +15,4 @@ L.showLog(
 
 | Viewer | |
 |-|-|
-| ![Viewer]({{ page.meta.screenshots }}/viewer1.jpg) | ![Viewer]({{ page.meta.screenshots }}/viewer2.jpg) |
+| ![Viewer](screenshots/viewer1.jpg) | ![Viewer](screenshots/viewer2.jpg) |

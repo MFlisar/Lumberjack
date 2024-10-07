@@ -286,7 +286,7 @@ Advanced Stuff
 
 This library fully supports Jack Whartons [Timber](https://github.com/JakeWharton/timber) logging library (v4!). And was even based on it until Lumberjack v6. Beginning with v6 I wrote new modules that work without timber which leads to a smaller and more versitile non timber version. I would advice you to use the non timber versions but if you want to you can simply use the timber modules I provide as well - whatever you prefer.
 
-<details open>
+<details>
 <summary><b>Why did I do this?</b></summary>
 
 I decided to not use `Timber` myself anymore because of following reasons:
