@@ -85,7 +85,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.michaelflisar.lumberjack.loggers.console"
+    namespace = "com.michaelflisar.lumberjack.loggers.file"
 
     compileSdk = app.versions.compileSdk.get().toInt()
 
