@@ -1,12 +1,12 @@
 [versions]
 
 gradle = 				        "8.5.2"
-kotlin = 				        "2.1.0-Beta1"
+kotlin = 				        "2.0.20"
+compose =                       "1.6.11"
 dokka =                         "1.9.20"
 gradle-maven-publish-plugin =   "0.29.0"
 
 # KotlinX / AndroidX / Google
-compose =                   "1.6.11"
 kotlinx-coroutines = 	    "1.9.0"
 kotlinx-json = 			    "1.7.1"
 kotlinx-datetime =          "0.6.1"
@@ -40,6 +40,9 @@ kotlin-compose = 				    { id = "org.jetbrains.kotlin.plugin.compose", 	    vers
 kotlin-serialization = 			    { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 compose =                           { id = "org.jetbrains.compose",                     version.ref = "compose" }
+dokka =                             { id = "org.jetbrains.dokka",                       version.ref = "dokka" }
+
+gradle-maven-publish-plugin =       { id = "com.vanniktech.maven.publish.base",         version.ref = "gradle-maven-publish-plugin" }
 
 [libraries]
 

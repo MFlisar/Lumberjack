@@ -37,7 +37,7 @@ iOS would be supported theoretically, but currently I don't know iOS and don't o
 | extension-feedback      | √       |     |     | (2)         |
 | extension-notification  | √       |     |     | (2)         |
 | extension-viewer        | √       |     |     | (3)         |
-| extension-composeviewer | √       | √   |     |             |
+| extension-composeviewer | √       | √   |     | (4)         |
 
 * (2) notification and feedback module are android specific modules and therefor only support android
 * (3) the viewer module is and older view based module that just supports android based on its nature
@@ -47,11 +47,11 @@ iOS would be supported theoretically, but currently I don't know iOS and don't o
 
 | Modules               | Android | iOS | jvm | Information |
 |:----------------------|---------|-----|-----|-------------|
-| implementation-timber | √       |     |     | (3)         |
-| logger-timber-console | √       |     |     | (3)         |
-| logger-timber-file    | √       |     |     | (3)         |
+| implementation-timber | √       |     |     | (5)         |
+| logger-timber-console | √       |     |     | (5)         |
+| logger-timber-file    | √       |     |     | (5)         |
 
-* (3) timber is only supported on android and therefor those modules are android only modules as well
+* (5) timber is only supported on android and therefor those modules are android only modules as well
 
 ## :camera: Screenshots
 
