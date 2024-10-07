@@ -54,19 +54,21 @@ implementation("io.github.mflisar.lumberjack:extension-composeviewer:$lumberjack
 
 ## :zap: Modules
 
-| Module                      | Info     | Description                                                                                                                  |
-|-----------------------------|----------|------------------------------------------------------------------------------------------------------------------------------|
-| `core`                      |          | the core module - must always be included                                                                                    |
-| `implementation-lumberjack` |          | the main implementation of the logger - either this or the timber implementation must always be included                     |
-| `implementation-timber`     |          | the main implementation based on timber of the logger - either this or the lumberjack implementation must always be included |
-| `logger-console`            | optional | a console logger for the lumberjack implementation                                                                           |
-| `logger-file`               | optional | a console logger for the lumberjack implementation                                                                           |
-| `timber-logger-console`     | optional | a console logger for the timber implementation                                                                               |
-| `timber-logger-file`        | optional | a console logger for the timber implementation                                                                               |
-| `extension-feedback`        | optional | an extension for easy email feedbacks                                                                                        |
-| `extension-notification`    | optional | an extension for exception notification with easy email feedbacks on click                                                   |
-| `extension-viewer`          | optional | a log viewer based on XML                                                                                                    |
-| `extension-composeviewer`   | optional | a compsoe log viewer                                                                                                         |
+| Module                      | Info           | Description                                                                                                                  |
+|-----------------------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| `core`                      |                | the core module - must always be included                                                                                    |
+| `implementation-lumberjack` |                | the main implementation of the logger - either this or the timber implementation must always be included                     |
+| `implementation-timber`     |                | the main implementation based on timber of the logger - either this or the lumberjack implementation must always be included |
+|                             | **LOGGER**     |                                                                                                                              |
+| `logger-console`            | optional       | a console logger for the lumberjack implementation                                                                           |
+| `logger-file`               | optional       | a console logger for the lumberjack implementation                                                                           |
+| `timber-logger-console`     | optional       | a console logger for the timber implementation                                                                               |
+| `timber-logger-file`        | optional       | a console logger for the timber implementation                                                                               |
+|                             | **EXTENSIONS** |                                                                                                                              |
+| `extension-feedback`        | optional       | an extension for easy email feedbacks                                                                                        |
+| `extension-notification`    | optional       | an extension for exception notification with easy email feedbacks on click                                                   |
+| `extension-viewer`          | optional       | a log viewer based on XML                                                                                                    |
+| `extension-composeviewer`   | optional       | a compsoe log viewer                                                                                                         |
 
 ## </> Basic Usage
 
@@ -240,7 +242,7 @@ This is a **KMP (kotlin multiplatform)** library and the provided modules do sup
 * (4) the viewer module is and older view based module that just supports android based on its nature
 * (5) would support iOS if the iOS logger-file module is implemented
 
-*Timber Modules*
+**Timber Modules**
 
 | Modules               | Android | iOS | jvm | Information |
 |:----------------------|---------|-----|-----|-------------|
