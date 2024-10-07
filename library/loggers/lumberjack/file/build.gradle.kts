@@ -17,7 +17,7 @@ plugins {
 // -------------------
 
 // Module
-val artifactId = "logger -console"
+val artifactId = "logger-file"
 
 // Library
 val libraryName = "Lumberjack"
