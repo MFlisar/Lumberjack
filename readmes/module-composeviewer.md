@@ -1,34 +1,21 @@
-## ComposeViewer Module
+## ComposeViewer Extension
 
-The `Storage` is an abstraction to support any storage implementation. The `storage-datastore` module provides an implementation based on the [Android JetPack DataStore](https://developer.android.com/topic/libraries/architecture/datastore).
+This small extension simply allows you to send a log file via mail (no internet connection required). This will be done by sharing the file as email `Intent`.
 
-This module is placed inside the `storage-datastore` artifact and can simply be used like following:
-
-#### Android/iOS Implementation
+If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
 
 ```kotlin
-object SettingsModel : SettingsModel(
-    DataStoreStorage.create(
-        name: String = "settings",
-        encryption: StorageEncryption? = null,
-        cache: Boolean = true
-    )
-) {
-    // ...
+val showLogViewer = rememberSaveable {
+    mutableStateOf(false)
 }
+LumberjackDialog(
+    visible = showLogViewer,
+    title = "Logs",
+    setup = <a file logging setup>,
+    mail = "some.mail@gmail.com"
+)
 ```
 
-#### JVM Implementation
-
-```kotlin
-object SettingsModel : SettingsModel(
-    DataStoreStorage.create(
-        folder: File,
-        name: String = "settings",
-        encryption: StorageEncryption? = null,
-        cache: Boolean = true
-    )
-) {
-    // ...
-}
-```
+| Compose Viewer | |
+|-|-|
+| ![Viewer]({{ page.meta.screenshots }}/compose-viewer1.jpg) | ![Viewer]({{ page.meta.screenshots }}/compose-viewer2.jpg) |

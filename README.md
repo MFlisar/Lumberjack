@@ -71,10 +71,145 @@ implementation("io.github.mflisar.lumberjack:extension-composeviewer:$lumberjack
 ## </> Basic Usage
 
 <details open>
-<summary><b>1.</b> Define a <code>SettingsModel</code></summary>
+<summary><b>1.</b>Setup library - (Lumberjack Style)</summary>
 
-CONTENT
+```kotlin
+class App : Application() {
 
+    override fun onCreate() {
+
+         // 1) install the implemantion
+         L.init(LumberjackLogger)
+         
+         // 2) install loggers
+         L.plant(ConsoleLogger())
+         val setup = FileLoggerSetup.Daily(this)
+         L.plant(FileLogger(setup))
+    }
+
+}
+```
+
+</details>
+
+<details>
+<summary><b>1.</b>Setup library - (Timber Style)</summary>
+
+```kotlin
+class App : Application() {
+
+    override fun onCreate() {
+      
+         // 1) install the implemantion
+         L.init(TimberLogger)
+         
+         // 2) install loggers (trees) 
+         Timber.plant(ConsoleTree())
+         val setup = FileLoggingSetup.DateFiles(this  )
+         Timber.plant(FileLoggingTree(setup))
+    }
+
+}
+```
+
+</details>
+
+<details open>
+<summary><b>2.</b>Usage</summary>
+
+```kotlin
+// wherever you want use one of L.* functions for logging
+// all the functions are implemented as inline functions with lambdas - this means,
+// everything inside the lambda is only executed if the log is really ussed
+
+L.d { "a debug log" }
+L.e { "a error log" }
+L.e(e)
+L.e(e) { "an exception log with an additonal message" }
+L.v { "TEST-LOG - Verbose log..." }
+L.d { "TEST-LOG - Debug log..." }
+L.i { "TEST-LOG - Info log..." }
+L.w { "TEST-LOG - Warn log..." }
+L.e { "TEST-LOG - Error log..." }
+L.wtf { "TEST-LOG - WTF log..." }
+
+// optional tags work like following
+L.tag("LEVEL").d { "Tagged log message..." }
+
+// you can log something optionally like following
+L.logIf { false }?.d { "This will never be logged because logIf evaluates to false..." }
+
+// manual log levels
+L.log(Level.DEBUG) { "Debug level log via L.log instead of L.d" }
+```
+
+</details>
+
+<details>
+<summary><b>3.</b>Filtering Logs (Lumberjack Style)</summary>
+
+```kotlin
+// typealias LumberjackFilter = (level: Level, tag: String?, time: Long, fileName: String, className: String, methodName: String, line: Int, msg: String?, throwable: Throwable?) -> Boolean
+val filter = object : LumberjackFilter {
+    override fun invoke(
+        level: Level,
+        tag: String?,
+        time: Long,
+        fileName: String,
+        className: String,
+        methodName: String,
+        line: Int,
+        msg: String?,
+        throwable: Throwable?
+    ): Boolean {
+        // decide if you want to log this message...
+        return true
+    }
+}
+// the filter can then be attached to any logger implementation
+val consoleLogger = ConsoleLogger(filter = filter)
+val fileLogger = FileLogger(filter = filter)
+```
+
+</details>
+
+<details>
+<summary><b>3.</b>Filtering Logs (Timber Style)</summary>
+
+> [!TIP]
+> The lumberjack implementation allows you more granular filter options as well as a custom filter for each logger implementation!
+
+```kotlin
+TimberLogger.filter = object: IFilter {
+    override fun isTagEnabled(baseTree: BaseTree, tag: String): Boolean {
+        // decide if you want to log this tag on this tree...
+        return true
+    }
+    override fun isPackageNameEnabled(packageName: String): Boolean {
+        // decide if you want to log if the log comes from a class within the provided package name
+        return true
+    }
+}
+```
+
+</details>
+
+<details>
+<summary><b>4.</b>Other settings</summary>
+
+```kotlin
+
+// if desired you can enable/disable all logs completely 
+// e.g. in a release build like following 
+// => you probably would want to do this inside the application after the init of Lumberjack
+L.enable(BuildConfig.DEBUG)
+
+// Alternatively every logger does support an enabled flag as well
+val consoleLogger = ConsoleLogger(enabled = BuildConfig.DEBUG)
+val fileLogger = FileLogger(enabled = !BuildConfig.DEBUG, ...)
+
+```
+    
 </details>
 
 ## :computer: Supported Platforms
@@ -83,9 +218,10 @@ CONTENT
 
 This is a **KMP (kotlin multiplatform)** library and the provided modules do support following platforms:
 
-*iOS*
-
-iOS would be supported theoretically, but currently I don't know iOS and don't own an apple device - the problem is only that I can't replace `ThreadLocal` and `StackTraceElement` in a non jvm environment... If you know how this can be done and want to contribute, that would be much appreciated.
+> [!NOTE]  
+> iOS would be supported theoretically, but currently I don't know iOS and don't own an apple device - the problem is only that I can't replace `ThreadLocal` and `StackTraceElement` in a non jvm environment.
+> Additionally the console logging would need an iOS implementation as well.
+> If you know how this can be done and want to contribute, that would be much appreciated.
 
 *Core*
 
@@ -146,6 +282,22 @@ Advanced Stuff
 
 ## :page_with_curl: Notes
 
-#### File Loggers
-
 #### Timber vs Lumberjack implementation
+
+This library fully supports Jack Whartons [Timber](https://github.com/JakeWharton/timber) logging library (v4!). And was even based on it until Lumberjack v6. Beginning with v6 I wrote new modules that work without timber which leads to a smaller and more versitile non timber version. I would advice you to use the non timber versions but if you want to you can simply use the timber modules I provide as well - whatever you prefer.
+
+<details open>
+<summary><b>Why did I do this?</b></summary>
+
+I decided to not use `Timber` myself anymore because of following reasons:
+
+* `Timber` does explicitly rely on non lazy evaluating logging - it was a decision made by *Jack Wharton* and was the main reason to write `Lumberjack` at the beginning
+* `Timber` is restrictive regarding class extensions - in v5 I would need access to a field to continue supporting timber in `Lumberjack`
+* `Timber` is considered as working and feature requests and/or pull requests are not accepted if not really necessary - like e.g. my minimal one [here](https://github.com/JakeWharton/timber/issues/477).
+* additionally I always needed to extend the `BaseTree` from `Timber` because of the limiting restrictions of the default `BaseTree` as well as it was to restrictive to make adjustment in it ( I always had a nearly 1:1 copy of it inside my library [here](https://github.com/MFlisar/Lumberjack/blob/595d4de0ae76338e66cf42f7324f51c945699fa8/library/implementations/timber/src/main/java/timber/log/BaseTree.kt#L9){target=_blank}). This was needed to allow to adjust the stack trace depth so that `Lumberjack` will log the correct calling place as a wrapper around `Timber`.
+
+**This lead to my final decision**
+
+`Lumberjack` does not need `Timber` and I provide a way to plug in `Timber` into `Lumberjack` now - this way using `Timber` and `Lumberjack` in combination is possible but not necessary anymore.
+
+</details>
