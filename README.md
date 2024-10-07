@@ -223,45 +223,32 @@ This is a **KMP (kotlin multiplatform)** library and the provided modules do sup
 > Additionally the console logging would need an iOS implementation as well.
 > If you know how this can be done and want to contribute, that would be much appreciated.
 
-*Core*
-
-| Modules        | Android | iOS | jvm | Information |
-|:---------------|---------|-----|-----|-------------|
-| core           | √       | √   | √   |             |
-
-*Lumberjack Modules*
-
 | Modules                   | Android | iOS | jvm | Information |
 |:--------------------------|---------|-----|-----|-------------|
+| core                      | √       | √   | √   |             |
 | implementation-lumberjack | √       |     | √   | (1)         |
-| logger-console            | √       |     | √   | (1)         |
+| logger-console            | √       |     | √   | (2)         |
 | logger-file               | √       | √   | √   |             |
+| extension-feedback        | √       |     |     | (3)         |
+| extension-notification    | √       |     |     | (3)         |
+| extension-viewer          | √       |     |     | (4)         |
+| extension-composeviewer   | √       | √   |     | (5)         |
 
 * (1) iOS is missing support because I don't know how to handle `ThreadLocal` and `StackTraceElement` inside iOS - a pull request would be much appreciated!
 * (2) iOS is missing a simple console logging function - a pull request would be much appreciated! 
-
-*Extensions*
-
-| Modules                 | Android | iOS | jvm | Information |
-|:------------------------|---------|-----|-----|-------------|
-| extension-feedback      | √       |     |     | (2)         |
-| extension-notification  | √       |     |     | (2)         |
-| extension-viewer        | √       |     |     | (3)         |
-| extension-composeviewer | √       | √   |     | (4)         |
-
-* (2) notification and feedback module are android specific modules and therefor only support android
-* (3) the viewer module is and older view based module that just supports android based on its nature
-* (4) would support iOS if the iOS logger-file module is implemented
+* (3) notification and feedback module are android specific modules and therefor only support android
+* (4) the viewer module is and older view based module that just supports android based on its nature
+* (5) would support iOS if the iOS logger-file module is implemented
 
 *Timber Modules*
 
 | Modules               | Android | iOS | jvm | Information |
 |:----------------------|---------|-----|-----|-------------|
-| implementation-timber | √       |     |     | (5)         |
-| logger-timber-console | √       |     |     | (5)         |
-| logger-timber-file    | √       |     |     | (5)         |
+| implementation-timber | √       |     |     | (6)         |
+| logger-timber-console | √       |     |     | (6)         |
+| logger-timber-file    | √       |     |     | (6)         |
 
-* (5) timber is only supported on android and therefor those modules are android only modules as well
+* (6) timber is only supported on android and therefor those modules are android only modules as well
 
 ## :tada: Demo
 
