@@ -57,14 +57,15 @@ implementation("io.github.mflisar.lumberjack:extension-composeviewer:$lumberjack
 | Module                      | Info     | Description                                                                                                                  |
 |-----------------------------|----------|------------------------------------------------------------------------------------------------------------------------------|
 | `core`                      |          | the core module - must always be included                                                                                    |
+| **Implementations**         |          |
 | `implementation-lumberjack` |          | the main implementation of the logger - either this or the timber implementation must always be included                     |
 | `implementation-timber`     |          | the main implementation based on timber of the logger - either this or the lumberjack implementation must always be included |
-| **LOGGER**                  | -------- | --------------------------------                                                                                             |
+| **Logger**                  |          |                                                                                                                              |
 | `logger-console`            | optional | a console logger for the lumberjack implementation                                                                           |
 | `logger-file`               | optional | a console logger for the lumberjack implementation                                                                           |
 | `timber-logger-console`     | optional | a console logger for the timber implementation                                                                               |
 | `timber-logger-file`        | optional | a console logger for the timber implementation                                                                               |
-| **EXTENSIONS**              | -------- | --------------------------------                                                                                             |
+| **Extensions**              |          |                                                                                                                              |
 | `extension-feedback`        | optional | an extension for easy email feedbacks                                                                                        |
 | `extension-notification`    | optional | an extension for exception notification with easy email feedbacks on click                                                   |
 | `extension-viewer`          | optional | a log viewer based on XML                                                                                                    |
