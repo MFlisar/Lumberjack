@@ -232,7 +232,7 @@ This is a **KMP (kotlin multiplatform)** library and the provided modules do sup
 | extension-feedback        | √       |     |     | (3)         |
 | extension-notification    | √       |     |     | (3)         |
 | extension-viewer          | √       |     |     | (4)         |
-| extension-composeviewer   | √       | √   |     | (5)         |
+| extension-composeviewer   | √       | √   |  √  | (5)         |
 
 * (1) iOS is missing support because I don't know how to handle `ThreadLocal` and `StackTraceElement` inside iOS - a pull request would be much appreciated!
 * (2) iOS is missing a simple console logging function - a pull request would be much appreciated! 
