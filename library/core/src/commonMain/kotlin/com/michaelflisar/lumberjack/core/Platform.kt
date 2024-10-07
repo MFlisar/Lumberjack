@@ -1,0 +1,6 @@
+package com.michaelflisar.lumberjack.core
+
+annotation class CommonParcelize
+annotation class CommonIgnoredOnParcel
+
+expect interface CommonParcelable

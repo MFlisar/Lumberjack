@@ -1,20 +1,76 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-parcelize")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.compose)
     id("maven-publish")
 }
 
-android {
+kotlin {
 
+    // Java
+    jvm()
+
+    // Android
+    androidTarget {
+        publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    // iOS
+    macosX64()
+    macosArm64()
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+
+    // -------
+    // Sources
+    // -------
+
+    sourceSets {
+
+        commonMain.dependencies {
+
+            // Kotlin
+            implementation(libs.kotlin)
+            implementation(libs.kotlinx.io.core)
+			
+			// Compose + AndroidX
+			implementation(libs.compose.material3)
+			implementation(libs.compose.material.icons.core)
+			implementation(libs.compose.material.icons.extended)
+
+            // Library
+            implementation(project(":Lumberjack:Core"))
+            implementation(project(":Lumberjack:Implementations:Lumberjack"))
+            implementation(project(":Lumberjack:Loggers:Lumberjack:File"))
+
+            // Dependencies
+            implementation(libs.okio)
+
+        }
+
+        androidMain.dependencies {
+
+            implementation(libs.androidx.core)
+
+            // Library
+            implementation(project(":Lumberjack:Extensions:Feedback"))
+        }
+    }
+}
+
+android {
     namespace = "com.michaelflisar.lumberjack.extensions.composeviewer"
 
     compileSdk = app.versions.compileSdk.get().toInt()
-
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
 
     defaultConfig {
         minSdk = app.versions.minSdk.get().toInt()
@@ -24,56 +80,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = compose.versions.compiler.get()
-    }
 }
-
-dependencies {
-
-    // ------------------------
-    // Kotlin
-    // ------------------------
-
-    implementation(libs.kotlin)
-
-    // ------------------------
-    // AndroidX
-    // ------------------------
-
-    // Compose
-    implementation(platform(compose.bom))
-    implementation(compose.material3)
-    implementation(compose.activity)
-    implementation(compose.icons.material.extendedicons)
-    implementation(compose.drawablepainter)
-
-    // ------------------------
-    // Library
-    // ------------------------
-
-    implementation(project(":Lumberjack:Core"))
-    implementation(project(":Lumberjack:Extensions:Feedback"))
-
-    // ------------------------
-    // Others
-    // ------------------------
-
-
-}
-
+/*
 project.afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                artifactId = "extension-composeviewer"
+                artifactId = "core"
                 from(components["release"])
             }
         }
     }
-}
+}*/

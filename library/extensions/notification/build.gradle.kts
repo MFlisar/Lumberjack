@@ -36,7 +36,7 @@ dependencies {
     // AndroidX
     // ------------------------
 
-    implementation(androidx.core)
+    implementation(libs.androidx.core)
 
     // ------------------------
     // Library
@@ -50,7 +50,7 @@ dependencies {
 
     val useLiveDependencies = providers.gradleProperty("useLiveDependencies").get().toBoolean()
     if (useLiveDependencies) {
-        implementation(deps.feedback)
+        implementation(libs.feedback)
     } else {
         implementation(project(":FeedbackManager"))
     }

@@ -1,11 +1,60 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
     id("maven-publish")
 }
 
-android {
+kotlin {
 
+    // Java
+    jvm()
+
+    // Android
+    androidTarget {
+        publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll(
+                "-P",
+                "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.michaelflisar.lumberjack.core.CommonParcelize",
+                "-P",
+                "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.michaelflisar.lumberjack.core.CommonIgnoredOnParcel"
+            )
+        }
+    }
+
+    // iOS
+    macosX64()
+    macosArm64()
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+
+    // -------
+    // Sources
+    // -------
+
+    sourceSets {
+
+        commonMain.dependencies {
+
+            // Kotlin
+            implementation(libs.kotlin)
+            implementation(libs.kotlinx.io.core)
+
+            // I/O
+            implementation(libs.okio)
+
+        }
+    }
+}
+
+android {
     namespace = "com.michaelflisar.lumberjack.core"
 
     compileSdk = app.versions.compileSdk.get().toInt()
@@ -18,21 +67,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
 }
-
-dependencies {
-
-    // ------------------------
-    // Kotlin
-    // ------------------------
-
-    implementation(libs.kotlin)
-}
-
+/*
 project.afterEvaluate {
     publishing {
         publications {
@@ -42,4 +78,4 @@ project.afterEvaluate {
             }
         }
     }
-}
+}*/

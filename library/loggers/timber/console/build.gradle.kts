@@ -43,7 +43,7 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(deps.timber)
+    implementation(libs.timber)
 }
 
 project.afterEvaluate {

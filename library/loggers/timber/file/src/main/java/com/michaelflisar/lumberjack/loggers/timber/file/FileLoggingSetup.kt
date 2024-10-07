@@ -2,12 +2,15 @@ package com.michaelflisar.lumberjack.loggers.timber.file
 
 import android.content.Context
 import android.os.Parcelable
+import com.michaelflisar.lumberjack.core.CommonParcelize
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import okio.Path
+import okio.Path.Companion.toOkioPath
 import java.io.File
 import java.io.PrintWriter
 import java.util.regex.Pattern
@@ -19,21 +22,21 @@ sealed class FileLoggingSetup : IFileLoggingSetup {
     abstract val logOnBackgroundThread: Boolean
     abstract val setup: Setup
 
-    override fun getAllExistingLogFiles() =
-        getFilesInFolder().filter { Pattern.matches(pattern, it.name) }
+    override fun getAllExistingLogFilePaths() =
+        getFilePathsInFolder().filter { Pattern.matches(pattern, it.name) }
 
-    override fun getLatestLogFiles() =
-        getAllExistingLogFiles().maxByOrNull { it.lastModified() }
+    override fun getLatestLogFilePath() =
+        getAllExistingLogFilePaths().maxByOrNull { it.toFile().lastModified() }
 
     override suspend fun clearLogFiles() {
         withContext(Dispatchers.IO) {
-            val newestFile = getLatestLogFiles()
-            val filesToDelete = getAllExistingLogFiles().filter { it != newestFile }
+            val newestFile = getLatestLogFilePath()
+            val filesToDelete = getAllExistingLogFilePaths().filter { it != newestFile }
             filesToDelete.forEach {
-                it.delete()
+                it.toFile().delete()
             }
             newestFile?.let {
-                val writer = PrintWriter(it)
+                val writer = PrintWriter(it.toFile())
                 writer.print("")
                 writer.close()
             }
@@ -70,7 +73,7 @@ sealed class FileLoggingSetup : IFileLoggingSetup {
         /*
          * we know the file name of the newest file before hand, no need to check all files in the folder
          */
-        override fun getLatestLogFiles() = File(baseFilePath)
+        override fun getLatestLogFilePath() = File(baseFilePath).toOkioPath()
     }
 
     @Parcelize
@@ -112,11 +115,11 @@ sealed class FileLoggingSetup : IFileLoggingSetup {
         val fileExtension: String = "log"
     ) : Parcelable
 
-    private fun getFilesInFolder(): List<File> {
+    private fun getFilePathsInFolder(): List<Path> {
         val folder = File(folder)
         if (!folder.exists()) {
             return emptyList()
         }
-        return folder.listFiles()?.filter { it.isFile } ?: emptyList()
+        return folder.listFiles()?.filter { it.isFile }?.map { it.toOkioPath() } ?: emptyList()
     }
 }

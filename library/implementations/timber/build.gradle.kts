@@ -42,7 +42,7 @@ dependencies {
     // Others
     // ------------------------
 
-    api(deps.timber)
+    api(libs.timber)
 }
 
 project.afterEvaluate {

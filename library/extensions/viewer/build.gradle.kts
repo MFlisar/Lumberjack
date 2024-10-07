@@ -41,11 +41,11 @@ dependencies {
     // AndroidX
     // ------------------------
 
-    implementation(androidx.core)
-    implementation(androidx.recyclerview)
-    implementation(androidx.lifecycle)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.lifecycle)
 
-    implementation(deps.material)
+    implementation(libs.material)
 
     // ------------------------
     // Library
@@ -58,7 +58,7 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(deps.fastscroller)
+    implementation(libs.fastscroller)
 }
 
 project.afterEvaluate {

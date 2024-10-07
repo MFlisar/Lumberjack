@@ -1,17 +1,78 @@
 [versions]
 
-gradle = 				"8.3.2"
-kotlin = 				"1.9.23"
-kotlinx-coroutines = 	"1.8.0"
+gradle = 				        "8.5.2"
+kotlin = 				        "2.1.0-Beta1"
+dokka =                         "1.9.20"
+gradle-maven-publish-plugin =   "0.29.0"
+
+# KotlinX / AndroidX / Google
+compose =                   "1.6.11"
+kotlinx-coroutines = 	    "1.9.0"
+kotlinx-json = 			    "1.7.1"
+kotlinx-datetime =          "0.6.1"
+kotlinx-io-core =           "0.5.3"
+androidx-core = 		    "1.13.1"
+androidx-lifecycle = 	    "2.8.6"
+androidx-datastoreprefs =   "1.1.1"
+androidx-startup =          "1.2.0"
+androidx-activity = 		"1.9.2"
+androidx-recyclerview = 	"1.3.2"
+
+# Dependencies
+okio =                      "3.9.1"
+timber =                    "4.7.1"
+slf4j =                     "2.0.7"
+logback =                   "3.0.0"
+fastscroller =              "1.0.0"
+material =					"1.12.0"
+feedback =                  "2.1.0"
+demoutilities =             "1.0.3"
 
 [plugins]
 
+android-application = 			    { id = "com.android.application",                   version.ref = "gradle" }
+android-library = 			        { id = "com.android.library", 	                    version.ref = "gradle" }
+
+kotlin-android = 				    { id = "org.jetbrains.kotlin.android", 			    version.ref = "kotlin" }
+kotlin-multiplatform = 			    { id = "org.jetbrains.kotlin.multiplatform", 	    version.ref = "kotlin" }
+kotlin-parcelize =                  { id = "org.jetbrains.kotlin.plugin.parcelize",     version.ref = "kotlin"  }
+kotlin-compose = 				    { id = "org.jetbrains.kotlin.plugin.compose", 	    version.ref = "kotlin" }
+kotlin-serialization = 			    { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+compose =                           { id = "org.jetbrains.compose",                     version.ref = "compose" }
+
 [libraries]
 
-gradle =						{ module = "com.android.tools.build:gradle", 									version.ref = "gradle" }
-kotlin-gradle-plugin =			{ module = "org.jetbrains.kotlin:kotlin-gradle-plugin", 						version.ref = "kotlin" }
-kotlin-serialization =			{ module = "org.jetbrains.kotlin:kotlin-serialization", 						version.ref = "kotlin" }
+kotlin =						    { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", 			version.ref = "kotlin" }
+kotlin-gradle-plugin =			    { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", 		version.ref = "kotlin" }
+kotlin-serialization =			    { module = "org.jetbrains.kotlin:kotlin-serialization", 		version.ref = "kotlin" }
 
-kotlin =						{ module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", 							version.ref = "kotlin" }
+kotlinx-coroutines =			    { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 	version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android =	    { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", 	version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-swing =		    { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", 	version.ref = "kotlinx-coroutines" }
+kotlinx-serialization-json =	    { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", 	version.ref = "kotlinx-json" }
+kotlinx-datetime =	                { module = "org.jetbrains.kotlinx:kotlinx-datetime", 	        version.ref = "kotlinx-datetime" }
+kotlinx-io-core =			        { module = "org.jetbrains.kotlinx:kotlinx-io-core", 		    version.ref = "kotlinx-io-core" }
 
-kotlinx-coroutines =			{ module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 					version.ref = "kotlinx-coroutines" }
+compose-runtime =                   { module = "org.jetbrains.compose.runtime:runtime",                     version.ref = "compose" }
+compose-material-icons-core = 	    { module = "org.jetbrains.compose.material:material-icons-core",        version.ref = "compose" }
+compose-material-icons-extended = 	{ module = "org.jetbrains.compose.material:material-icons-extended",    version.ref = "compose" }
+compose-material3 =                 { module = "org.jetbrains.compose.material3:material3",                 version.ref = "compose" }
+
+androidx-core = 				    { module = "androidx.core:core-ktx", 						version.ref = "androidx-core" }
+androidx-lifecycle = 		        { module = "androidx.lifecycle:lifecycle-runtime-ktx", 		version.ref = "androidx-lifecycle" }
+androidx-lifecycle-compose =        { module = "androidx.lifecycle:lifecycle-runtime-compose", 	version.ref = "androidx-lifecycle" }
+androidx-datastore-preferences = 	{ module = "androidx.datastore:datastore-preferences", 	    version.ref = "androidx-datastoreprefs" }
+androidx-startup = 		            { module = "androidx.startup:startup-runtime", 	            version.ref = "androidx-startup" }
+androidx-activity-compose =         { module = "androidx.activity:activity-compose", 			version.ref = "androidx-activity" }
+androidx-recyclerview = 		    { module = "androidx.recyclerview:recyclerview", 			version.ref = "androidx-recyclerview" }
+
+okio =                              { module = "com.squareup.okio:okio",                        version.ref = "okio" }
+timber = 				        	{ module = "com.jakewharton.timber:timber", 				version.ref = "timber" }
+slf4j = 				        	{ module = "org.slf4j:slf4j-api", 							version.ref = "slf4j" }
+logback = 				        	{ module = "com.github.tony19:logback-android", 		    version.ref = "logback" }
+fastscroller = 				        { module = "com.quiph.ui:recyclerviewfastscroller", 		version.ref = "fastscroller" }
+material = 				        	{ module = "com.google.android.material:material", 		    version.ref = "material" }
+feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
+demoutilities-core =                { module = "io.github.mflisar.demoutilities:core", 			version.ref = "demoutilities" }
+demoutilities-app =                 { module = "io.github.mflisar.demoutilities:app", 			version.ref = "demoutilities" }

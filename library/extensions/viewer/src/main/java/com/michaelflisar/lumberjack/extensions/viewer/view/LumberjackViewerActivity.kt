@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.classes.Level
+import com.michaelflisar.lumberjack.core.classes.priority
+import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
+import com.michaelflisar.lumberjack.core.getLatestLogFiles
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
@@ -231,7 +234,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         }
 
         val items = mutableListOf("ALL")
-        items.addAll(Level.values().filter { it.priority != -1 }.map { ">= ${it.name}" })
+        items.addAll(Level.entries.filter { it.priority != -1 }.map { ">= ${it.name}" })
         binding.spLevel.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_item, items).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -256,7 +259,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         val loading = adapter == null
         val filter = binding.etFilter.text?.toString() ?: ""
         val level = binding.spLevel.selectedItemPosition.takeIf { it > 0 }
-            ?.let { Level.values()[it - 1] }
+            ?.let { Level.entries[it - 1] }
         val filterIsActive = filter.isNotEmpty() || level != null
 
         //L.d { "updateFilter: $init | $filter | $level | $filterIsActive" }

@@ -1,13 +1,67 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("kotlin-parcelize")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
     id("maven-publish")
 }
 
-android {
+kotlin {
 
-    namespace = "com.michaelflisar.lumberjack.loggers.file"
+    // Java
+    jvm()
+
+    // Android
+    androidTarget {
+        publishLibraryVariants("release")
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll(
+                "-P",
+                "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.michaelflisar.lumberjack.core.CommonParcelize",
+                "-P",
+                "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.michaelflisar.lumberjack.core.CommonIgnoredOnParcel"
+            )
+        }
+    }
+
+    // iOS
+    macosX64()
+    macosArm64()
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+
+    // -------
+    // Sources
+    // -------
+
+    sourceSets {
+
+        commonMain.dependencies {
+
+            // Kotlin
+            implementation(libs.kotlin)
+            implementation(libs.kotlinx.coroutines)
+            implementation(libs.kotlinx.io.core)
+            implementation(libs.kotlinx.datetime)
+
+            // I/O
+            implementation(libs.okio)
+
+            // Library
+            implementation(project(":Lumberjack:Core"))
+            implementation(project(":Lumberjack:Implementations:Lumberjack"))
+
+        }
+    }
+}
+
+android {
+    namespace = "com.michaelflisar.lumberjack.loggers.console"
 
     compileSdk = app.versions.compileSdk.get().toInt()
 
@@ -19,36 +73,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
 }
-
-dependencies {
-
-    // ------------------------
-    // Kotlin
-    // ------------------------
-
-    implementation(libs.kotlin)
-    implementation(libs.kotlinx.coroutines)
-
-    // ------------------------
-    // Library
-    // ------------------------
-
-    implementation(project(":Lumberjack:Core"))
-    implementation(project(":Lumberjack:Implementations:Lumberjack"))
-}
-
+/*
 project.afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                artifactId = "logger-file"
+                artifactId = "core"
                 from(components["release"])
             }
         }
     }
-}
+}*/

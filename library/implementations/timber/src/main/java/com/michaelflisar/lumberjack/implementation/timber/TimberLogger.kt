@@ -2,6 +2,7 @@ package com.michaelflisar.lumberjack.implementation.timber
 
 import com.michaelflisar.lumberjack.core.AbstractLogger
 import com.michaelflisar.lumberjack.core.classes.Level
+import com.michaelflisar.lumberjack.core.classes.priority
 import com.michaelflisar.lumberjack.implementation.timber.core.DefaultFormatter
 import com.michaelflisar.lumberjack.implementation.timber.data.StackData
 import com.michaelflisar.lumberjack.implementation.timber.interfaces.IFilter

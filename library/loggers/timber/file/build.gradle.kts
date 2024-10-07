@@ -45,8 +45,10 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(deps.slf4j)
-    implementation(deps.logback)
+    implementation(libs.slf4j)
+    implementation(libs.logback)
+
+    implementation(libs.okio)
 }
 
 project.afterEvaluate {

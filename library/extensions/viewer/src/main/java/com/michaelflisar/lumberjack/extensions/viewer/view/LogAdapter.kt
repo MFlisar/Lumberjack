@@ -14,6 +14,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
+import com.michaelflisar.lumberjack.core.classes.getTextColor
+import com.michaelflisar.lumberjack.core.classes.getTitleColor
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.extensions.viewer.databinding.LogItemRowBinding
 import com.michaelflisar.lumberjack.extensions.viewer.internal.getColorFromAttr
