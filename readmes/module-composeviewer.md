@@ -18,4 +18,4 @@ LumberjackDialog(
 
 | Compose Viewer | |
 |-|-|
-| ![Viewer](screenshots/compose-viewer1.jpg) | ![Viewer](screenshots/compose-viewer2.jpg) |
+| ![Viewer](../screenshots/compose-viewer1.jpg) | ![Viewer](../screenshots/compose-viewer2.jpg) |

@@ -13,6 +13,6 @@ L.showLog(
 )
 ```
 
-| Viewer | |
-|-|-|
-| ![Viewer](screenshots/viewer1.jpg) | ![Viewer](screenshots/viewer2.jpg) |
+| Viewer                                | |
+|---------------------------------------|-|
+| ![Viewer](../screenshots/viewer1.jpg) | ![Viewer](../screenshots/viewer2.jpg) |
