@@ -11,7 +11,7 @@ import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
 import okio.Path
 
 @Composable
-actual fun ShowLumberjackDialog(visible: MutableState<Boolean>, content: @Composable () -> Unit) {
+internal actual fun ShowLumberjackDialog(visible: MutableState<Boolean>, content: @Composable () -> Unit) {
     FullScreenDialog(visible, content = content)
 }
 

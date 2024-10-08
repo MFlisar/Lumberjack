@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import okio.Path
 
 @Composable
-expect fun ShowLumberjackDialog(visible: MutableState<Boolean>, content: @Composable () -> Unit)
+internal expect fun ShowLumberjackDialog(visible: MutableState<Boolean>, content: @Composable () -> Unit)
 
 expect class FeedbackImpl() {
 

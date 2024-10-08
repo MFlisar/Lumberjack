@@ -7,7 +7,7 @@ import androidx.compose.ui.window.DialogProperties
 import okio.Path
 
 @Composable
-actual fun ShowLumberjackDialog(visible: MutableState<Boolean>, content: @Composable () -> Unit) {
+internal actual fun ShowLumberjackDialog(visible: MutableState<Boolean>, content: @Composable () -> Unit) {
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = true),
         onDismissRequest = { visible.value = false }
