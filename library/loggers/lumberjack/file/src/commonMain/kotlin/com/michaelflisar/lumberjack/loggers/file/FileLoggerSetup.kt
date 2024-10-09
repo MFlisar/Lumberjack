@@ -91,7 +91,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
     @CommonParcelize
     class SingleFile internal constructor(
         override val folder: String,
-        fileName: String,
+        private val fileName: String,
         override val fileExtension: String
     ) : BaseFileLoggerSetup() {
 

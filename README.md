@@ -108,7 +108,7 @@ class App : Application() {
          
          // 2) install loggers (trees) 
          Timber.plant(ConsoleTree())
-         val setup = FileLoggingSetup.DateFiles(this  )
+         val setup = FileLoggingSetup.DateFiles.create(this  )
          Timber.plant(FileLoggingTree(setup))
     }
 
