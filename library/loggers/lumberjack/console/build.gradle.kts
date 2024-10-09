@@ -22,7 +22,7 @@ val artifactId = "logger-console"
 // Library
 val libraryName = "Lumberjack"
 val libraryDescription = "Lumberjack - $artifactId module"
-val groupID = if (System.getenv("JITPACK") == null)  "io.github.mflisar.lumberjack" else "com.github.MFlisar"
+val groupID = "io.github.mflisar.lumberjack"
 val release = 2016
 val github = "https://github.com/MFlisar/Lumberjack"
 val license = "Apache License 2.0"
@@ -132,7 +132,5 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
 
     // Enable GPG signing for all publications
-    if (System.getenv("JITPACK") == null) {
-        signAllPublications()
-    }
+    signAllPublications()
 }
