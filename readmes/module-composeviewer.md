@@ -16,6 +16,36 @@ LumberjackDialog(
 )
 ```
 
+Alternatively you can always embed the view directly like following:
+
+```kotlin
+LumberjackView(
+    setup = <a file logging setup>,
+    file = rememberLogFile(),
+    // optional
+    style = LumberjackViewDefaults.style(),
+    data = rememberLogFileData(),
+    modifier = Modifier,
+    state = rememberLazyListState(),
+    darkTheme = isSystemInDarkTheme(),
+    useScrollableLines = remember { mutableStateOf(false) }
+)
+```
+
+
+> [!TIP]
+> You can also embed the whole dialog "content view" inside a layout if you want to also show the menu and use it's features
+
+```kotlin
+LumberjackDialogContent(
+    title = "Logs",
+    setup = <a file logging setup>,
+    style= LumberjackViewDefaults.style(),
+    darkTheme = isSystemInDarkTheme(),
+    mail = null
+)
+```
+
 | Compose Viewer | |
 |-|-|
 | ![Viewer](../screenshots/compose-viewer1.jpg) | ![Viewer](../screenshots/compose-viewer2.jpg) |

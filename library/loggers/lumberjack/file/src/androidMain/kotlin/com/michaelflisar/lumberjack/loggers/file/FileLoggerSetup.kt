@@ -5,7 +5,7 @@ import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup.Companion.DEFAU
 import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup.Companion.DEFAULT_SIZE_LIMIT_5MB
 import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup.Daily
 import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup.FileSize
-import okio.Path.Companion.toOkioPath
+import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup.SingleFile
 import java.io.File
 
 fun FileLoggerSetup.Daily.Companion.create(
@@ -32,4 +32,14 @@ fun FileLoggerSetup.FileSize.Companion.create(
     fileExtension,
     filesToKeep,
     maxFileSizeInBytes
+)
+
+fun FileLoggerSetup.SingleFile.Companion.create(
+    context: Context,
+    fileName: String = "log",
+    fileExtension: String = "log",
+) = SingleFile(
+    File(context.filesDir, DEFAULT_LOG_FILE_FOLDER).absolutePath,
+    fileName,
+    fileExtension
 )

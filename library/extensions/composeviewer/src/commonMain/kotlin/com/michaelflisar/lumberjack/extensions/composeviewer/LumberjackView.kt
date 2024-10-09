@@ -110,7 +110,7 @@ fun LumberjackView(
     state: LazyListState = rememberLazyListState(),
     darkTheme: Boolean = isSystemInDarkTheme(),
     style: LumberjackView.Style = LumberjackViewDefaults.style(),
-    useScrollableLines: MutableState<Boolean>,
+    useScrollableLines: MutableState<Boolean> = remember { mutableStateOf(false) }
 ) {
     LaunchedEffect(data.value, file.value) {
         if (file.value == null) {
@@ -195,7 +195,7 @@ fun LumberjackView(
                 } else if (filteredEntries.isEmpty()) {
                     InfoState("Nothing matches the filter!")
                 } else {
-                    LazyColumn(
+                    LazyScrollContainer(
                         state = state
                     ) {
                         filteredEntries.forEach {

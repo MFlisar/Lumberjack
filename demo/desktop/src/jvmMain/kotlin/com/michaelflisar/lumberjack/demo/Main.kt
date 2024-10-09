@@ -13,11 +13,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberDialogState
+import androidx.compose.ui.window.rememberWindowState
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
 import com.michaelflisar.lumberjack.extensions.composeviewer.LumberjackDialog
@@ -59,7 +64,12 @@ fun main() {
 
         Window(
             title = "Lumberjack Demo",
-            onCloseRequest = ::exitApplication
+            onCloseRequest = ::exitApplication,
+            state = rememberWindowState(
+                position = WindowPosition(Alignment.Center),
+                width = 800.dp,
+                height = 600.dp
+            )
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),

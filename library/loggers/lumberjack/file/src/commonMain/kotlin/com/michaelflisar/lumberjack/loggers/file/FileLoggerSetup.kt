@@ -26,19 +26,10 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
         override val folder: String,
         override val fileBaseName: String,
         override val fileExtension: String,
-        private val filesToKeep: Int,
-        override var lastFileKey: String = "",
-        override var lastFileKeyChanged: Boolean = false
+        private val filesToKeep: Int
     ) : BaseFileLoggerSetup() {
 
-        companion object {
-            internal fun create(
-                folder: String,
-                fileBaseName: String = "log",
-                fileExtension: String = "log",
-                filesToKeep: Int = 1
-            ) = Daily(folder, fileBaseName, fileExtension, filesToKeep)
-        }
+        companion object
 
         // "yyyy_MM_dd"
         @CommonIgnoredOnParcel
@@ -67,21 +58,10 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
         override val fileBaseName: String,
         override val fileExtension: String,
         private val filesToKeep: Int,
-        private val maxFileSizeInBytes: Int,
-        override var lastFileKey: String = "",
-        override var lastFileKeyChanged: Boolean = false
+        private val maxFileSizeInBytes: Int
     ) : BaseFileLoggerSetup() {
 
-        companion object {
-
-            internal fun create(
-                folder: String,
-                fileBaseName: String = "log",
-                fileExtension: String = "log",
-                filesToKeep: Int = 1,
-                maxFileSizeInBytes: Int = DEFAULT_SIZE_LIMIT_5MB
-            ) = FileSize(folder, fileBaseName, fileExtension, filesToKeep, maxFileSizeInBytes)
-        }
+        companion object
 
         @CommonIgnoredOnParcel
         private var fileIndex: Int? = null
@@ -105,6 +85,27 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
 
         override fun filterLogFilesToDelete(files: List<Path>): List<Path> {
             return files.drop(filesToKeep)
+        }
+    }
+
+    @CommonParcelize
+    class SingleFile internal constructor(
+        override val folder: String,
+        fileName: String,
+        override val fileExtension: String
+    ) : BaseFileLoggerSetup() {
+
+        companion object
+
+        @CommonIgnoredOnParcel
+        override val fileBaseName: String = fileName
+
+        override fun getFileKey(data: FileLogger.Event.Data, lastPath: Path): String {
+            return "" // unused
+        }
+
+        override fun filterLogFilesToDelete(files: List<Path>): List<Path> {
+            return emptyList()
         }
     }
 }

@@ -17,11 +17,14 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
     abstract val folder: String
     abstract val fileBaseName: String
     abstract val fileExtension: String
-    abstract var lastFileKey: String
-    abstract var lastFileKeyChanged: Boolean
 
     @CommonIgnoredOnParcel
     override val fileConverter = FileConverter
+
+    @CommonIgnoredOnParcel
+    private var lastFileKey: String = ""
+    @CommonIgnoredOnParcel
+    private var lastFileKeyChanged: Boolean = false
 
     override fun filePath(data: FileLogger.Event.Data): String {
         val lastPath = "${folder}/${fileBaseName}_${lastFileKey}.$fileExtension".toPath()
@@ -56,7 +59,7 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
 
     override fun getAllExistingLogFilePaths(): List<Path> {
         return FileSystem.SYSTEM.list(folder.toPath()).filter {
-            it.name.startsWith(fileBaseName)
+            it.name.startsWith(fileBaseName) && it.name.endsWith(".$fileExtension")
         }.sortedByDescending { it.name }
     }
 
