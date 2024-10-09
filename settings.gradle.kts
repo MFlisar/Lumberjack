@@ -72,5 +72,7 @@ project(":Lumberjack:Extensions:Viewer").projectDir = file("library/extensions/v
 // App
 // --------------
 
-include(":demo:android")
-include(":demo:desktop")
+if (System.getenv("JITPACK") == null) {
+    include(":demo:android")
+    include(":demo:desktop")
+}
