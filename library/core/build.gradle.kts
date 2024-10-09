@@ -12,7 +12,6 @@ plugins {
     alias(libs.plugins.gradle.maven.publish.plugin)
 }
 
-
 // -------------------
 // Informations
 // -------------------
@@ -23,7 +22,7 @@ val artifactId = "core"
 // Library
 val libraryName = "Lumberjack"
 val libraryDescription = "Lumberjack - $artifactId module"
-val groupID = "io.github.mflisar.lumberjack"
+val groupID = if (System.getenv("JITPACK") == null)  "io.github.mflisar.lumberjack" else "com.github.MFlisar:lumberjack"
 val release = 2016
 val github = "https://github.com/MFlisar/Lumberjack"
 val license = "Apache License 2.0"
