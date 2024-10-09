@@ -19,7 +19,7 @@ plugins {
 // Module
 val artifactId = "core"
 
-// Library
+// Library 
 val libraryName = "Lumberjack"
 val libraryDescription = "Lumberjack - $artifactId module"
 val groupID = "io.github.mflisar.lumberjack"
