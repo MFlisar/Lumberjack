@@ -259,12 +259,12 @@ A full [demo](demo) is included inside the demo module, it shows nearly every us
 
 ## :information_source: More Informations
 
-Modules
+Extensions
 
-* [Feedback Module](readmes/module-feedback.md)
-* [Notification Module](readmes/module-notification.md)
-* [ComposeViewer Module](readmes/module-composeviewer.md)
-* [Viewer Module](readmes/module-viewer.md)
+* [Feedback](readmes/extension-feedback.md)
+* [Notification](readmes/extension-notification.md)
+* [ComposeViewer](readmes/extension-composeviewer.md)
+* [Viewer](readmes/extension-viewer.md)
 
 Advanced Stuff
 
