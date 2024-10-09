@@ -19,7 +19,7 @@ plugins {
 // Module
 val artifactId = "core"
 
-// Library
+// Library 
 val libraryName = "Lumberjack"
 val libraryDescription = "Lumberjack - $artifactId module"
 val groupID = if (System.getenv("JITPACK") == null)  "io.github.mflisar.lumberjack" else "com.github.MFlisar"
