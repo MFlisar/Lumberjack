@@ -101,7 +101,7 @@ class FileLogger(
                     file?.parent?.let {
                         FileSystem.SYSTEM.createDirectories(it)
                     }
-                    bufferWriter = FileSystem.SYSTEM.sink(file!!).buffer()
+                    bufferWriter = FileSystem.SYSTEM.appendingSink(file!!).buffer()
                 }
                 val writer = bufferWriter!!
 
