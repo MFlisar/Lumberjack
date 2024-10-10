@@ -103,8 +103,8 @@ fun rememberLogFileData(data: Data = Data.Reload): MutableState<Data> {
 
 @Composable
 fun LumberjackView(
-    modifier: Modifier = Modifier,
     setup: IFileLoggingSetup,
+    modifier: Modifier = Modifier,
     file: MutableState<Path?> = rememberLogFile(),
     data: MutableState<Data> = rememberLogFileData(),
     state: LazyListState = rememberLazyListState(),

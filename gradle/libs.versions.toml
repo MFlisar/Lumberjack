@@ -8,7 +8,7 @@ gradle-maven-publish-plugin =   "0.29.0"
 
 # KotlinX / AndroidX / Google
 kotlinx-coroutines = 	    "1.9.0"
-kotlinx-json = 			    "1.7.1"
+kotlinx-json = 			    "1.7.3"
 kotlinx-datetime =          "0.6.1"
 kotlinx-io-core =           "0.5.3"
 androidx-core = 		    "1.13.1"

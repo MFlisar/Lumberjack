@@ -1,7 +1,5 @@
 ## ComposeViewer Extension
 
-This small extension simply allows you to send a log file via mail (no internet connection required). This will be done by sharing the file as email `Intent`.
-
 If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
 
 ```kotlin
@@ -12,7 +10,10 @@ LumberjackDialog(
     visible = showLogViewer,
     title = "Logs",
     setup = <a file logging setup>,
-    mail = "some.mail@gmail.com"
+    // optional
+    style = LumberjackViewDefaults.style(),
+    darkTheme = isSystemInDarkTheme(),
+    mail = null
 )
 ```
 
@@ -21,13 +22,13 @@ Alternatively you can always embed the view directly like following:
 ```kotlin
 LumberjackView(
     setup = <a file logging setup>,
-    file = rememberLogFile(),
     // optional
-    style = LumberjackViewDefaults.style(),
-    data = rememberLogFileData(),
     modifier = Modifier,
+    file = rememberLogFile(),
+    data = rememberLogFileData(),
     state = rememberLazyListState(),
     darkTheme = isSystemInDarkTheme(),
+    style = LumberjackViewDefaults.style(),
     useScrollableLines = remember { mutableStateOf(false) }
 )
 ```
@@ -40,6 +41,7 @@ LumberjackView(
 LumberjackDialogContent(
     title = "Logs",
     setup = <a file logging setup>,
+    // optional
     style= LumberjackViewDefaults.style(),
     darkTheme = isSystemInDarkTheme(),
     mail = null
