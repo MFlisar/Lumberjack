@@ -41,3 +41,11 @@ fun FileLoggerSetup.SingleFile.Companion.create(
     fileName,
     fileExtension
 )
+
+fun FileLoggerSetup.SingleFile.Companion.create(
+    file: File
+) = SingleFile(
+    file.parentFile.absolutePath,
+    file.nameWithoutExtension,
+    file.extension
+)

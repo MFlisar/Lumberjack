@@ -4,13 +4,11 @@ import com.michaelflisar.lumberjack.core.CommonIgnoredOnParcel
 import com.michaelflisar.lumberjack.implementation.LumberjackLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
-import okio.SYSTEM
 
 abstract class BaseFileLoggerSetup : FileLoggerSetup() {
 
@@ -23,13 +21,18 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
 
     @CommonIgnoredOnParcel
     private var lastFileKey: String = ""
+
     @CommonIgnoredOnParcel
     private var lastFileKeyChanged: Boolean = false
 
     override fun filePath(data: FileLogger.Event.Data): String {
         val lastPath = "${folder}/${fileBaseName}_${lastFileKey}.$fileExtension".toPath()
         val key = getFileKey(data, lastPath)
-        val path = "${folder}/${fileBaseName}_${key}.$fileExtension"
+        val path = if (key.isEmpty()) {
+            "${folder}/${fileBaseName}.$fileExtension"
+        } else {
+            "${folder}/${fileBaseName}_${key}.$fileExtension"
+        }
         if (key != lastFileKey) {
             lastFileKey = key
             lastFileKeyChanged = true
@@ -40,7 +43,7 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
     abstract fun getFileKey(data: FileLogger.Event.Data, lastPath: Path): String
     abstract fun filterLogFilesToDelete(files: List<Path>): List<Path>
 
-    protected fun getKeyFromFile(file: Path) : String {
+    protected fun getKeyFromFile(file: Path): String {
         return file.name.dropLast(fileExtension.length + 1).replace(fileBaseName, "").substring(1)
     }
 

@@ -47,6 +47,9 @@ fun main() {
     val setup = FileLoggerSetup.Daily.create(
         folder = File(System.getProperty("user.dir"))
     )
+    //val setup2= FileLoggerSetup.SingleFile.create(
+    //    File(System.getProperty("user.dir"), "log.txt")
+    //)
     L.plant(FileLogger(setup))
 
     application {
