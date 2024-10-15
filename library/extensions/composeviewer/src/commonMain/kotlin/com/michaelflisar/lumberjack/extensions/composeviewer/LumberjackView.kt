@@ -304,12 +304,8 @@ private fun Info(file: Path?, filteredCount: Int, totalCount: Int) {
     Row(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
-        val size =
-            (file?.let { FileSystem.SYSTEM.metadataOrNull(it) }?.size?.toDouble() ?: 0.0) / 1000.0
-
-        val info = ((size * 100).toInt() / 100.0).toString() + "kB"
-        //val info = "%.2fkB".format((file?.length()?.toDouble() ?: 0.0) / 1000.0)
-
+        val size = file?.let { FileSystem.SYSTEM.metadataOrNull(it) }?.size ?: 0L
+        val info = FileSizeUtil.humanReadableBytes(size)
         Text(
             modifier = Modifier.weight(1f),
             maxLines = 1,

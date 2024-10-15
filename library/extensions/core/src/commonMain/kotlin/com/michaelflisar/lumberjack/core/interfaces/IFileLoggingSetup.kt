@@ -8,8 +8,7 @@ interface IFileLoggingSetup : Parcelable {
     val fileConverter: IFileConverter
 
     fun getAllExistingLogFiles(): List<File>
-    fun getLatestLogFiles(): File?
+    fun getLatestLogFile(): File?
     suspend fun clearLogFiles()
-
 
 }
