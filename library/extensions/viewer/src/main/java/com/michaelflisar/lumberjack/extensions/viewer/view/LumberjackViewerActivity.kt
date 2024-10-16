@@ -17,7 +17,7 @@ import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.classes.priority
 import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
-import com.michaelflisar.lumberjack.core.getLatestLogFiles
+import com.michaelflisar.lumberjack.core.getLatestLogFile
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
@@ -119,7 +119,7 @@ internal class LumberjackViewerActivity : AppCompatActivity() {
         if (savedInstanceState?.containsKey(KEY_FILE) == true) {
             selectedFile = savedInstanceState.getSerializable(KEY_FILE) as File
         } else {
-            selectedFile = fileLoggingSetup.getLatestLogFiles()
+            selectedFile = fileLoggingSetup.getLatestLogFile()
         }
 
         initList()

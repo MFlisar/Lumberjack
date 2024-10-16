@@ -24,7 +24,7 @@ import com.michaelflisar.demoutilities.composables.DemoAppThemeRegionDetailed
 import com.michaelflisar.demoutilities.composables.DemoCollapsibleRegion
 import com.michaelflisar.demoutilities.composables.ExpandedRegionState
 import com.michaelflisar.lumberjack.core.L
-import com.michaelflisar.lumberjack.core.getLatestLogFiles
+import com.michaelflisar.lumberjack.core.getLatestLogFile
 import com.michaelflisar.lumberjack.demo.DemoLogging
 import com.michaelflisar.lumberjack.extensions.composeviewer.LumberjackDialog
 import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
@@ -101,7 +101,7 @@ class MainActivity : DemoActivity(
                     L.sendFeedback(
                         context = context,
                         receiver = it,
-                        attachments = listOfNotNull(DemoLogging.FILE_LOGGING_SETUP.getLatestLogFiles())
+                        attachments = listOfNotNull(DemoLogging.FILE_LOGGING_SETUP.getLatestLogFile())
                     )
                 } ?: ToastHelper.show(
                     context, "You must provide a valid email address to test this function!"
