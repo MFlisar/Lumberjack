@@ -4,7 +4,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import okio.Path
 
 @Composable

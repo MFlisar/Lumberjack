@@ -21,7 +21,15 @@ This is a **full logging library** with a build in way to log to **console**, **
 
 ## :link: Dependencies
 
+|      Dependency       | Version |                     Infos                      |
+|:---------------------:|:-------:|:----------------------------------------------:|
+| Compose Multiplatform | `1.7.0` | based on compose `1.7.1` and material3 `1.3.0` |
+
 The timber version depends on [`Timber 4.7.1`](https://github.com/JakeWharton/timber), [`SLF4J 2.0.7`](https://www.slf4j.org/) and [`logback-android`](https://github.com/tony19/logback-android), the lumberjack version does not depend on any external library.
+
+## :exclamation: Forward Compatibility
+
+I try to use as few experimental APIs as possible, but the `composeviewer` module does use `ExposedDropdownMenuBox` and `TopAppBar` which are still marked as experimental in material3 `1.3.0`. I will provide new versions as soon as possible if experimental APIs change or become stable.
 
 ## :elephant: Gradle
 

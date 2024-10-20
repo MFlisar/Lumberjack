@@ -1,8 +1,8 @@
 [versions]
 
-gradle = 				        "8.5.2"
-kotlin = 				        "2.0.20"
-compose =                       "1.6.11"
+gradle = 				        "8.6.1"
+kotlin = 				        "2.0.21"
+compose =                       "1.7.0"
 dokka =                         "1.9.20"
 gradle-maven-publish-plugin =   "0.29.0"
 
@@ -15,7 +15,7 @@ androidx-core = 		    "1.13.1"
 androidx-lifecycle = 	    "2.8.6"
 androidx-datastoreprefs =   "1.1.1"
 androidx-startup =          "1.2.0"
-androidx-activity = 		"1.9.2"
+androidx-activity = 		"1.9.3"
 androidx-recyclerview = 	"1.3.2"
 
 # Dependencies

@@ -17,7 +17,6 @@ import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
 import okio.Path
-import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 
 @Composable
 internal actual fun ShowLumberjackDialog(

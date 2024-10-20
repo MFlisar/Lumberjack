@@ -10,7 +10,7 @@ actual object Log {
         log: String
     ) {
         // TODO!!!!
-        ...
+        // ...
     }
 
 }
