@@ -18,6 +18,7 @@ plugins {
 
 // Module
 val artifactId = "logger-console"
+val androidNamespace = "com.michaelflisar.lumberjack.loggers.console"
 
 // Library
 val libraryName = "Lumberjack"
@@ -73,7 +74,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.michaelflisar.lumberjack.loggers.console"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 

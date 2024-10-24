@@ -18,6 +18,7 @@ plugins {
 
 // Module
 val artifactId = "implementation-lumberjack"
+val androidNamespace = "com.michaelflisar.lumberjack.implementation"
 
 // Library
 val libraryName = "Lumberjack"
@@ -75,7 +76,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.michaelflisar.lumberjack.implementation"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 

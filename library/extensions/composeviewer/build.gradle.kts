@@ -19,6 +19,7 @@ plugins {
 
 // Module
 val artifactId = "extension-composeviewer"
+val androidNamespace =
 
 // Library
 val libraryName = "Lumberjack"

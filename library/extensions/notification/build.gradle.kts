@@ -17,6 +17,7 @@ plugins {
 
 // Module
 val artifactId = "extension-notification"
+val androidNamespace = "com.michaelflisar.lumberjack.extensions.notification"
 
 // Library
 val libraryName = "Lumberjack"
@@ -33,7 +34,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 
 android {
 
-    namespace = "com.michaelflisar.lumberjack.extensions.notification"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 

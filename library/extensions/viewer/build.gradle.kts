@@ -18,6 +18,7 @@ plugins {
 
 // Module
 val artifactId = "extension-viewer"
+val androidNamespace = "com.michaelflisar.lumberjack.extensions.viewer"
 
 // Library
 val libraryName = "Lumberjack"
@@ -34,7 +35,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 
 android {
 
-    namespace = "com.michaelflisar.lumberjack.extensions.viewer"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 

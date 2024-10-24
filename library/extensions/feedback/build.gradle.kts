@@ -15,6 +15,7 @@ plugins {
 
 // Module
 val artifactId = "extension-feedback"
+val androidNamespace = "com.michaelflisar.lumberjack.extensions.feedback"
 
 // Library
 val libraryName = "Lumberjack"
@@ -31,7 +32,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 
 android {
 
-    namespace = "com.michaelflisar.lumberjack.extensions.feedback"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 

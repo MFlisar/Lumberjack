@@ -18,6 +18,7 @@ plugins {
 
 // Module
 val artifactId = "logger-timber-file"
+val androidNamespace = "com.michaelflisar.lumberjack.loggers.timber.file"
 
 // Library
 val libraryName = "Lumberjack"
@@ -34,7 +35,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 
 android {
 
-    namespace = "com.michaelflisar.lumberjack.loggers.timber.file"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 
