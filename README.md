@@ -28,25 +28,24 @@ This is a **full logging library** with a build in way to log to **console**, **
 > [!NOTE]  
 > I try to use as few experimental APIs as possible, but the `composeviewer` module does use `ExposedDropdownMenuBox` and `TopAppBar` which are still marked as experimental in material3 `1.3.0`. I will provide new versions as soon as possible if experimental APIs change or become stable.
 
-| Module                      | Dependency                                                                                                                                         | Version                       |
-|:----------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------|
-| core                        | -                                                                                                                                                  |                               |
-| **Implementations**         |                                                                                                                                                    |
-| `implementation-lumberjack` | -                                                                                                                                                  |                               |
-| **Logger**                  |                                                                                                                                                    |                               |
-| `logger-console`            | -                                                                                                                                                  |                               |
-| `logger-file`               | -                                                                                                                                                  |                               |
-| **Extensions**              |                                                                                                                                                    |                               |
-| `extension-feedback`        | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
-| `extension-notification`    | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
-| `extension-viewer`          | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)<br>[FastScroller](https://github.com/quiph/RecyclerView-FastScroller)                | `2.1.0`<br>`1.0.0`            |
-| `extension-composeviewer`   | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
+| Module                       | Dependency                                                                                                                                         | Version                       |
+|:-----------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------|
+| `core`                       | -                                                                                                                                                  |                               |
+| **Implementations**          |                                                                                                                                                    |
+| `implementation-lumberjack`  | -                                                                                                                                                  |                               |
+| **Logger**                   |                                                                                                                                                    |                               |
+| `logger-console`             | -                                                                                                                                                  |                               |
+| `logger-file`                | -                                                                                                                                                  |                               |
+| **Extensions**               |                                                                                                                                                    |                               |
+| `extension-feedback`         | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
+| `extension-notification`     | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
+| `extension-viewer`           | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)<br>[FastScroller](https://github.com/quiph/RecyclerView-FastScroller)                | `2.1.0`<br>`1.0.0`            |
+| `extension-composeviewer`    | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
 
 **Timber Version**
 
 | Module                      | Dependency                                                                                                                                         | Version                       |
 |:----------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------|
-| core                        | -                                                                                                                                                  |                               |
 | **Implementations**         |                                                                                                                                                    |
 | `implementation-timber`     | [Timber](https://github.com/JakeWharton/timber)                                                                                                    | `4.7.1`                       |
 | **Logger**                  |                                                                                                                                                    |                               |
