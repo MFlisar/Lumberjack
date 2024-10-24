@@ -33,17 +33,25 @@ This is a **full logging library** with a build in way to log to **console**, **
 | core                        | -                                                                                                                                                  |                               |
 | **Implementations**         |                                                                                                                                                    |
 | `implementation-lumberjack` | -                                                                                                                                                  |                               |
-| `implementation-timber`     | [Timber](https://github.com/JakeWharton/timber)                                                                                                    | `4.7.1`                       |
 | **Logger**                  |                                                                                                                                                    |                               |
 | `logger-console`            | -                                                                                                                                                  |                               |
 | `logger-file`               | -                                                                                                                                                  |                               |
-| `timber-logger-console`     | [Timber](https://github.com/JakeWharton/timber)                                                                                                    | `4.7.1`                       |
-| `timber-logger-file`        | [Timber](https://github.com/JakeWharton/timber)<br>[slf4j](https://www.slf4j.org/)<br>[logback-android](https://github.com/tony19/logback-android) | `4.7.1`<br>`2.0.7`<br>`3.0.0` |
 | **Extensions**              |                                                                                                                                                    |                               |
 | `extension-feedback`        | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
 | `extension-notification`    | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
 | `extension-viewer`          | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)<br>[FastScroller](https://github.com/quiph/RecyclerView-FastScroller)                | `2.1.0`<br>`1.0.0`            |
 | `extension-composeviewer`   | [FeedbackManager](https://github.com/MFlisar/FeedbackManager)                                                                                      | `2.1.0`                       |
+
+**Timber Version**
+
+| Module                      | Dependency                                                                                                                                         | Version                       |
+|:----------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------|
+| core                        | -                                                                                                                                                  |                               |
+| **Implementations**         |                                                                                                                                                    |
+| `implementation-timber`     | [Timber](https://github.com/JakeWharton/timber)                                                                                                    | `4.7.1`                       |
+| **Logger**                  |                                                                                                                                                    |                               |
+| `timber-logger-console`     | [Timber](https://github.com/JakeWharton/timber)                                                                                                    | `4.7.1`                       |
+| `timber-logger-file`        | [Timber](https://github.com/JakeWharton/timber)<br>[slf4j](https://www.slf4j.org/)<br>[logback-android](https://github.com/tony19/logback-android) | `4.7.1`<br>`2.0.7`<br>`3.0.0` |
 
 ## :elephant: Gradle
 
