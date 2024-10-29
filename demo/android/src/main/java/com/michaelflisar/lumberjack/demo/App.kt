@@ -1,8 +1,6 @@
 package com.michaelflisar.lumberjack.demo
 
-import com.michaelflisar.demoutilities.DemoApp
-
-class App : DemoApp() {
+class App : com.michaelflisar.toolbox.androiddemoapp.DemoApp() {
 
     override fun onCreate() {
         super.onCreate()

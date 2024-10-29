@@ -26,7 +26,7 @@ logback =                   "3.0.0"
 fastscroller =              "1.0.0"
 material =					"1.12.0"
 feedback =                  "2.1.0"
-demoutilities =             "1.0.3"
+toolbox =                   "2.2.0"
 
 [plugins]
 
@@ -77,5 +77,6 @@ logback = 				        	{ module = "com.github.tony19:logback-android", 		    ver
 fastscroller = 				        { module = "com.quiph.ui:recyclerviewfastscroller", 		version.ref = "fastscroller" }
 material = 				        	{ module = "com.google.android.material:material", 		    version.ref = "material" }
 feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
-demoutilities-core =                { module = "io.github.mflisar.demoutilities:core", 			version.ref = "demoutilities" }
-demoutilities-app =                 { module = "io.github.mflisar.demoutilities:app", 			version.ref = "demoutilities" }
+toolbox-core =                      { module = "io.github.mflisar.toolbox:core", 			    version.ref = "toolbox" }
+toolbox-ui =                        { module = "io.github.mflisar.toolbox:ui", 			        version.ref = "toolbox" }
+toolbox-app =                       { module = "io.github.mflisar.toolbox:android-demo-app",    version.ref = "toolbox" }

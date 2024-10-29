@@ -19,7 +19,7 @@ plugins {
 
 // Module
 val artifactId = "extension-composeviewer"
-val androidNamespace =
+val androidNamespace = "com.michaelflisar.lumberjack.extensions.composeviewer"
 
 // Library
 val libraryName = "Lumberjack"
@@ -93,7 +93,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.michaelflisar.lumberjack.extensions.composeviewer"
+    namespace = androidNamespace
 
     compileSdk = app.versions.compileSdk.get().toInt()
 

@@ -1,8 +1,5 @@
 package com.michaelflisar.lumberjack.demo.ui
 
-import android.content.Context
-import android.content.ContextWrapper
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.OutlinedButton
@@ -18,28 +15,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.michaelflisar.composethemer.ComposeTheme
-import com.michaelflisar.demoutilities.DemoActivity
-import com.michaelflisar.demoutilities.classes.ToastHelper
-import com.michaelflisar.demoutilities.composables.DemoAppThemeRegionDetailed
-import com.michaelflisar.demoutilities.composables.DemoCollapsibleRegion
-import com.michaelflisar.demoutilities.composables.ExpandedRegionState
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getLatestLogFile
 import com.michaelflisar.lumberjack.demo.DemoLogging
 import com.michaelflisar.lumberjack.extensions.composeviewer.LumberjackDialog
 import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
 import com.michaelflisar.lumberjack.extensions.viewer.showLog
+import com.michaelflisar.toolbox.androiddemoapp.composables.DemoAppThemeRegionDetailed
+import com.michaelflisar.toolbox.androiddemoapp.composables.DemoCollapsibleRegion
+import com.michaelflisar.toolbox.androiddemoapp.composables.rememberDemoExpandedRegions
+import com.michaelflisar.toolbox.classes.ToastHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : DemoActivity(
+class MainActivity : com.michaelflisar.toolbox.androiddemoapp.DemoActivity(
     scrollableContent = false
 ) {
 
     @Composable
     override fun ColumnScope.Content(
-        regionsState: ExpandedRegionState, themeState: ComposeTheme.State
+        themeState: ComposeTheme.State
     ) {
+        val regionState = rememberDemoExpandedRegions()
 
         val scope = rememberCoroutineScope()
         LaunchedEffect(Unit) {
@@ -56,10 +53,10 @@ class MainActivity : DemoActivity(
 
 
         DemoAppThemeRegionDetailed(
-            state = regionsState
+            state = regionState
         )
         DemoCollapsibleRegion(
-            title = "Demos", regionId = 1, state = regionsState
+            title = "Demos", regionId = 1, state = regionState
         ) {
             OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
                 L.showLog(context, DemoLogging.FILE_LOGGING_SETUP, mail)
@@ -80,7 +77,7 @@ class MainActivity : DemoActivity(
             }
         }
         DemoCollapsibleRegion(
-            title = "Actions", regionId = 2, state = regionsState
+            title = "Actions", regionId = 2, state = regionState
         ) {
             OutlinedTextField(modifier = Modifier.fillMaxWidth(),
                 value = mail,

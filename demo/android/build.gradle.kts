@@ -87,6 +87,7 @@ dependencies {
     implementation(project(":Lumberjack:Extensions:ComposeViewer"))
 
     // a minimal library that provides some useful composables that I use inside demo activities
-    implementation(libs.demoutilities.core)
-    implementation(libs.demoutilities.app)
+    implementation(libs.toolbox.core)
+    implementation(libs.toolbox.ui)
+    implementation(libs.toolbox.app)
 }
