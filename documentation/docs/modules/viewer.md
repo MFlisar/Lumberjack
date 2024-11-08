@@ -2,8 +2,6 @@
 icon: material/puzzle
 ---
 
-## Viewer Extension
-
 !!! note
     
     This extension does only support android!

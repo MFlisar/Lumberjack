@@ -2,8 +2,6 @@
 icon: material/puzzle
 ---
 
-## ComposeViewer Extension
-
 !!! info
 
     If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.

@@ -2,8 +2,6 @@
 icon: material/puzzle
 ---
 
-## Feedback Extension
-
 !!! note
 
     This extension does only support android!

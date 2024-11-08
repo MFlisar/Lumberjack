@@ -2,8 +2,6 @@
 icon: material/puzzle
 ---
 
-## Notification Extension
-
 !!! note
 
     This extension does only support android!
