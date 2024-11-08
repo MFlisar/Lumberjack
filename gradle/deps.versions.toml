@@ -1,0 +1,23 @@
+[versions]
+
+okio =                      "3.9.1"
+timber =                    "4.7.1"
+slf4j =                     "2.0.7"
+logback =                   "3.0.0"
+fastscroller =              "1.0.0"
+material =					"1.12.0"
+feedback =                  "2.1.0"
+toolbox =                   "2.2.0"
+
+[libraries]
+
+okio =                              { module = "com.squareup.okio:okio",                        version.ref = "okio" }
+timber = 				        	{ module = "com.jakewharton.timber:timber", 				version.ref = "timber" }
+slf4j = 				        	{ module = "org.slf4j:slf4j-api", 							version.ref = "slf4j" }
+logback = 				        	{ module = "com.github.tony19:logback-android", 		    version.ref = "logback" }
+fastscroller = 				        { module = "com.quiph.ui:recyclerviewfastscroller", 		version.ref = "fastscroller" }
+material = 				        	{ module = "com.google.android.material:material", 		    version.ref = "material" }
+feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
+toolbox-core =                      { module = "io.github.mflisar.toolbox:core", 			    version.ref = "toolbox" }
+toolbox-ui =                        { module = "io.github.mflisar.toolbox:ui", 			        version.ref = "toolbox" }
+toolbox-app =                       { module = "io.github.mflisar.toolbox:android-demo-app",    version.ref = "toolbox" }

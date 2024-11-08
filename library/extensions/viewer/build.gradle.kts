@@ -60,20 +60,12 @@ android {
 dependencies {
 
     // ------------------------
-    // Kotlin
+    // KotlinX / AndroidX / Google
     // ------------------------
 
-    implementation(libs.kotlin)
-
-    // ------------------------
-    // AndroidX
-    // ------------------------
-
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.lifecycle)
-
-    implementation(libs.material)
+    implementation(androidx.core)
+    implementation(androidx.recyclerview)
+    implementation(androidx.lifecycle)
 
     // ------------------------
     // Library
@@ -86,7 +78,8 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(libs.fastscroller)
+    implementation(deps.material)
+    implementation(deps.fastscroller)
 }
 
 mavenPublishing {

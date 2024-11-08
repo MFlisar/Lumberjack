@@ -1,7 +1,12 @@
+---
+icon: material/puzzle
+---
+
 ## Viewer Extension
 
-> [!NOTE]  
-> This extension does only support android!
+!!! note
+    
+    This extension does only support android!
 
 ```kotlin
 // show the log viewer activity (mail address is optional, 
@@ -15,4 +20,4 @@ L.showLog(
 
 | Viewer                                | |
 |---------------------------------------|-|
-| ![Viewer](../screenshots/viewer1.jpg) | ![Viewer](../screenshots/viewer2.jpg) |
+| ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/viewer1.jpg) | ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/viewer2.jpg) |

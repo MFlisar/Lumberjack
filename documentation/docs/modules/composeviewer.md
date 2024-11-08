@@ -1,6 +1,12 @@
+---
+icon: material/puzzle
+---
+
 ## ComposeViewer Extension
 
-If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
+!!! info
+
+    If you use compose in your app you should use this viewer - it allows you to show log files directly inside your app.
 
 ```kotlin
 val showLogViewer = rememberSaveable {
@@ -34,8 +40,9 @@ LumberjackView(
 ```
 
 
-> [!TIP]
-> You can also embed the whole dialog "content view" inside a layout if you want to also show the menu and use it's features
+!!! tip
+
+    You can also embed the whole dialog "content view" inside a layout if you want to also show the menu and use it's features
 
 ```kotlin
 LumberjackDialogContent(
@@ -50,4 +57,4 @@ LumberjackDialogContent(
 
 | Compose Viewer | |
 |-|-|
-| ![Viewer](../screenshots/compose-viewer1.jpg) | ![Viewer](../screenshots/compose-viewer2.jpg) |
+| ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer1.jpg) | ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer2.jpg) |

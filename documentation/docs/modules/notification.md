@@ -1,7 +1,12 @@
+---
+icon: material/puzzle
+---
+
 ## Notification Extension
 
-> [!NOTE]  
-> This extension does only support android!
+!!! note
+
+    This extension does only support android!
 
 This small extension provides you with with a few functions to create notifications (for app testers or for the dev for example) that can be clicked and then will allow the user to send the log file to you via the `extension-feedback`. Or to open the log file by clicking the notification.
 

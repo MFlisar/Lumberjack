@@ -1,0 +1,195 @@
+# -------
+# Library
+# -------
+
+library:
+  name: Lumberjack
+  api: 21
+  github: MFlisar/Lumberjack
+  maven: io.github.mflisar.lumberjack
+  maven-main-library: core
+  multiplatform: true
+  screenshots:
+    - name: Logs
+      images:
+        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/log1.png
+        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/log2.png
+    - name: Compose Viewer
+      images:
+        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer1.jpg
+        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer2.jpg
+  branch: master
+  demo: true
+
+# ------------
+# Dependencies
+# ------------
+
+# optional
+dependencies:
+  compose:
+    cmp: 1.7.0
+    compose: 1.7.1
+    material3: 1.3.0
+    experimantal: true
+
+# -------------
+# Module
+# -------------
+
+modules:
+  - name: "core"
+    group: "core"
+    description: "the core module - must always be included"
+    optional: false
+    platforms:
+      android: true
+      ios: true
+      jvm: true
+      info:
+    #dependencies:         # optionales Array
+  - name: "implementation-lumberjack"
+    group: "lumberjack"
+    description: "the main implementation of the logger - either this or the timber implementation must always be included"
+    optional: false
+    platforms:
+      android: true
+      ios: false
+      jvm: true
+      info: "(1)"
+    #dependencies:         # optionales Array
+  - name: "logger-console"
+    group: "lumberjack"
+    description: "a console logger for the lumberjack implementation"
+    optional: true
+    platforms:
+      android: true
+      ios: false
+      jvm: true
+      info: "(2)"
+    #dependencies:         # optionales Array
+  - name: "logger-file"
+    group: "lumberjack"
+    description: "a file logger for the lumberjack implementation"
+    optional: true
+    platforms:
+      android: true
+      ios: true
+      jvm: true
+      info:
+    #dependencies:         # optionales Array
+  - name: "extension-feedback"
+    group: "ext"
+    description: "an extension for easy email feedbacks"
+    optional: true
+    platforms:
+      android: true
+      ios: false
+      jvm: false
+      info: "(3)"
+    dependencies:         # optionales Array
+      - name: FeedbackManager
+        link: https://mflisar.github.io/FeedbackManager/
+        version: 2.1.0
+  - name: "extension-notification"
+    group: "ext"
+    description: "an extension for exception notification with easy email feedbacks on click"
+    optional: true
+    platforms:
+      android: true
+      ios: false
+      jvm: false
+      info: "(3)"
+    dependencies:         # optionales Array
+      - name: FeedbackManager
+        link: https://mflisar.github.io/FeedbackManager/
+        version: 2.1.0
+  - name: "extension-viewer"
+    group: "ext"
+    description: "a log viewer based on XML"
+    optional: true
+    platforms:
+      android: true
+      ios: false
+      jvm: false
+      info: "(4)"
+    dependencies: # optionales Array
+      - name: FeedbackManager
+        link: https://mflisar.github.io/FeedbackManager/
+        version: 2.1.0
+      - name: FastScroller
+        link: https://github.com/quiph/RecyclerView-FastScroller
+        version: 1.0.0
+  - name: "extension-composeviewer"
+    group: "ext"
+    description: "a compsoe log viewer"
+    optional: true
+    platforms:
+      android: true
+      ios: true
+      jvm: true
+      info: "(5)"
+    dependencies:         # optionales Array
+      - name: FeedbackManager
+        link: https://mflisar.github.io/FeedbackManager/
+        version: 2.1.0
+  - name: "implementation-timber"
+    group: "timber"
+    description: "the main implementation based on timber of the logger - either this or the lumberjack implementation must always be included"
+    optional: false
+    platforms:
+      android: true
+      ios: false
+      jvm: false
+      info: "(6)"
+    dependencies:         # optionales Array
+      - name: Timber
+        link: https://github.com/JakeWharton/timber
+        version: 4.7.1
+  - name: "logger-timber-console"
+    group: "timber"
+    description: "a console logger for the timber implementation"
+    optional: true
+    platforms:
+      android: true
+      ios: false
+      jvm: false
+      info: "(6)"
+    dependencies:         # optionales Array
+      - name: Timber
+        link: https://github.com/JakeWharton/timber
+        version: 4.7.1
+  - name: "logger-timber-file"
+    group: "timber"
+    description: "a file logger for the timber implementation"
+    optional: true
+    platforms:
+      android: true
+      ios: false
+      jvm: false
+      info: "(6)"
+    dependencies:         # optionales Array
+      - name: Timber
+        link: https://github.com/JakeWharton/timber
+        version: 4.7.1
+      - name: slf4j
+        link: https://www.slf4j.org/
+        version: 2.0.7
+      - name: logback-android
+        link: https://github.com/tony19/logback-android
+        version: 3.0.0
+
+# GRUPPEN - optional: nur bei mehreren Modulen benötigt!
+groups:
+  - name: core
+    label: Core
+    gradle-comment: "core module"
+  - name: lumberjack
+    label: Lumberjack
+    gradle-comment: "if you want to use the lumberjack logger"
+  - name: ext
+    label: Extensions
+    gradle-comment: "extensions that work with any implementation"
+  - name: timber
+    label: Timber
+    gradle-comment: "if you want to use the timber logger"

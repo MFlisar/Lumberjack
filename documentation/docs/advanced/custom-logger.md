@@ -1,3 +1,7 @@
+---
+icon: material/professional-hexagon
+---
+
 ## Custom Logger
 
 Either use the timber version and plug in your custom loggers into timber (*check out timber for that please*) or simply plug in a custom logger into lumberjack directly if you do not use the timber solution like following - all you need to do is implement a single function and then add your logger to `Lumberjack` (following example is the current `ConsoleLogger` implementation).

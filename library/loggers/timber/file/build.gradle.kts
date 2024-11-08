@@ -56,11 +56,10 @@ android {
 dependencies {
 
     // ------------------------
-    // Kotlin
+    // KotlinX / AndroidX / Google
     // ------------------------
 
-    implementation(libs.kotlin)
-    implementation(libs.kotlinx.coroutines)
+    implementation(kotlinx.coroutines)
 
     // ------------------------
     // Library
@@ -73,10 +72,9 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(libs.slf4j)
-    implementation(libs.logback)
-
-    implementation(libs.okio)
+    implementation(deps.slf4j)
+    implementation(deps.logback)
+    implementation(deps.okio)
 }
 
 mavenPublishing {

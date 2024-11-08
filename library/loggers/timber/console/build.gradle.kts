@@ -55,12 +55,6 @@ android {
 dependencies {
 
     // ------------------------
-    // Kotlin
-    // ------------------------
-
-    implementation(libs.kotlin)
-
-    // ------------------------
     // Library
     // ------------------------
 
@@ -71,7 +65,7 @@ dependencies {
     // Others
     // ------------------------
 
-    implementation(libs.timber)
+    implementation(deps.timber)
 }
 
 mavenPublishing {

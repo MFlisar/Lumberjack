@@ -64,8 +64,7 @@ kotlin {
         commonMain.dependencies {
 
             // Kotlin
-            implementation(libs.kotlin)
-            implementation(libs.kotlinx.io.core)
+            implementation(kotlinx.io.core)
 			
 			// Compose + AndroidX
 			implementation(libs.compose.material3)
@@ -78,13 +77,13 @@ kotlin {
             implementation(project(":Lumberjack:Loggers:Lumberjack:File"))
 
             // Dependencies
-            implementation(libs.okio)
+            implementation(deps.okio)
 
         }
 
         androidMain.dependencies {
 
-            implementation(libs.androidx.core)
+            implementation(androidx.core)
 
             // Library
             implementation(project(":Lumberjack:Extensions:Feedback"))

@@ -69,13 +69,12 @@ kotlin {
         commonMain.dependencies {
 
             // Kotlin
-            implementation(libs.kotlin)
-            implementation(libs.kotlinx.coroutines)
-            implementation(libs.kotlinx.io.core)
-            implementation(libs.kotlinx.datetime)
+            implementation(kotlinx.coroutines)
+            implementation(kotlinx.io.core)
+            implementation(kotlinx.datetime)
 
             // I/O
-            implementation(libs.okio)
+            implementation(deps.okio)
 
             // Library
             implementation(project(":Lumberjack:Core"))

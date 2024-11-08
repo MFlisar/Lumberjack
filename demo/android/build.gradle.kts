@@ -48,12 +48,6 @@ android {
 dependencies {
 
     // ------------------------
-    // Kotlin
-    // ------------------------
-
-    implementation(libs.kotlin)
-
-    // ------------------------
     // AndroidX
     // ------------------------
 
@@ -62,7 +56,7 @@ dependencies {
     implementation(libs.compose.material.icons.core)
     implementation(libs.compose.material.icons.extended)
 
-    implementation(libs.androidx.activity.compose)
+    implementation(androidx.activity.compose)
 
     // ------------------------
     // Library
@@ -87,7 +81,7 @@ dependencies {
     implementation(project(":Lumberjack:Extensions:ComposeViewer"))
 
     // a minimal library that provides some useful composables that I use inside demo activities
-    implementation(libs.toolbox.core)
-    implementation(libs.toolbox.ui)
-    implementation(libs.toolbox.app)
+    implementation(deps.toolbox.core)
+    implementation(deps.toolbox.ui)
+    implementation(deps.toolbox.app)
 }
