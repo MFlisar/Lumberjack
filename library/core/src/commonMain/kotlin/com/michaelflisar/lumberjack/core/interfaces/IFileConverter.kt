@@ -1,9 +1,9 @@
 package com.michaelflisar.lumberjack.core.interfaces
 
-import com.michaelflisar.lumberjack.core.CommonParcelable
 import com.michaelflisar.lumberjack.core.classes.Level
+import dev.icerock.moko.parcelize.Parcelable
 
-interface IFileConverter : CommonParcelable {
+interface IFileConverter : Parcelable {
 
     fun parseFile(lines: List<String>) : List<Entry>
     fun formatLog(

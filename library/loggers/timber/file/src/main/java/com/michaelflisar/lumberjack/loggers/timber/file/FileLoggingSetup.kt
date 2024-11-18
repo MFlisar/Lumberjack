@@ -2,7 +2,6 @@ package com.michaelflisar.lumberjack.loggers.timber.file
 
 import android.content.Context
 import android.os.Parcelable
-import com.michaelflisar.lumberjack.core.CommonParcelize
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import kotlinx.coroutines.Dispatchers

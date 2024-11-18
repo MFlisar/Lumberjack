@@ -1,8 +1,8 @@
 package com.michaelflisar.lumberjack.loggers.file
 
-import com.michaelflisar.lumberjack.core.CommonIgnoredOnParcel
-import com.michaelflisar.lumberjack.core.CommonParcelize
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
+import dev.icerock.moko.parcelize.IgnoredOnParcel
+import dev.icerock.moko.parcelize.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format
@@ -21,7 +21,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
     abstract fun filePath(data: FileLogger.Event.Data): String
     abstract fun onLogged(scope: CoroutineScope)
 
-    @CommonParcelize
+    @Parcelize
     class Daily internal constructor(
         override val folder: String,
         override val fileBaseName: String,
@@ -32,7 +32,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
         companion object
 
         // "yyyy_MM_dd"
-        @CommonIgnoredOnParcel
+        @IgnoredOnParcel
         private val timeFormatter = LocalDateTime.Format {
             year()
             char('_')
@@ -52,7 +52,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
         }
     }
 
-    @CommonParcelize
+    @Parcelize
     class FileSize internal constructor(
         override val folder: String,
         override val fileBaseName: String,
@@ -63,7 +63,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
 
         companion object
 
-        @CommonIgnoredOnParcel
+        @IgnoredOnParcel
         private var fileIndex: Int? = null
 
         override fun getFileKey(data: FileLogger.Event.Data, lastPath: Path): String {
@@ -88,7 +88,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
         }
     }
 
-    @CommonParcelize
+    @Parcelize
     class SingleFile internal constructor(
         override val folder: String,
         private val fileName: String,
@@ -97,7 +97,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
 
         companion object
 
-        @CommonIgnoredOnParcel
+        @IgnoredOnParcel
         override val fileBaseName: String = fileName
 
         override fun getFileKey(data: FileLogger.Event.Data, lastPath: Path): String {

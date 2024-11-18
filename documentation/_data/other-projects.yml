@@ -10,7 +10,7 @@ libraries:
       description: This is a very small library that allows you to <b>send feedback</b> from an app <b>without internet permission</b> via email, either directly or via an unintrusive notification.
     - name: Toolbox
       link: https://github.com/MFlisar/Toolbox
-      maven: io.github.mflisar.toolbox:core
+      maven: io.github.mflisar.toolbox/core
       description: My personal toolbox library
   Libraries:
     - name: KotBilling

@@ -1,7 +1,7 @@
 package com.michaelflisar.lumberjack.loggers.file
 
-import com.michaelflisar.lumberjack.core.CommonIgnoredOnParcel
 import com.michaelflisar.lumberjack.implementation.LumberjackLogger
+import dev.icerock.moko.parcelize.IgnoredOnParcel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,13 +16,13 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
     abstract val fileBaseName: String
     abstract val fileExtension: String
 
-    @CommonIgnoredOnParcel
+    @IgnoredOnParcel
     override val fileConverter = FileConverter
 
-    @CommonIgnoredOnParcel
+    @IgnoredOnParcel
     private var lastFileKey: String = ""
 
-    @CommonIgnoredOnParcel
+    @IgnoredOnParcel
     private var lastFileKeyChanged: Boolean = false
 
     override fun filePath(data: FileLogger.Event.Data): String {
@@ -61,9 +61,11 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
     }
 
     override fun getAllExistingLogFilePaths(): List<Path> {
-        return FileSystem.SYSTEM.list(folder.toPath()).filter {
-            it.name.startsWith(fileBaseName) && it.name.endsWith(".$fileExtension")
-        }.sortedByDescending { it.name }
+        return if (FileSystem.SYSTEM.exists(folder.toPath())) {
+             FileSystem.SYSTEM.list(folder.toPath()).filter {
+                it.name.startsWith(fileBaseName) && it.name.endsWith(".$fileExtension")
+            }.sortedByDescending { it.name }
+        } else emptyList()
     }
 
     override fun getLatestLogFilePath(): Path? {

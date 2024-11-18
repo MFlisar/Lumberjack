@@ -1,9 +1,9 @@
 package com.michaelflisar.lumberjack.core.interfaces
 
-import com.michaelflisar.lumberjack.core.CommonParcelable
+import dev.icerock.moko.parcelize.Parcelable
 import okio.Path
 
-interface IFileLoggingSetup : CommonParcelable {
+interface IFileLoggingSetup : Parcelable {
 
     val fileConverter: IFileConverter
 

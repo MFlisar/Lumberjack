@@ -38,8 +38,7 @@ kotlin {
         commonMain.dependencies {
 
             // Kotlin
-            implementation(libs.kotlin)
-            implementation(libs.kotlinx.io.core)
+            implementation(kotlinx.io.core)
 
         }
     }

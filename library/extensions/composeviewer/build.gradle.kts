@@ -79,6 +79,8 @@ kotlin {
             // Dependencies
             implementation(deps.okio)
 
+            implementation(deps.moko.parcelize)
+
         }
 
         androidMain.dependencies {

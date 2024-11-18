@@ -28,10 +28,6 @@ compose =                           { id = "org.jetbrains.compose",             
 
 [libraries]
 
-#kotlin =						    { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", 			version.ref = "kotlin" }
-#kotlin-gradle-plugin =			    { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", 		version.ref = "kotlin" }
-#kotlin-serialization =			    { module = "org.jetbrains.kotlin:kotlin-serialization", 		version.ref = "kotlin" }
-
 compose-runtime =                   { module = "org.jetbrains.compose.runtime:runtime",                     version.ref = "compose" }
 compose-material-icons-core = 	    { module = "org.jetbrains.compose.material:material-icons-core",        version.ref = "compose" }
 compose-material-icons-extended = 	{ module = "org.jetbrains.compose.material:material-icons-extended",    version.ref = "compose" }

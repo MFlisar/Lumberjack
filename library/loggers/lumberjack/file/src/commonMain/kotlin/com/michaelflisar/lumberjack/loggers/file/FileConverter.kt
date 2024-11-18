@@ -1,17 +1,17 @@
 package com.michaelflisar.lumberjack.loggers.file
 
-import com.michaelflisar.lumberjack.core.CommonIgnoredOnParcel
-import com.michaelflisar.lumberjack.core.CommonParcelize
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
+import dev.icerock.moko.parcelize.IgnoredOnParcel
+import dev.icerock.moko.parcelize.Parcelize
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format.char
 
-@CommonParcelize
+@Parcelize
 object FileConverter : IFileConverter {
 
     // "yyyy-MM-dd HH:mm:ss.SSS"
-    @CommonIgnoredOnParcel
+    @IgnoredOnParcel
     private val timeFormatter = LocalDateTime.Format {
         year()
         char('-')
