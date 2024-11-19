@@ -125,7 +125,7 @@ nav:
   - Advanced:
     - Custom Logger Example: advanced/custom-logger.md
   - Migration:
-    - Version 7: migration/migration-v7.md
+    - Version 7: migration/v7.md
   - More:
     - Migration: other-libraries.md
     - Other Libraries: other-libraries.md
