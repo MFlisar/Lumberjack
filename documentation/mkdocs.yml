@@ -127,6 +127,5 @@ nav:
   - Migration:
     - Version 7: migration/v7.md
   - More:
-    - Migration: other-libraries.md
     - Other Libraries: other-libraries.md
     - About Me: me.md
