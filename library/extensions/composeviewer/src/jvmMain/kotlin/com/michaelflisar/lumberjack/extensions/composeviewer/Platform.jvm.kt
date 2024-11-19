@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import okio.Path
+import com.michaelflisar.lumberjack.extensions.composeviewer.internal.IFeedbackProvider
 
 @Composable
 internal actual fun ShowLumberjackDialog(
@@ -55,19 +55,7 @@ internal actual fun LazyScrollContainer(state: LazyListState, content: LazyListS
     }
 }
 
-actual class FeedbackImpl actual constructor() {
-
-    actual fun supported() = false
-
-    @Composable
-    actual fun Init() {
-        // empty
-    }
-
-    actual fun sendFeedback(
-        receiver: String,
-        attachments: List<Path>
-    ) {
-        // empty
-    }
+internal actual fun getFeedbackImpl(): IFeedbackProvider {
+    return FeedbackImpl()
 }
+

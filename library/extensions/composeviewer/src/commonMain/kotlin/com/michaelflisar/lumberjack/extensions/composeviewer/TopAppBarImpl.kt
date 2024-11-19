@@ -42,7 +42,7 @@ fun TopAppBarImpl(
     var showMenu by remember { mutableStateOf(false) }
     var showMenu2 by remember { mutableStateOf(false) }
     val feedback by remember {
-        derivedStateOf { FeedbackImpl() }
+        derivedStateOf { getFeedbackImpl() }
     }
     feedback.Init()
     androidx.compose.material3.TopAppBar(

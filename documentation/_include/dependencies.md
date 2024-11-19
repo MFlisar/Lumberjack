@@ -6,7 +6,7 @@
 |:---------------------:|:-------:|:----------------------------------------------:|
 | Compose Multiplatform | `{{ project["dependencies"]["compose"]["cmp"] }}` | Uses compose `{{ project["dependencies"]["compose"]["compose"] }}` and material3 `{{ project["dependencies"]["compose"]["material3"] }}` |
 
-{% if project["dependencies"]["compose"]["experimantal"] %}
+{% if project["dependencies"]["compose"]["experimental"] %}
 
 !!! warning
 

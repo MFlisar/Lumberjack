@@ -2,13 +2,12 @@ package com.michaelflisar.lumberjack.loggers.file
 
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.classes.Level
-import com.michaelflisar.lumberjack.implementation.Log
 import com.michaelflisar.lumberjack.implementation.classes.DefaultLumberjackFilter
 import com.michaelflisar.lumberjack.implementation.classes.LumberjackFilter
 import com.michaelflisar.lumberjack.implementation.interfaces.ILumberjackLogger
+import com.michaelflisar.lumberjack.implementation.platformPrintln
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
@@ -20,7 +19,6 @@ import okio.BufferedSink
 import okio.FileSystem
 import okio.Path
 import okio.Path.Companion.toPath
-import okio.SYSTEM
 import okio.buffer
 
 class FileLogger(
@@ -112,7 +110,7 @@ class FileLogger(
                 closeBufferJob?.cancelAndJoin()
                 closeBufferJob = createCloseBufferJob()
             } catch (e: Exception) {
-                Log.println(
+                platformPrintln(
                     "",
                     Level.ERROR,
                     TAG,

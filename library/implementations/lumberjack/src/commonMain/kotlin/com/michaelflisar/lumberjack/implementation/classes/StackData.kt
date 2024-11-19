@@ -1,7 +1,7 @@
 package com.michaelflisar.lumberjack.implementation.classes
 
 import com.michaelflisar.lumberjack.core.classes.Level
-import com.michaelflisar.lumberjack.implementation.Log
+import com.michaelflisar.lumberjack.implementation.platformPrintln
 
 internal data class StackData(
     val stackTrace: List<StackTraceElement>,
@@ -50,7 +50,7 @@ internal data class StackData(
             i = stackTrace.size - 1
             val error = "Synthetic stacktrace didn't have enough elements: are you using proguard?"
             println(error)
-            Log.println("", Level.ERROR, "StackData", error)
+            platformPrintln("", Level.ERROR, "StackData", error)
         }
         return stackTrace[i]
     }

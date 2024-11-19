@@ -81,7 +81,7 @@ dependencies {
     implementation(project(":Lumberjack:Extensions:ComposeViewer"))
 
     // a minimal library that provides some useful composables that I use inside demo activities
-    implementation(deps.toolbox.core)
-    implementation(deps.toolbox.ui)
-    implementation(deps.toolbox.app)
+    implementation(deps.toolbox.android.demo.app) {
+        exclude(group = "io.github.mflisar.lumberjack")
+    }
 }

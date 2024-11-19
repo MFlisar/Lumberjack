@@ -9,7 +9,7 @@ material =					"1.12.0"
 
 # mflisar
 feedback =                  "2.1.0"
-toolbox =                   "2.2.0"
+toolbox =                   "2.2.2"
 moko-parcelize =            "0.9.0"
 
 [libraries]
@@ -24,6 +24,4 @@ moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		 
 
 # mflisar
 feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
-toolbox-core =                      { module = "io.github.mflisar.toolbox:core", 			    version.ref = "toolbox" }
-toolbox-ui =                        { module = "io.github.mflisar.toolbox:ui", 			        version.ref = "toolbox" }
-toolbox-app =                       { module = "io.github.mflisar.toolbox:android-demo-app",    version.ref = "toolbox" }
+toolbox-android-demo-app =          { module = "io.github.mflisar.toolbox:android-demo-app",    version.ref = "toolbox" }

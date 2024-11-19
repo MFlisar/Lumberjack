@@ -1,6 +1,6 @@
 package com.michaelflisar.lumberjack.loggers.console
 
-import com.michaelflisar.lumberjack.implementation.Log
+import com.michaelflisar.lumberjack.implementation.platformPrintln
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.implementation.classes.DefaultLumberjackFilter
 import com.michaelflisar.lumberjack.implementation.classes.LumberjackFilter
@@ -30,7 +30,7 @@ class ConsoleLogger(
             link.takeIf { throwable == null },
             throwable?.stackTraceToString()?.let { "\n$it" }
         ).joinToString(" ")
-        Log.println(prefix, level, tag, log)
+        platformPrintln(prefix, level, tag, log)
     }
 
 }
