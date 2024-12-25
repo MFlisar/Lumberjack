@@ -7,9 +7,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format
 import kotlinx.datetime.format.char
-import okio.FileSystem
-import okio.Path
-import okio.SYSTEM
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
 
 sealed class FileLoggerSetup : IFileLoggingSetup {
 
@@ -75,8 +74,8 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
             if (lastPath.name.isEmpty()) {
                 return fileIndex.toString()
             }
-            val bytes = lastPath.takeIf { FileSystem.SYSTEM.exists(it) }
-                ?.let { FileSystem.SYSTEM.metadata(it).size }
+            val bytes = lastPath.takeIf { SystemFileSystem.exists(it) }
+                ?.let { SystemFileSystem.metadataOrNull(it)?.size }
             if ((bytes ?: 0L) >= maxFileSizeInBytes) {
                 fileIndex = fileIndex!! + 1
             }

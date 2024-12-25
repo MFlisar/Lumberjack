@@ -1,7 +1,7 @@
 package com.michaelflisar.lumberjack.core.interfaces
 
 import dev.icerock.moko.parcelize.Parcelable
-import okio.Path
+import kotlinx.io.files.Path
 
 interface IFileLoggingSetup : Parcelable {
 

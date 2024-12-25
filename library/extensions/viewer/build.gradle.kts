@@ -71,8 +71,8 @@ dependencies {
     // Library
     // ------------------------
 
-    implementation(project(":Lumberjack:Core"))
-    implementation(project(":Lumberjack:Extensions:Feedback"))
+    implementation(project(":lumberjack:core"))
+    implementation(project(":lumberjack:extensions:feedback"))
 
     // ------------------------
     // Others

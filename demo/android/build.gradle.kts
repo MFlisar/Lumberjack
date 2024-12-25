@@ -62,23 +62,23 @@ dependencies {
     // Library
     // ------------------------
 
-    implementation(project(":Lumberjack:Core"))
+    implementation(project(":lumberjack:core"))
 
     // normally you only would use either one of them
-    implementation(project(":Lumberjack:Implementations:Timber"))
-    implementation(project(":Lumberjack:Implementations:Lumberjack"))
+    implementation(project(":lumberjack:implementations:timber"))
+    implementation(project(":lumberjack:implementations:lumberjack"))
 
     // loggers - add the ones you need (only the ones that match the selected implementation normally)
-    implementation(project(":Lumberjack:Loggers:Lumberjack:Console"))
-    implementation(project(":Lumberjack:Loggers:Lumberjack:File"))
-    implementation(project(":Lumberjack:Loggers:Timber:Console"))
-    implementation(project(":Lumberjack:Loggers:Timber:File"))
+    implementation(project(":lumberjack:loggers:lumberjack:console"))
+    implementation(project(":lumberjack:loggers:lumberjack:file"))
+    implementation(project(":lumberjack:loggers:timber:console"))
+    implementation(project(":lumberjack:loggers:timber:file"))
 
     // extensions - they work with any implementation...
-    implementation(project(":Lumberjack:Extensions:Notification"))
-    implementation(project(":Lumberjack:Extensions:Feedback"))
-    implementation(project(":Lumberjack:Extensions:Viewer"))
-    implementation(project(":Lumberjack:Extensions:ComposeViewer"))
+    implementation(project(":lumberjack:extensions:notification"))
+    implementation(project(":lumberjack:extensions:feedback"))
+    implementation(project(":lumberjack:extensions:viewer"))
+    implementation(project(":lumberjack:extensions:composeviewer"))
 
     // a minimal library that provides some useful composables that I use inside demo activities
     implementation(deps.toolbox.android.demo.app) {

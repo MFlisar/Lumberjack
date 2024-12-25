@@ -51,11 +51,12 @@ import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okio.FileNotFoundException
-import okio.FileSystem
-import okio.IOException
-import okio.Path
-import okio.Path.Companion.toPath
+import kotlinx.io.IOException
+import kotlinx.io.buffered
+import kotlinx.io.files.FileNotFoundException
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readLine
 
 object LumberjackView {
     class Style internal constructor(
@@ -87,7 +88,7 @@ object LumberjackViewDefaults {
 fun rememberLogFile(file: Path? = null): MutableState<Path?> {
     val SAVER = Saver<MutableState<Path?>, String>(
         save = { it.value?.toString() },
-        restore = { mutableStateOf(it.takeIf { it.isNotEmpty() }?.toPath()) }
+        restore = { mutableStateOf(it.takeIf { it.isNotEmpty() }?.let { Path(it) }) }
     )
     return rememberSaveable(
         saver = SAVER
@@ -119,7 +120,7 @@ fun LumberjackView(
         val f = file.value
         if (data.value == Data.Reload) {
             if (f != null) {
-                if (!FileSystem.SYSTEM.exists(f)) {
+                if (!SystemFileSystem.exists(f)) {
                     data.value = Data.FileNotFound
                 } else {
                     withContext(Dispatchers.IO) {
@@ -305,7 +306,7 @@ private fun Info(file: Path?, filteredCount: Int, totalCount: Int) {
     Row(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
-        val size = file?.let { FileSystem.SYSTEM.metadataOrNull(it) }?.size ?: 0L
+        val size = file?.let { SystemFileSystem.metadataOrNull(it) }?.size ?: 0L
         val info = FileSizeUtil.humanReadableBytes(size)
         Text(
             modifier = Modifier.weight(1f),
@@ -452,10 +453,10 @@ private fun readLines(
     filePath: Path
 ): List<String> {
     val lines = ArrayList<String>()
-    if (FileSystem.SYSTEM.exists(filePath)) {
-        FileSystem.SYSTEM.read(filePath) {
+    if (SystemFileSystem.exists(filePath)) {
+        SystemFileSystem.source(filePath).buffered().use {
             while (true) {
-                val line = readUtf8Line() ?: break
+                val line = it.readLine() ?: break
                 lines += line
             }
         }

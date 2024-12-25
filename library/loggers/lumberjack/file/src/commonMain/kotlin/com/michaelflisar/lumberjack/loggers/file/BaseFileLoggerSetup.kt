@@ -6,9 +6,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okio.FileSystem
-import okio.Path
-import okio.Path.Companion.toPath
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
 
 abstract class BaseFileLoggerSetup : FileLoggerSetup() {
 
@@ -26,7 +25,7 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
     private var lastFileKeyChanged: Boolean = false
 
     override fun filePath(data: FileLogger.Event.Data): String {
-        val lastPath = "${folder}/${fileBaseName}_${lastFileKey}.$fileExtension".toPath()
+        val lastPath = Path("${folder}/${fileBaseName}_${lastFileKey}.$fileExtension")
         val key = getFileKey(data, lastPath)
         val path = if (key.isEmpty()) {
             "${folder}/${fileBaseName}.$fileExtension"
@@ -61,8 +60,9 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
     }
 
     override fun getAllExistingLogFilePaths(): List<Path> {
-        return if (FileSystem.SYSTEM.exists(folder.toPath())) {
-             FileSystem.SYSTEM.list(folder.toPath()).filter {
+        val pathFolder = Path(folder)
+        return if (SystemFileSystem.exists(pathFolder)) {
+            SystemFileSystem.list(pathFolder).filter {
                 it.name.startsWith(fileBaseName) && it.name.endsWith(".$fileExtension")
             }.sortedByDescending { it.name }
         } else emptyList()
@@ -86,7 +86,7 @@ abstract class BaseFileLoggerSetup : FileLoggerSetup() {
                         it.onLogFilesWillBeDeleted(filesToDelete)
                     }
                 filesToDelete.forEach {
-                    FileSystem.SYSTEM.delete(it)
+                    SystemFileSystem.delete(it)
                 }
             }
         }

@@ -14,7 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
-import okio.Path
+import kotlinx.io.files.Path
 
 object LumberjackDialog {
     class State(

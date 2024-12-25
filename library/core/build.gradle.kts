@@ -71,9 +71,6 @@ kotlin {
             // Kotlin
             implementation(kotlinx.io.core)
 
-            // I/O
-            implementation(deps.okio)
-
             api(deps.moko.parcelize)
 
         }

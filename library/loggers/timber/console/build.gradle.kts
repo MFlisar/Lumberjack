@@ -58,8 +58,8 @@ dependencies {
     // Library
     // ------------------------
 
-    implementation(project(":Lumberjack:Core"))
-    implementation(project(":Lumberjack:Implementations:Timber"))
+    implementation(project(":lumberjack:core"))
+    implementation(project(":lumberjack:implementations:timber"))
 
     // ------------------------
     // Others

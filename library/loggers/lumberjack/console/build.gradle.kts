@@ -63,8 +63,8 @@ kotlin {
         commonMain.dependencies {
 
             // Library
-            implementation(project(":Lumberjack:Core"))
-            implementation(project(":Lumberjack:Implementations:Lumberjack"))
+            implementation(project(":lumberjack:core"))
+            implementation(project(":lumberjack:implementations:lumberjack"))
 
         }
     }

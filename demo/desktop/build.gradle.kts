@@ -18,15 +18,15 @@ kotlin {
 
                 implementation(compose.desktop.currentOs)
 
-                implementation(project(":Lumberjack:Core"))
-                implementation(project(":Lumberjack:Implementations:Lumberjack"))
+                implementation(project(":lumberjack:core"))
+                implementation(project(":lumberjack:implementations:lumberjack"))
 
                 // loggers
-                implementation(project(":Lumberjack:Loggers:Lumberjack:Console"))
-                implementation(project(":Lumberjack:Loggers:Lumberjack:File"))
+                implementation(project(":lumberjack:loggers:lumberjack:console"))
+                implementation(project(":lumberjack:loggers:lumberjack:file"))
 
                 // extensions
-                implementation(project(":Lumberjack:Extensions:ComposeViewer"))
+                implementation(project(":lumberjack:extensions:composeviewer"))
             }
         }
     }

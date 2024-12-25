@@ -2,7 +2,7 @@ package com.michaelflisar.lumberjack.extensions.composeviewer
 
 import androidx.compose.runtime.Composable
 import com.michaelflisar.lumberjack.extensions.composeviewer.internal.IFeedbackProvider
-import okio.Path
+import kotlinx.io.files.Path
 
 internal class FeedbackImpl : IFeedbackProvider {
 

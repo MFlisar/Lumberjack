@@ -62,7 +62,7 @@ dependencies {
     // Library
     // ------------------------
 
-    api(project(":Lumberjack:Core"))
+    api(project(":lumberjack:core"))
 
     // ------------------------
     // Others

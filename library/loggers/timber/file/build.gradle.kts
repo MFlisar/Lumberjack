@@ -59,14 +59,14 @@ dependencies {
     // KotlinX / AndroidX / Google
     // ------------------------
 
-    implementation(kotlinx.coroutines)
+    implementation(kotlinx.coroutines.core)
 
     // ------------------------
     // Library
     // ------------------------
 
-    implementation(project(":Lumberjack:Core"))
-    implementation(project(":Lumberjack:Implementations:Timber"))
+    implementation(project(":lumberjack:core"))
+    implementation(project(":lumberjack:implementations:timber"))
 
     // ------------------------
     // Others

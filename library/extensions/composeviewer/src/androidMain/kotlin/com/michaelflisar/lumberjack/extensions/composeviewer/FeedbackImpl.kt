@@ -6,7 +6,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.extensions.composeviewer.internal.IFeedbackProvider
 import com.michaelflisar.lumberjack.extensions.feedback.sendFeedback
-import okio.Path
+import kotlinx.io.files.Path
+import java.io.File
 
 internal class FeedbackImpl : IFeedbackProvider {
 
@@ -26,7 +27,7 @@ internal class FeedbackImpl : IFeedbackProvider {
         L.sendFeedback(
             context = context,
             receiver = receiver,
-            attachments = attachments.map { it.toFile() }
+            attachments = attachments.map { File(it.toString()) }
         )
     }
 }

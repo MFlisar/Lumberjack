@@ -15,11 +15,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okio.BufferedSink
-import okio.FileSystem
-import okio.Path
-import okio.Path.Companion.toPath
-import okio.buffer
+import kotlinx.io.Sink
+import kotlinx.io.buffered
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.writeString
 
 class FileLogger(
     val setup: FileLoggerSetup,
@@ -30,7 +30,7 @@ class FileLogger(
 
     private val TAG = "FILELOGGER"
     private var file: Path? = null
-    private var bufferWriter: BufferedSink? = null
+    private var bufferWriter: Sink? = null
     private val loggerScope = CoroutineScope(Dispatchers.IO + Job())
     private val channel = Channel<Event>()
     private var closeBufferJob: Job? = null
@@ -92,18 +92,18 @@ class FileLogger(
         withContext(Dispatchers.IO) {
             // try/catch  - in no circumstance we want that any problem crashes the app because of the logger
             try {
-                val path = setup.filePath(data)
-                if (path.toPath() != file || bufferWriter == null) {
+                val path = Path(setup.filePath(data))
+                if (path != file || bufferWriter == null) {
                     bufferWriter?.close()
-                    file = path.toPath()
+                    file = path
                     file?.parent?.let {
-                        FileSystem.SYSTEM.createDirectories(it)
+                        SystemFileSystem.createDirectories(it)
                     }
-                    bufferWriter = FileSystem.SYSTEM.appendingSink(file!!).buffer()
+                    bufferWriter = SystemFileSystem.sink(file!!, true).buffered()
                 }
                 val writer = bufferWriter!!
 
-                writer.writeUtf8(data.log + "\n")
+                writer.writeString(data.log + "\n")
                 writer.flush()
                 setup.onLogged(loggerScope)
 
@@ -133,7 +133,7 @@ class FileLogger(
     internal fun onLogFilesWillBeDeleted(files: List<Path>) {
         file?.let {
             if (files.contains(it)) {
-                if (FileSystem.SYSTEM.exists(it)) {
+                if (SystemFileSystem.exists(it)) {
                     send(Event.ResetWriter)
                     println("onLogFilesWillBeDeleted...")
                     loggerScope.launch {

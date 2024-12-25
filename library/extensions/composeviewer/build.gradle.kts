@@ -72,13 +72,11 @@ kotlin {
 			implementation(libs.compose.material.icons.extended)
 
             // Library
-            implementation(project(":Lumberjack:Core"))
-            implementation(project(":Lumberjack:Implementations:Lumberjack"))
-            implementation(project(":Lumberjack:Loggers:Lumberjack:File"))
+            implementation(project(":lumberjack:core"))
+            implementation(project(":lumberjack:implementations:lumberjack"))
+            implementation(project(":lumberjack:loggers:lumberjack:file"))
 
             // Dependencies
-            implementation(deps.okio)
-
             implementation(deps.moko.parcelize)
 
         }
@@ -88,7 +86,7 @@ kotlin {
             implementation(androidx.core)
 
             // Library
-            implementation(project(":Lumberjack:Extensions:Feedback"))
+            implementation(project(":lumberjack:extensions:feedback"))
         }
     }
 }

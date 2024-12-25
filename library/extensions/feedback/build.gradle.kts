@@ -62,7 +62,7 @@ dependencies {
     // Library
     // ------------------------
 
-    implementation(project(":Lumberjack:Core"))
+    implementation(project(":lumberjack:core"))
 
     // ------------------------
     // Others
@@ -72,7 +72,7 @@ dependencies {
     if (useLiveDependencies) {
       implementation(deps.feedback)
     } else {
-        implementation(project(":FeedbackManager"))
+        implementation(project(":feedbackmanager"))
     }
 }
 

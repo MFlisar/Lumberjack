@@ -8,9 +8,6 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        create("plugins") {
-            from(files("gradle/libs.versions.toml"))
-        }
         create("app") {
             from(files("gradle/app.versions.toml"))
         }
@@ -41,44 +38,44 @@ pluginManagement {
 // --------------
 
 // Android + JVM + iOS
-include(":Lumberjack:Core")
-project(":Lumberjack:Core").projectDir = file("library/core")
+include(":lumberjack:core")
+project(":lumberjack:core").projectDir = file("library/core")
 
 // --------------
 // Modules
 // --------------
 
 // Android + JVM + iOS
-include(":Lumberjack:Implementations:Lumberjack")
-project(":Lumberjack:Implementations:Lumberjack").projectDir = file("library/implementations/lumberjack")
+include(":lumberjack:implementations:lumberjack")
+project(":lumberjack:implementations:lumberjack").projectDir = file("library/implementations/lumberjack")
 
 // Android Only
-include(":Lumberjack:Implementations:Timber")
-project(":Lumberjack:Implementations:Timber").projectDir = file("library/implementations/timber")
+include(":lumberjack:implementations:timber")
+project(":lumberjack:implementations:timber").projectDir = file("library/implementations/timber")
 
 // Android + JVM + iOS
-include(":Lumberjack:Loggers:Lumberjack:Console")
-project(":Lumberjack:Loggers:Lumberjack:Console").projectDir = file("library/loggers/lumberjack/console")
-include(":Lumberjack:Loggers:Lumberjack:File")
-project(":Lumberjack:Loggers:Lumberjack:File").projectDir = file("library/loggers/lumberjack/file")
+include(":lumberjack:loggers:lumberjack:console")
+project(":lumberjack:loggers:lumberjack:console").projectDir = file("library/loggers/lumberjack/console")
+include(":lumberjack:loggers:lumberjack:file")
+project(":lumberjack:loggers:lumberjack:file").projectDir = file("library/loggers/lumberjack/file")
 
 // Android Only
-include(":Lumberjack:Loggers:Timber:Console")
-project(":Lumberjack:Loggers:Timber:Console").projectDir = file("library/loggers/timber/console")
-include(":Lumberjack:Loggers:Timber:File")
-project(":Lumberjack:Loggers:Timber:File").projectDir = file("library/loggers/timber/file")
+include(":lumberjack:loggers:timber:console")
+project(":lumberjack:loggers:timber:console").projectDir = file("library/loggers/timber/console")
+include(":lumberjack:loggers:timber:file")
+project(":lumberjack:loggers:timber:file").projectDir = file("library/loggers/timber/file")
 
 // Android + JVM + iOS
-include(":Lumberjack:Extensions:ComposeViewer")
-project(":Lumberjack:Extensions:ComposeViewer").projectDir = file("library/extensions/composeviewer")
+include(":lumberjack:extensions:composeviewer")
+project(":lumberjack:extensions:composeviewer").projectDir = file("library/extensions/composeviewer")
 
 // Android Only
-include(":Lumberjack:Extensions:Feedback")
-project(":Lumberjack:Extensions:Feedback").projectDir = file("library/extensions/feedback")
-include(":Lumberjack:Extensions:Notification")
-project(":Lumberjack:Extensions:Notification").projectDir = file("library/extensions/notification")
-include(":Lumberjack:Extensions:Viewer")
-project(":Lumberjack:Extensions:Viewer").projectDir = file("library/extensions/viewer")
+include(":lumberjack:extensions:feedback")
+project(":lumberjack:extensions:feedback").projectDir = file("library/extensions/feedback")
+include(":lumberjack:extensions:notification")
+project(":lumberjack:extensions:notification").projectDir = file("library/extensions/notification")
+include(":lumberjack:extensions:viewer")
+project(":lumberjack:extensions:viewer").projectDir = file("library/extensions/viewer")
 
 // --------------
 // App
