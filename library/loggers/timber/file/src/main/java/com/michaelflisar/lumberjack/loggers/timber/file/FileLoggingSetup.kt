@@ -4,12 +4,11 @@ import android.content.Context
 import android.os.Parcelable
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
+import dev.icerock.moko.parcelize.IgnoredOnParcel
+import dev.icerock.moko.parcelize.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.parcelize.IgnoredOnParcel
-import kotlinx.parcelize.Parcelize
-import okio.Path
-import okio.Path.Companion.toOkioPath
+import kotlinx.io.files.Path
 import java.io.File
 import java.io.PrintWriter
 import java.util.regex.Pattern
@@ -25,17 +24,17 @@ sealed class FileLoggingSetup : IFileLoggingSetup {
         getFilePathsInFolder().filter { Pattern.matches(pattern, it.name) }
 
     override fun getLatestLogFilePath() =
-        getAllExistingLogFilePaths().maxByOrNull { it.toFile().lastModified() }
+        getAllExistingLogFilePaths().maxByOrNull { File(it.toString()).lastModified() }
 
     override suspend fun clearLogFiles() {
         withContext(Dispatchers.IO) {
             val newestFile = getLatestLogFilePath()
             val filesToDelete = getAllExistingLogFilePaths().filter { it != newestFile }
             filesToDelete.forEach {
-                it.toFile().delete()
+                File(it.toString()).delete()
             }
             newestFile?.let {
-                val writer = PrintWriter(it.toFile())
+                val writer = PrintWriter(File(it.toString()))
                 writer.print("")
                 writer.close()
             }
@@ -72,7 +71,7 @@ sealed class FileLoggingSetup : IFileLoggingSetup {
         /*
          * we know the file name of the newest file before hand, no need to check all files in the folder
          */
-        override fun getLatestLogFilePath() = File(baseFilePath).toOkioPath()
+        override fun getLatestLogFilePath() = Path(baseFilePath)
     }
 
     @Parcelize
@@ -119,6 +118,6 @@ sealed class FileLoggingSetup : IFileLoggingSetup {
         if (!folder.exists()) {
             return emptyList()
         }
-        return folder.listFiles()?.filter { it.isFile }?.map { it.toOkioPath() } ?: emptyList()
+        return folder.listFiles()?.filter { it.isFile }?.map { Path(it.absolutePath) } ?: emptyList()
     }
 }

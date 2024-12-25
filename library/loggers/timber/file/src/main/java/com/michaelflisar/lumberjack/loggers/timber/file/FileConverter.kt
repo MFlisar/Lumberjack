@@ -2,8 +2,8 @@ package com.michaelflisar.lumberjack.loggers.timber.file
 
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
-import kotlinx.parcelize.IgnoredOnParcel
-import kotlinx.parcelize.Parcelize
+import dev.icerock.moko.parcelize.IgnoredOnParcel
+import dev.icerock.moko.parcelize.Parcelize
 import java.util.regex.Pattern
 
 @Parcelize

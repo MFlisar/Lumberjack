@@ -69,8 +69,6 @@ kotlin {
             implementation(project(":lumberjack:core"))
             implementation(project(":lumberjack:implementations:lumberjack"))
 
-            implementation(deps.moko.parcelize)
-
         }
     }
 }

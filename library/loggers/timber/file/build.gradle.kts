@@ -57,6 +57,7 @@ dependencies {
     // ------------------------
 
     implementation(kotlinx.coroutines.core)
+    implementation(kotlinx.io.core)
 
     // ------------------------
     // Library
