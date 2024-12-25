@@ -1,4 +1,3 @@
-import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 import com.vanniktech.maven.publish.SonatypeHost
 
