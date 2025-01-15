@@ -5,6 +5,12 @@ repo_name: MFlisar/Lumberjack
 
 copyright: Copyright &copy; 2024 Michael Flisar
 
+# TODO
+# - variablen oben anpassen + nav unten
+# - _data/project.yml anpassen
+# - md files in docs anpassen
+# FERTIG
+
 theme:
   name: material
   logo: assets/logo.png

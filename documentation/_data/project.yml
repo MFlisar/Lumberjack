@@ -12,12 +12,12 @@ library:
   screenshots:
     - name: Logs
       images:
-        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/log1.png
-        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/log2.png
+        - ./screenshots/log1.png
+        - ./screenshots/log2.png
     - name: Compose Viewer
       images:
-        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer1.jpg
-        - https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer2.jpg
+        - ./screenshots/compose-viewer1.jpg
+        - ./screenshots/compose-viewer2.jpg
   branch: master
   demo: true
 
