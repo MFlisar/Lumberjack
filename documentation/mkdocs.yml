@@ -1,15 +1,9 @@
 site_name: Lumberjack
 site_url: https://mflisar.github.io/Lumberjack/
 repo_url: https://github.com/MFlisar/Lumberjack
-repo_name: MFlisar/Lumberjack
+repo_name: mflisar/Lumberjack
 
 copyright: Copyright &copy; 2024 Michael Flisar
-
-# TODO
-# - variablen oben anpassen + nav unten
-# - _data/project.yml anpassen
-# - md files in docs anpassen
-# FERTIG
 
 theme:
   name: material
@@ -76,6 +70,7 @@ markdown_extensions:
   - pymdownx.snippets:
       url_download: true
       restrict_base_path: false
+      dedent_subsections: true
       #base_path: ["docs/"]
   - pymdownx.superfences
   - pymdownx.tabbed:
@@ -98,7 +93,7 @@ plugins:
   #- privacy
   #- typeset
   - macros:
-      include_dir: _include
+      include_dir: _includes
       include_yaml:
         - project: _data/project.yml
         - other_projects: _data/other-projects.yml

@@ -15,18 +15,31 @@ plugins {
 // Informations
 // -------------------
 
+val description = "the core lumberjack implementation"
+
 // Module
 val artifactId = "implementation-lumberjack"
 val androidNamespace = "com.michaelflisar.lumberjack.implementation"
 
 // Library
 val libraryName = "Lumberjack"
-val libraryDescription = "Lumberjack - $artifactId module"
+val libraryDescription = "Lumberjack - $artifactId module - $description"
 val groupID = "io.github.mflisar.lumberjack"
 val release = 2016
 val github = "https://github.com/MFlisar/Lumberjack"
 val license = "Apache License 2.0"
 val licenseUrl = "$github/blob/main/LICENSE"
+
+// -------------------
+// Variables for Documentation Generator
+// -------------------
+
+// # DEP is an optional arrays!
+
+// OPTIONAL = "true"                // defines if this module is optional or not
+// GROUP_ID = "lumberjack"             // defines the "grouping" in the documentation this module belongs to
+// #DEP = "deps.kotbilling|KotBilling|https://github.com/MFlisar/Kotbilling"
+// PLATFORM_INFO = "(1)"               // defines a comment that will be shown in the documentation for this modules platform support
 
 // -------------------
 // Setup

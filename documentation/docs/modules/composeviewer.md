@@ -53,6 +53,6 @@ LumberjackDialogContent(
 )
 ```
 
-| Compose Viewer | |
-|-|-|
-| ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer1.jpg) | ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/compose-viewer2.jpg) |
+| Compose Viewer                                              |                                                             |
+|-------------------------------------------------------------|-------------------------------------------------------------|
+| ![Viewer](../screenshots/composeviewer/compose-viewer1.jpg) | ![Viewer](../screenshots/composeviewer/compose-viewer2.jpg) |

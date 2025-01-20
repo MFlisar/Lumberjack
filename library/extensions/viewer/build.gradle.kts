@@ -13,18 +13,33 @@ plugins {
 // Informations
 // -------------------
 
+val description = "a xml viewer for lumberjack"
+
 // Module
 val artifactId = "extension-viewer"
 val androidNamespace = "com.michaelflisar.lumberjack.extensions.viewer"
 
 // Library
 val libraryName = "Lumberjack"
-val libraryDescription = "Lumberjack - $artifactId module"
+val libraryDescription = "Lumberjack - $artifactId module - $description"
 val groupID = "io.github.mflisar.lumberjack"
 val release = 2016
 val github = "https://github.com/MFlisar/Lumberjack"
 val license = "Apache License 2.0"
 val licenseUrl = "$github/blob/main/LICENSE"
+
+
+// -------------------
+// Variables for Documentation Generator
+// -------------------
+
+// # DEP is an optional arrays!
+
+// OPTIONAL = "true"                // defines if this module is optional or not
+// GROUP_ID = "extensions"             // defines the "grouping" in the documentation this module belongs to
+// DEP = "deps.feedback|FeedbackManager|https://github.com/MFlisar/FeedbackManager"
+// DEP = "deps.fastscroller|FastScroller|https://github.com/quiph/RecyclerView-FastScroller"
+// PLATFORM_INFO = "(4)"               // defines a comment that will be shown in the documentation for this modules platform support
 
 // -------------------
 // Setup

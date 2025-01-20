@@ -15,18 +15,38 @@ plugins {
 // Informations
 // -------------------
 
+val description = "the core module of lumberjack"
+
 // Module
 val artifactId = "core"
 val androidNamespace = "com.michaelflisar.lumberjack.core"
 
 // Library 
 val libraryName = "Lumberjack"
-val libraryDescription = "Lumberjack - $artifactId module"
+val libraryDescription = "Lumberjack - $artifactId module - $description"
 val groupID = "io.github.mflisar.lumberjack"
 val release = 2016
 val github = "https://github.com/MFlisar/Lumberjack"
 val license = "Apache License 2.0"
 val licenseUrl = "$github/blob/main/LICENSE"
+
+// -------------------
+// Variables for Documentation Generator
+// -------------------
+
+// # DEP + GROUP are optional arrays!
+
+// OPTIONAL = "false"               // defines if this module is optional or not
+// GROUP_ID = "core"                // defines the "grouping" in the documentation this module belongs to
+// #DEP = "deps.composables.core|Compose Unstyled (core)|https://github.com/composablehorizons/compose-unstyled/"
+// PLATFORM_INFO = ""               // defines a comment that will be shown in the documentation for this modules platform support
+
+// GLOBAL DATA
+// BRANCH = "master"        // defines the branch on github (master/main)
+// GROUP = "core|Core|core"
+// GROUP = "lumberjack|Lumberjack|if you want to use the lumberjack logger"
+// GROUP = "extensions|Extensions|extensions that work with any implementation"
+// GROUP = "timber|Timber|if you want to use the timber logger"
 
 // -------------------
 // Setup

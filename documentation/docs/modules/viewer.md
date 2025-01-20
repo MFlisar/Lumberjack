@@ -18,4 +18,4 @@ L.showLog(
 
 | Viewer                                | |
 |---------------------------------------|-|
-| ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/viewer1.jpg) | ![Viewer](https://raw.githubusercontent.com/MFlisar/Lumberjack/refs/heads/master/screenshots/viewer2.jpg) |
+| ![Viewer](../screenshots/viewer/viewer1.jpg) | ![Viewer](../screenshots/viewer/viewer2.jpg) |
