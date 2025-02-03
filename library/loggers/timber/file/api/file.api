@@ -1,0 +1,106 @@
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileConverter : com/michaelflisar/lumberjack/core/interfaces/IFileConverter {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/loggers/timber/file/FileConverter;
+	public final fun describeContents ()I
+	public fun formatLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)Ljava/lang/String;
+	public fun parseFile (Ljava/util/List;)Ljava/util/List;
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileConverter$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/timber/file/FileConverter;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/timber/file/FileConverter;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public abstract class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup : com/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup {
+	public fun clearLogFiles (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAllExistingLogFilePaths ()Ljava/util/List;
+	public abstract fun getFolder ()Ljava/lang/String;
+	public fun getLatestLogFilePath ()Lkotlinx/io/files/Path;
+	public abstract fun getLogOnBackgroundThread ()Z
+	protected abstract fun getPattern ()Ljava/lang/String;
+	public abstract fun getSetup ()Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$DateFiles : com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public fun <init> (Landroid/content/Context;Ljava/lang/String;ZLcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;)V
+	public synthetic fun <init> (Landroid/content/Context;Ljava/lang/String;ZLcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;ZLcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;)V
+	public synthetic fun <init> (Ljava/lang/String;ZLcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun describeContents ()I
+	public fun getFileConverter ()Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;
+	public fun getFolder ()Ljava/lang/String;
+	public fun getLogOnBackgroundThread ()Z
+	public fun getSetup ()Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$DateFiles$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$DateFiles;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$DateFiles;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$NumberedFiles : com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public fun <init> (Landroid/content/Context;Ljava/lang/String;ZLjava/lang/String;Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;)V
+	public synthetic fun <init> (Landroid/content/Context;Ljava/lang/String;ZLjava/lang/String;Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;ZLjava/lang/String;Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;)V
+	public synthetic fun <init> (Ljava/lang/String;ZLjava/lang/String;Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun describeContents ()I
+	public final fun getBaseFilePath ()Ljava/lang/String;
+	public fun getFileConverter ()Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;
+	public fun getFolder ()Ljava/lang/String;
+	public fun getLatestLogFilePath ()Lkotlinx/io/files/Path;
+	public fun getLogOnBackgroundThread ()Z
+	public fun getSetup ()Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;
+	public final fun getSizeLimit ()Ljava/lang/String;
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$NumberedFiles$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$NumberedFiles;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$NumberedFiles;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup : android/os/Parcelable {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public fun <init> ()V
+	public fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun describeContents ()I
+	public final fun getFileExtension ()Ljava/lang/String;
+	public final fun getFileName ()Ljava/lang/String;
+	public final fun getLogPattern ()Ljava/lang/String;
+	public final fun getLogsToKeep ()I
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup$Setup;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingTree : timber/log/BaseTree {
+	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingTree$Companion;
+	public static final field DATE_FILE_NAME_PATTERN Ljava/lang/String;
+	public static final field NUMBERED_FILE_NAME_PATTERN Ljava/lang/String;
+	public fun <init> (Lcom/michaelflisar/lumberjack/loggers/timber/file/FileLoggingSetup;)V
+	public fun log (ILjava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/timber/file/FileLoggingTree$Companion {
+}
+

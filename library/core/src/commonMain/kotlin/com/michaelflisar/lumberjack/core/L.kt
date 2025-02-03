@@ -4,7 +4,7 @@ import com.michaelflisar.lumberjack.core.classes.Level
 
 object L : AbstractLogger() {
 
-    var implementation: AbstractLogger? = null
+    private var implementation: AbstractLogger? = null
 
     fun init(implementation: AbstractLogger) {
         this.implementation = implementation

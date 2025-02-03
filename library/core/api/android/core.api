@@ -1,0 +1,96 @@
+public abstract class com/michaelflisar/lumberjack/core/AbstractLogger {
+	public fun <init> ()V
+	public abstract fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public final fun d (Ljava/lang/Throwable;)V
+	public final fun d (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun d (Lkotlin/jvm/functions/Function0;)V
+	public abstract fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
+	public final fun e (Ljava/lang/Throwable;)V
+	public final fun e (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun e (Lkotlin/jvm/functions/Function0;)V
+	public abstract fun enable (Z)V
+	public final fun i (Ljava/lang/Throwable;)V
+	public final fun i (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun i (Lkotlin/jvm/functions/Function0;)V
+	public abstract fun isEnabled ()Z
+	public final fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/Throwable;)V
+	public final fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/Throwable;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;)V
+	public final fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Lkotlin/jvm/functions/Function0;)V
+	public final fun logIf (Lkotlin/jvm/functions/Function0;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public abstract fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public final fun v (Ljava/lang/Throwable;)V
+	public final fun v (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun v (Lkotlin/jvm/functions/Function0;)V
+	public final fun w (Ljava/lang/Throwable;)V
+	public final fun w (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun w (Lkotlin/jvm/functions/Function0;)V
+	public final fun wtf (Ljava/lang/Throwable;)V
+	public final fun wtf (Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun wtf (Lkotlin/jvm/functions/Function0;)V
+}
+
+public final class com/michaelflisar/lumberjack/core/FileLoggingExtensionsKt {
+	public static final fun getAllExistingLogFiles (Lcom/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup;)Ljava/util/List;
+	public static final fun getLatestLogFile (Lcom/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup;)Ljava/io/File;
+}
+
+public final class com/michaelflisar/lumberjack/core/L : com/michaelflisar/lumberjack/core/AbstractLogger {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/core/L;
+	public fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
+	public fun enable (Z)V
+	public final fun init (Lcom/michaelflisar/lumberjack/core/AbstractLogger;)V
+	public fun isEnabled ()Z
+	public fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+}
+
+public final class com/michaelflisar/lumberjack/core/classes/CoreUtil {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/core/classes/CoreUtil;
+	public final fun getRealSubject (Landroid/content/Context;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/michaelflisar/lumberjack/core/classes/Level : java/lang/Enum {
+	public static final field DEBUG Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public static final field ERROR Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public static final field INFO Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public static final field NONE Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public static final field VERBOSE Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public static final field WARN Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public static final field WTF Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public final fun getColor ()Ljava/lang/Integer;
+	public final fun getColorDark ()Ljava/lang/Integer;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getOrder ()I
+	public final fun getShortcut ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public static fun values ()[Lcom/michaelflisar/lumberjack/core/classes/Level;
+}
+
+public final class com/michaelflisar/lumberjack/core/classes/LevelExtensionsKt {
+	public static final fun getPriority (Lcom/michaelflisar/lumberjack/core/classes/Level;)I
+	public static final fun getTextColor (Lcom/michaelflisar/lumberjack/core/classes/Level;I)I
+	public static final fun getTitleColor (Lcom/michaelflisar/lumberjack/core/classes/Level;I)I
+}
+
+public abstract interface class com/michaelflisar/lumberjack/core/interfaces/IFileConverter : android/os/Parcelable {
+	public abstract fun formatLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)Ljava/lang/String;
+	public abstract fun parseFile (Ljava/util/List;)Ljava/util/List;
+}
+
+public final class com/michaelflisar/lumberjack/core/interfaces/IFileConverter$Entry {
+	public fun <init> (ILjava/util/List;Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;)V
+	public final fun getDate ()Ljava/lang/String;
+	public final fun getLevel ()Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public final fun getLineNumber ()I
+	public final fun getLines ()Ljava/util/List;
+	public final fun setLines (Ljava/util/List;)V
+}
+
+public abstract interface class com/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup : android/os/Parcelable {
+	public abstract fun clearLogFiles (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAllExistingLogFilePaths ()Ljava/util/List;
+	public abstract fun getFileConverter ()Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;
+	public abstract fun getLatestLogFilePath ()Lkotlinx/io/files/Path;
+}
+

@@ -58,6 +58,8 @@ dependencies {
 
     implementation(androidx.activity.compose)
 
+    implementation(kotlinx.io.core)
+
     // ------------------------
     // Library
     // ------------------------

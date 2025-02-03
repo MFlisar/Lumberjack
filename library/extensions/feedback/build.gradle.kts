@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.dokka)
     alias(libs.plugins.gradle.maven.publish.plugin)
+    alias(libs.plugins.binary.compatibility.validator)
 }
 
 // -------------------

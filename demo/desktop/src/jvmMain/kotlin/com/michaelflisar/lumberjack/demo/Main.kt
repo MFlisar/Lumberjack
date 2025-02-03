@@ -25,6 +25,7 @@ import androidx.compose.ui.window.rememberDialogState
 import androidx.compose.ui.window.rememberWindowState
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
+import com.michaelflisar.lumberjack.core.getLatestLogFile
 import com.michaelflisar.lumberjack.extensions.composeviewer.LumberjackDialog
 import com.michaelflisar.lumberjack.implementation.LumberjackLogger
 import com.michaelflisar.lumberjack.implementation.plant
@@ -45,7 +46,8 @@ fun main() {
     // 2) install loggers
     L.plant(ConsoleLogger())
     val setup = FileLoggerSetup.Daily.create(
-        folder = File(System.getProperty("user.dir"))
+        folder = File(System.getProperty("user.dir")),
+        fileExtension = "txt"
     )
     //val setup2= FileLoggerSetup.SingleFile.create(
     //    File(System.getProperty("user.dir"), "log.txt")
@@ -86,6 +88,14 @@ fun main() {
                     scope.launch(Dispatchers.IO) {
                         L.d { "Button with debug log was clicked" }
                         L.tag("MAIN-TAG").d { "Button with debug log was clicked" }
+
+                        val file = setup.getLatestLogFile()
+                        L.d { "Log file - file = ${file?.absolutePath} | ${file?.exists()}" }
+
+                        val files = setup.getAllExistingLogFiles()
+                        files.forEach {
+                            L.d { "Log files - fileX = ${it.absolutePath} | ${it.exists()}" }
+                        }
 
 
                         delay(1000)

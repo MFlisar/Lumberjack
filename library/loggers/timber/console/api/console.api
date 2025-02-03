@@ -1,0 +1,12 @@
+public final class timber/log/ConsoleTree : timber/log/BaseTree {
+	public static final field Companion Ltimber/log/ConsoleTree$Companion;
+	public fun <init> ()V
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun isConsoleLogger ()Z
+	public fun log (ILjava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)V
+}
+
+public final class timber/log/ConsoleTree$Companion {
+}
+

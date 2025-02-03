@@ -1,0 +1,154 @@
+public abstract class com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup : com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup {
+	public fun <init> ()V
+	public fun clearLogFiles (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun filePath (Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;)Ljava/lang/String;
+	public abstract fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
+	public fun getAllExistingLogFilePaths ()Ljava/util/List;
+	public abstract fun getFileBaseName ()Ljava/lang/String;
+	public synthetic fun getFileConverter ()Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;
+	public fun getFileConverter ()Lcom/michaelflisar/lumberjack/loggers/file/FileConverter;
+	public abstract fun getFileExtension ()Ljava/lang/String;
+	public abstract fun getFileKey (Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;Lkotlinx/io/files/Path;)Ljava/lang/String;
+	public abstract fun getFolder ()Ljava/lang/String;
+	protected final fun getKeyFromFile (Lkotlinx/io/files/Path;)Ljava/lang/String;
+	public fun getLatestLogFilePath ()Lkotlinx/io/files/Path;
+	public fun onLogged (Lkotlinx/coroutines/CoroutineScope;)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileConverter : com/michaelflisar/lumberjack/core/interfaces/IFileConverter {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/loggers/file/FileConverter;
+	public final fun describeContents ()I
+	public fun formatLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)Ljava/lang/String;
+	public fun parseFile (Ljava/util/List;)Ljava/util/List;
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileConverter$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileConverter;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileConverter;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLogger : com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
+	public fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JZLkotlin/jvm/functions/Function9;)V
+	public synthetic fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JZLkotlin/jvm/functions/Function9;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getEnabled ()Z
+	public fun getFilter ()Lkotlin/jvm/functions/Function9;
+	public final fun getSetup ()Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;
+	public fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
+	public fun setEnabled (Z)V
+}
+
+public abstract class com/michaelflisar/lumberjack/loggers/file/FileLogger$Event {
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data : com/michaelflisar/lumberjack/loggers/file/FileLogger$Event {
+	public fun <init> (Ljava/lang/String;J)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()J
+	public final fun copy (Ljava/lang/String;J)Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;
+	public static synthetic fun copy$default (Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;Ljava/lang/String;JILjava/lang/Object;)Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLog ()Ljava/lang/String;
+	public final fun getTime ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLogger$Event$ResetWriter : com/michaelflisar/lumberjack/loggers/file/FileLogger$Event {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$ResetWriter;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup : com/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup {
+	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Companion;
+	public abstract fun filePath (Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;)Ljava/lang/String;
+	public abstract fun onLogged (Lkotlinx/coroutines/CoroutineScope;)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Companion {
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Companion;
+	public final fun describeContents ()I
+	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
+	public fun getFileBaseName ()Ljava/lang/String;
+	public fun getFileExtension ()Ljava/lang/String;
+	public fun getFileKey (Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;Lkotlinx/io/files/Path;)Ljava/lang/String;
+	public fun getFolder ()Ljava/lang/String;
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Companion {
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Companion;
+	public final fun describeContents ()I
+	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
+	public fun getFileBaseName ()Ljava/lang/String;
+	public fun getFileExtension ()Ljava/lang/String;
+	public fun getFileKey (Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;Lkotlinx/io/files/Path;)Ljava/lang/String;
+	public fun getFolder ()Ljava/lang/String;
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Companion {
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Companion;
+	public final fun describeContents ()I
+	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
+	public fun getFileBaseName ()Ljava/lang/String;
+	public fun getFileExtension ()Ljava/lang/String;
+	public fun getFileKey (Lcom/michaelflisar/lumberjack/loggers/file/FileLogger$Event$Data;Lkotlinx/io/files/Path;)Ljava/lang/String;
+	public fun getFolder ()Ljava/lang/String;
+	public final fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Companion {
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetupKt {
+	public static final fun create (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Companion;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;I)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily;
+	public static final fun create (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Companion;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;II)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize;
+	public static final fun create (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Companion;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile;
+	public static synthetic fun create$default (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Companion;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;IILjava/lang/Object;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily;
+	public static synthetic fun create$default (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Companion;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;IIILjava/lang/Object;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize;
+	public static synthetic fun create$default (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Companion;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile;
+}
+

@@ -1,0 +1,10 @@
+public final class com/michaelflisar/lumberjack/loggers/console/ConsoleLogger : com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
+	public fun <init> ()V
+	public fun <init> (ZLkotlin/jvm/functions/Function9;)V
+	public synthetic fun <init> (ZLkotlin/jvm/functions/Function9;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getEnabled ()Z
+	public fun getFilter ()Lkotlin/jvm/functions/Function9;
+	public fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
+	public fun setEnabled (Z)V
+}
+

@@ -27,6 +27,7 @@ import com.michaelflisar.toolbox.androiddemoapp.composables.rememberDemoExpanded
 import com.michaelflisar.toolbox.classes.ToastHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.io.files.SystemFileSystem
 
 class MainActivity : com.michaelflisar.toolbox.androiddemoapp.DemoActivity(
     scrollableContent = false
@@ -50,7 +51,6 @@ class MainActivity : com.michaelflisar.toolbox.androiddemoapp.DemoActivity(
         }
         val showComposeLogView = rememberSaveable { mutableStateOf(false) }
         val showComposeLogView2 = rememberSaveable { mutableStateOf(false) }
-
 
         DemoAppThemeRegionDetailed(
             state = regionState
@@ -79,45 +79,64 @@ class MainActivity : com.michaelflisar.toolbox.androiddemoapp.DemoActivity(
         DemoCollapsibleRegion(
             title = "Actions", regionId = 2, state = regionState
         ) {
-            OutlinedTextField(modifier = Modifier.fillMaxWidth(),
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = mail,
                 onValueChange = { mail = it },
                 label = {
                     Text("Receiver Mail")
-                })
-            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
-                scope.launch {
-                    DemoLogging.FILE_LOGGING_SETUP.clearLogFiles()
-                    L.d { "TEST-LOG - Files just have been deleted!" }
                 }
-            }) {
-                Text("Delete Log Files")
-            }
-            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
-                mail.takeIf { it.isNotEmpty() }?.let {
-                    L.sendFeedback(
-                        context = context,
-                        receiver = it,
-                        attachments = listOfNotNull(DemoLogging.FILE_LOGGING_SETUP.getLatestLogFile())
-                    )
-                } ?: ToastHelper.show(
-                    context, "You must provide a valid email address to test this function!"
-                )
-            }) {
-                Text("Send log file via mail")
-            }
-            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
-                L.d { "Logging something..." }
-            }) {
-                Text("Log something")
-            }
-            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = {
-                scope.launch(Dispatchers.IO) {
-                    (1..100).forEach {
-                        L.d { "Logging a lot $it..." }
+            )
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    scope.launch {
+                        DemoLogging.FILE_LOGGING_SETUP.clearLogFiles()
+                        L.d { "TEST-LOG - Files just have been deleted!" }
                     }
                 }
-            }) {
+            ) {
+                Text("Delete Log Files")
+            }
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    mail.takeIf { it.isNotEmpty() }?.let {
+                        L.sendFeedback(
+                            context = context,
+                            receiver = it,
+                            attachments = listOfNotNull(DemoLogging.FILE_LOGGING_SETUP.getLatestLogFile())
+                        )
+                    } ?: ToastHelper.show(
+                        context, "You must provide a valid email address to test this function!"
+                    )
+                }
+            ) {
+                Text("Send log file via mail")
+            }
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    L.d { "Logging something..." }
+                    val path = DemoLogging.FILE_LOGGING_SETUP.getLatestLogFilePath()
+                    val file = DemoLogging.FILE_LOGGING_SETUP.getLatestLogFile()
+                    L.d { "Log file - path = ${path} | exists = ${path?.let { SystemFileSystem.exists(it) }}" }
+                    L.d { "Log file - file = ${file?.absolutePath} | exists = ${file?.exists()}" }
+
+                }
+            ) {
+                Text("Log something")
+            }
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    scope.launch(Dispatchers.IO) {
+                        (1..100).forEach {
+                            L.d { "Logging a lot $it..." }
+                        }
+                    }
+                }
+            ) {
                 Text("Log a lot")
             }
         }

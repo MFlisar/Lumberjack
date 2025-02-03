@@ -1,0 +1,5 @@
+public final class com/michaelflisar/lumberjack/extensions/feedback/ExtensionFeedbackKt {
+	public static final fun sendFeedback (Lcom/michaelflisar/lumberjack/core/L;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public static synthetic fun sendFeedback$default (Lcom/michaelflisar/lumberjack/core/L;Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)V
+}
+

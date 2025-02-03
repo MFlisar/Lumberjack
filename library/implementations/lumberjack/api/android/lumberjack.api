@@ -1,0 +1,35 @@
+public final class com/michaelflisar/lumberjack/implementation/ExtensionsKt {
+	public static final fun plant (Lcom/michaelflisar/lumberjack/core/L;Lcom/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger;)V
+	public static final fun uproot (Lcom/michaelflisar/lumberjack/core/L;Lcom/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger;)V
+	public static final fun uprootAll (Lcom/michaelflisar/lumberjack/core/L;)V
+}
+
+public final class com/michaelflisar/lumberjack/implementation/LumberjackLogger : com/michaelflisar/lumberjack/core/AbstractLogger {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
+	public synthetic fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
+	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
+	public fun enable (Z)V
+	public fun isEnabled ()Z
+	public final fun loggers ()Ljava/util/List;
+	public synthetic fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
+}
+
+public final class com/michaelflisar/lumberjack/implementation/Platform_androidKt {
+	public static final fun platformPrintln (Ljava/lang/String;Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/String;)V
+}
+
+public final class com/michaelflisar/lumberjack/implementation/classes/DefaultLumberjackFilter : kotlin/jvm/functions/Function9 {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/implementation/classes/DefaultLumberjackFilter;
+	public fun invoke (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)Ljava/lang/Boolean;
+	public synthetic fun invoke (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract interface class com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
+	public abstract fun getEnabled ()Z
+	public abstract fun getFilter ()Lkotlin/jvm/functions/Function9;
+	public abstract fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
+	public abstract fun setEnabled (Z)V
+}
+

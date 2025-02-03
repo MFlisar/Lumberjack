@@ -1,0 +1,133 @@
+public final class com/michaelflisar/lumberjack/implementation/timber/T {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/implementation/timber/T;
+	public final fun clear (Ljava/lang/Object;)Lcom/michaelflisar/lumberjack/implementation/timber/data/TimerData;
+	public final fun exists (Ljava/lang/Object;)Z
+	public final fun getEnd (Ljava/lang/Object;)Ljava/lang/Long;
+	public final fun getLaps (Ljava/lang/Object;)Ljava/util/List;
+	public final fun getStart (Ljava/lang/Object;)Ljava/lang/Long;
+	public final fun lap (Ljava/lang/Object;)Ljava/lang/Long;
+	public final fun print (Ljava/lang/Object;)Ljava/lang/String;
+	public final fun printAndLap (Ljava/lang/Object;)Ljava/lang/String;
+	public final fun printAndLapTotal (Ljava/lang/Object;)Ljava/lang/String;
+	public final fun printAndStart (Ljava/lang/Object;)Ljava/lang/String;
+	public final fun printAndStop (Ljava/lang/Object;)Ljava/lang/String;
+	public final fun start (Ljava/lang/Object;)Z
+	public final fun stop (Ljava/lang/Object;)Ljava/lang/Long;
+}
+
+public final class com/michaelflisar/lumberjack/implementation/timber/TimberLogger : com/michaelflisar/lumberjack/core/AbstractLogger {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/implementation/timber/TimberLogger;
+	public synthetic fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/implementation/timber/TimberLogger;
+	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
+	public fun enable (Z)V
+	public final fun getEnabled ()Z
+	public final fun getFilter ()Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFilter;
+	public final fun getFormatter ()Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFormatter;
+	public fun isEnabled ()Z
+	public final fun log (Ljava/lang/Throwable;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
+	public final fun setEnabled (Z)V
+	public final fun setFilter (Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFilter;)V
+	public final fun setFormatter (Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFormatter;)V
+	public final fun setStackTraceData (Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)V
+	public synthetic fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/implementation/timber/TimberLogger;
+}
+
+public class com/michaelflisar/lumberjack/implementation/timber/core/DefaultFormatter : com/michaelflisar/lumberjack/implementation/timber/interfaces/IFormatter {
+	public fun <init> ()V
+	protected fun formatClassName (Ljava/lang/String;)Ljava/lang/String;
+	public fun formatLine (Ltimber/log/BaseTree;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun formatLogPrefix (Ljava/lang/String;Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)Ljava/lang/String;
+	protected fun getStackTag (Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)Ljava/lang/String;
+}
+
+public final class com/michaelflisar/lumberjack/implementation/timber/data/StackData {
+	public static final field Companion Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData$Companion;
+	public fun <init> (Ljava/lang/Throwable;I)V
+	public fun <init> (Ljava/util/List;I)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()I
+	public final fun copy (Ljava/util/List;I)Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;
+	public static synthetic fun copy$default (Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;Ljava/util/List;IILjava/lang/Object;)Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCallStackIndex ()I
+	public final fun getCallingPackageName ()Ljava/lang/String;
+	public final fun getClassName ()Ljava/lang/String;
+	public final fun getClassName2 ()Ljava/lang/String;
+	public final fun getElement ()Ljava/lang/StackTraceElement;
+	public final fun getElement2 ()Ljava/lang/StackTraceElement;
+	public final fun getLink ()Ljava/lang/String;
+	public final fun getStackTrace ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/lumberjack/implementation/timber/data/StackData$Companion {
+}
+
+public final class com/michaelflisar/lumberjack/implementation/timber/data/TimerData {
+	public static final field Companion Lcom/michaelflisar/lumberjack/implementation/timber/data/TimerData$Companion;
+	public fun <init> ()V
+	public final fun getEnd ()Ljava/lang/Long;
+	public final fun getLaps ()Ljava/util/List;
+	public final fun getLastLapTotal ()Ljava/lang/Long;
+	public final fun getStart ()Ljava/lang/Long;
+	public final fun getStartTime ()Ljava/lang/String;
+	public final fun getTotal ()Ljava/lang/Long;
+	public final fun isRunning ()Z
+	public final fun lap ()Ljava/lang/Long;
+	public final fun start ()Lcom/michaelflisar/lumberjack/implementation/timber/data/TimerData;
+	public final fun stop ()Ljava/lang/Long;
+	public final fun wasEnded ()Z
+	public final fun wasStarted ()Z
+}
+
+public final class com/michaelflisar/lumberjack/implementation/timber/data/TimerData$Companion {
+	public final fun getTIME_FORMATTER ()Ljava/text/SimpleDateFormat;
+}
+
+public abstract interface class com/michaelflisar/lumberjack/implementation/timber/interfaces/IFilter {
+	public abstract fun isPackageNameEnabled (Ljava/lang/String;)Z
+	public abstract fun isTagEnabled (Ltimber/log/BaseTree;Ljava/lang/String;)Z
+}
+
+public abstract interface class com/michaelflisar/lumberjack/implementation/timber/interfaces/IFormatter {
+	public abstract fun formatLine (Ltimber/log/BaseTree;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public abstract fun formatLogPrefix (Ljava/lang/String;Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)Ljava/lang/String;
+}
+
+public abstract class timber/log/BaseTree : timber/log/Timber$Tree {
+	public static final field Companion Ltimber/log/BaseTree$Companion;
+	public fun <init> ()V
+	public fun d (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun d (Ljava/lang/Throwable;)V
+	public fun d (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun e (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun e (Ljava/lang/Throwable;)V
+	public fun e (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
+	protected final fun formatLine (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun i (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun i (Ljava/lang/Throwable;)V
+	public fun i (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun isConsoleLogger ()Z
+	protected fun isLoggable (Ljava/lang/String;I)Z
+	protected final fun log (ILjava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V
+	public abstract fun log (ILjava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)V
+	public fun log (ILjava/lang/String;[Ljava/lang/Object;)V
+	public fun log (ILjava/lang/Throwable;)V
+	public fun log (ILjava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun v (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun v (Ljava/lang/Throwable;)V
+	public fun v (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun w (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun w (Ljava/lang/Throwable;)V
+	public fun w (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun wtf (Ljava/lang/String;[Ljava/lang/Object;)V
+	public fun wtf (Ljava/lang/Throwable;)V
+	public fun wtf (Ljava/lang/Throwable;Ljava/lang/String;[Ljava/lang/Object;)V
+}
+
+public final class timber/log/BaseTree$Companion {
+}
+

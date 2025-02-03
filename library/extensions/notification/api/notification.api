@@ -1,0 +1,31 @@
+public final class com/michaelflisar/lumberjack/extensions/notification/ExtensionNotificationKt {
+	public static final fun showNotification (Lcom/michaelflisar/lumberjack/core/L;Landroid/content/Context;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lcom/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler;)V
+	public static synthetic fun showNotification$default (Lcom/michaelflisar/lumberjack/core/L;Landroid/content/Context;ILjava/lang/String;ILjava/lang/String;Ljava/lang/String;Lcom/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler;ILjava/lang/Object;)V
+}
+
+public abstract class com/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler {
+}
+
+public final class com/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler$ClickIntent : com/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler {
+	public fun <init> (Landroid/content/Intent;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun <init> (Landroid/content/Intent;Lkotlin/jvm/functions/Function1;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getApply ()Lkotlin/jvm/functions/Function1;
+	public final fun getIntent ()Landroid/content/Intent;
+}
+
+public final class com/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler$None : com/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler$None;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler$SendFeedback : com/michaelflisar/lumberjack/extensions/notification/NotificationClickHandler {
+	public fun <init> (Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAttachments ()Ljava/util/List;
+	public final fun getReceiver ()Ljava/lang/String;
+	public final fun getSubject ()Ljava/lang/String;
+	public final fun getTitleForChooser ()Ljava/lang/String;
+}
+
