@@ -26,10 +26,10 @@ jobs:
         - name: Setup Gradle
           uses: gradle/actions/setup-gradle@v4
 
-        - name: Build with Gradle
-          run: ./gradlew build
+        #- name: Build with Gradle
+        #  run: ./gradlew build
 
-        - name: Build with Gradle and Publish to Local Repository
+        - name: Build with Gradle and publish to Local Repository
           run: ./gradlew publishToMavenLocal
 
         - name: Upload Artifacts
@@ -39,7 +39,7 @@ jobs:
             path: ~/.m2/repository
 
   publish:
-    name: Publish
+    name: Publish to Maven Central
     runs-on: ubuntu-latest
     needs: [build-on-macos]
 

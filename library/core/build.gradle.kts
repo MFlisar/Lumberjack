@@ -94,7 +94,7 @@ kotlin {
 
     // WASM
     @OptIn(ExperimentalWasmDsl::class)
-    wasmJs() {
+    wasmJs {
         nodejs()
     }
 
