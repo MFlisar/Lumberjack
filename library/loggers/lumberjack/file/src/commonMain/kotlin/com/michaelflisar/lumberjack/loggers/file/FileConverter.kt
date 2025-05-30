@@ -2,8 +2,8 @@ package com.michaelflisar.lumberjack.loggers.file
 
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
-import dev.icerock.moko.parcelize.IgnoredOnParcel
-import dev.icerock.moko.parcelize.Parcelize
+import com.michaelflisar.parcelize.IgnoredOnParcel
+import com.michaelflisar.parcelize.Parcelize
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.format.char
 

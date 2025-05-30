@@ -1,7 +1,7 @@
 package com.michaelflisar.lumberjack.core.interfaces
 
 import com.michaelflisar.lumberjack.core.classes.Level
-import dev.icerock.moko.parcelize.Parcelable
+import com.michaelflisar.parcelize.Parcelable
 
 interface IFileConverter : Parcelable {
 

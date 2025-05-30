@@ -1,5 +1,6 @@
 package com.michaelflisar.lumberjack.implementation
 
+import co.touchlab.stately.concurrency.ThreadLocalRef
 import com.michaelflisar.lumberjack.core.AbstractLogger
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.implementation.classes.StackData
@@ -10,8 +11,8 @@ object LumberjackLogger : AbstractLogger() {
 
     private var enabled: Boolean = true
     private val implementations: MutableList<ILumberjackLogger> = ArrayList()
-    private val explicitTag = ThreadLocal<String>()
-    private val callStackCorrection = ThreadLocal<Int>()
+    private val explicitTag = ThreadLocalRef<String>()
+    private val callStackCorrection = ThreadLocalRef<Int>()
 
     // -------------------
     // Object functions

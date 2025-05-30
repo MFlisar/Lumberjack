@@ -9,21 +9,24 @@
 <h1 align="center"><b>{{ project["library"]["name"] }}</b></h1>
 
 ![PLATFORMS](https://img.shields.io/badge/PLATFORMS-black?style=for-the-badge){:class=exclude-glightbox }
-{% if "jvm" in project["library"]["platforms"] -%}
-![JVM](https://img.shields.io/badge/JVM-grey?style=for-the-badge){:class=exclude-glightbox }
-{% endif -%}
 {% if "android" in project["library"]["platforms"] -%}
-![ANDROID](https://img.shields.io/badge/Android-green?style=for-the-badge){:class=exclude-glightbox }
+![Android](https://img.shields.io/badge/android-3DDC84?style=for-the-badge){:class=exclude-glightbox }
 {% endif -%}
 {% if "ios" in project["library"]["platforms"] -%}
-![IOS](https://img.shields.io/badge/iOS-blue?style=for-the-badge){:class=exclude-glightbox }
+![iOS](https://img.shields.io/badge/ios-007AFF?style=for-the-badge){:class=exclude-glightbox }
 {% endif -%}
-{% if "js" in project["library"]["platforms"] -%}
-![JS](https://img.shields.io/badge/js-orange?style=for-the-badge){:class=exclude-glightbox }
+{% if "windows" in project["library"]["platforms"] -%}
+![Windows](https://img.shields.io/badge/windows-00A4EF?style=for-the-badge){:class=exclude-glightbox }
 {% endif -%}
-{% if "wasm" in project["library"]["platforms"] -%}
-![WASM](https://img.shields.io/badge/wasm-purple?style=for-the-badge){:class=exclude-glightbox }
+{% if "macos" in project["library"]["platforms"] -%}
+![iOS](https://img.shields.io/badge/macos-000000?style=for-the-badge){:class=exclude-glightbox }
 {% endif -%}
 {% if "linux" in project["library"]["platforms"] -%}
-![LINUX](https://img.shields.io/badge/linux-yellow?style=for-the-badge){:class=exclude-glightbox }
+![Linux](https://img.shields.io/badge/linux-FCC624?style=for-the-badge){:class=exclude-glightbox }
+{% endif -%}
+{% if "wasm" in project["library"]["platforms"] -%}
+![WASM](https://img.shields.io/badge/wasm-654FF0?style=for-the-badge){:class=exclude-glightbox }
+{% endif -%}
+{% if "js" in project["library"]["platforms"] -%}
+![js](https://img.shields.io/badge/js-F7DF1E?style=for-the-badge){:class=exclude-glightbox }
 {% endif -%}

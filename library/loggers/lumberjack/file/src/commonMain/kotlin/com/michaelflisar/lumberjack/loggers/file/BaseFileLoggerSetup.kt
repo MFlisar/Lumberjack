@@ -1,7 +1,7 @@
 package com.michaelflisar.lumberjack.loggers.file
 
 import com.michaelflisar.lumberjack.implementation.LumberjackLogger
-import dev.icerock.moko.parcelize.IgnoredOnParcel
+import com.michaelflisar.parcelize.IgnoredOnParcel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

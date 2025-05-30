@@ -8,9 +8,13 @@ fastscroller =              "1.0.0"
 material =					"1.12.0"
 
 # mflisar
+kmp-parcelize =             "0.0.1-alpha03"
 feedback =                  "2.1.0"
 toolbox =                   "2.2.2"
+
+stately =                   "2.1.0"
 moko-parcelize =            "0.9.0"
+
 
 [libraries]
 
@@ -20,8 +24,11 @@ slf4j = 				        	{ module = "org.slf4j:slf4j-api", 							version.ref = "slf
 logback = 				        	{ module = "com.github.tony19:logback-android", 		    version.ref = "logback" }
 fastscroller = 				        { module = "com.quiph.ui:recyclerviewfastscroller", 		version.ref = "fastscroller" }
 material = 				        	{ module = "com.google.android.material:material", 		    version.ref = "material" }
-moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		                        version.ref = "moko-parcelize" }
 
 # mflisar
+kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	        version.ref = "kmp-parcelize" }
 feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
 toolbox-android-demo-app =          { module = "io.github.mflisar.toolbox:android-demo-app",    version.ref = "toolbox" }
+
+stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
+moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		            version.ref = "moko-parcelize" }

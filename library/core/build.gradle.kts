@@ -1,6 +1,7 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -55,8 +56,9 @@ val licenseUrl = "$github/blob/main/LICENSE"
 
 kotlin {
 
-    // Java
-    jvm()
+    //-------------
+    // Mobile
+    //-------------
 
     // Android
     androidTarget {
@@ -67,11 +69,41 @@ kotlin {
     }
 
     // iOS
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    //-------------
+    // Desktop
+    //-------------
+
+    // Windows
+    jvm()
+
+    // macOS
     macosX64()
     macosArm64()
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
+
+    // Linux
+    // linuxX64()
+    // linuxArm64()
+
+    //-------------
+    // Web
+    //-------------
+
+    // WASM
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs() {
+        nodejs()
+    }
+
+    //-------------
+    // JavaScript
+    //-------------
+
+    // js()
+    // js(IR)
 
     // -------
     // Sources
@@ -84,7 +116,8 @@ kotlin {
             // Kotlin
             implementation(kotlinx.io.core)
 
-            api(deps.moko.parcelize)
+            //api(deps.moko.parcelize)
+            api(deps.kmp.parcelize)
 
         }
     }

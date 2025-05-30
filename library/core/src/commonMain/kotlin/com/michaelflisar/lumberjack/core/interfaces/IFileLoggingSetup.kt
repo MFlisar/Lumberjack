@@ -1,6 +1,6 @@
 package com.michaelflisar.lumberjack.core.interfaces
 
-import dev.icerock.moko.parcelize.Parcelable
+import com.michaelflisar.parcelize.Parcelable
 import kotlinx.io.files.Path
 
 interface IFileLoggingSetup : Parcelable {

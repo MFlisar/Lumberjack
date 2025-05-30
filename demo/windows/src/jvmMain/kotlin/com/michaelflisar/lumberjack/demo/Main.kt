@@ -7,6 +7,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,11 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberDialogState
 import androidx.compose.ui.window.rememberWindowState
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
@@ -54,6 +53,10 @@ fun main() {
     //)
     L.plant(FileLogger(setup))
 
+    L.tag("Tag1").d { "before main application" }
+    val test = Test()
+    test.testLogInClass()
+
     application {
 
         val scope = rememberCoroutineScope()
@@ -67,6 +70,13 @@ fun main() {
 
         val showComposeLogView = rememberSaveable { mutableStateOf(false) }
 
+        LaunchedEffect(Unit) {
+            try {
+                val x = 1 / 0
+            } catch (e: Exception) {
+                L.e(e) { "x = 1 / 0" }
+            }
+        }
         Window(
             title = "Lumberjack Demo",
             onCloseRequest = ::exitApplication,
@@ -145,5 +155,12 @@ fun main() {
             )
 
         }
+    }
+}
+
+class Test {
+
+    fun testLogInClass() {
+        L.d { "Test log in class" }
     }
 }
