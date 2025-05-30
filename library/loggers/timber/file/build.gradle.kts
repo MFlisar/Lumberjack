@@ -40,7 +40,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 // DEP = "deps.timber|Timber|https://github.com/JakeWharton/timber"
 // DEP = "deps.slf4j|slf4j|https://www.slf4j.org/"
 // DEP = "deps.logback|logback-android|https://github.com/tony19/logback-android"
-// PLATFORM_INFO = "(6)"               // defines a comment that will be shown in the documentation for this modules platform support
+// PLATFORM_INFO = "(3)"               // defines a comment that will be shown in the documentation for this modules platform support
 
 // -------------------
 // Setup

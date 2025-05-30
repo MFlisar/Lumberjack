@@ -40,7 +40,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 // GROUP_ID = "extensions"             // defines the "grouping" in the documentation this module belongs to
 // DEP = "deps.feedback|FeedbackManager|https://github.com/MFlisar/FeedbackManager"
 // DEP = "deps.fastscroller|FastScroller|https://github.com/quiph/RecyclerView-FastScroller"
-// PLATFORM_INFO = "(4)"               // defines a comment that will be shown in the documentation for this modules platform support
+// PLATFORM_INFO = "(2)"               // defines a comment that will be shown in the documentation for this modules platform support
 
 // -------------------
 // Setup

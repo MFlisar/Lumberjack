@@ -41,7 +41,7 @@ val licenseUrl = "$github/blob/main/LICENSE"
 // OPTIONAL = "true"                // defines if this module is optional or not
 // GROUP_ID = "lumberjack"             // defines the "grouping" in the documentation this module belongs to
 // #DEP = "deps.kotbilling|KotBilling|https://github.com/MFlisar/Kotbilling"
-// PLATFORM_INFO = "(2)"               // defines a comment that will be shown in the documentation for this modules platform support
+// PLATFORM_INFO = ""               // defines a comment that will be shown in the documentation for this modules platform support
 
 
 // -------------------

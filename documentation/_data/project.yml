@@ -82,8 +82,10 @@ modules:
     optional: true
     platforms:
       - android
+      - ios
       - windows
-    platforms-info: (5)
+      - macos
+    platforms-info: ""
     dependencies:
       - name: FeedbackManager
         link: https://github.com/MFlisar/FeedbackManager
@@ -94,7 +96,7 @@ modules:
     optional: true
     platforms:
       - android
-    platforms-info: (3)
+    platforms-info: (1)
     dependencies:
       - name: FeedbackManager
         link: https://github.com/MFlisar/FeedbackManager
@@ -105,7 +107,7 @@ modules:
     optional: true
     platforms:
       - android
-    platforms-info: (3)
+    platforms-info: (1)
     dependencies:
       - name: FeedbackManager
         link: https://github.com/MFlisar/FeedbackManager
@@ -116,7 +118,7 @@ modules:
     optional: true
     platforms:
       - android
-    platforms-info: (4)
+    platforms-info: (2)
     dependencies:
       - name: FeedbackManager
         link: https://github.com/MFlisar/FeedbackManager
@@ -134,7 +136,7 @@ modules:
       - windows
       - macos
       - wasm
-    platforms-info: (1)
+    platforms-info: ""
     dependencies: []
   - name: implementation-timber
     group: timber
@@ -142,7 +144,7 @@ modules:
     optional: true
     platforms:
       - android
-    platforms-info: (6)
+    platforms-info: (3)
     dependencies:
       - name: Timber
         link: https://github.com/JakeWharton/timber
@@ -157,7 +159,7 @@ modules:
       - windows
       - macos
       - wasm
-    platforms-info: (2)
+    platforms-info: ""
     dependencies: []
   - name: logger-file
     group: lumberjack
@@ -165,7 +167,9 @@ modules:
     optional: true
     platforms:
       - android
+      - ios
       - windows
+      - macos
     platforms-info: ""
     dependencies: []
   - name: logger-timber-console
@@ -174,7 +178,7 @@ modules:
     optional: true
     platforms:
       - android
-    platforms-info: (6)
+    platforms-info: (3)
     dependencies:
       - name: Timber
         link: https://github.com/JakeWharton/timber
@@ -185,7 +189,7 @@ modules:
     optional: true
     platforms:
       - android
-    platforms-info: (6)
+    platforms-info: (3)
     dependencies:
       - name: Timber
         link: https://github.com/JakeWharton/timber
