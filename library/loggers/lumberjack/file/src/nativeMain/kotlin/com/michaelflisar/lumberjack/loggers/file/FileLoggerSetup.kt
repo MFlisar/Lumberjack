@@ -7,7 +7,6 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
-import okio.Path.Companion.toPath
 
 @OptIn(ExperimentalForeignApi::class)
 fun FileLoggerSetup.Daily.Companion.create(
@@ -23,12 +22,13 @@ fun FileLoggerSetup.Daily.Companion.create(
         error = null
     ).let {
         requireNotNull(it).path
-    }!!.toPath().name,
+    }!!,
     fileBaseName,
     fileExtension,
     filesToKeep
 )
 
+@OptIn(ExperimentalForeignApi::class)
 fun FileLoggerSetup.FileSize.Companion.create(
     fileBaseName: String = "log",
     fileExtension: String = "log",
@@ -43,7 +43,7 @@ fun FileLoggerSetup.FileSize.Companion.create(
         error = null
     ).let {
         requireNotNull(it).path
-    }.toPath(),
+    }!!,
     fileBaseName,
     fileExtension,
     filesToKeep,
