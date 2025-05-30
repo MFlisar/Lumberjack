@@ -68,7 +68,7 @@ jobs:
           echo "TAG: $TAG"
           echo "Publishing library 🚀"
           echo ""
-          ./gradlew publish --no-build --no-daemon --no-parallel
+          ./gradlew publish --no-daemon --no-parallel
           echo "Published✅"
 
         env:
