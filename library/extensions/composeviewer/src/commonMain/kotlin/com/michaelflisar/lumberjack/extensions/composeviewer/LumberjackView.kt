@@ -50,6 +50,7 @@ import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import kotlinx.io.IOException
 import kotlinx.io.buffered
