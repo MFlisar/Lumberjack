@@ -20,10 +20,6 @@ icon: material/information-variant
 
 {% include 'platforms.md' %}
 
-!!! note
-
-    iOS would be supported theoretically, but currently I don't know iOS and don't own an apple device - the problem is only that I can't replace `ThreadLocal` and `StackTraceElement` in a non jvm environment. Additionally the console logging would need an iOS implementation as well. If you know how this can be done and want to contribute, that would be much appreciated.
-
 * (1) notification and feedback module are android specific modules and therefor only support android
 * (2) the viewer module is and older view based module that just supports android based on its nature
 * (3) timber is only supported on android and therefor those modules are android only modules as well
