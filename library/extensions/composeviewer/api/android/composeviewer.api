@@ -1,28 +1,28 @@
 public final class com/michaelflisar/lumberjack/extensions/composeviewer/ComposableSingletons$LumberjackViewKt {
 	public static final field INSTANCE Lcom/michaelflisar/lumberjack/extensions/composeviewer/ComposableSingletons$LumberjackViewKt;
 	public fun <init> ()V
-	public final fun getLambda-1$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-2$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-3$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-802331268$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1047464550$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$162326860$composeviewer_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class com/michaelflisar/lumberjack/extensions/composeviewer/ComposableSingletons$TopAppBarImplKt {
 	public static final field INSTANCE Lcom/michaelflisar/lumberjack/extensions/composeviewer/ComposableSingletons$TopAppBarImplKt;
 	public fun <init> ()V
-	public final fun getLambda-1$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-10$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-11$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-12$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-13$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-14$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-2$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-3$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-4$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-5$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-6$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-7$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-8$composeviewer_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda-9$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1739354012$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-180821620$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1910150258$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-2091505513$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-388132717$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-534598213$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-64504182$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1345579057$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1517091930$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1761935278$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$180756509$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$2024820747$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$215593174$composeviewer_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$295492109$composeviewer_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public abstract class com/michaelflisar/lumberjack/extensions/composeviewer/Data {

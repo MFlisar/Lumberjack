@@ -62,7 +62,7 @@ public final class com/michaelflisar/lumberjack/core/classes/Level : java/lang/E
 	public static fun values ()[Lcom/michaelflisar/lumberjack/core/classes/Level;
 }
 
-public abstract interface class com/michaelflisar/lumberjack/core/interfaces/IFileConverter : dev/icerock/moko/parcelize/Parcelable {
+public abstract interface class com/michaelflisar/lumberjack/core/interfaces/IFileConverter : com/michaelflisar/parcelize/Parcelable {
 	public abstract fun formatLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)Ljava/lang/String;
 	public abstract fun parseFile (Ljava/util/List;)Ljava/util/List;
 }
@@ -76,7 +76,7 @@ public final class com/michaelflisar/lumberjack/core/interfaces/IFileConverter$E
 	public final fun setLines (Ljava/util/List;)V
 }
 
-public abstract interface class com/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup : dev/icerock/moko/parcelize/Parcelable {
+public abstract interface class com/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup : com/michaelflisar/parcelize/Parcelable {
 	public abstract fun clearLogFiles (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getAllExistingLogFilePaths ()Ljava/util/List;
 	public abstract fun getFileConverter ()Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;

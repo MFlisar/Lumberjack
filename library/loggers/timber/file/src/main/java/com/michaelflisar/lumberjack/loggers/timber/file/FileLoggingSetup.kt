@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Parcelable
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
-import dev.icerock.moko.parcelize.IgnoredOnParcel
-import dev.icerock.moko.parcelize.Parcelize
+import com.michaelflisar.parcelize.IgnoredOnParcel
+import com.michaelflisar.parcelize.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.io.files.Path
