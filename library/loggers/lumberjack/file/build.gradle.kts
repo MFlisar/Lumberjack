@@ -183,5 +183,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
 
     // Enable GPG signing for all publications
-    signAllPublications()
+    if (!project.gradle.startParameter.taskNames.any { it.contains("publishToMavenLocal") }) {
+        signAllPublications()
+    }
 }
