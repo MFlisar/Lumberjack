@@ -33,13 +33,7 @@ jobs:
         #  run: ./gradlew build
 
         - name: Build with Gradle and Publish to Local Repository
-          run: ./gradlew publishToMavenLocal
-
-          env:
-            ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
-            ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSWORD }}
-            ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-            ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          run: ./gradlew publishToMavenLocal -Psigning.enabled=false
 
         - name: Upload Artifacts
           uses: actions/upload-artifact@v4
