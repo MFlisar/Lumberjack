@@ -62,6 +62,7 @@ public final class com/michaelflisar/lumberjack/extensions/composeviewer/Extensi
 public final class com/michaelflisar/lumberjack/extensions/composeviewer/FileSizeUtil {
 	public static final field $stable I
 	public static final field INSTANCE Lcom/michaelflisar/lumberjack/extensions/composeviewer/FileSizeUtil;
+	public final fun formatNumberManually (D)Ljava/lang/String;
 	public final fun humanReadableBytes (J)Ljava/lang/String;
 }
 
