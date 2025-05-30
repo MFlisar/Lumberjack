@@ -39,7 +39,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs: [build-on-macos]
 
     steps:
