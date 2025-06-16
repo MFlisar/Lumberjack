@@ -1,6 +1,6 @@
 [versions]
 
-okio =                      "3.9.1"
+okio =                      "3.12.0"
 timber =                    "4.7.1"
 slf4j =                     "2.0.7"
 logback =                   "3.0.0"
@@ -8,13 +8,17 @@ fastscroller =              "1.0.0"
 material =					"1.12.0"
 
 # mflisar
-kmp-parcelize =             "0.0.1-alpha03"
+kmp-template =              "1.0.9"
+kmp-parcelize =             "1.0.0"
 feedback =                  "2.1.0"
-toolbox =                   "2.2.2"
+toolbox =                   "2.2.2" # demo only
 
 stately =                   "2.1.0"
-moko-parcelize =            "0.9.0"
+#moko-parcelize =            "0.9.0"
 
+[plugins]
+
+kmp-template-gradle-plugin =        { id = "io.github.mflisar.kmp-template.build-plugin",      version.ref = "kmp-template" }
 
 [libraries]
 
@@ -26,9 +30,10 @@ fastscroller = 				        { module = "com.quiph.ui:recyclerviewfastscroller", 	
 material = 				        	{ module = "com.google.android.material:material", 		    version.ref = "material" }
 
 # mflisar
+kmp-template-scripts =              { module = "io.github.mflisar.kmp-template:scripts",        version.ref = "kmp-template" }
 kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	        version.ref = "kmp-parcelize" }
 feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
 toolbox-android-demo-app =          { module = "io.github.mflisar.toolbox:android-demo-app",    version.ref = "toolbox" }
 
 stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
-moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		            version.ref = "moko-parcelize" }
+#moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		            version.ref = "moko-parcelize" }

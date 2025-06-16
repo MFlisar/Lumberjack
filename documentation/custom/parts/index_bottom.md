@@ -1,31 +1,3 @@
----
-icon: material/information-variant
----
-
-{% include 'header.md' %}
-
-{% include 'description.md' %}
-
-{% include 'region-features.md' %}
-
-* simply lazy evalution based logger based on a `L` class for the shortest possible log codes
-* easily extendible with custom loggers
-* offers console and file logger implementations
-* supports log filtering
-* providers a viewer for log files
-
-{% include 'screenshots.md' %}
-
-{% include 'modules.md' %}
-
-{% include 'platforms.md' %}
-
-* (1) notification and feedback module are android specific modules and therefor only support android
-* (2) the viewer module is and older view based module that just supports android based on its nature
-* (3) timber is only supported on android and therefor those modules are android only modules as well
-
-{% include 'demo.md' %}
-
 ## :page_with_curl: Notes
 
 #### Timber vs Lumberjack implementation

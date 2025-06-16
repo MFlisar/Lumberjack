@@ -1,0 +1,33 @@
+[D] 2025-06-16 12:49:38.512 [Main.kt:56]: before main application
+[D] 2025-06-16 12:49:38.564 [Main.kt:164]: Test log in class
+[E] 2025-06-16 12:49:39.675 [Main.kt:75]: x = 1 / 0
+java.lang.ArithmeticException: / by zero
+	at com.michaelflisar.lumberjack.demo.MainKt$main$2$1$1.invokeSuspend(Main.kt:75)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2025-06-16 12:49:45.440 [Main.kt:99]: Button with debug log was clicked
+[D] 2025-06-16 12:49:45.441 [Main.kt:100]: Button with debug log was clicked
+[D] 2025-06-16 12:49:45.442 [Main.kt:103]: Log file - file = D:\dev\11 - libs (mine)\Lumberjack\demo\windows\log_2025_06_16.txt | true
+[D] 2025-06-16 12:49:45.443 [Main.kt:107]: Log files - fileX = D:\dev\11 - libs (mine)\Lumberjack\demo\windows\log_2025_06_16.txt | true
+[E] 2025-06-16 12:49:46.811 [Main.kt:120]: Button with error log was clicked
+[E] 2025-06-16 12:49:46.812 [Main.kt:121]: Button with error log was clicked
+[V] 2025-06-16 12:49:46.812 [Main.kt:123]: verbose
+[I] 2025-06-16 12:49:46.813 [Main.kt:124]: info
+[D] 2025-06-16 12:49:46.813 [Main.kt:125]: debug
+[E] 2025-06-16 12:49:46.814 [Main.kt:127]: error
+[WTF] 2025-06-16 12:49:46.814 [Main.kt:128]: wtf
+[W] 2025-06-16 12:49:46.813 [Main.kt:126]: warn

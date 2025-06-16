@@ -9,33 +9,37 @@ env:
 jobs:
 
   build-on-macos:
-      name: Publish to Maven Central
-      runs-on: macos-latest
+    name: Publish to Maven Central
+    runs-on: macos-latest
 
-      steps:
+    steps:
 
-        - name: Checkout repository
-          uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Set up JDK 17
-          uses: actions/setup-java@v4
-          with:
-            java-version: '17'
-            distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
 
-        - name: Setup Gradle
-          uses: gradle/actions/setup-gradle@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-        - name: Publish Library
-          run: |
-            echo "TAG: $TAG"
-            echo "Publishing library 🚀"
-            echo ""
-            ./gradlew publish --no-daemon --no-parallel
-            echo "Published✅"
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
-          env:
-            ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
-            ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSWORD }}
-            ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-            ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+      - name: Publish Library
+        run: |
+          echo "TAG: $TAG"
+          echo "Publishing library 🚀"
+          echo ""
+          ./gradlew publish --no-daemon --no-parallel
+          echo "Published✅"
+
+        env:
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSWORD }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}

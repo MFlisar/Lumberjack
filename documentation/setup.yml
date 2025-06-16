@@ -1,0 +1,191 @@
+# ------------
+# General Setup
+# ------------
+
+# Developer
+developer:
+  name: Michael Flisar
+  mail: mflisar.development@gmail.com
+  maven-id: mflisar
+  social-github: https://github.com/MFlisar
+
+# Java
+java-version: 17
+
+# -----------
+# Project
+# -----------
+
+library:
+  name: Lumberjack
+  release: 2016
+  link-docs: https://mflisar.github.io/Lumberjack/
+  link-repo: https://github.com/MFlisar/Lumberjack/
+  repo-name: mflisar/Lumberjack # the label of the repo link on the mkdocs homepage at the top right
+  # TODO: autom. detecten?
+  license:
+    name: Apache License 2.0
+    link: https://github.com/MFlisar/Lumberjack/blob/main/LICENSE
+  screenshots: []
+  about-me: true # set to true if you want to show the about me section on the homepage
+
+maven:
+  group-id: io.github.mflisar.lumberjack
+  primary-artifact-id: core # used to detect latest release version of the library (dynamically on the published homepage)
+
+# -----------
+# Module Groups
+# -----------
+
+# optional - remove it if you do not want to group your Modules
+# each group has following properties:
+# - id...  the id - only needed to reference this group below inside the Modules sections
+# - label... the label of the group - used in the docs tables
+# - gradle-comment... the comment on the gradle setup docs page for this group
+groups:
+  - id: core
+    label: Core
+    gradle-comment: core
+  - id: lumberjack
+    label: Lumberjack
+    gradle-comment: if you want to use the lumberjack logger
+  - id: extensions
+    label: Extensions
+    gradle-comment: extensions that work with any implementation
+  - id: timber
+    label: Timber
+    gradle-comment: if you want to use the timber logger
+
+# -----------
+# Modules
+# -----------
+
+# REQUIRED! each module must define its meta data here!
+# each module has following properties:
+# relativePath... the relative path to the project root folder
+# artifact-id... the maven artifact id
+# group... the id of the group this module belongs to (defined above) [OPTIONAL]
+# platforms-info... a string that is displayed inside the docs in the "supported platforms" table in the info column [OPTIONAL]
+#                   IDEE: reference this info inside the parts/index_platform_comments.md
+# dependencies... a list of dependencies this module has (see below for details) [OPTIONAL]
+#    ... name: the name of the dependency - used in the docs tables
+#    ... versions-file... the toml file to load the version from (e.g. deps.versions.toml, ...)
+#    ... versions-key... the key for the versions table in the toml file
+#    ... link: a link to the dependency - used in the docs tables
+modules:
+  - relativePath: library\core
+    artifact-id: core
+    group: core
+    description: the core module of lumberjack
+    optional: false
+    platforms-info: ""
+    dependencies: []
+  # LUMBERJACK
+  - relativePath: library\implementations\lumberjack
+    artifact-id: implementation-lumberjack
+    group: lumberjack
+    description: the core lumberjack implementation
+    optional: true
+    platforms-info: ""
+    dependencies: []
+  - relativePath: library\loggers\lumberjack\console
+    artifact-id: logger-console
+    group: lumberjack
+    description: a console logger for lumberjack
+    optional: true
+    platforms-info: ""
+    dependencies: []
+  - relativePath: library\loggers\lumberjack\file
+    artifact-id: logger-file
+    group: lumberjack
+    description: a file logger for lumberjack
+    optional: true
+    platforms-info: ""
+    dependencies: []
+  # EXTENSIONS
+  - relativePath: library\extensions\composeviewer
+    artifact-id: extension-composeviewer
+    group: extensions
+    description: a compose viewer for lumberjack
+    optional: true
+    platforms-info: ""
+    dependencies:
+      - name: FeedbackManager
+        versions-file: deps.versions.toml
+        versions-key: feedback
+        link: https://github.com/MFlisar/FeedbackManager
+  - relativePath: library\extensions\feedback
+    artifact-id: extension-feedback
+    group: extensions
+    description: a feedback module for lumberjack
+    optional: true
+    platforms-info: "(1)"
+    dependencies:
+      - name: FeedbackManager
+        versions-file: deps.versions.toml
+        versions-key: feedback
+        link: https://github.com/MFlisar/FeedbackManager
+  - relativePath: library\extensions\notification
+    artifact-id: extension-notification
+    group: extensions
+    description: a notification module for lumberjack
+    optional: true
+    platforms-info: "(1)"
+    dependencies:
+      - name: FeedbackManager
+        versions-file: deps.versions.toml
+        versions-key: feedback
+        link: https://github.com/MFlisar/FeedbackManager
+  - relativePath: library\extensions\viewer
+    artifact-id: extension-viewer
+    group: extensions
+    description: a xml viewer for lumberjack
+    optional: true
+    platforms-info: "(2)"
+    dependencies:
+      - name: FeedbackManager
+        versions-file: deps.versions.toml
+        versions-key: feedback
+        link: https://github.com/MFlisar/FeedbackManager
+      - name: FastScroller
+        versions-file: deps.versions.toml
+        versions-key: fastscroller
+        link: https://github.com/quiph/RecyclerView-FastScroller
+  # TIMBER:
+  - relativePath: library\implementations\timber
+    artifact-id: implementation-timber
+    group: implementations
+    description: the core timber based implementation of lumberjack
+    optional: true
+    platforms-info: "(3)"
+    dependencies:
+      - name: Timber
+        versions-file: deps.versions.toml
+        versions-key: timber
+        link: https://github.com/JakeWharton/timber
+  - relativePath: library\loggers\timber\console
+    artifact-id: logger-timber-console
+    group: timber
+    description: a console logger for the lumberjack timber implementation
+    optional: true
+    platforms-info: "(3)"
+    dependencies:
+      - name: Timber
+        versions-file: deps.versions.toml
+        versions-key: timber
+        link: https://github.com/JakeWharton/timber
+  - relativePath: library\loggers\timber\file
+    artifact-id: logger-timber-file
+    group: timber
+    description: a file logger for the lumberjack timber implementation
+    optional: true
+    platforms-info: "(3)"
+    dependencies:
+      - name: Timber
+        versions-file: deps.versions.toml
+        versions-key: timber
+        link: https://github.com/JakeWharton/timber
+      - name: Logback
+        versions-file: deps.versions.toml
+        versions-key: logback-android
+        link: https://github.com/tony19/logback-android
