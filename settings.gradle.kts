@@ -83,6 +83,7 @@ project(":lumberjack:extensions:viewer").projectDir = file("library/extensions/v
 // App
 // --------------
 
-include(":demo:android")
-include(":demo:windows")
-include(":demo:web")
+include(":demo:shared")
+include(":demo:app:android")
+include(":demo:app:windows")
+include(":demo:app:web")
