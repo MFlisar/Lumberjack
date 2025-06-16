@@ -154,7 +154,7 @@ modules:
   # TIMBER:
   - relativePath: library\implementations\timber
     artifact-id: implementation-timber
-    group: implementations
+    group: timber
     description: the core timber based implementation of lumberjack
     optional: true
     platforms-info: "(3)"
@@ -187,5 +187,9 @@ modules:
         link: https://github.com/JakeWharton/timber
       - name: Logback
         versions-file: deps.versions.toml
-        versions-key: logback-android
+        versions-key: logback
         link: https://github.com/tony19/logback-android
+      - name: slf4j
+        versions-file: deps.versions.toml
+        versions-key: slf4j
+        link: https://www.slf4j.org/
