@@ -18,7 +18,7 @@ val buildFilePlugin = project.plugins.getPlugin(BuildFilePlugin::class.java)
 // Informations
 // -------------------
 
-val androidNamespace = "com.michaelflisar.kotpreferences.core"
+val androidNamespace = "com.michaelflisar.lumberjack.core"
 
 val buildTargets = Targets(
     // mobile

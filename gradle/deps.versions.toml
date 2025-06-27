@@ -8,7 +8,7 @@ fastscroller =              "1.0.0"
 material =					"1.12.0"
 
 # mflisar
-kmp-template =                  "1.2.2" # docu + demo only
+kmp-template =                  "1.2.3" # docu + demo only
 kmp-parcelize =                 "1.0.0"
 feedback =                      "2.1.0"
 
@@ -17,7 +17,7 @@ stately =                       "2.1.0"
 
 [plugins]
 
-kmp-template-gradle-plugin =        { id = "io.github.mflisar.kmp-template.build-plugin",      version.ref = "kmp-template" }
+kmp-template-gradle-plugin =        { id = "io.github.mflisar.kmp-template.build-plugin",       version.ref = "kmp-template" }
 
 [libraries]
 
