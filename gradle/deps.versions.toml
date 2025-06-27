@@ -8,7 +8,7 @@ fastscroller =              "1.0.0"
 material =					"1.12.0"
 
 # mflisar
-kmp-template =                  "1.2.3" # docu + demo only
+kmp-template =                  "1.2.4" # docu + demo only
 kmp-parcelize =                 "1.0.0"
 feedback =                      "2.1.0"
 
