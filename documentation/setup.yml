@@ -79,6 +79,7 @@ modules:
     description: the core module of lumberjack
     optional: false
     platforms-info: ""
+    # TODO: stately ...
     dependencies: []
   # LUMBERJACK
   - relativePath: library\implementations\lumberjack

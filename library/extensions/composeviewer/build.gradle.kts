@@ -90,7 +90,7 @@ android {
         androidNamespace = androidNamespace,
         compileSdk = app.versions.compileSdk,
         minSdk = app.versions.minSdk,
-        compose = false,
+        compose = true,
         buildConfig = false
     )
 }
