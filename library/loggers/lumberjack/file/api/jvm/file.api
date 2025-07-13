@@ -22,13 +22,13 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileConverter : com
 }
 
 public final class com/michaelflisar/lumberjack/loggers/file/FileLogger : com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
-	public fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JZLkotlin/jvm/functions/Function9;)V
-	public synthetic fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JZLkotlin/jvm/functions/Function9;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getEnabled ()Z
+	public fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JLcom/michaelflisar/lumberjack/core/classes/Level;Lkotlin/jvm/functions/Function9;)V
+	public synthetic fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JLcom/michaelflisar/lumberjack/core/classes/Level;Lkotlin/jvm/functions/Function9;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getFilter ()Lkotlin/jvm/functions/Function9;
+	public fun getMinLogLevel ()Lcom/michaelflisar/lumberjack/core/classes/Level;
 	public final fun getSetup ()Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;
+	public fun isEnabled (Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
 	public fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
-	public fun setEnabled (Z)V
 }
 
 public abstract class com/michaelflisar/lumberjack/loggers/file/FileLogger$Event {

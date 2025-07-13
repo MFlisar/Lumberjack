@@ -20,13 +20,8 @@ public final class com/michaelflisar/lumberjack/implementation/timber/TimberLogg
 	public synthetic fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
 	public fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/implementation/timber/TimberLogger;
 	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
-	public fun enable (Z)V
-	public final fun getEnabled ()Z
 	public final fun getFilter ()Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFilter;
 	public final fun getFormatter ()Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFormatter;
-	public fun isEnabled ()Z
-	public final fun log (Ljava/lang/Throwable;Ljava/lang/Throwable;Lkotlin/jvm/functions/Function0;)V
-	public final fun setEnabled (Z)V
 	public final fun setFilter (Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFilter;)V
 	public final fun setFormatter (Lcom/michaelflisar/lumberjack/implementation/timber/interfaces/IFormatter;)V
 	public final fun setStackTraceData (Lcom/michaelflisar/lumberjack/implementation/timber/data/StackData;)V

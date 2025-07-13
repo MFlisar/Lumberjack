@@ -4,6 +4,11 @@ import com.michaelflisar.lumberjack.core.classes.Level
 
 abstract class AbstractLogger {
 
+    /**
+     * the minimum log level that is logged by this logger
+     */
+    var minLogLevel: Level = Level.VERBOSE
+
     // -------------------
     // API
     // -------------------
@@ -50,7 +55,7 @@ abstract class AbstractLogger {
         noinline message: (() -> String)?,
         log: (level: Level, message: String?, t: Throwable?, t2: Throwable) -> Unit
     ) {
-        if (isEnabled()) {
+        if (isEnabled(level)) {
             log(level, message?.invoke(), t, t2)
         }
         return
@@ -67,7 +72,12 @@ abstract class AbstractLogger {
         t2: Throwable
     )
 
-    abstract fun isEnabled(): Boolean
-    abstract fun enable(enabled: Boolean)
+    open fun isEnabled(level: Level): Boolean {
+        return minLogLevel != Level.NONE && minLogLevel.order <= level.order
+    }
+
+    open fun enable(minLogLevel: Level = Level.VERBOSE) {
+        this.minLogLevel = minLogLevel
+    }
 }
 

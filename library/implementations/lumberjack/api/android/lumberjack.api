@@ -9,8 +9,6 @@ public final class com/michaelflisar/lumberjack/implementation/LumberjackLogger 
 	public synthetic fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
 	public fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
 	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
-	public fun enable (Z)V
-	public fun isEnabled ()Z
 	public final fun loggers ()Ljava/util/List;
 	public synthetic fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
 	public fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
@@ -27,9 +25,13 @@ public final class com/michaelflisar/lumberjack/implementation/classes/DefaultLu
 }
 
 public abstract interface class com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
-	public abstract fun getEnabled ()Z
 	public abstract fun getFilter ()Lkotlin/jvm/functions/Function9;
+	public abstract fun getMinLogLevel ()Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public abstract fun isEnabled (Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
 	public abstract fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
-	public abstract fun setEnabled (Z)V
+}
+
+public final class com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger$DefaultImpls {
+	public static fun isEnabled (Lcom/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger;Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
 }
 

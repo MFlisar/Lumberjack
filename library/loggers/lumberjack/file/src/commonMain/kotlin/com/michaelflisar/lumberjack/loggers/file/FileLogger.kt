@@ -25,7 +25,7 @@ import kotlinx.io.writeString
 class FileLogger(
     val setup: FileLoggerSetup,
     private val timeToKeepFileOpen: Long = 2 * 60 * 1000L, // 2mins
-    override var enabled: Boolean = true,
+    override val minLogLevel: Level = Level.VERBOSE,
     override val filter: LumberjackFilter = DefaultLumberjackFilter
 ) : ILumberjackLogger {
 

@@ -123,7 +123,7 @@ L.log(Level.DEBUG) { "Debug level log via L.log instead of L.d" }
 // if desired you can enable/disable all logs completely 
 // e.g. in a release build like following 
 // => you probably would want to do this inside the application after the init of Lumberjack
-L.enable(BuildConfig.DEBUG)
+L.enable(if (BuildConfig.DEBUG) Level.DEBUG else Level.VERBOSE) // use Level.NONE to disable all logs
 
 // Alternatively every logger does support an enabled flag as well
 val consoleLogger = ConsoleLogger(enabled = BuildConfig.DEBUG)

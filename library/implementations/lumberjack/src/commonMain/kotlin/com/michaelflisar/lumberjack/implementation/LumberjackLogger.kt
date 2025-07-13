@@ -9,7 +9,6 @@ import kotlinx.datetime.Clock
 
 object LumberjackLogger : AbstractLogger() {
 
-    private var enabled: Boolean = true
     private val implementations: MutableList<ILumberjackLogger> = ArrayList()
     private val explicitTag = ThreadLocalRef<String>()
     private val callStackCorrection = ThreadLocalRef<Int>()
@@ -20,10 +19,6 @@ object LumberjackLogger : AbstractLogger() {
 
     internal fun register(implementation: ILumberjackLogger) {
         implementations += implementation
-    }
-
-    override fun enable(enabled: Boolean) {
-        LumberjackLogger.enabled = enabled
     }
 
     internal fun unregister(implementation: ILumberjackLogger) {
@@ -69,7 +64,7 @@ object LumberjackLogger : AbstractLogger() {
         val line = stackTrace.line
         val time = Clock.System.now().toEpochMilliseconds()
         implementations.forEach {
-            if (it.enabled && it.filter(
+            if (it.isEnabled(level) && it.filter(
                     level,
                     tag,
                     time,
@@ -100,9 +95,5 @@ object LumberjackLogger : AbstractLogger() {
             callStackCorrection.remove()
         }
         return correction
-    }
-
-    override fun isEnabled(): Boolean {
-        return enabled && implementations.find { it.enabled } != null
     }
 }

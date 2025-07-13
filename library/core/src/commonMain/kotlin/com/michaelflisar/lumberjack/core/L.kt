@@ -11,7 +11,7 @@ object L : AbstractLogger() {
     }
 
     // ----------------------------------
-    // forward everything to the implementation via inline functions
+    // forward everything to the implementation
     // ----------------------------------
 
     override fun callStackCorrection(value: Int): AbstractLogger {
@@ -28,11 +28,11 @@ object L : AbstractLogger() {
         implementation!!.doLog(level, message, t, t2)
     }
 
-    override fun isEnabled(): Boolean {
-       return implementation!!.isEnabled()
+    override fun isEnabled(level: Level): Boolean {
+       return implementation!!.isEnabled(level)
     }
 
-    override fun enable(enabled: Boolean) {
-        implementation!!.enable(enabled)
+    override fun enable(minLogLevel: Level) {
+        implementation!!.enable(minLogLevel)
     }
 }

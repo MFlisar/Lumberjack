@@ -20,11 +20,6 @@ object TimberLogger : AbstractLogger() {
     // --------------
 
     /*
-     * if false, all logging is disabled
-     */
-    var enabled = true
-
-    /*
      * if enabled, Lumberjack will try to find out a lambdas caller and append this info to the log tag
      * does not work perfectly, we would need to distinguish between lambdas called directly or by a coroutine and more...
      */
@@ -59,16 +54,8 @@ object TimberLogger : AbstractLogger() {
         return this
     }
 
-    override fun isEnabled(): Boolean {
-        return enabled
-    }
-
-    override fun enable(enabled: Boolean) {
-        this.enabled = enabled
-    }
-
     override fun doLog(level: Level, message: String?, t: Throwable?, t2: Throwable) {
-        if (enabled && Timber.treeCount() > 0) {
+        if (isEnabled(level) && Timber.treeCount() > 0) {
             val stackTrace = StackData(t ?: t2, if (t == null) 1 else 0)
             if (filter?.isPackageNameEnabled(stackTrace.getCallingPackageName()) != false) {
                 setStackTraceData(stackTrace)
@@ -85,17 +72,17 @@ object TimberLogger : AbstractLogger() {
     // --------------
 
     /** @suppress */
-    @PublishedApi
-    internal inline fun log(t: Throwable?, t2: Throwable, logBlock: () -> Unit) {
-        if (enabled && Timber.treeCount() > 0) {
-            val stackTrace = StackData(t ?: t2, if (t == null) 1 else 0)
-            if (filter?.isPackageNameEnabled(stackTrace.getCallingPackageName()) != false) {
-                setStackTraceData(stackTrace)
-                logBlock()
-            }
-        }
-        return
-    }
+    //@PublishedApi
+    //internal inline fun log(t: Throwable?, t2: Throwable, logBlock: () -> Unit) {
+    //    if (isEnabled(level) && Timber.treeCount() > 0) {
+    //        val stackTrace = StackData(t ?: t2, if (t == null) 1 else 0)
+    //        if (filter?.isPackageNameEnabled(stackTrace.getCallingPackageName()) != false) {
+    //            setStackTraceData(stackTrace)
+    //            logBlock()
+    //        }
+    //    }
+    //    return
+    //}
 
     private fun setCallStackCorrection(correction: Int) {
         val forest = Timber.forest()

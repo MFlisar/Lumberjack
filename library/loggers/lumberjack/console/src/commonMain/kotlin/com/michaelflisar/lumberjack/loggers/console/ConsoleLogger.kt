@@ -7,7 +7,7 @@ import com.michaelflisar.lumberjack.implementation.classes.LumberjackFilter
 import com.michaelflisar.lumberjack.implementation.interfaces.ILumberjackLogger
 
 class ConsoleLogger(
-    override var enabled: Boolean = true,
+    override val minLogLevel: Level = Level.VERBOSE,
     override val filter: LumberjackFilter = DefaultLumberjackFilter
 ) : ILumberjackLogger {
 

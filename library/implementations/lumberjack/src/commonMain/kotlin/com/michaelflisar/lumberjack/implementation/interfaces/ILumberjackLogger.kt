@@ -5,10 +5,18 @@ import com.michaelflisar.lumberjack.implementation.classes.LumberjackFilter
 
 interface ILumberjackLogger {
 
-    /*
-     * if false, all logging is disabled
+
+    /**
+     * the minimum log level that is logged by this logger
      */
-    var enabled: Boolean
+    val minLogLevel: Level
+
+    /*
+    * if false, logging of this level is disabled
+    */
+    fun isEnabled(level: Level): Boolean {
+        return minLogLevel != Level.NONE && minLogLevel.order <= level.order
+    }
 
     /*
     * provide a filter to filter out logs based on content, tags, class names, ...
