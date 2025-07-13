@@ -28,6 +28,10 @@ object L : AbstractLogger() {
         implementation!!.doLog(level, message, t, t2)
     }
 
+    fun isEnabled() : Boolean {
+        return implementation!!.minLogLevel != Level.NONE
+    }
+
     override fun isEnabled(level: Level): Boolean {
        return implementation!!.isEnabled(level)
     }
