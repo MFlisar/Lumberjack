@@ -120,13 +120,15 @@ L.log(Level.DEBUG) { "Debug level log via L.log instead of L.d" }
 
 ```kotlin
 
+val minLogLevel = if (BuildConfig.DEBUG) Level.DEBUG else Level.VERBOSE // use Level.NONE to disable all logs
+
 // if desired you can enable/disable all logs completely 
 // e.g. in a release build like following 
 // => you probably would want to do this inside the application after the init of Lumberjack
-L.enable(if (BuildConfig.DEBUG) Level.DEBUG else Level.VERBOSE) // use Level.NONE to disable all logs
+L.enable(minLogLevel) 
 
-// Alternatively every logger does support an enabled flag as well
-val consoleLogger = ConsoleLogger(enabled = BuildConfig.DEBUG)
-val fileLogger = FileLogger(enabled = !BuildConfig.DEBUG, ...)
+// Alternatively every logger does support a minLogLevel flag as well
+val consoleLogger = ConsoleLogger(minLogLevel = minLogLevel)
+val fileLogger = FileLogger(minLogLevel = minLogLevel, ...)
 
 ```
