@@ -5,6 +5,7 @@ import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.parcelize.IgnoredOnParcel
 import com.michaelflisar.parcelize.Parcelize
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.format.Padding
 import kotlinx.datetime.format.char
 
 @Parcelize
@@ -17,7 +18,7 @@ object FileConverter : IFileConverter {
         char('-')
         monthNumber()
         char('-')
-        dayOfMonth()
+        day(padding = Padding.ZERO)
         char(' ')
         hour()
         char(':')

@@ -5,7 +5,7 @@ import com.michaelflisar.lumberjack.core.AbstractLogger
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.implementation.classes.StackData
 import com.michaelflisar.lumberjack.implementation.interfaces.ILumberjackLogger
-import kotlinx.datetime.Clock
+import kotlin.time.ExperimentalTime
 
 object LumberjackLogger : AbstractLogger() {
 
@@ -49,11 +49,12 @@ object LumberjackLogger : AbstractLogger() {
     // Internal/Helper functions
     // -------------------
 
+    @OptIn(ExperimentalTime::class)
     override fun doLog(
         level: Level,
         message: String?,
         t: Throwable?,
-        t2: Throwable
+        t2: Throwable,
     ) {
         val tag = getTag()
         val correction = getCallStackCorrection() ?: 0
@@ -62,7 +63,7 @@ object LumberjackLogger : AbstractLogger() {
         val className = stackTrace.className
         val methodName = stackTrace.methodName
         val line = stackTrace.line
-        val time = Clock.System.now().toEpochMilliseconds()
+        val time = kotlin.time.Clock.System.now().toEpochMilliseconds()
         implementations.forEach {
             if (it.isEnabled(level) && it.filter(
                     level,
