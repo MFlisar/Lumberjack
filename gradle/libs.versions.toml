@@ -2,6 +2,7 @@
 
 gradle = 				            "8.10.1"
 kotlin = 				            "2.1.21"
+desugar =                           "2.1.5"
 dokka =                             "1.9.20"
 gradle-maven-publish-plugin =       "0.32.0"
 compose =                           "1.8.1"
@@ -33,6 +34,10 @@ compose =                           { id = "org.jetbrains.compose",             
 
 [libraries]
 
+# Android
+desugar =			        	    { module = "com.android.tools:desugar_jdk_libs", 	                    version.ref = "desugar" }
+
+# Compose
 compose-runtime =                   { module = "org.jetbrains.compose.runtime:runtime",                     version.ref = "compose" }
 compose-material3 =                 { module = "org.jetbrains.compose.material3:material3",                 version.ref = "compose" }
 compose-material-icons-core = 	    { module = "org.jetbrains.compose.material:material-icons-core",        version.ref = "compose-icons" }

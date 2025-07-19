@@ -35,6 +35,10 @@ val buildTargets = Targets(
 // Setup
 // -------------------
 
+dependencies {
+    coreLibraryDesugaring(libs.desugar)
+}
+
 kotlin {
 
     //-------------
@@ -71,6 +75,11 @@ kotlin {
 
 // android configuration
 android {
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+
     buildFilePlugin.setupAndroid(
         androidNamespace = androidNamespace,
         compileSdk = app.versions.compileSdk,
