@@ -8,16 +8,16 @@ fastscroller =              "1.0.0"
 material =					"1.12.0"
 
 # mflisar
-kmp-template =                  "1.2.4" # docu + demo only
 kmp-parcelize =                 "1.0.0"
 feedback =                      "2.1.0"
+kmp-gradle-tools =              "1.4.2"
 
 stately =                       "2.1.0"
 #moko-parcelize =               "0.9.0"
 
 [plugins]
 
-kmp-template-gradle-plugin =        { id = "io.github.mflisar.kmp-template.build-plugin",       version.ref = "kmp-template" }
+kmp-gradle-tools-gradle-plugin =            { id = "io.github.mflisar.kmp-gradle-tools.gradle-plugin",              version.ref = "kmp-gradle-tools" }
 
 [libraries]
 
@@ -29,10 +29,10 @@ fastscroller = 				        { module = "com.quiph.ui:recyclerviewfastscroller", 	
 material = 				        	{ module = "com.google.android.material:material", 		    version.ref = "material" }
 
 # mflisar
-kmp-template-docs =                 { module = "io.github.mflisar.kmp-template:docs",               version.ref = "kmp-template" }
-kmp-template-open-source-demo =     { module = "io.github.mflisar.kmp-template:open-source-demo",   version.ref = "kmp-template" }
-kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	            version.ref = "kmp-parcelize" }
-feedback =                          { module = "io.github.mflisar.feedbackmanager:library",         version.ref = "feedback" }
+kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	        version.ref = "kmp-parcelize" }
+feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
+kmp-gradle-tools-scripts =          { module = "io.github.mflisar.kmp-gradle-tools:scripts",    version.ref = "kmp-gradle-tools" }
+kmp-gradle-tools-docs =             { module = "io.github.mflisar.kmp-gradle-tools:docs",       version.ref = "kmp-gradle-tools" }
 
-stately =                           { module = "co.touchlab:stately-concurrency", 		            version.ref = "stately" }
+stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
 #moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		            version.ref = "moko-parcelize" }

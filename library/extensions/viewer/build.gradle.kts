@@ -1,4 +1,4 @@
-import com.michaelflisar.kmptemplate.BuildFilePlugin
+import com.michaelflisar.kmpgradletools.BuildFilePlugin
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
 
 plugins {
@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.gradle.maven.publish.plugin)
     alias(libs.plugins.binary.compatibility.validator)
-    alias(deps.plugins.kmp.template.gradle.plugin)
+    alias(deps.plugins.kmp.gradle.tools.gradle.plugin)
 }
 
 // get build file plugin
@@ -56,11 +56,10 @@ android {
         viewBinding = true
     }
 
-    buildFilePlugin.setupAndroid(
+    buildFilePlugin.setupAndroidLibrary(
         androidNamespace = androidNamespace,
         compileSdk = app.versions.compileSdk,
         minSdk = app.versions.minSdk,
-        compose = false,
         buildConfig = false
     )
 
@@ -70,6 +69,7 @@ android {
 }
 
 // maven publish configuration
-buildFilePlugin.setupMavenPublish(
-    platform = AndroidSingleVariantLibrary("release", true, true)
-)
+if (buildFilePlugin.checkGradleProperty("publishToMaven") != false)
+    buildFilePlugin.setupMavenPublish(
+        platform = AndroidSingleVariantLibrary("release", true, true)
+    )

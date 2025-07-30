@@ -1,0 +1,33 @@
+[D] 2025-07-30 15:10:06.291 [Main.kt:48]: before main application
+[D] 2025-07-30 15:10:06.339 [DemoLogging.kt:105]: Test log in class
+[E] 2025-07-30 15:10:07.428 [Main.kt:66]: x = 1 / 0
+java.lang.ArithmeticException: / by zero
+	at com.michaelflisar.lumberjack.demo.MainKt$main$2$1$1.invokeSuspend(Main.kt:66)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2025-07-30 15:10:10.128 [Main.kt:90]: Button with debug log was clicked
+[D] 2025-07-30 15:10:10.128 [Main.kt:91]: Button with debug log was clicked
+[D] 2025-07-30 15:10:10.129 [Main.kt:94]: Log file - file = D:\dev\11 - libs (mine)\Lumberjack\demo\app\windows\log_2025_07_30.txt | true
+[D] 2025-07-30 15:10:10.130 [Main.kt:98]: Log files - fileX = D:\dev\11 - libs (mine)\Lumberjack\demo\app\windows\log_2025_07_30.txt | true
+[E] 2025-07-30 15:10:12.214 [Main.kt:111]: Button with error log was clicked
+[E] 2025-07-30 15:10:12.214 [Main.kt:112]: Button with error log was clicked
+[V] 2025-07-30 15:10:12.215 [Main.kt:114]: verbose
+[I] 2025-07-30 15:10:12.215 [Main.kt:115]: info
+[D] 2025-07-30 15:10:12.215 [Main.kt:116]: debug
+[E] 2025-07-30 15:10:12.217 [Main.kt:118]: error
+[W] 2025-07-30 15:10:12.217 [Main.kt:117]: warn
+[WTF] 2025-07-30 15:10:12.217 [Main.kt:119]: wtf

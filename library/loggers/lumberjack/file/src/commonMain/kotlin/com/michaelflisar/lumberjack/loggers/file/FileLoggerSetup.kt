@@ -21,7 +21,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
     abstract fun onLogged(scope: CoroutineScope)
 
     @Parcelize
-    class Daily internal constructor(
+    class Daily(
         override val folder: String,
         override val fileBaseName: String,
         override val fileExtension: String,
@@ -52,7 +52,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
     }
 
     @Parcelize
-    class FileSize internal constructor(
+    class FileSize(
         override val folder: String,
         override val fileBaseName: String,
         override val fileExtension: String,
@@ -88,7 +88,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
     }
 
     @Parcelize
-    class SingleFile internal constructor(
+    class SingleFile(
         override val folder: String,
         private val fileName: String,
         override val fileExtension: String

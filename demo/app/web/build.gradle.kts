@@ -10,11 +10,6 @@ plugins {
 val useLiveDependencies = providers.gradleProperty("useLiveDependencies").get().toBoolean()
 val dirDev = if (providers.gradleProperty("work").isPresent) "D:/dev" else "M:/dev"
 
-// supabase pw: FhesROEQHbJwMnRe
-
-// Android App + Web + Windows in einem Modul zusammenfassen
-// bspw.: https://github.com/Kotlin/kotlin-wasm-compose-template/blob/main/composeApp/build.gradle.kts
-
 kotlin {
 
     // bei Änderungen folgendes prüfen:

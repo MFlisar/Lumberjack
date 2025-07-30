@@ -26,9 +26,6 @@ import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
 import com.michaelflisar.lumberjack.core.getLatestLogFile
 import com.michaelflisar.lumberjack.extensions.composeviewer.LumberjackDialog
-import com.michaelflisar.lumberjack.implementation.LumberjackLogger
-import com.michaelflisar.lumberjack.implementation.plant
-import com.michaelflisar.lumberjack.loggers.console.ConsoleLogger
 import com.michaelflisar.lumberjack.loggers.file.FileLogger
 import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup
 import com.michaelflisar.lumberjack.loggers.file.create

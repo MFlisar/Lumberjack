@@ -27,9 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.michaelflisar.kmptemplate.composables.DemoCollapsibleRegion
-import com.michaelflisar.kmptemplate.composables.DemoColumn
-import com.michaelflisar.kmptemplate.composables.rememberDemoExpandedRegions
+import com.michaelflisar.kmpgradletools.composables.DemoCollapsibleRegion
+import com.michaelflisar.kmpgradletools.composables.DemoColumn
+import com.michaelflisar.kmpgradletools.composables.rememberDemoExpandedRegions
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getLatestLogFile
 import com.michaelflisar.lumberjack.demo.R

@@ -85,7 +85,5 @@ dependencies {
     implementation(project(":lumberjack:extensions:viewer"))
     implementation(project(":lumberjack:extensions:composeviewer"))
 
-    implementation(deps.kmp.template.open.source.demo)
-
     coreLibraryDesugaring(libs.desugar)
 }
