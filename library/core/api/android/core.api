@@ -44,6 +44,7 @@ public final class com/michaelflisar/lumberjack/core/L : com/michaelflisar/lumbe
 	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
 	public fun enable (Lcom/michaelflisar/lumberjack/core/classes/Level;)V
 	public final fun init (Lcom/michaelflisar/lumberjack/core/AbstractLogger;)V
+	public final fun isEnabled ()Z
 	public fun isEnabled (Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
 	public fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
 }

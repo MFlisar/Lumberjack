@@ -27,7 +27,7 @@ public final class com/michaelflisar/lumberjack/implementation/classes/DefaultLu
 public abstract interface class com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
 	public abstract fun getFilter ()Lkotlin/jvm/functions/Function9;
 	public abstract fun getMinLogLevel ()Lcom/michaelflisar/lumberjack/core/classes/Level;
-	public abstract fun isEnabled (Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
+	public fun isEnabled (Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
 	public abstract fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
 }
 

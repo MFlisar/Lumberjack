@@ -24,14 +24,6 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileConverter : com
 	public final fun writeToParcel (Landroid/os/Parcel;I)V
 }
 
-public final class com/michaelflisar/lumberjack/loggers/file/FileConverter$Creator : android/os/Parcelable$Creator {
-	public fun <init> ()V
-	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileConverter;
-	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
-	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileConverter;
-	public synthetic fun newArray (I)[Ljava/lang/Object;
-}
-
 public final class com/michaelflisar/lumberjack/loggers/file/FileLogger : com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
 	public fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JLcom/michaelflisar/lumberjack/core/classes/Level;Lkotlin/jvm/functions/Function9;)V
 	public synthetic fun <init> (Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup;JLcom/michaelflisar/lumberjack/core/classes/Level;Lkotlin/jvm/functions/Function9;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -77,6 +69,7 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Com
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
 	public static final field CREATOR Landroid/os/Parcelable$Creator;
 	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
 	public final fun describeContents ()I
 	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
 	public fun getFileBaseName ()Ljava/lang/String;
@@ -89,17 +82,10 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Dai
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Companion {
 }
 
-public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Creator : android/os/Parcelable$Creator {
-	public fun <init> ()V
-	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily;
-	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
-	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily;
-	public synthetic fun newArray (I)[Ljava/lang/Object;
-}
-
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
 	public static final field CREATOR Landroid/os/Parcelable$Creator;
 	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V
 	public final fun describeContents ()I
 	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
 	public fun getFileBaseName ()Ljava/lang/String;
@@ -112,17 +98,10 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Fil
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Companion {
 }
 
-public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Creator : android/os/Parcelable$Creator {
-	public fun <init> ()V
-	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize;
-	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
-	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize;
-	public synthetic fun newArray (I)[Ljava/lang/Object;
-}
-
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
 	public static final field CREATOR Landroid/os/Parcelable$Creator;
 	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public final fun describeContents ()I
 	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
 	public fun getFileBaseName ()Ljava/lang/String;
@@ -133,14 +112,6 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Sin
 }
 
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Companion {
-}
-
-public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Creator : android/os/Parcelable$Creator {
-	public fun <init> ()V
-	public final fun createFromParcel (Landroid/os/Parcel;)Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile;
-	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
-	public final fun newArray (I)[Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile;
-	public synthetic fun newArray (I)[Ljava/lang/Object;
 }
 
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetupKt {

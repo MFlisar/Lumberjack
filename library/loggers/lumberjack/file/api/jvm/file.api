@@ -65,6 +65,7 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Com
 
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
 	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Daily$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V
 	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
 	public fun getFileBaseName ()Ljava/lang/String;
 	public fun getFileExtension ()Ljava/lang/String;
@@ -77,6 +78,7 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Dai
 
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
 	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$FileSize$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)V
 	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
 	public fun getFileBaseName ()Ljava/lang/String;
 	public fun getFileExtension ()Ljava/lang/String;
@@ -89,6 +91,7 @@ public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$Fil
 
 public final class com/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile : com/michaelflisar/lumberjack/loggers/file/BaseFileLoggerSetup {
 	public static final field Companion Lcom/michaelflisar/lumberjack/loggers/file/FileLoggerSetup$SingleFile$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public fun filterLogFilesToDelete (Ljava/util/List;)Ljava/util/List;
 	public fun getFileBaseName ()Ljava/lang/String;
 	public fun getFileExtension ()Ljava/lang/String;
