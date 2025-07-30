@@ -26,7 +26,15 @@ library:
   license:
     name: Apache License 2.0
     link: https://github.com/MFlisar/Lumberjack/blob/main/LICENSE
-  screenshots: []
+  screenshots:
+    - name: Logs
+      images:
+        - screenshots/core/log1.png
+        - screenshots/core/log2.png
+    - name: Compose Viewer
+      images:
+        - screenshots/composeviewer/compose-viewer1.jpg
+        - screenshots/composeviewer/compose-viewer2.jpg
   about-me: true # set to true if you want to show the about me section on the homepage
 
 maven:

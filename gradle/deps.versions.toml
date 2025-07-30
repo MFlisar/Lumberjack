@@ -10,7 +10,7 @@ material =					"1.12.0"
 # mflisar
 kmp-parcelize =                 "1.0.0"
 feedback =                      "2.1.0"
-kmp-gradle-tools =              "1.4.2"
+kmp-gradle-tools =              "1.4.5"
 
 stately =                       "2.1.0"
 #moko-parcelize =               "0.9.0"
