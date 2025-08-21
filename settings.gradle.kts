@@ -36,48 +36,36 @@ pluginManagement {
 }
 
 // --------------
+// Functions
+// --------------
+
+fun includeModule(path: String, name: String) {
+    include(name)
+    project(name).projectDir = file(path)
+}
+
+// --------------
 // Library
 // --------------
 
-// Android + JVM + iOS
-include(":lumberjack:core")
-project(":lumberjack:core").projectDir = file("library/core")
+// Core
+includeModule("library/core", ":lumberjack:core")
 
-// --------------
-// Modules
-// --------------
+// Lumberjack
+includeModule("library/implementations/lumberjack", ":lumberjack:implementations:lumberjack")
+includeModule("library/loggers/lumberjack/console", ":lumberjack:loggers:lumberjack:console")
+includeModule("library/loggers/lumberjack/file", ":lumberjack:loggers:lumberjack:file")
 
-// Android + JVM + iOS
-include(":lumberjack:implementations:lumberjack")
-project(":lumberjack:implementations:lumberjack").projectDir = file("library/implementations/lumberjack")
+// Timber
+includeModule("library/implementations/timber", ":lumberjack:implementations:timber")
+includeModule("library/loggers/timber/console", ":lumberjack:loggers:timber:console")
+includeModule("library/loggers/timber/file", ":lumberjack:loggers:timber:file")
 
-// Android Only
-include(":lumberjack:implementations:timber")
-project(":lumberjack:implementations:timber").projectDir = file("library/implementations/timber")
-
-// Android + JVM + iOS
-include(":lumberjack:loggers:lumberjack:console")
-project(":lumberjack:loggers:lumberjack:console").projectDir = file("library/loggers/lumberjack/console")
-include(":lumberjack:loggers:lumberjack:file")
-project(":lumberjack:loggers:lumberjack:file").projectDir = file("library/loggers/lumberjack/file")
-
-// Android Only
-include(":lumberjack:loggers:timber:console")
-project(":lumberjack:loggers:timber:console").projectDir = file("library/loggers/timber/console")
-include(":lumberjack:loggers:timber:file")
-project(":lumberjack:loggers:timber:file").projectDir = file("library/loggers/timber/file")
-
-// Android + JVM + iOS
-include(":lumberjack:extensions:composeviewer")
-project(":lumberjack:extensions:composeviewer").projectDir = file("library/extensions/composeviewer")
-
-// Android Only
-include(":lumberjack:extensions:feedback")
-project(":lumberjack:extensions:feedback").projectDir = file("library/extensions/feedback")
-include(":lumberjack:extensions:notification")
-project(":lumberjack:extensions:notification").projectDir = file("library/extensions/notification")
-include(":lumberjack:extensions:viewer")
-project(":lumberjack:extensions:viewer").projectDir = file("library/extensions/viewer")
+// Extensions
+includeModule("library/extensions/composeviewer", ":lumberjack:extensions:composeviewer")
+includeModule("library/extensions/feedback", ":lumberjack:extensions:feedback")
+includeModule("library/extensions/notification", ":lumberjack:extensions:notification")
+includeModule("library/extensions/viewer", ":lumberjack:extensions:viewer")
 
 // --------------
 // App

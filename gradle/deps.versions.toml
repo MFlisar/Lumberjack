@@ -8,16 +8,16 @@ fastscroller =              "1.0.0"
 material =					"1.12.0"
 
 # mflisar
-kmp-parcelize =                 "1.0.0"
-feedback =                      "2.1.0"
-kmp-gradle-tools =              "1.4.5"
+kmp-parcelize =             "1.0.0"
+kmp-library =               "1.7.4"
+feedback =                  "2.1.0"
 
-stately =                       "2.1.0"
-#moko-parcelize =               "0.9.0"
+stately =                   "2.1.0"
+#moko-parcelize =            "0.9.0"
 
 [plugins]
 
-kmp-gradle-tools-gradle-plugin =            { id = "io.github.mflisar.kmp-gradle-tools.gradle-plugin",              version.ref = "kmp-gradle-tools" }
+kmplibrary-buildplugin =            { id = "io.github.mflisar.kmp-library.plugins-build-gradle",           version.ref = "kmp-library" }
 
 [libraries]
 
@@ -30,9 +30,8 @@ material = 				        	{ module = "com.google.android.material:material", 		   
 
 # mflisar
 kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	        version.ref = "kmp-parcelize" }
+kmplibrary-docs =                   { module = "io.github.mflisar.kmp-library:docs",            version.ref = "kmp-library" }
 feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
-kmp-gradle-tools-scripts =          { module = "io.github.mflisar.kmp-gradle-tools:scripts",    version.ref = "kmp-gradle-tools" }
-kmp-gradle-tools-docs =             { module = "io.github.mflisar.kmp-gradle-tools:docs",       version.ref = "kmp-gradle-tools" }
 
 stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
 #moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		            version.ref = "moko-parcelize" }

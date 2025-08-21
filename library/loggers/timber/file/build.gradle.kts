@@ -1,5 +1,6 @@
-import com.michaelflisar.kmpgradletools.BuildFilePlugin
 import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.michaelflisar.kmplibrary.BuildFilePlugin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
@@ -8,7 +9,7 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.gradle.maven.publish.plugin)
     alias(libs.plugins.binary.compatibility.validator)
-    alias(deps.plugins.kmp.gradle.tools.gradle.plugin)
+    alias(deps.plugins.kmplibrary.buildplugin)
 }
 
 // get build file plugin
@@ -53,6 +54,13 @@ dependencies {
 // Configurations
 // -------------------
 
+// kotlin configuration
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.fromTarget(buildFilePlugin.javaVersion()))
+    }
+}
+
 // android configuration
 android {
     buildFilePlugin.setupAndroidLibrary(
@@ -61,13 +69,10 @@ android {
         minSdk = app.versions.minSdk,
         buildConfig = false
     )
-
-    kotlinOptions {
-        jvmTarget = buildFilePlugin.javaVersion()
-    }
 }
 
 // maven publish configuration
 buildFilePlugin.setupMavenPublish(
     platform = AndroidSingleVariantLibrary("release", true, true)
 )
+
