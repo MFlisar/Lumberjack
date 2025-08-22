@@ -9,7 +9,7 @@ material =					"1.12.0"
 
 # mflisar
 kmp-parcelize =             "1.0.0"
-kmp-library =               "1.7.4"
+kmp-library =               "1.9.0"
 feedback =                  "2.1.0"
 
 stately =                   "2.1.0"
