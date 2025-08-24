@@ -9,7 +9,8 @@ material =					"1.12.0"
 
 # mflisar
 kmp-parcelize =             "1.0.0"
-kmp-library =               "1.9.0"
+kmp-library =               "1.9.2"
+kmp-democomposables =       "1.0.2"
 feedback =                  "2.1.0"
 
 stately =                   "2.1.0"
@@ -31,6 +32,7 @@ material = 				        	{ module = "com.google.android.material:material", 		   
 # mflisar
 kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	        version.ref = "kmp-parcelize" }
 kmplibrary-docs =                   { module = "io.github.mflisar.kmp-library:docs",            version.ref = "kmp-library" }
+kmp-democomposables =               { module = "io.github.mflisar.democomposables:library",     version.ref = "kmp-democomposables" }
 feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
 
 stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }

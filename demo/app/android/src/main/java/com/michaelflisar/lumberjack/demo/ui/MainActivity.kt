@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,9 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.michaelflisar.kmpgradletools.composables.DemoCollapsibleRegion
-import com.michaelflisar.kmpgradletools.composables.DemoColumn
-import com.michaelflisar.kmpgradletools.composables.rememberDemoExpandedRegions
+import com.michaelflisar.democomposables.layout.DemoCollapsibleRegion
+import com.michaelflisar.democomposables.layout.DemoColumn
+import com.michaelflisar.democomposables.layout.rememberDemoExpandedRegions
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getLatestLogFile
 import com.michaelflisar.lumberjack.demo.R

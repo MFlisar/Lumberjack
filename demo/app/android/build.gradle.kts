@@ -1,7 +1,15 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.fromTarget(JavaVersion.VERSION_17.toString()))
+    }
 }
 
 android {
@@ -39,10 +47,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
@@ -84,6 +88,9 @@ dependencies {
     implementation(project(":lumberjack:extensions:feedback"))
     implementation(project(":lumberjack:extensions:viewer"))
     implementation(project(":lumberjack:extensions:composeviewer"))
+
+    // demo ui composables
+    implementation(deps.kmp.democomposables)
 
     coreLibraryDesugaring(libs.desugar)
 }
