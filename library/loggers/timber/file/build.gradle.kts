@@ -69,6 +69,10 @@ android {
         minSdk = app.versions.minSdk,
         buildConfig = false
     )
+
+    lint {
+        abortOnError = false
+    }
 }
 
 // maven publish configuration

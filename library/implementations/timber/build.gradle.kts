@@ -61,7 +61,10 @@ android {
 
     lint {
         // disable timber lint checks...
+        // Reason:
+        // timber.lint.WrongTimberUsageDetector => called context.getMainProject() during module analysis.
         disable += setOf("LogNotTimber","StringFormatInTimber","ThrowableNotAtBeginning","BinaryOperationInTimber","TimberArgCount","TimberArgTypes","TimberTagLength","TimberExceptionLogging")
+        abortOnError = false
     }
 }
 
