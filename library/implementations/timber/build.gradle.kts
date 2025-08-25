@@ -58,6 +58,11 @@ android {
         minSdk = app.versions.minSdk,
         buildConfig = false
     )
+
+    lint {
+        // disable timber lint checks...
+        disable += setOf("LogNotTimber","StringFormatInTimber","ThrowableNotAtBeginning","BinaryOperationInTimber","TimberArgCount","TimberArgTypes","TimberTagLength","TimberExceptionLogging")
+    }
 }
 
 // maven publish configuration
