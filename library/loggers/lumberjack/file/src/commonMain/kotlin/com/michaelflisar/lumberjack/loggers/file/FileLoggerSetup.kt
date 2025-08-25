@@ -37,7 +37,7 @@ sealed class FileLoggerSetup : IFileLoggingSetup {
             char('_')
             monthNumber()
             char('_')
-            dayOfMonth()
+            day()
         }
 
         override fun getFileKey(data: FileLogger.Event.Data, lastPath: Path): String {
