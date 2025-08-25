@@ -9,9 +9,9 @@ material =					"1.12.0"
 
 # mflisar
 kmp-parcelize =             "1.0.0"
-kmp-library =               "1.9.2"
+kmp-library =               "1.9.6"
 kmp-democomposables =       "1.0.2"
-feedback =                  "2.1.0"
+feedback =                  "3.0.0"
 
 stately =                   "2.1.0"
 #moko-parcelize =            "0.9.0"

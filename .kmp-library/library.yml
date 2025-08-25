@@ -21,7 +21,7 @@ library:
   release: 2016
   link-docs: https://mflisar.github.io/Lumberjack/
   link-repo: https://github.com/MFlisar/Lumberjack/
-  repo-name: mflisar/Lumberjack # the label of the repo link on the mkdocs homepage at the top right
+  repo-name: mflisar/lumberjack # the label of the repo link on the mkdocs homepage at the top right
   # TODO: autom. detecten?
   license:
     name: Apache License 2.0
