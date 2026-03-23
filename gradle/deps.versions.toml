@@ -1,7 +1,7 @@
 [versions]
 
 # mflisar (local snapshot: "LOCAL-SNAPSHOT")
-kmpdevtools =               "7.1.4" # change via "updateDevToolsVersion" gradle task!
+kmpdevtools =               "7.1.5" # change via "updateDevToolsVersion" gradle task!
 kmp-parcelize =             "1.0.1"
 kmp-democomposables =       "1.0.2"
 kmp-mail =                  "0.1.0"
