@@ -24,8 +24,10 @@ This library provides following main features:
 
 # :camera: Screenshots
 
-![composeviewer](documentation/screenshots/composeviewer)
-![core](documentation/screenshots/core)
+![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg)
+![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg)
+![log2](documentation/screenshots/core/log2.png)
+![log1](documentation/screenshots/core/log1.png)
 
 # :computer: Supported Platforms
 
@@ -55,23 +57,23 @@ lumberjack = "<LATEST-VERSION>"
 
 [libraries]
 
-core = { module = "io.github.mflisar.lumberjack:core", version.ref = "lumberjack" }
-implementation = { module = "io.github.mflisar.lumberjack:implementation", version.ref = "lumberjack" }
-logger.console = { module = "io.github.mflisar.lumberjack:logger-console", version.ref = "lumberjack" }
-logger.file = { module = "io.github.mflisar.lumberjack:logger-file", version.ref = "lumberjack" }
-extension.composeviewer = { module = "io.github.mflisar.lumberjack:extension-composeviewer", version.ref = "lumberjack" }
-extension.feedback = { module = "io.github.mflisar.lumberjack:extension-feedback", version.ref = "lumberjack" }
+lumberjack-core = { module = "io.github.mflisar.lumberjack:core", version.ref = "lumberjack" }
+lumberjack-implementation = { module = "io.github.mflisar.lumberjack:implementation", version.ref = "lumberjack" }
+lumberjack-logger-console = { module = "io.github.mflisar.lumberjack:logger-console", version.ref = "lumberjack" }
+lumberjack-logger-file = { module = "io.github.mflisar.lumberjack:logger-file", version.ref = "lumberjack" }
+lumberjack-extension-composeviewer = { module = "io.github.mflisar.lumberjack:extension-composeviewer", version.ref = "lumberjack" }
+lumberjack-extension-feedback = { module = "io.github.mflisar.lumberjack:extension-feedback", version.ref = "lumberjack" }
 ```
 
 And then use the definitions in your projects **build.gradle.kts** file like following:
 
 ```java
-implementation(libs.core)
-implementation(libs.implementation)
-implementation(libs.logger.console)
-implementation(libs.logger.file)
-implementation(libs.extension.composeviewer)
-implementation(libs.extension.feedback)
+implementation(libs.lumberjack.core)
+implementation(libs.lumberjack.implementation)
+implementation(libs.lumberjack.logger.console)
+implementation(libs.lumberjack.logger.file)
+implementation(libs.lumberjack.extension.composeviewer)
+implementation(libs.lumberjack.extension.feedback)
 ```
 
 </details>
@@ -220,7 +222,7 @@ val name = Preferences.someString.asMutableState()
 
 # :file_folder: Modules
 
-- [Compose Viewer](documentation/Modules/Compose Viewer.md)
+- [Compose Viewer](documentation/Modules/Compose%20Viewer.md)
 - [Feedback](documentation/Modules/Feedback.md)
 
 # :sparkles: Demo
@@ -230,7 +232,7 @@ A full [demo](/demo) is included inside the demo module, it shows nearly every u
 # :information_source: More
 
 - Advanced
-  - [Custom Logger](documentation/Advanced/Custom Logger.md)
+  - [Custom Logger](documentation/Advanced/Custom%20Logger.md)
 - Migration
   - [v10](documentation/Migration/v10.md)
   - [v7](documentation/Migration/v7.md)
