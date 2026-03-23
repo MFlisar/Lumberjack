@@ -4,7 +4,7 @@ name: devtools-on-push
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
 
 permissions:
   contents: write
