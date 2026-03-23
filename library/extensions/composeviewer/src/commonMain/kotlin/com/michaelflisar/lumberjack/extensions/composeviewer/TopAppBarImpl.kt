@@ -43,10 +43,10 @@ fun TopAppBarImpl(
     val scope = rememberCoroutineScope()
     var showMenu by remember { mutableStateOf(false) }
     var showMenu2 by remember { mutableStateOf(false) }
-    val feedback by remember {
+    val feedbackState = remember {
         derivedStateOf { getFeedbackImpl() }
     }
-    feedback.Init()
+    val feedback = feedbackState.value
     TopAppBar(
         title = { Text(title) },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -123,7 +123,7 @@ fun TopAppBarImpl(
                                 state.useScrollableLines.value = !state.useScrollableLines.value
                             }
                         )
-                        if (feedbackConfig != null && feedback.supported()) {
+                        if (feedbackConfig != null && feedback != null) {
                             HorizontalDivider()
                             DropdownMenuItem(
                                 text = { Text("Send Mail") },

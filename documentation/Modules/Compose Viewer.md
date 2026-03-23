@@ -1,6 +1,4 @@
----
-icon: material/puzzle
----
+# Compose Viewer
 
 !!! info
 
