@@ -234,8 +234,8 @@ A full [demo](/demo) is included inside the demo module, it shows nearly every u
 - Advanced
   - [Custom Logger](documentation/Advanced/Custom%20Logger.md)
 - Migration
-  - [v10](documentation/Migration/v10.md)
-  - [v7](documentation/Migration/v7.md)
+  - [Migration to version 10](documentation/Migration/v10.md)
+  - [Migration to version 7](documentation/Migration/v7.md)
 
 # :books: API
 
