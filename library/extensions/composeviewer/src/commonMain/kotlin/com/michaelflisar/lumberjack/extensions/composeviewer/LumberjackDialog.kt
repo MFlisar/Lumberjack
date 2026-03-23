@@ -13,6 +13,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.Dialog
 import com.michaelflisar.lumberjack.core.classes.FeedbackConfig
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import kotlinx.io.files.Path
@@ -48,7 +49,9 @@ fun LumberjackDialog(
     feedbackConfig: FeedbackConfig? = null,
 ) {
     if (visible.value) {
-        ShowLumberjackDialog(visible, title) {
+        Dialog(
+            onDismissRequest = { visible.value = false }
+        ) {
             LumberjackDialogContent(title, setup, style, darkTheme, feedbackConfig)
         }
     }

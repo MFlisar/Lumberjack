@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -198,7 +199,7 @@ fun LumberjackView(
                 } else if (filteredEntries.isEmpty()) {
                     InfoState("Nothing matches the filter!")
                 } else {
-                    LazyScrollContainer(
+                    LazyColumn(
                         state = state
                     ) {
                         filteredEntries.forEach {

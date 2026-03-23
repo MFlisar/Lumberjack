@@ -84,12 +84,10 @@ kotlin {
         val platformFeedbackSupport = listOf(Platform.ANDROID, Platform.IOS)
 
         val featureFile by creating { dependsOn(commonMain.get()) }
-        val featureNotAndroid by creating { dependsOn(commonMain.get()) }
 
         buildTargets.setupDependencies(featureFeedbackSupported, sourceSets, buildTargets, platformFeedbackSupport)
         buildTargets.setupDependencies(featureFeedbackNotSupported, sourceSets, buildTargets, platformFeedbackSupport, platformsNotSupported = true)
         buildTargets.setupDependencies(featureFile, sourceSets, buildTargets, Platform.LIST_FILE_SUPPORT)
-        buildTargets.setupDependencies(featureNotAndroid, sourceSets, buildTargets,  listOf(Platform.ANDROID), platformsNotSupported = true)
 
         // ---------------------
         // dependencies
@@ -121,10 +119,6 @@ kotlin {
 
         featureFeedbackSupported.dependencies {
             implementation(project(":lumberjack:extensions:feedback"))
-        }
-
-        androidMain.dependencies {
-            implementation(libs.androidx.core)
         }
     }
 }
