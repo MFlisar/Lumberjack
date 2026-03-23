@@ -25,7 +25,6 @@ This library provides following main features:
 # :camera: Screenshots
 
 ![composeviewer](documentation/screenshots/composeviewer)
-![viewer](documentation/screenshots/viewer)
 ![core](documentation/screenshots/core)
 
 # :computer: Supported Platforms
@@ -223,8 +222,6 @@ val name = Preferences.someString.asMutableState()
 
 - [Compose Viewer](documentation/Modules/Compose Viewer.md)
 - [Feedback](documentation/Modules/Feedback.md)
-- [Notification](documentation/Modules/Notification.md)
-- [Viewer](documentation/Modules/Viewer.md)
 
 # :sparkles: Demo
 
