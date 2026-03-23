@@ -80,7 +80,7 @@ kotlin {
 
         val nativeMain by creating { dependsOn(commonMain.get()) }
 
-        buildTargets.setupDependencies(nativeMain, sourceSets, buildTargets, listOf(Platform.IOS))
+        buildTargets.setupDependencies(nativeMain, sourceSets, buildTargets, Platform.LIST_APPLE)
 
         // ---------------------
         // dependencies
