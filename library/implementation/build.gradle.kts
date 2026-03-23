@@ -78,7 +78,9 @@ kotlin {
         // custom source sets
         // ---------------------
 
-        // --
+        val nativeMain by creating { dependsOn(commonMain.get()) }
+
+        buildTargets.setupDependencies(nativeMain, sourceSets, buildTargets, listOf(Platform.IOS))
 
         // ---------------------
         // dependencies

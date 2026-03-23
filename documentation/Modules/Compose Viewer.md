@@ -17,7 +17,7 @@ LumberjackDialog(
     // optional
     style = LumberjackViewDefaults.style(),
     darkTheme = isSystemInDarkTheme(),
-    mail = null
+    feedbackConfig = null
 )
 ```
 
@@ -49,7 +49,7 @@ LumberjackDialogContent(
     // optional
     style= LumberjackViewDefaults.style(),
     darkTheme = isSystemInDarkTheme(),
-    mail = null
+    feedbackConfig = null
 )
 ```
 
