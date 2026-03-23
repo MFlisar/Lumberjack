@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -27,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.michaelflisar.lumberjack.core.classes.FeedbackConfig
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import kotlinx.coroutines.launch
 
@@ -36,7 +38,7 @@ fun TopAppBarImpl(
     title: String,
     setup: IFileLoggingSetup,
     state: LumberjackDialog.State,
-    mail: String?
+    feedbackConfig: FeedbackConfig? = null,
 ) {
     val scope = rememberCoroutineScope()
     var showMenu by remember { mutableStateOf(false) }
@@ -45,7 +47,7 @@ fun TopAppBarImpl(
         derivedStateOf { getFeedbackImpl() }
     }
     feedback.Init()
-    androidx.compose.material3.TopAppBar(
+    TopAppBar(
         title = { Text(title) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -121,7 +123,7 @@ fun TopAppBarImpl(
                                 state.useScrollableLines.value = !state.useScrollableLines.value
                             }
                         )
-                        if (mail != null && feedback.supported()) {
+                        if (feedbackConfig != null && feedback.supported()) {
                             HorizontalDivider()
                             DropdownMenuItem(
                                 text = { Text("Send Mail") },
@@ -133,7 +135,7 @@ fun TopAppBarImpl(
                                 },
                                 onClick = {
                                     feedback.sendFeedback(
-                                        receiver = mail,
+                                        config = feedbackConfig,
                                         attachments = listOfNotNull(setup.getLatestLogFilePath())
                                     )
                                     showMenu2 = true

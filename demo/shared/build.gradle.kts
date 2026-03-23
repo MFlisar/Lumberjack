@@ -1,20 +1,32 @@
-import com.michaelflisar.kmplibrary.BuildFilePlugin
-import com.michaelflisar.kmplibrary.setupDependencies
-import com.michaelflisar.kmplibrary.Target
-import com.michaelflisar.kmplibrary.Targets
+import com.michaelflisar.kmpdevtools.Targets
+import com.michaelflisar.kmpdevtools.configs.library.AndroidLibraryConfig
+import com.michaelflisar.kmpdevtools.core.configs.Config
+import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
+    // kmp + app/library
+    alias(libs.plugins.jetbrains.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.compose)
-    alias(deps.plugins.kmplibrary.buildplugin)
+    // org.jetbrains.kotlin
+    alias(libs.plugins.jetbrains.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    // org.jetbrains.compose
+    alias(libs.plugins.jetbrains.compose)
+    // docs, publishing, validation
+    // --
+    // build tools
+    alias(deps.plugins.kmpdevtools.buildplugin)
+    // others
+    // ...
 }
 
-// get build logic plugin
-val buildFilePlugin = project.plugins.getPlugin(BuildFilePlugin::class.java)
+// ------------------------
+// Setup
+// ------------------------
 
-// targets
+val config = Config.read(rootProject)
+val libraryConfig = LibraryConfig.read(rootProject)
+
 val buildTargets = Targets(
     // mobile
     android = true,
@@ -26,11 +38,20 @@ val buildTargets = Targets(
     wasm = true
 )
 
-val androidNamespace = "com.michaelflisar.lumberjack.demo.shared"
+val androidConfig = AndroidLibraryConfig.createManualNamespace(
+    compileSdk = app.versions.compileSdk,
+    minSdk = app.versions.minSdk,
+    enableAndroidResources = true,
+    namespaceAddon = "demo.shared"
+)
 
 // -------------------
 // Setup
 // -------------------
+
+dependencies {
+    coreLibraryDesugaring(libs.desugar)
+}
 
 kotlin {
 
@@ -38,7 +59,10 @@ kotlin {
     // Targets
     //-------------
 
-    buildFilePlugin.setupTargetsLibrary(buildTargets)
+    buildTargets.setupTargetsLibrary(project)
+    android {
+        buildTargets.setupTargetsAndroidLibrary(project, config, libraryConfig, androidConfig, this)
+    }
 
     // -------
     // Sources
@@ -46,38 +70,36 @@ kotlin {
 
     sourceSets {
 
-
         commonMain.dependencies {
 
             // Kotlin
-            implementation(kotlinx.coroutines.core)
+            implementation(libs.jetbrains.kotlinx.coroutines.core)
+            implementation(libs.jetbrains.kotlinx.io.core)
 
             // Compose
-            implementation(libs.compose.material3)
-            implementation(libs.compose.material.icons.core)
-            implementation(libs.compose.material.icons.extended)
+            implementation(libs.jetbrains.compose.material3)
+            implementation(libs.jetbrains.compose.material.icons.core)
+            implementation(libs.jetbrains.compose.material.icons.extended)
 
-            // library
-            implementation(project(":lumberjack:core"))
-            implementation(project(":lumberjack:implementations:lumberjack"))
-            implementation(project(":lumberjack:loggers:lumberjack:console"))
+            // demo ui composables
+            implementation(deps.kmp.democomposables)
+
+            // ------------------------
+            // Library
+            // ------------------------
+
+            // core
+            api(project(":lumberjack:core"))
+            api(project(":lumberjack:implementation"))
+
+            // 1) loggers - add the ones you need (must match your selected implementation)
+            api(project(":lumberjack:loggers:console"))
+
+            // 2) extensions - they work with any implementation...
+            api(project(":lumberjack:extensions:composeviewer"))
 
         }
     }
-}
-
-// -------------------
-// Configurations
-// -------------------
-
-// android configuration
-android {
-    buildFilePlugin.setupAndroidLibrary(
-        androidNamespace = androidNamespace,
-        compileSdk = app.versions.compileSdk,
-        minSdk = app.versions.minSdk,
-        buildConfig = false
-    )
 }
 
 

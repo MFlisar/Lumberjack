@@ -1,96 +1,66 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import com.michaelflisar.kmpdevtools.BuildFileUtil
+import com.michaelflisar.kmpdevtools.configs.app.AndroidAppConfig
+import com.michaelflisar.kmpdevtools.core.configs.AppConfig
+import com.michaelflisar.kmpdevtools.core.configs.Config
+import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
 
 plugins {
+    // kmp + app/library
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    // org.jetbrains.kotlin
+    alias(libs.plugins.jetbrains.kotlin.compose)
+    // org.jetbrains.compose
+    //alias(libs.plugins.jetbrains.compose)
+    // docs, publishing, validation
+    // --
+    // build tools
+    alias(deps.plugins.kmpdevtools.buildplugin)
+    // others
+    // ...
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.fromTarget(JavaVersion.VERSION_17.toString()))
-    }
-}
+// ------------------------
+// Setup
+// ------------------------
 
+val config = Config.read(rootProject)
+val libraryConfig = LibraryConfig.read(rootProject)
+val appConfig = AppConfig.read(rootProject)
+
+val androidConfig = AndroidAppConfig(
+    compileSdk = app.versions.compileSdk,
+    minSdk = app.versions.minSdk,
+    targetSdk = app.versions.targetSdk
+)
+
+// -------------------
+// Configurations
+// -------------------
+
+// android configuration
 android {
 
-    namespace = "com.michaelflisar.lumberjack.demo"
-
-    compileSdk = app.versions.compileSdk.get().toInt()
-
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
-
-    defaultConfig {
-        minSdk = app.versions.minSdk.get().toInt()
-        targetSdk = app.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    // eventually use local custom signing
-    val debugKeyStore = providers.gradleProperty("debugKeyStore").orNull
-    if (debugKeyStore != null) {
-        signingConfigs {
-            getByName("debug") {
-                keyAlias = "androiddebugkey"
-                keyPassword = "android"
-                storeFile = File(debugKeyStore)
-                storePassword = "android"
-            }
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        isCoreLibraryDesugaringEnabled = true
-    }
+    BuildFileUtil.setupAndroidApp(
+        project = project,
+        config = config,
+        appConfig = appConfig,
+        androidAppConfig = androidConfig,
+        generateResAppName = true,
+        buildConfig = false,
+        checkDebugKeyStoreProperty = true,
+        setupBuildTypesDebugAndRelease = true
+    )
 }
 
 dependencies {
 
-    // ------------------------
-    // AndroidX
-    // ------------------------
-
-    // Compose
-    implementation(libs.compose.material3)
-    implementation(libs.compose.material.icons.core)
-    implementation(libs.compose.material.icons.extended)
-
-    implementation(androidx.activity.compose)
-
-    implementation(kotlinx.io.core)
-
-    implementation(project(":demo:shared"))
-
-    // ------------------------
-    // Library
-    // ------------------------
-
-    implementation(project(":lumberjack:core"))
-
-    // normally you only would use either one of them
-    implementation(project(":lumberjack:implementations:timber"))
-    implementation(project(":lumberjack:implementations:lumberjack"))
-
-    // loggers - add the ones you need (only the ones that match the selected implementation normally)
-    implementation(project(":lumberjack:loggers:lumberjack:console"))
-    implementation(project(":lumberjack:loggers:lumberjack:file"))
-    implementation(project(":lumberjack:loggers:timber:console"))
-    implementation(project(":lumberjack:loggers:timber:file"))
-
-    // extensions - they work with any implementation...
-    implementation(project(":lumberjack:extensions:notification"))
-    implementation(project(":lumberjack:extensions:feedback"))
-    implementation(project(":lumberjack:extensions:viewer"))
-    implementation(project(":lumberjack:extensions:composeviewer"))
-
-    // demo ui composables
-    implementation(deps.kmp.democomposables)
-
     coreLibraryDesugaring(libs.desugar)
+
+    // AndroidX/Compose/Material
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.jetbrains.compose.material3)
+
+    // Library
+    implementation(project(":demo:app:compose"))
+    implementation(project(":lumberjack:extensions:feedback"))
 }

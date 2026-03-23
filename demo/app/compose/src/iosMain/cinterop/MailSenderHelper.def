@@ -1,0 +1,6 @@
+language = Objective-C
+headers = MailSenderHelper.h
+package = MailSenderHelper
+
+compilerOpts = -framework Foundation -framework UIKit -framework MessageUI -framework UniformTypeIdentifiers
+linkerOpts   = -framework Foundation -framework UIKit -framework MessageUI -framework UniformTypeIdentifiers

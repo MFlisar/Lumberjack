@@ -1,27 +1,35 @@
-import com.michaelflisar.kmplibrary.BuildFilePlugin
-import com.michaelflisar.kmplibrary.setupDependencies
-import com.michaelflisar.kmplibrary.Target
-import com.michaelflisar.kmplibrary.Targets
+import com.michaelflisar.kmpdevtools.BuildFileUtil
+import com.michaelflisar.kmpdevtools.Targets
+import com.michaelflisar.kmpdevtools.configs.library.AndroidLibraryConfig
+import com.michaelflisar.kmpdevtools.core.Platform
+import com.michaelflisar.kmpdevtools.core.configs.Config
+import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
 
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
+    // kmp + app/library
+    alias(libs.plugins.jetbrains.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.kotlin.compose)
+    // org.jetbrains.kotlin
+    alias(libs.plugins.jetbrains.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.parcelize)
+    // org.jetbrains.compose
+    alias(libs.plugins.jetbrains.compose)
+    // docs, publishing, validation
     alias(libs.plugins.dokka)
-    alias(libs.plugins.gradle.maven.publish.plugin)
+    alias(libs.plugins.vanniktech.maven.publish.base)
     alias(libs.plugins.binary.compatibility.validator)
-    alias(deps.plugins.kmplibrary.buildplugin)
+    // build tools
+    alias(deps.plugins.kmpdevtools.buildplugin)
+    // others
+    // ...
 }
 
-// get build file plugin
-val buildFilePlugin = project.plugins.getPlugin(BuildFilePlugin::class.java)
+// ------------------------
+// Setup
+// ------------------------
 
-// -------------------
-// Informations
-// -------------------
-
-val androidNamespace = "com.michaelflisar.lumberjack.extensions.composeviewer"
+val config = Config.read(rootProject)
+val libraryConfig = LibraryConfig.read(rootProject)
 
 val buildTargets = Targets(
     // mobile
@@ -31,12 +39,24 @@ val buildTargets = Targets(
     windows = true,
     macOS = true,
     // web
-    wasm = false
+    wasm = true
+)
+
+val androidConfig = AndroidLibraryConfig.create(
+    compileSdk = app.versions.compileSdk,
+    minSdk = app.versions.minSdk,
+    enableAndroidResources = false,
+    project = project,
+    libraryConfig = libraryConfig
 )
 
 // -------------------
-// Setup
+// Kotlin
 // -------------------
+
+dependencies {
+    coreLibraryDesugaring(libs.desugar)
+}
 
 kotlin {
 
@@ -44,7 +64,10 @@ kotlin {
     // Targets
     //-------------
 
-    buildFilePlugin.setupTargetsLibrary(buildTargets)
+    buildTargets.setupTargetsLibrary(project)
+    android {
+        buildTargets.setupTargetsAndroidLibrary(project, config, libraryConfig, androidConfig, this)
+    }
 
     // -------
     // Sources
@@ -56,7 +79,17 @@ kotlin {
         // custom source sets
         // ---------------------
 
-        // --
+        val featureFeedbackSupported by creating { dependsOn(commonMain.get()) }
+        val featureFeedbackNotSupported by creating { dependsOn(commonMain.get()) }
+        val platformFeedbackSupport = listOf(Platform.ANDROID, Platform.IOS)
+
+        val featureFile by creating { dependsOn(commonMain.get()) }
+        val featureNotAndroid by creating { dependsOn(commonMain.get()) }
+
+        buildTargets.setupDependencies(featureFeedbackSupported, sourceSets, buildTargets, platformFeedbackSupport)
+        buildTargets.setupDependencies(featureFeedbackNotSupported, sourceSets, buildTargets, platformFeedbackSupport, platformsNotSupported = true)
+        buildTargets.setupDependencies(featureFile, sourceSets, buildTargets, Platform.LIST_FILE_SUPPORT)
+        buildTargets.setupDependencies(featureNotAndroid, sourceSets, buildTargets,  listOf(Platform.ANDROID), platformsNotSupported = true)
 
         // ---------------------
         // dependencies
@@ -65,50 +98,44 @@ kotlin {
         commonMain.dependencies {
 
             // Kotlin
-            implementation(kotlinx.io.core)
+            implementation(libs.jetbrains.kotlinx.io.core)
 			
 			// Compose + AndroidX
-			implementation(libs.compose.material3)
-			implementation(libs.compose.material.icons.core)
-			implementation(libs.compose.material.icons.extended)
+            implementation(libs.jetbrains.compose.runtime)
+            implementation(libs.jetbrains.compose.material3)
+            implementation(libs.jetbrains.compose.material.icons.core)
+            implementation(libs.jetbrains.compose.material.icons.extended)
 
             // Library
             implementation(project(":lumberjack:core"))
-            implementation(project(":lumberjack:implementations:lumberjack"))
-            implementation(project(":lumberjack:loggers:lumberjack:file"))
+            implementation(project(":lumberjack:implementation"))
 
             // Dependencies
             //implementation(deps.kmp.parcelize)
 
         }
 
-        androidMain.dependencies {
+        featureFile.dependencies {
+            implementation(project(":lumberjack:loggers:file"))
+        }
 
-            implementation(androidx.core)
-
-            // Library
+        featureFeedbackSupported.dependencies {
             implementation(project(":lumberjack:extensions:feedback"))
+        }
+
+        androidMain.dependencies {
+            implementation(libs.androidx.core)
         }
     }
 }
 
 // -------------------
-// Configurations
+// Publish
 // -------------------
 
-// android configuration
-android {
-    buildFilePlugin.setupAndroidLibrary(
-        androidNamespace = androidNamespace,
-        compileSdk = app.versions.compileSdk,
-        minSdk = app.versions.minSdk,
-        buildConfig = false
-    )
-}
-
 // maven publish configuration
-if (buildFilePlugin.checkGradleProperty("publishToMaven") != false)
-    buildFilePlugin.setupMavenPublish()
+if (BuildFileUtil.checkGradleProperty(project, "publishToMaven") != false)
+    BuildFileUtil.setupMavenPublish(project, config, libraryConfig)
 
 
 

@@ -1,3 +1,5 @@
+import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+
 dependencyResolutionManagement {
 
     repositories {
@@ -11,12 +13,6 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("app") {
             from(files("gradle/app.versions.toml"))
-        }
-        create("androidx") {
-            from(files("gradle/androidx.versions.toml"))
-        }
-        create("kotlinx") {
-            from(files("gradle/kotlinx.versions.toml"))
         }
         create("deps") {
             from(files("gradle/deps.versions.toml"))
@@ -36,42 +32,30 @@ pluginManagement {
 }
 
 // --------------
-// Functions
+// Settings Plugin
 // --------------
 
-fun includeModule(path: String, name: String) {
-    include(name)
-    project(name).projectDir = file(path)
+plugins {
+    // version catalogue does not work here!
+    id("io.github.mflisar.kmpdevtools.plugins-settings-gradle") version "7.1.0"
 }
+val settingsPlugin = plugins.getPlugin(com.michaelflisar.kmpdevtools.SettingsFilePlugin::class.java)
 
 // --------------
 // Library
 // --------------
 
-// Core
-includeModule("library/core", ":lumberjack:core")
+val libraryConfig = LibraryConfig.read(rootProject)
+val libraryId = libraryConfig.libraryId()
 
-// Lumberjack
-includeModule("library/implementations/lumberjack", ":lumberjack:implementations:lumberjack")
-includeModule("library/loggers/lumberjack/console", ":lumberjack:loggers:lumberjack:console")
-includeModule("library/loggers/lumberjack/file", ":lumberjack:loggers:lumberjack:file")
-
-// Timber
-includeModule("library/implementations/timber", ":lumberjack:implementations:timber")
-includeModule("library/loggers/timber/console", ":lumberjack:loggers:timber:console")
-includeModule("library/loggers/timber/file", ":lumberjack:loggers:timber:file")
-
-// Extensions
-includeModule("library/extensions/composeviewer", ":lumberjack:extensions:composeviewer")
-includeModule("library/extensions/feedback", ":lumberjack:extensions:feedback")
-includeModule("library/extensions/notification", ":lumberjack:extensions:notification")
-includeModule("library/extensions/viewer", ":lumberjack:extensions:viewer")
+// Library Modules
+settingsPlugin.includeModules(libraryId, libraryConfig, includeDokka = true)
 
 // --------------
 // App
 // --------------
 
+// modules
 include(":demo:shared")
+include(":demo:app:compose")
 include(":demo:app:android")
-include(":demo:app:windows")
-include(":demo:app:web")

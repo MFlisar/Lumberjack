@@ -1,0 +1,38 @@
+# Github Library
+github:
+  name: Lumberjack
+  release: 2016
+  namespace: com.michaelflisar.lumberjack
+  license:
+    name: Apache License 2.0
+    path: blob/main/LICENSE
+
+# Maven
+maven:
+  group-id: io.github.mflisar.lumberjack
+  primary-artifact-id: core # used to detect latest release version of the library (dynamically on the published homepage)
+
+# Modules - list of modules [artifact-id, description, path]
+modules:
+  - artifact-id: core
+    description: the core module of lumberjack
+    path: library/core
+  - artifact-id: implementation
+    description: the implementation of lumberjack
+    path: library/implementation
+  - artifact-id: logger-console
+    description: a console logger for lumberjack
+    path: library/loggers/console
+  - artifact-id: logger-file
+    description: a file logger for lumberjack
+    path: library/loggers/file
+  # EXTENSIONS
+  - artifact-id: extension-composeviewer
+    description: a compose viewer for lumberjack
+    path: library/extensions/composeviewer
+  - artifact-id: extension-feedback
+    description: a feedback module for lumberjack
+    path: library/extensions/feedback
+
+# XCFrameworks [name, path, targets (ios, macos)]
+xcframeworks: [ ]

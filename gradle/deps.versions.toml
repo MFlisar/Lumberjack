@@ -1,39 +1,25 @@
 [versions]
 
-okio =                      "3.12.0"
-timber =                    "4.7.1"
-slf4j =                     "2.0.7"
-logback =                   "3.0.0"
-fastscroller =              "1.0.0"
-material =					"1.12.0"
-
-# mflisar
-kmp-parcelize =             "1.0.0"
-kmp-library =               "1.9.7"
+# mflisar (local snapshot: "LOCAL-SNAPSHOT")
+kmpdevtools =               "7.1.0" # change via "updateDevToolsVersion" gradle task!
+kmp-parcelize =             "1.0.1"
 kmp-democomposables =       "1.0.2"
-feedback =                  "3.0.0"
+kmp-mail =                  "0.1.0"
 
 stately =                   "2.1.0"
 #moko-parcelize =            "0.9.0"
 
 [plugins]
 
-kmplibrary-buildplugin =            { id = "io.github.mflisar.kmp-library.plugins-build-gradle",           version.ref = "kmp-library" }
+# mflisar
+kmpdevtools-buildplugin =               { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",    version.ref = "kmpdevtools" }
 
 [libraries]
 
-okio =                              { module = "com.squareup.okio:okio",                        version.ref = "okio" }
-timber = 				        	{ module = "com.jakewharton.timber:timber", 				version.ref = "timber" }
-slf4j = 				        	{ module = "org.slf4j:slf4j-api", 							version.ref = "slf4j" }
-logback = 				        	{ module = "com.github.tony19:logback-android", 		    version.ref = "logback" }
-fastscroller = 				        { module = "com.quiph.ui:recyclerviewfastscroller", 		version.ref = "fastscroller" }
-material = 				        	{ module = "com.google.android.material:material", 		    version.ref = "material" }
-
 # mflisar
 kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	        version.ref = "kmp-parcelize" }
-kmplibrary-docs =                   { module = "io.github.mflisar.kmp-library:docs",            version.ref = "kmp-library" }
 kmp-democomposables =               { module = "io.github.mflisar.democomposables:library",     version.ref = "kmp-democomposables" }
-feedback =                          { module = "io.github.mflisar.feedbackmanager:library",     version.ref = "feedback" }
+kmp-mail =                          { module = "io.github.mflisar.kmpmail:library",             version.ref = "kmp-mail" }
 
 stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
 #moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		            version.ref = "moko-parcelize" }

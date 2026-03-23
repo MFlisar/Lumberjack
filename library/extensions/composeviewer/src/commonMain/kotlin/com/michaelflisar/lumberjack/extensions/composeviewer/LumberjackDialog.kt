@@ -13,6 +13,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.michaelflisar.lumberjack.core.classes.FeedbackConfig
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
 import kotlinx.io.files.Path
 
@@ -21,13 +22,13 @@ object LumberjackDialog {
         val useScrollableLines: MutableState<Boolean>,
         val logFile: MutableState<Path?>,
         val logFileData: MutableState<Data>,
-        val listState: LazyListState
+        val listState: LazyListState,
     )
 }
 
 @Composable
 fun rememberLumberjackDialogState(
-    style: LumberjackView.Style
+    style: LumberjackView.Style,
 ): LumberjackDialog.State {
     return LumberjackDialog.State(
         remember { mutableStateOf(style.singleScrollableLineView) },
@@ -44,11 +45,11 @@ fun LumberjackDialog(
     setup: IFileLoggingSetup,
     style: LumberjackView.Style = LumberjackViewDefaults.style(),
     darkTheme: Boolean = isSystemInDarkTheme(),
-    mail: String? = null
+    feedbackConfig: FeedbackConfig? = null,
 ) {
     if (visible.value) {
         ShowLumberjackDialog(visible, title) {
-            LumberjackDialogContent(title, setup, style, darkTheme, mail)
+            LumberjackDialogContent(title, setup, style, darkTheme, feedbackConfig)
         }
     }
 }
@@ -59,7 +60,7 @@ fun LumberjackDialogContent(
     setup: IFileLoggingSetup,
     style: LumberjackView.Style = LumberjackViewDefaults.style(),
     darkTheme: Boolean = isSystemInDarkTheme(),
-    mail: String? = null
+    feedbackConfig: FeedbackConfig? = null,
 ) {
     val state = rememberLumberjackDialogState(style)
     Scaffold(
@@ -67,7 +68,7 @@ fun LumberjackDialogContent(
             .fillMaxSize()
             .imePadding(),
         topBar = {
-            TopAppBarImpl(title, setup, state, mail)
+            TopAppBarImpl(title, setup, state, feedbackConfig)
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding)) {

@@ -46,11 +46,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.michaelflisar.lumberjack.core.InternalApi
+import com.michaelflisar.lumberjack.core.LoggingIOContext
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import kotlinx.io.IOException
 import kotlinx.io.buffered
@@ -103,6 +103,7 @@ fun rememberLogFileData(data: Data = Data.Reload): MutableState<Data> {
     return remember { mutableStateOf(data) }
 }
 
+@OptIn(InternalApi::class)
 @Composable
 fun LumberjackView(
     setup: IFileLoggingSetup,
@@ -124,7 +125,7 @@ fun LumberjackView(
                 if (!SystemFileSystem.exists(f)) {
                     data.value = Data.FileNotFound
                 } else {
-                    withContext(Dispatchers.IO) {
+                    withContext(LoggingIOContext) {
                         try {
                             val logs = setup.fileConverter.parseFile(readLines(f))
                             data.value = Data.Loaded(logs)
@@ -203,12 +204,12 @@ fun LumberjackView(
                         filteredEntries.forEach {
                             item(key = it.lineNumber) {
                                 LogEntry(
-                                    it,
-                                    filter2.value,
-                                    darkTheme,
-                                    spanStyle,
-                                    style,
-                                    useScrollableLines
+                                    entry = it,
+                                    filter = filter2.value,
+                                    darkTheme = darkTheme,
+                                    spanStyle = spanStyle,
+                                    style = style,
+                                    useScrollableLines = useScrollableLines
                                 )
                             }
                         }
