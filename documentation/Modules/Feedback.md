@@ -1,8 +1,7 @@
 # Feedback
 
-!!! note
-
-    This extension does only support android!
+> [!IMPORTANT]
+> This extension does only support android!
 
 This small extension simply allows you to send a log file via mail (no internet connection required). This will be done by sharing the file as email `Intent`.
 

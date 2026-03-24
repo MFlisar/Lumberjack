@@ -67,6 +67,7 @@ jetbrains-kotlin-test = 			                { module = "org.jetbrains.kotlin:kotl
 
 # org.jetbrains.compose
 jetbrains-compose-runtime =                         { module = "org.jetbrains.compose.runtime:runtime",                     version.ref = "jetbrains-compose" }
+jetbrains-compose-components-resource =             { module = "org.jetbrains.compose.components:components-resources",     version.ref = "jetbrains-compose" }
 jetbrains-compose-foundation =                      { module = "org.jetbrains.compose.foundation:foundation",               version.ref = "jetbrains-compose" }
 jetbrains-compose-ui =                              { module = "org.jetbrains.compose.ui:ui",                               version.ref = "jetbrains-compose" }
 jetbrains-compose-ui-backhandler =                  { module = "org.jetbrains.compose.ui:ui-backhandler",                   version.ref = "jetbrains-compose" }

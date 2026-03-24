@@ -14,6 +14,7 @@ This library provides following main features:
 
 - [Screenshots](#camera-screenshots)
 - [Supported Platforms](#computer-supported-platforms)
+- [Versions](#arrow_right-versions)
 - [Setup](#wrench-setup)
 - [Usage](#rocket-usage)
 - [Modules](#file_folder-modules)
@@ -24,10 +25,10 @@ This library provides following main features:
 
 # :camera: Screenshots
 
-![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg)
 ![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg)
-![log2](documentation/screenshots/core/log2.png)
+![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg)
 ![log1](documentation/screenshots/core/log1.png)
+![log2](documentation/screenshots/core/log2.png)
 
 # :computer: Supported Platforms
 
@@ -39,6 +40,20 @@ This library provides following main features:
 | logger-file | ✅ | ✅ | ✅ | ✅ | ❌ |
 | extension-composeviewer | ✅ | ✅ | ✅ | ✅ | ✅ |
 | extension-feedback | ✅ | ✅ | ❌ | ❌ | ❌ |
+
+# :arrow_right: Versions
+
+| Dependency | Version |
+|---|---|
+| Kotlin | `2.3.20` |
+| Jetbrains Compose | `1.10.3` |
+| Jetbrains Compose Material3 | `1.9.0` |
+
+> :warning: Following experimental annotations are used:
+> - `kotlinx.cinterop.ExperimentalForeignApi` (2x)
+> - `androidx.compose.material3.ExperimentalMaterial3Api` (2x)
+>
+> I try to use as less experimental features as possible, but in this case the ones above are needed!
 
 # :wrench: Setup
 
@@ -234,8 +249,8 @@ A full [demo](/demo) is included inside the demo module, it shows nearly every u
 - Advanced
   - [Custom Logger](documentation/Advanced/Custom%20Logger.md)
 - Migration
-  - [v10](documentation/Migration/v10.md)
-  - [v7](documentation/Migration/v7.md)
+  - [Migration to version 10](documentation/Migration/v10.md)
+  - [Migration to version 7](documentation/Migration/v7.md)
 
 # :books: API
 
