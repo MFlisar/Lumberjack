@@ -25,10 +25,10 @@ This library provides following main features:
 
 # :camera: Screenshots
 
-![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg)
 ![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg)
-![log1](documentation/screenshots/core/log1.png)
+![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg)
 ![log2](documentation/screenshots/core/log2.png)
+![log1](documentation/screenshots/core/log1.png)
 
 # :computer: Supported Platforms
 
