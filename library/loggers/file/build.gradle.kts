@@ -44,9 +44,7 @@ val buildTargets = Targets(
 val androidConfig = AndroidLibraryConfig.create(
     compileSdk = app.versions.compileSdk,
     minSdk = app.versions.minSdk,
-    enableAndroidResources = false,
-    project = project,
-    libraryConfig = libraryConfig
+    enableAndroidResources = false
 )
 
 // -------------------

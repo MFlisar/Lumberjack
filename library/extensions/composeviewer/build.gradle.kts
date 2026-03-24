@@ -45,9 +45,7 @@ val buildTargets = Targets(
 val androidConfig = AndroidLibraryConfig.create(
     compileSdk = app.versions.compileSdk,
     minSdk = app.versions.minSdk,
-    enableAndroidResources = false,
-    project = project,
-    libraryConfig = libraryConfig
+    enableAndroidResources = false
 )
 
 // -------------------
@@ -85,9 +83,9 @@ kotlin {
 
         val featureFile by creating { dependsOn(commonMain.get()) }
 
-        buildTargets.setupDependencies(featureFeedbackSupported, sourceSets, buildTargets, platformFeedbackSupport)
-        buildTargets.setupDependencies(featureFeedbackNotSupported, sourceSets, buildTargets, platformFeedbackSupport, platformsNotSupported = true)
-        buildTargets.setupDependencies(featureFile, sourceSets, buildTargets, Platform.LIST_FILE_SUPPORT)
+        buildTargets.setupDependencies(featureFeedbackSupported, sourceSets, platformFeedbackSupport)
+        buildTargets.setupDependencies(featureFeedbackNotSupported, sourceSets, platformFeedbackSupport, platformsNotSupported = true)
+        buildTargets.setupDependencies(featureFile, sourceSets, Platform.LIST_FILE_SUPPORT)
 
         // ---------------------
         // dependencies

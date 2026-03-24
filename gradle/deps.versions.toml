@@ -1,13 +1,12 @@
 [versions]
 
 # mflisar (local snapshot: "LOCAL-SNAPSHOT")
-kmpdevtools =               "7.1.6" # change via "updateDevToolsVersion" gradle task!
-kmp-parcelize =             "1.0.1"
+kmpdevtools =               "7.1.8" # change via "updateDevToolsVersion" gradle task!
+kmp-parcelize =             "1.1.0-alpha01"
 kmp-democomposables =       "1.0.2"
 kmp-mail =                  "0.1.0"
 
 stately =                   "2.1.0"
-#moko-parcelize =            "0.9.0"
 
 [plugins]
 
@@ -17,9 +16,8 @@ kmpdevtools-buildplugin =               { id = "io.github.mflisar.kmpdevtools.pl
 [libraries]
 
 # mflisar
-kmp-parcelize =                     { module = "io.github.mflisar.parcelize:library", 	        version.ref = "kmp-parcelize" }
+kmp-parcelize =                     { module = "io.github.mflisar.kmpparcelize:library", 	    version.ref = "kmp-parcelize" }
 kmp-democomposables =               { module = "io.github.mflisar.democomposables:library",     version.ref = "kmp-democomposables" }
 kmp-mail =                          { module = "io.github.mflisar.kmpmail:library",             version.ref = "kmp-mail" }
 
 stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
-#moko-parcelize =                    { module = "dev.icerock.moko:parcelize", 		            version.ref = "moko-parcelize" }
