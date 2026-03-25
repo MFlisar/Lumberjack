@@ -45,9 +45,9 @@ val androidConfig = AndroidLibraryConfig.createManualNamespace(
     namespaceAddon = "demo.shared"
 )
 
-// -------------------
-// Setup
-// -------------------
+// ------------------------
+// Kotlin
+// ------------------------
 
 dependencies {
     coreLibraryDesugaring(libs.desugar)
