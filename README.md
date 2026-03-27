@@ -25,10 +25,10 @@ This library provides following main features:
 
 # :camera: Screenshots
 
-![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg)
-![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg)
 ![log2](documentation/screenshots/core/log2.png)
 ![log1](documentation/screenshots/core/log1.png)
+![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg)
+![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg)
 
 # :computer: Supported Platforms
 
@@ -50,8 +50,10 @@ This library provides following main features:
 | Jetbrains Compose Material3 | `1.9.0` |
 
 > :warning: Following experimental annotations are used:
-> - `kotlinx.cinterop.ExperimentalForeignApi` (2x)
-> - `androidx.compose.material3.ExperimentalMaterial3Api` (2x)
+> - **OptIn**
+>   - `androidx.compose.material3.ExperimentalMaterial3Api` (2x)
+>   - `com.michaelflisar.lumberjack.core.InternalApi` (1x)
+>   - `kotlinx.cinterop.ExperimentalForeignApi` (2x)
 >
 > I try to use as less experimental features as possible, but in this case the ones above are needed!
 
