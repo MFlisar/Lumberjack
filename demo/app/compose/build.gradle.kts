@@ -8,6 +8,7 @@ import com.michaelflisar.kmpdevtools.configs.app.WasmAppConfig
 import com.michaelflisar.kmpdevtools.core.configs.AppConfig
 import com.michaelflisar.kmpdevtools.core.configs.Config
 import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+import com.michaelflisar.kmpdevtools.setupDependencies
 
 plugins {
     // kmp + app/library
@@ -102,31 +103,15 @@ kotlin {
         // get / create source sets
         // ------------------------
 
-        val commonMain by getting
-
-        val androidMain by getting
-
-        val jvmMain by getting
-
-        val iosMain by creating { dependsOn(commonMain) }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosAll = listOf(iosX64Main, iosArm64Main, iosSimulatorArm64Main)
-
-        val wasmJsMain by getting
-
-        val featureFileMain by creating { dependsOn(commonMain) }
+        val iosMain by creating { dependsOn(commonMain.get()) }
+        val featureFileMain by creating { dependsOn(commonMain.get()) }
 
         // ------------------------
         // dependencies between source sets
         // ------------------------
 
-        androidMain.dependsOn(featureFileMain)
-        jvmMain.dependsOn(featureFileMain)
-        iosAll.forEach {
-            it.dependsOn(iosMain)
-            it.dependsOn(featureFileMain)
+        setupDependencies(buildTargets, sourceSets) {
+            featureFileMain supportedBy Platform.LIST_FILE_SUPPORT
         }
 
         // ------------------------

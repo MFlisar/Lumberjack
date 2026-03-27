@@ -21,13 +21,3 @@ plugins {
     // others
     // ...
 }
-
-// ----------------------------
-// Apply custom build file plugin
-// ----------------------------
-
-buildFilePlugin {
-
-    // do not build demo projects in CI
-    excludeDemoFromCI.set(true)
-}

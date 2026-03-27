@@ -4,6 +4,7 @@ import com.michaelflisar.kmpdevtools.configs.library.AndroidLibraryConfig
 import com.michaelflisar.kmpdevtools.core.Platform
 import com.michaelflisar.kmpdevtools.core.configs.Config
 import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+import com.michaelflisar.kmpdevtools.setupDependencies
 
 plugins {
     // kmp + app/library
@@ -74,7 +75,11 @@ kotlin {
 
         val nativeMain by creating { dependsOn(commonMain.get()) }
 
-        buildTargets.setupDependencies(nativeMain, sourceSets, Platform.LIST_APPLE)
+        setupDependencies(buildTargets, sourceSets) {
+
+            Platform.LIST_APPLE addSourceSet nativeMain
+
+        }
 
         // ---------------------
         // dependencies

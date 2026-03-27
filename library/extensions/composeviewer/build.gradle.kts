@@ -4,6 +4,7 @@ import com.michaelflisar.kmpdevtools.configs.library.AndroidLibraryConfig
 import com.michaelflisar.kmpdevtools.core.Platform
 import com.michaelflisar.kmpdevtools.core.configs.Config
 import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+import com.michaelflisar.kmpdevtools.setupDependencies
 
 plugins {
     // kmp + app/library
@@ -83,9 +84,13 @@ kotlin {
 
         val featureFile by creating { dependsOn(commonMain.get()) }
 
-        buildTargets.setupDependencies(featureFeedbackSupported, sourceSets, platformFeedbackSupport)
-        buildTargets.setupDependencies(featureFeedbackNotSupported, sourceSets, platformFeedbackSupport, platformsNotSupported = true)
-        buildTargets.setupDependencies(featureFile, sourceSets, Platform.LIST_FILE_SUPPORT)
+        setupDependencies(buildTargets, sourceSets) {
+
+            featureFeedbackSupported supportedBy platformFeedbackSupport
+            featureFeedbackNotSupported supportedBy !platformFeedbackSupport
+            featureFile supportedBy Platform.LIST_FILE_SUPPORT
+
+        }
 
         // ---------------------
         // dependencies

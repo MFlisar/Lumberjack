@@ -1,6 +1,6 @@
-[D] 2026-03-23 12:37:28.244 [Main.kt:34]: before main application
-[D] 2026-03-23 12:37:28.303 [DemoLogging.kt:105]: Test log in class
-[E] 2026-03-23 12:37:30.137 [Main.kt:41]: x = 1 / 0
+[D] 2026-03-27 12:15:06.856 [Main.kt:34]: before main application
+[D] 2026-03-27 12:15:06.921 [DemoLogging.kt:105]: Test log in class
+[E] 2026-03-27 12:15:08.481 [Main.kt:41]: x = 1 / 0
 java.lang.ArithmeticException: / by zero
 	at com.michaelflisar.demo.MainKt$main$2$1$1.invokeSuspend(Main.kt:41)
 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
@@ -19,8 +19,8 @@ java.lang.ArithmeticException: / by zero
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
 	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
 
-[D] 2026-03-23 12:37:30.148 [DemoLogging.kt:39]: TEST-LOG - 1a - MainActivity onCreate was just called
-[E] 2026-03-23 12:37:30.149 [DemoLogging.kt:40]: TEST-LOG - 1b - MainActivity onCreate was just called
+[D] 2026-03-27 12:15:08.493 [DemoLogging.kt:39]: TEST-LOG - 1a - MainActivity onCreate was just called
+[E] 2026-03-27 12:15:08.493 [DemoLogging.kt:40]: TEST-LOG - 1b - MainActivity onCreate was just called
 java.lang.Exception: TEST
 	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:40)
 	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:87)
@@ -46,9 +46,9 @@ java.lang.Exception: TEST
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
 	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
 
-[D] 2026-03-23 12:37:30.150 [DemoLogging.kt:41]: TEST-LOG - 1c - MainActivity onCreate was just called
-[E] 2026-03-23 12:37:30.150 [DemoLogging.kt:47]: TEST-LOG - 3 - Some error message
-[E] 2026-03-23 12:37:30.152 [DemoLogging.kt:48]: 
+[D] 2026-03-27 12:15:08.494 [DemoLogging.kt:41]: TEST-LOG - 1c - MainActivity onCreate was just called
+[E] 2026-03-27 12:15:08.495 [DemoLogging.kt:47]: TEST-LOG - 3 - Some error message
+[E] 2026-03-27 12:15:08.496 [DemoLogging.kt:48]: 
 TEST-LOG - 4 - TestException (some info)
 	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:48)
 	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:87)
@@ -74,24 +74,24 @@ TEST-LOG - 4 - TestException (some info)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
 	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
 
-[D] 2026-03-23 12:37:30.154 [DemoLogging.kt:55]: TEST-LOG - 5 - from within lambda: func call 1...
-[D] 2026-03-23 12:37:30.154 [DemoLogging.kt:55]: TEST-LOG - 5 - from within lambda: func call 2...
-[D] 2026-03-23 12:37:30.154 [DemoLogging.kt:55]: TEST-LOG - 5 - from within lambda: func call 3...
-[D] 2026-03-23 12:37:30.156 [DemoLogging.kt:67]: TEST-LOG - Test 0
-[D] 2026-03-23 12:37:30.156 [DemoLogging.kt:63]: TEST-LOG - 6 - from within coroutine on background thread (if the platform has one)...
-[D] 2026-03-23 12:37:30.157 [DemoLogging.kt:67]: TEST-LOG - Test 1
-[D] 2026-03-23 12:37:30.157 [DemoLogging.kt:67]: TEST-LOG - Test 2
-[D] 2026-03-23 12:37:30.157 [DemoLogging.kt:67]: TEST-LOG - Test 3
-[D] 2026-03-23 12:37:30.157 [DemoLogging.kt:67]: TEST-LOG - Test 4
-[D] 2026-03-23 12:37:30.158 [DemoLogging.kt:67]: TEST-LOG - Test 5
-[D] 2026-03-23 12:37:30.158 [DemoLogging.kt:67]: TEST-LOG - Test 6
-[D] 2026-03-23 12:37:30.159 [DemoLogging.kt:67]: TEST-LOG - Test 7
-[D] 2026-03-23 12:37:30.159 [DemoLogging.kt:67]: TEST-LOG - Test 8
-[D] 2026-03-23 12:37:30.160 [DemoLogging.kt:67]: TEST-LOG - Test 9
-[D] 2026-03-23 12:37:30.161 [DemoLogging.kt:67]: TEST-LOG - Test 10
-[D] 2026-03-23 12:37:30.168 [DemoApp.kt:87]: TEST-LOG - Debug Message from library...
-[D] 2026-03-23 12:37:30.169 [DemoLogging.kt:84]: TEST-LOG - Debug log...
-[E] 2026-03-23 12:37:30.170 [DemoLogging.kt:85]: TEST-LOG - Error log...
+[D] 2026-03-27 12:15:08.497 [DemoLogging.kt:55]: TEST-LOG - 5 - from within lambda: func call 1...
+[D] 2026-03-27 12:15:08.497 [DemoLogging.kt:55]: TEST-LOG - 5 - from within lambda: func call 2...
+[D] 2026-03-27 12:15:08.498 [DemoLogging.kt:55]: TEST-LOG - 5 - from within lambda: func call 3...
+[D] 2026-03-27 12:15:08.500 [DemoLogging.kt:63]: TEST-LOG - 6 - from within coroutine on background thread (if the platform has one)...
+[D] 2026-03-27 12:15:08.500 [DemoLogging.kt:67]: TEST-LOG - Test 0
+[D] 2026-03-27 12:15:08.501 [DemoLogging.kt:67]: TEST-LOG - Test 1
+[D] 2026-03-27 12:15:08.501 [DemoLogging.kt:67]: TEST-LOG - Test 2
+[D] 2026-03-27 12:15:08.502 [DemoLogging.kt:67]: TEST-LOG - Test 3
+[D] 2026-03-27 12:15:08.502 [DemoLogging.kt:67]: TEST-LOG - Test 4
+[D] 2026-03-27 12:15:08.503 [DemoLogging.kt:67]: TEST-LOG - Test 5
+[D] 2026-03-27 12:15:08.504 [DemoLogging.kt:67]: TEST-LOG - Test 6
+[D] 2026-03-27 12:15:08.504 [DemoLogging.kt:67]: TEST-LOG - Test 7
+[D] 2026-03-27 12:15:08.504 [DemoLogging.kt:67]: TEST-LOG - Test 8
+[D] 2026-03-27 12:15:08.505 [DemoLogging.kt:67]: TEST-LOG - Test 9
+[D] 2026-03-27 12:15:08.505 [DemoLogging.kt:67]: TEST-LOG - Test 10
+[D] 2026-03-27 12:15:08.506 [DemoApp.kt:87]: TEST-LOG - Debug Message from library...
+[D] 2026-03-27 12:15:08.507 [DemoLogging.kt:84]: TEST-LOG - Debug log...
+[E] 2026-03-27 12:15:08.507 [DemoLogging.kt:85]: TEST-LOG - Error log...
 java.lang.Exception: EX
 	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:85)
 	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:87)
@@ -117,9 +117,9 @@ java.lang.Exception: EX
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
 	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
 
-[V] 2026-03-23 12:37:30.207 [DemoLogging.kt:71]: TEST-LOG - Verbose log...
-[D] 2026-03-23 12:37:30.207 [DemoLogging.kt:72]: TEST-LOG - Debug log...
-[I] 2026-03-23 12:37:30.208 [DemoLogging.kt:73]: TEST-LOG - Info log...
-[W] 2026-03-23 12:37:30.208 [DemoLogging.kt:74]: TEST-LOG - Warn log...
-[E] 2026-03-23 12:37:30.209 [DemoLogging.kt:75]: TEST-LOG - Error log...
-[WTF] 2026-03-23 12:37:30.209 [DemoLogging.kt:76]: TEST-LOG - WTF log...
+[V] 2026-03-27 12:15:08.537 [DemoLogging.kt:71]: TEST-LOG - Verbose log...
+[D] 2026-03-27 12:15:08.538 [DemoLogging.kt:72]: TEST-LOG - Debug log...
+[I] 2026-03-27 12:15:08.539 [DemoLogging.kt:73]: TEST-LOG - Info log...
+[W] 2026-03-27 12:15:08.540 [DemoLogging.kt:74]: TEST-LOG - Warn log...
+[E] 2026-03-27 12:15:08.540 [DemoLogging.kt:75]: TEST-LOG - Error log...
+[WTF] 2026-03-27 12:15:08.541 [DemoLogging.kt:76]: TEST-LOG - WTF log...
