@@ -25,10 +25,17 @@ This library provides following main features:
 
 # :camera: Screenshots
 
-![log2](documentation/screenshots/core/log2.png)
-![log1](documentation/screenshots/core/log1.png)
-![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg)
-![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg)
+### composeviewer
+
+|  |  |  |
+|---|---|---|
+| ![compose-viewer1](documentation/screenshots/composeviewer/compose-viewer1.jpg) | ![compose-viewer2](documentation/screenshots/composeviewer/compose-viewer2.jpg) |
+
+### core
+
+|  |  |  |
+|---|---|---|
+| ![log1](documentation/screenshots/core/log1.png) | ![log2](documentation/screenshots/core/log2.png) |
 
 # :computer: Supported Platforms
 
@@ -52,7 +59,6 @@ This library provides following main features:
 > :warning: Following experimental annotations are used:
 > - **OptIn**
 >   - `androidx.compose.material3.ExperimentalMaterial3Api` (2x)
->   - `com.michaelflisar.lumberjack.core.InternalApi` (1x)
 >   - `kotlinx.cinterop.ExperimentalForeignApi` (2x)
 >
 > I try to use as less experimental features as possible, but in this case the ones above are needed!
