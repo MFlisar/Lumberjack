@@ -1,5 +1,5 @@
 # App
 name: Lumberjack Demo
-package-name: com.michaelflisar.lumberjack.demo
+namespace: com.michaelflisar.lumberjack.demo
 version-code: 1
 version-name: 1.0.0

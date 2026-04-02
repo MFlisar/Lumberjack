@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DemoApp(
+                name = BuildKonfig.appName,
                 platform = "Android",
                 setup = App.setup,
                 ioContext = Dispatchers.IO,

@@ -37,6 +37,7 @@ import kotlinx.io.files.SystemFileSystem
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DemoApp(
+    name: String,
     platform: String,
     setup: IFileLoggingSetup?,
     ioContext: CoroutineDispatcher,
@@ -47,7 +48,7 @@ fun DemoApp(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("Lumberjack Demo") },
+                    title = { Text(name) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,

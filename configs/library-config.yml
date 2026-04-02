@@ -2,7 +2,6 @@
 github:
   name: Lumberjack
   release: 2016
-  namespace: com.michaelflisar.lumberjack
   license:
     name: Apache License 2.0
     path: blob/main/LICENSE

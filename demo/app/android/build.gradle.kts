@@ -1,8 +1,6 @@
 import com.michaelflisar.kmpdevtools.BuildFileUtil
 import com.michaelflisar.kmpdevtools.configs.app.AndroidAppConfig
-import com.michaelflisar.kmpdevtools.core.configs.AppConfig
-import com.michaelflisar.kmpdevtools.core.configs.Config
-import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+import com.michaelflisar.kmpdevtools.configs.module.AppModuleConfig
 
 plugins {
     // kmp + app/library
@@ -23,9 +21,7 @@ plugins {
 // Setup
 // ------------------------
 
-val config = Config.read(rootProject)
-val libraryConfig = LibraryConfig.read(rootProject)
-val appConfig = AppConfig.read(rootProject)
+val module = AppModuleConfig.readManual(project)
 
 val androidConfig = AndroidAppConfig(
     compileSdk = app.versions.compileSdk,
@@ -41,9 +37,7 @@ val androidConfig = AndroidAppConfig(
 android {
 
     BuildFileUtil.setupAndroidApp(
-        project = project,
-        config = config,
-        appConfig = appConfig,
+        appModuleConfig = module,
         androidAppConfig = androidConfig,
         generateResAppName = true,
         buildConfig = false,

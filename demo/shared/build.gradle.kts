@@ -1,7 +1,14 @@
 import com.michaelflisar.kmpdevtools.Targets
+import com.michaelflisar.kmpdevtools.BuildFileUtil
+import com.michaelflisar.kmpdevtools.core.Platform
 import com.michaelflisar.kmpdevtools.configs.library.AndroidLibraryConfig
-import com.michaelflisar.kmpdevtools.core.configs.Config
-import com.michaelflisar.kmpdevtools.core.configs.LibraryConfig
+import com.michaelflisar.kmpdevtools.configs.app.DesktopAppConfig
+import com.michaelflisar.kmpdevtools.configs.app.WasmAppConfig
+import com.michaelflisar.kmpdevtools.configs.module.AppModuleConfig
+import com.michaelflisar.kmpdevtools.setupDependencies
+import com.michaelflisar.kmpdevtools.configs.module.LibraryModuleConfig
+import com.michaelflisar.kmpdevtools.setupDependencies
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 
 plugins {
     // kmp + app/library
@@ -16,6 +23,7 @@ plugins {
     // --
     // build tools
     alias(deps.plugins.kmpdevtools.buildplugin)
+    alias(libs.plugins.buildkonfig)
     // others
     // ...
 }
@@ -24,8 +32,7 @@ plugins {
 // Setup
 // ------------------------
 
-val config = Config.read(rootProject)
-val libraryConfig = LibraryConfig.read(rootProject)
+val module = LibraryModuleConfig.readManual(project)
 
 val buildTargets = Targets(
     // mobile
@@ -38,16 +45,27 @@ val buildTargets = Targets(
     wasm = true
 )
 
-val androidConfig = AndroidLibraryConfig.createManualNamespace(
+val androidConfig = AndroidLibraryConfig.createFromPath(
+    libraryModuleConfig = module,
     compileSdk = app.versions.compileSdk,
     minSdk = app.versions.minSdk,
-    enableAndroidResources = true,
-    namespaceAddon = "demo.shared"
+    enableAndroidResources = true
 )
 
 // ------------------------
 // Kotlin
 // ------------------------
+
+buildkonfig {
+    packageName = module.appConfig.namespace
+    exposeObjectWithName = "BuildKonfig"
+    defaultConfigs {
+        buildConfigField(Type.STRING, "versionName", module.appConfig.versionName)
+        buildConfigField(Type.INT, "versionCode", module.appConfig.versionCode.toString())
+        buildConfigField(Type.STRING, "namespace", module.appConfig.namespace)
+        buildConfigField(Type.STRING, "appName", module.appConfig.name)
+    }
+}
 
 dependencies {
     coreLibraryDesugaring(libs.desugar)
@@ -59,9 +77,9 @@ kotlin {
     // Targets
     //-------------
 
-    buildTargets.setupTargetsLibrary(project)
+    buildTargets.setupTargetsLibrary(module)
     android {
-        buildTargets.setupTargetsAndroidLibrary(project, config, libraryConfig, androidConfig, this)
+        buildTargets.setupTargetsAndroidLibrary(module, androidConfig, this)
     }
 
     // -------

@@ -15,6 +15,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
+import com.michaelflisar.lumberjack.demo.BuildKonfig
 import com.michaelflisar.lumberjack.demo.DemoApp
 import com.michaelflisar.lumberjack.demo.DemoLogging
 import com.michaelflisar.lumberjack.loggers.file.FileLogger
@@ -53,6 +54,7 @@ fun main() {
             )
         ) {
             DemoApp(
+                name = BuildKonfig.appName,
                 platform = "Windows",
                 setup = setup,
                 ioContext = Dispatchers.IO,
