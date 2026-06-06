@@ -39,21 +39,21 @@ This library provides following main features:
 
 # :computer: Supported Platforms
 
-| Module | android | iOS | windows | macOS | wasm |
-|---|---|---|---|---|---|
-| core | ✅ | ✅ | ✅ | ✅ | ✅ |
-| implementation | ✅ | ✅ | ✅ | ✅ | ✅ |
-| logger-console | ✅ | ✅ | ✅ | ✅ | ✅ |
-| logger-file | ✅ | ✅ | ✅ | ✅ | ❌ |
-| extension-composeviewer | ✅ | ✅ | ✅ | ✅ | ✅ |
-| extension-feedback | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Module | android | iOS | windows | macOS | wasm | Notes |
+|---|---|---|---|---|---|---|
+| core | ✅ | ✅ | ✅ | ✅ | ✅ | the core module of lumberjack |
+| implementation | ✅ | ✅ | ✅ | ✅ | ✅ | the implementation of lumberjack |
+| logger-console | ✅ | ✅ | ✅ | ✅ | ✅ | a console logger for lumberjack |
+| logger-file | ✅ | ✅ | ✅ | ✅ | ❌ | a file logger for lumberjack |
+| extension-composeviewer | ✅ | ✅ | ✅ | ✅ | ✅ | a compose viewer for lumberjack |
+| extension-feedback | ✅ | ✅ | ❌ | ❌ | ❌ | a feedback module for lumberjack |
 
 # :arrow_right: Versions
 
 | Dependency | Version |
 |---|---|
-| Kotlin | `2.3.20` |
-| Jetbrains Compose | `1.10.3` |
+| Kotlin | `2.4.0` |
+| Jetbrains Compose | `1.11.1` |
 | Jetbrains Compose Material3 | `1.9.0` |
 
 > :warning: Following experimental annotations are used:
