@@ -22,6 +22,14 @@ import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.writeString
 
+/**
+ * File logger implementation that writes logs to a file on disk.
+ *
+ * @param setup Configuration for the file logger, including how to format logs and determine file paths.
+ * @param timeToKeepFileOpen Duration in milliseconds to keep the log file open after the last log entry is written. Defaults to 2 minutes.
+ * @param minLogLevel Minimum log level this logger will output. Defaults to [Level.VERBOSE].
+ * @param filter Lumberjack filter used to decide which logs are allowed. Defaults to [DefaultLumberjackFilter] which does not filter out anything.
+ */
 class FileLogger(
     val setup: FileLoggerSetup,
     private val timeToKeepFileOpen: Long = 2 * 60 * 1000L, // 2mins

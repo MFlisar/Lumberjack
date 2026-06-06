@@ -18,6 +18,9 @@ dependencyResolutionManagement    {
         create("deps") {
             from(files("gradle/deps.versions.toml"))
         }
+        create("mflisar") {
+            from(files("gradle/mflisar.versions.toml"))
+        }
     }
 }
 
@@ -38,14 +41,14 @@ pluginManagement {
 
 plugins {
     // version catalogue does not work here!
-    id("io.github.mflisar.kmpdevtools.plugins-settings-gradle") version "7.6.0"
+    id("io.github.mflisar.kmpdevtools.plugins-settings-gradle") version "7.9.6"
 }
 
 // --------------
 // Library
 // --------------
 
-val libraryConfig = LibraryConfig.read(rootProject)
+val libraryConfig = LibraryConfig.read(rootDir)
 val libraryName = libraryConfig.libraryName()
 
 // Library Modules

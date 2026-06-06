@@ -1,7 +1,7 @@
 package com.michaelflisar.demo
 
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
+import androidx.compose.ui.window.ComposeViewport
 import com.michaelflisar.lumberjack.core.L
 import com.michaelflisar.lumberjack.demo.BuildKonfig
 import com.michaelflisar.lumberjack.demo.DemoApp
@@ -16,7 +16,10 @@ fun main() {
     L.tag("Tag1").d { "before main application" }
     DemoLogging.runTest()
 
-    CanvasBasedWindow("Demo", canvasElementId = "ComposeTarget") {
+    ComposeViewport(
+        // mit container id geht es nicht --> wäre aber gut, dann würde ein Loader angezeigt werden, aktuell wird der nicht angezeigt...
+        // viewportContainerId = wasmSetup.canvasElementId
+    ) {
         DemoApp(
             name = BuildKonfig.appName,
             platform = "WASM",

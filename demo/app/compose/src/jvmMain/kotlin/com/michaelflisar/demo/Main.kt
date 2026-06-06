@@ -39,6 +39,7 @@ fun main() {
 
         LaunchedEffect(Unit) {
             try {
+                @Suppress("DIVISION_BY_ZERO")
                 val x = 1 / 0
             } catch (e: Exception) {
                 L.e(e) { "x = 1 / 0" }

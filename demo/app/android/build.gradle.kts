@@ -1,6 +1,5 @@
 import com.michaelflisar.kmpdevtools.BuildFileUtil
-import com.michaelflisar.kmpdevtools.configs.app.AndroidAppConfig
-import com.michaelflisar.kmpdevtools.configs.module.AppModuleConfig
+import com.michaelflisar.kmpdevtools.configs.*
 
 plugins {
     // kmp + app/library
@@ -12,7 +11,7 @@ plugins {
     // docs, publishing, validation
     // --
     // build tools
-    alias(deps.plugins.kmpdevtools.buildplugin)
+    alias(mflisar.plugins.kmpdevtools.buildplugin)
     // others
     // ...
 }

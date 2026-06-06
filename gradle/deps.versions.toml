@@ -1,23 +1,11 @@
 [versions]
 
-# mflisar (local snapshot: "LOCAL-SNAPSHOT")
-kmpdevtools =               "7.6.0" # change via "updateDevToolsVersion" gradle task!
-kmp-parcelize =             "1.1.0-alpha01"
-kmp-democomposables =       "1.0.2"
-kmp-mail =                  "0.1.0"
-
 stately =                   "2.1.0"
 
 [plugins]
 
-# mflisar
-kmpdevtools-buildplugin =               { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",    version.ref = "kmpdevtools" }
+# --
 
 [libraries]
-
-# mflisar
-kmp-parcelize =                     { module = "io.github.mflisar.kmpparcelize:library", 	    version.ref = "kmp-parcelize" }
-kmp-democomposables =               { module = "io.github.mflisar.democomposables:library",     version.ref = "kmp-democomposables" }
-kmp-mail =                          { module = "io.github.mflisar.kmpmail:library",             version.ref = "kmp-mail" }
 
 stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
