@@ -78,15 +78,23 @@ kotlin {
 
         val featureFeedbackSupported by creating { dependsOn(commonMain.get()) }
         val featureFeedbackNotSupported by creating { dependsOn(commonMain.get()) }
-        val platformFeedbackSupport = listOf(Platform.ANDROID, Platform.IOS)
-
         val featureFile by creating { dependsOn(commonMain.get()) }
+
+        val macosMain by creating { dependsOn(commonMain.get()) }
+        val iosMain by creating { dependsOn(commonMain.get()) }
+        //val notAndroidMain by creating { dependsOn(commonMain.get()) }
+
+        val platformFeedbackSupport = listOf(Platform.ANDROID, Platform.IOS)
 
         setupDependencies(module, buildTargets, sourceSets) {
 
             featureFeedbackSupported supportedBy platformFeedbackSupport
             featureFeedbackNotSupported supportedBy !platformFeedbackSupport
             featureFile supportedBy Platform.LIST_FILE_SUPPORT
+
+            macosMain supportedBy Platform.MACOS
+            iosMain supportedBy Platform.IOS
+            //notAndroidMain supportedBy !Platform.ANDROID
 
         }
 
@@ -110,8 +118,15 @@ kotlin {
             implementation(project(":lumberjack:implementation"))
 
             // Dependencies
-            //implementation(deps.kmp.parcelize)
+            implementation(mflisar.kmp.platformcontext.core)
 
+            implementation(deps.klip.api)
+            implementation(deps.klip.system)
+
+        }
+
+        androidMain.dependencies {
+            implementation(mflisar.kmp.platformcontext.initializer)
         }
 
         featureFile.dependencies {

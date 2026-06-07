@@ -1,6 +1,7 @@
 [versions]
 
 stately =                   "2.1.0"
+klip =                      "3.3.8"
 
 [plugins]
 
@@ -9,3 +10,5 @@ stately =                   "2.1.0"
 [libraries]
 
 stately =                           { module = "co.touchlab:stately-concurrency", 		        version.ref = "stately" }
+klip-api =                          { module = "tz.co.asoft:klip-api", 		                    version.ref = "klip" }
+klip-system =                       { module = "tz.co.asoft:klip-system", 		                version.ref = "klip" }

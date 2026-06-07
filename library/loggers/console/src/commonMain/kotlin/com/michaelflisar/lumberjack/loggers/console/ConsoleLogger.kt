@@ -7,19 +7,23 @@ import com.michaelflisar.lumberjack.implementation.classes.LumberjackFilter
 import com.michaelflisar.lumberjack.implementation.interfaces.ILumberjackLogger
 
 /**
- * Console logger implementation that prints logs to the platform console with an optional fixed tag.
+ * Console logger that writes logs to the platform console and allows transforming the runtime tag.
  *
- * This logger is useful on devices that produce a lot of internal logs (for example certain Samsung
- * models). Using a fixed tag makes it easier to filter important logs (e.g. in logcat: "package:mine tag:TVRC").
+ * This logger is useful on platforms that produce a lot of internal logs (e.g. certain Android devices).
+ * The `tagTransformer` function lets callers format, shorten, sanitize, prefix, or completely replace the
+ * runtime `tag` before it is passed to the underlying platform print routine.
  *
- * @param minLogLevel Minimum log level this logger will output. Defaults to [Level.VERBOSE].
- * @param filter Lumberjack filter used to decide which logs are allowed. Defaults to [DefaultLumberjackFilter] which does not filter out anything.
- * @param fixTag Optional constant tag used as a stable identifier for logs emitted by this logger.
- *        When present, it helps to reliably filter app logs on devices that emit many internal messages.
- * @param combineFixTagWithLocalTag When true and both [fixTag] and a runtime `tag` are available,
- *        the logger combines them as "$fixTag-$tag" so you keep a constant filtering token while
- *        preserving the dynamic/local tag information. When false, the logger uses [fixTag] (if set)
- *        or the runtime `tag` otherwise.
+ * @param minLogLevel minimum log level this logger outputs. Default: [Level.VERBOSE].
+ * @param filter Lumberjack filter used to decide which logs are allowed. Default: [DefaultLumberjackFilter].
+ * @param tagTransformer function called for every log with the runtime `tag` (may be `null`) and
+ *        returning the final tag to use (or `null` to indicate no tag). The default is the identity
+ *        function (`{ it }`) which leaves the runtime tag unchanged.
+ *
+ * Notes and recommendations:
+ * - `tagTransformer` is invoked on every log call and therefore should be fast and side-effect free.
+ * - If you want to include a fixed prefix/tag, you can capture it from the surrounding scope:
+ *   `val logger = ConsoleLogger(tagTransformer = { tag -> if (tag != null) "FIXED-$tag" else "FIXED" })`
+ * - The transformer may return `null` if no tag should be used.
  *
  * Note: The logger intentionally places `className` before the "(file:line)" part so IDEs/logcat
  * can make the filename:line clickable.
@@ -27,8 +31,7 @@ import com.michaelflisar.lumberjack.implementation.interfaces.ILumberjackLogger
 class ConsoleLogger(
     override val minLogLevel: Level = Level.VERBOSE,
     override val filter: LumberjackFilter = DefaultLumberjackFilter,
-    val fixTag: String? = null,
-    val combineFixTagWithLocalTag: Boolean = true
+    val tagTransformer: (tag: String?) -> String? = { it }
 ) : ILumberjackLogger {
 
     override fun log(
@@ -50,10 +53,7 @@ class ConsoleLogger(
             link.takeIf { throwable == null },
             throwable?.stackTraceToString()?.let { "\n$it" }
         ).joinToString(" ")
-        val t = if (combineFixTagWithLocalTag && fixTag != null && tag != null) {
-            "$fixTag-$tag"
-        } else (fixTag ?: tag)
-        platformPrintln(prefix, level, t, log)
+        platformPrintln(prefix, level, tagTransformer(tag), log)
     }
 
 }

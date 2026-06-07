@@ -1,15 +1,22 @@
 package com.michaelflisar.lumberjack.extensions.composeviewer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -19,15 +26,22 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
@@ -35,23 +49,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.michaelflisar.kmp.platformcontext.PlatformContextProvider
 import com.michaelflisar.lumberjack.core.InternalApi
 import com.michaelflisar.lumberjack.core.LoggingIOContext
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
+import klip.SystemClipboard
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.io.IOException
 import kotlinx.io.buffered
@@ -65,7 +90,8 @@ object LumberjackView {
         val useAlternatingRowColors: Boolean,
         val color1: Color,
         val color2: Color,
-        val singleScrollableLineView: Boolean
+        val singleScrollableLineView: Boolean,
+        val copyLinesToClipboardOnClick: Boolean
     )
 }
 
@@ -76,12 +102,14 @@ object LumberjackViewDefaults {
         useAlternatingRowColors: Boolean = true,
         color1: Color = MaterialTheme.colorScheme.background,
         color2: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = .1f),
-        singleScrollableLineView: Boolean = false
+        singleScrollableLineView: Boolean = false,
+        copyLinesToClipboardOnClick: Boolean = true
     ) = LumberjackView.Style(
         useAlternatingRowColors = useAlternatingRowColors,
         color1 = color1,
         color2 = color2,
-        singleScrollableLineView = singleScrollableLineView
+        singleScrollableLineView = singleScrollableLineView,
+        copyLinesToClipboardOnClick = copyLinesToClipboardOnClick
     )
 
 }
@@ -114,7 +142,7 @@ fun LumberjackView(
     state: LazyListState = rememberLazyListState(),
     darkTheme: Boolean = isSystemInDarkTheme(),
     style: LumberjackView.Style = LumberjackViewDefaults.style(),
-    useScrollableLines: MutableState<Boolean> = remember { mutableStateOf(false) }
+    useScrollableLines: MutableState<Boolean> = remember { mutableStateOf(false) },
 ) {
     LaunchedEffect(data.value, file.value) {
         if (file.value == null) {
@@ -164,64 +192,147 @@ fun LumberjackView(
         mutableIntStateOf(-1)
     }
 
-    Column(
-        modifier = modifier
-    ) {
-        Filter(filter, filterOptions, filter2)
-        Info(file.value, countFiltered, count)
-        when (val d = data.value) {
-            Data.FileNotFound -> {
-                InfoState("File not found!")
+    CollapsibleHeader(
+        modifier = modifier,
+        collapsible = {
+            Column {
+                Filter(filter, filterOptions, filter2)
+                Spacer(modifier = Modifier.height(8.dp))
             }
-
-            is Data.Loaded -> {
-                val filteredEntries by remember(d.entries, filter.value, filter2.value) {
-                    derivedStateOf {
-                        d.entries
-                            .filter { entry ->
-                                filter.value?.let { f -> entry.level.order >= f.order }
-                                    ?: true
-                            }
-                            .filter { entry ->
-                                filter2.value.takeIf { it.isNotEmpty() }?.let { f ->
-                                    entry.lines.find { it.contains(f, true) } != null ||
-                                            entry.level.name.contains(f, true)
-                                } ?: true
-                            }
+        },
+        content = { paddingValues, nestedScrollConnection ->
+            Column(
+                modifier = Modifier.padding(paddingValues).nestedScroll(nestedScrollConnection),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Info(file.value, countFiltered, count)
+                when (val d = data.value) {
+                    Data.FileNotFound -> {
+                        InfoState("File not found!")
                     }
-                }
-                LaunchedEffect(filteredEntries) {
-                    countFiltered = filteredEntries.size
-                    state.scrollToItem((filteredEntries.size - 1).coerceAtLeast(0))
-                }
-                if (d.entries.isEmpty()) {
-                    InfoState("File is empty!")
-                } else if (filteredEntries.isEmpty()) {
-                    InfoState("Nothing matches the filter!")
-                } else {
-                    LazyColumn(
-                        state = state
-                    ) {
-                        filteredEntries.forEach {
-                            item(key = it.lineNumber) {
-                                LogEntry(
-                                    entry = it,
-                                    filter = filter2.value,
-                                    darkTheme = darkTheme,
-                                    spanStyle = spanStyle,
-                                    style = style,
-                                    useScrollableLines = useScrollableLines
-                                )
+
+                    is Data.Loaded -> {
+                        val filteredEntries by remember(
+                            d.entries,
+                            filter.value,
+                            filter2.value
+                        ) {
+                            derivedStateOf {
+                                d.entries
+                                    .filter { entry ->
+                                        filter.value?.let { f -> entry.level.order >= f.order }
+                                            ?: true
+                                    }
+                                    .filter { entry ->
+                                        filter2.value.takeIf { it.isNotEmpty() }?.let { f ->
+                                            entry.lines.find { it.contains(f, true) } != null ||
+                                                    entry.level.name.contains(f, true)
+                                        } ?: true
+                                    }
+                            }
+                        }
+                        LaunchedEffect(filteredEntries) {
+                            countFiltered = filteredEntries.size
+                            state.scrollToItem((filteredEntries.size - 1).coerceAtLeast(0))
+                        }
+                        if (d.entries.isEmpty()) {
+                            InfoState("File is empty!")
+                        } else if (filteredEntries.isEmpty()) {
+                            InfoState("Nothing matches the filter!")
+                        } else {
+                            val scope = rememberCoroutineScope()
+                            LazyColumn(
+                                modifier = Modifier,
+                                state = state
+                            ) {
+                                filteredEntries.forEach {
+                                    item(key = it.lineNumber) {
+                                        LogEntry(
+                                            scope = scope,
+                                            entry = it,
+                                            filter = filter2.value,
+                                            darkTheme = darkTheme,
+                                            spanStyle = spanStyle,
+                                            style = style,
+                                            useScrollableLines = useScrollableLines
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
+
+                    Data.Reload -> {
+                    }
                 }
             }
-
-            Data.Reload -> {
-            }
         }
-    }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CollapsibleHeader(
+    modifier: Modifier,
+    collapsible: @Composable () -> Unit,
+    content: @Composable (paddingValues: PaddingValues, nestedScrollConnection: NestedScrollConnection) -> Unit,
+) {
+    val topAppBarState = rememberTopAppBarState()
+    val topAppBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
+    Scaffold(
+        modifier = modifier,
+        containerColor = Color.Transparent,
+        contentColor = LocalContentColor.current,
+        topBar = {
+            // Hack to compensate the 16.dp internal padding at the start in the topappbar
+            val density = LocalDensity.current
+            val topAppBarWidth = remember { mutableStateOf(0.dp) }
+            val titleWidth = remember { mutableStateOf(0.dp) }
+            TopAppBar(
+                modifier = Modifier
+                    .then(
+                        if (topAppBarWidth.value > 0.dp && titleWidth.value > 0.dp) {
+                            val diff = topAppBarWidth.value - titleWidth.value
+                            println("Diff: ${diff} | ${topAppBarWidth.value} - ${titleWidth.value}")
+                            Modifier
+                                .width(topAppBarWidth.value + diff)
+                                .requiredWidth(topAppBarWidth.value + diff)
+                                .offset(x = diff / 2 * -1)
+                        } else Modifier
+                    )
+                    .onSizeChanged { size ->
+                        val widthDp = with(density) { size.width.toDp() }
+                        if (topAppBarWidth.value == 0.dp)
+                            topAppBarWidth.value = widthDp
+                        println("Width: ${widthDp} | ${topAppBarWidth.value}")
+                    }
+                    ,
+                title = {
+                    Box(
+                        modifier = Modifier.onSizeChanged { size ->
+                            if (titleWidth.value == 0.dp)
+                                titleWidth.value = with(density) { size.width.toDp() }
+                        }
+                    ) {
+                        CompositionLocalProvider(
+                            LocalTextStyle provides MaterialTheme.typography.bodyMedium
+                        ) {
+                            collapsible()
+                        }
+                    }
+                },
+                scrollBehavior = topAppBarScrollBehavior,
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                    titleContentColor = LocalContentColor.current
+                )
+            )
+        },
+        content = {
+            content(it, topAppBarScrollBehavior.nestedScrollConnection)
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -229,11 +340,10 @@ fun LumberjackView(
 private fun Filter(
     filter: MutableState<Level?>,
     filterOptions: List<Level?>,
-    filter2: MutableState<String>
+    filter2: MutableState<String>,
 ) {
     var filterExpanded by remember { mutableStateOf(false) }
     Row(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -245,9 +355,9 @@ private fun Filter(
             }
         ) {
             OutlinedTextField(
-                modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
                 readOnly = true,
-                value = getLevelName(filter.value),
+                value = getLevelName(filter.value, short = false),
                 singleLine = true,
                 onValueChange = { value ->
                     filterOptions.find { getLevelName(it) == value }
@@ -280,7 +390,7 @@ private fun Filter(
             }
         }
         OutlinedTextField(
-            modifier = Modifier.weight(2f),
+            modifier = Modifier.weight(1f),
             value = filter2.value,
             onValueChange = { filter2.value = it },
             label = { Text("Filter") },
@@ -300,15 +410,19 @@ private fun Filter(
     }
 }
 
-private fun getLevelName(level: Level?): String {
-    return level?.name ?: "ALL"
+private fun getLevelName(
+    level: Level?,
+    short: Boolean = false,
+): String {
+    if (!short) {
+        return level?.name ?: "ALL"
+    }
+    return level?.shortcut ?: "ALL"
 }
 
 @Composable
 private fun Info(file: Path?, filteredCount: Int, totalCount: Int) {
-    Row(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-    ) {
+    Row {
         val size = file?.let { SystemFileSystem.metadataOrNull(it) }?.size ?: 0L
         val info = FileSizeUtil.humanReadableBytes(size)
         Text(
@@ -340,12 +454,13 @@ private val INSET = 32.dp
 
 @Composable
 private fun LogEntry(
+    scope: CoroutineScope,
     entry: IFileConverter.Entry,
     filter: String,
     darkTheme: Boolean,
     spanStyle: SpanStyle,
     style: LumberjackView.Style,
-    useScrollableLines: MutableState<Boolean>
+    useScrollableLines: MutableState<Boolean>,
 ) {
     Column(
         modifier = Modifier
@@ -353,6 +468,19 @@ private fun LogEntry(
             .then(
                 if (style.useAlternatingRowColors) {
                     Modifier.background(if (entry.lineNumber % 2 == 0) style.color1 else style.color2)
+                } else Modifier
+            )
+            .then(
+                if (style.copyLinesToClipboardOnClick) {
+                    Modifier.clickable {
+                        val textToCopy = buildString {
+                            append("${entry.date} ${entry.level.name} | ")
+                            append(entry.lines.joinToString("\n"))
+                        }
+                        scope.launch {
+                            setClipboard(textToCopy)
+                        }
+                    }
                 } else Modifier
             )
             .padding(horizontal = 16.dp)
@@ -413,7 +541,7 @@ private fun getHighlightedText(
     text: String,
     search: String,
     ignoreCase: Boolean,
-    spanStyle: SpanStyle
+    spanStyle: SpanStyle,
 ): AnnotatedString {
     if (text.isEmpty() || search.isEmpty())
         return buildAnnotatedString { append(text) }
@@ -453,7 +581,7 @@ sealed class Data {
 
 @Throws(IOException::class)
 private fun readLines(
-    filePath: Path
+    filePath: Path,
 ): List<String> {
     val lines = ArrayList<String>()
     if (SystemFileSystem.exists(filePath)) {
