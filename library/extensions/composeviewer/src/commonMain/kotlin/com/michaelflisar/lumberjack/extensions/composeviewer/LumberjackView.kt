@@ -59,8 +59,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.ClipEntry
-import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -68,13 +66,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.michaelflisar.kmp.platformcontext.PlatformContextProvider
 import com.michaelflisar.lumberjack.core.InternalApi
 import com.michaelflisar.lumberjack.core.LoggingIOContext
 import com.michaelflisar.lumberjack.core.classes.Level
 import com.michaelflisar.lumberjack.core.interfaces.IFileConverter
 import com.michaelflisar.lumberjack.core.interfaces.IFileLoggingSetup
-import klip.SystemClipboard
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -91,7 +87,7 @@ object LumberjackView {
         val color1: Color,
         val color2: Color,
         val singleScrollableLineView: Boolean,
-        val copyLinesToClipboardOnClick: Boolean
+        val copyLinesToClipboardOnClick: Boolean,
     )
 }
 
@@ -103,7 +99,7 @@ object LumberjackViewDefaults {
         color1: Color = MaterialTheme.colorScheme.background,
         color2: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = .1f),
         singleScrollableLineView: Boolean = false,
-        copyLinesToClipboardOnClick: Boolean = true
+        copyLinesToClipboardOnClick: Boolean = true,
     ) = LumberjackView.Style(
         useAlternatingRowColors = useAlternatingRowColors,
         color1 = color1,
@@ -305,8 +301,7 @@ private fun CollapsibleHeader(
                         if (topAppBarWidth.value == 0.dp)
                             topAppBarWidth.value = widthDp
                         println("Width: ${widthDp} | ${topAppBarWidth.value}")
-                    }
-                    ,
+                    },
                 title = {
                     Box(
                         modifier = Modifier.onSizeChanged { size ->

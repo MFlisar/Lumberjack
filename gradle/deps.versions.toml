@@ -1,7 +1,7 @@
 [versions]
 
-stately =                   "2.1.0"
-klip =                      "3.3.8"
+stately =                   "2.1.0" # for ThreadLocal
+klip =                      "3.3.8" # for clipboard
 
 [plugins]
 
