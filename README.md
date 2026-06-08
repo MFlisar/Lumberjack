@@ -58,7 +58,7 @@ This library provides following main features:
 
 > :warning: Following experimental annotations are used:
 > - **OptIn**
->   - `androidx.compose.material3.ExperimentalMaterial3Api` (2x)
+>   - `androidx.compose.material3.ExperimentalMaterial3Api` (3x)
 >   - `kotlinx.cinterop.ExperimentalForeignApi` (2x)
 >
 > I try to use as less experimental features as possible, but in this case the ones above are needed!
