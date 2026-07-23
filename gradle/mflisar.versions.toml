@@ -2,12 +2,12 @@
 
 # general (local snapshot: "LOCAL-SNAPSHOT")
 kmp-parcelize =             "2.0.0"
-kmp-platformcontext =       "2.0.0"
+kmp-platformcontext =       "2.0.2"
 kmp-mail =                  "1.0.0"
 
 # plugins only
-kmpicon =                   "0.0.1"
-kmpdevtools =               "8.0.1" # use the "devTools" task to change the version
+kmpicon =                   "1.0.0"
+kmpdevtools =               "8.0.2" # use the "devTools" task to change the version
 
 # demos
 democomposables =           "1.0.5"

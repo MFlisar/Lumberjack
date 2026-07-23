@@ -6,9 +6,10 @@
 L.plant(ConsoleLogger())
 
 // 2) register a file logger
-val setup = FileLoggerSetup.Daily(
-    folder = FileLoggerSetup.getDefaultLogFolder(), // on android pass context; the setup simply expects a path to the folder in which the logs will be stored
-)
+val setup = FileLoggerSetup.Daily(folder = FileLoggerSetup.getDefaultLogFolder())
+// or one of the following setups
+//val setup = FileLoggerSetup.FileSize(folder = FileLoggerSetup.getDefaultLogFolder())
+//val setup = FileLoggerSetup.SingleFile(folder = FileLoggerSetup.getDefaultLogFolder())
 L.plant(FileLogger(setup))
 
 ```

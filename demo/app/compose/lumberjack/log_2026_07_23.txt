@@ -100,3 +100,253 @@
 [D] 2026-07-23 17:40:11.043 [DemoApp.kt:176]: Logging a lot 100...
 [D] 2026-07-23 17:40:21.225 [DemoApp.kt:161]: Logging something...
 [D] 2026-07-23 17:40:21.226 [DemoApp.kt:164]: Log file - path = D:\dev\11 - libs (mine)\Lumberjack\demo\app\compose\lumberjack\log_2026_07_23.txt | exists = true
+[D] 2026-07-23 17:57:28.198 [Main.kt:27]: before main application
+[D] 2026-07-23 17:57:28.254 [DemoLogging.kt:102]: Test log in class
+[E] 2026-07-23 17:57:29.841 [Main.kt:35]: x = 1 / 0
+java.lang.ArithmeticException: / by zero
+	at com.michaelflisar.demo.MainKt$main$2$1$1.invokeSuspend(Main.kt:35)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2026-07-23 17:57:29.847 [DemoLogging.kt:36]: TEST-LOG - 1a - MainActivity onCreate was just called
+[E] 2026-07-23 17:57:29.848 [DemoLogging.kt:37]: TEST-LOG - 1b - MainActivity onCreate was just called
+java.lang.Exception: TEST
+	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:37)
+	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:88)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend$lambda$0(FlushCoroutineDispatcher.skiko.kt:62)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.performRun(FlushCoroutineDispatcher.skiko.kt:105)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.access$performRun(FlushCoroutineDispatcher.skiko.kt:35)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend(FlushCoroutineDispatcher.skiko.kt:57)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2026-07-23 17:57:29.849 [DemoLogging.kt:38]: TEST-LOG - 1c - MainActivity onCreate was just called
+[E] 2026-07-23 17:57:29.849 [DemoLogging.kt:44]: TEST-LOG - 3 - Some error message
+[E] 2026-07-23 17:57:29.850 [DemoLogging.kt:45]: 
+TEST-LOG - 4 - TestException (some info)
+	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:45)
+	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:88)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend$lambda$0(FlushCoroutineDispatcher.skiko.kt:62)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.performRun(FlushCoroutineDispatcher.skiko.kt:105)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.access$performRun(FlushCoroutineDispatcher.skiko.kt:35)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend(FlushCoroutineDispatcher.skiko.kt:57)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2026-07-23 17:57:29.851 [DemoLogging.kt:52]: TEST-LOG - 5 - from within lambda: func call 1...
+[D] 2026-07-23 17:57:29.851 [DemoLogging.kt:52]: TEST-LOG - 5 - from within lambda: func call 2...
+[D] 2026-07-23 17:57:29.851 [DemoLogging.kt:52]: TEST-LOG - 5 - from within lambda: func call 3...
+[D] 2026-07-23 17:57:29.853 [DemoLogging.kt:64]: TEST-LOG - Test 0
+[D] 2026-07-23 17:57:29.853 [DemoLogging.kt:64]: TEST-LOG - Test 1
+[D] 2026-07-23 17:57:29.853 [DemoLogging.kt:64]: TEST-LOG - Test 2
+[D] 2026-07-23 17:57:29.854 [DemoLogging.kt:60]: TEST-LOG - 6 - from within coroutine on background thread (if the platform has one)...
+[D] 2026-07-23 17:57:29.854 [DemoLogging.kt:64]: TEST-LOG - Test 3
+[D] 2026-07-23 17:57:29.854 [DemoLogging.kt:64]: TEST-LOG - Test 4
+[D] 2026-07-23 17:57:29.854 [DemoLogging.kt:64]: TEST-LOG - Test 5
+[D] 2026-07-23 17:57:29.854 [DemoLogging.kt:64]: TEST-LOG - Test 6
+[D] 2026-07-23 17:57:29.855 [DemoLogging.kt:64]: TEST-LOG - Test 7
+[D] 2026-07-23 17:57:29.855 [DemoLogging.kt:64]: TEST-LOG - Test 8
+[D] 2026-07-23 17:57:29.855 [DemoLogging.kt:64]: TEST-LOG - Test 9
+[D] 2026-07-23 17:57:29.855 [DemoLogging.kt:64]: TEST-LOG - Test 10
+[D] 2026-07-23 17:57:29.856 [DemoApp.kt:88]: TEST-LOG - Debug Message from library...
+[D] 2026-07-23 17:57:29.856 [DemoLogging.kt:81]: TEST-LOG - Debug log...
+[E] 2026-07-23 17:57:29.857 [DemoLogging.kt:82]: TEST-LOG - Error log...
+java.lang.Exception: EX
+	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:82)
+	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:88)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend$lambda$0(FlushCoroutineDispatcher.skiko.kt:62)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.performRun(FlushCoroutineDispatcher.skiko.kt:105)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.access$performRun(FlushCoroutineDispatcher.skiko.kt:35)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend(FlushCoroutineDispatcher.skiko.kt:57)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[V] 2026-07-23 17:57:29.881 [DemoLogging.kt:68]: TEST-LOG - Verbose log...
+[D] 2026-07-23 17:57:29.882 [DemoLogging.kt:69]: TEST-LOG - Debug log...
+[I] 2026-07-23 17:57:29.882 [DemoLogging.kt:70]: TEST-LOG - Info log...
+[W] 2026-07-23 17:57:29.883 [DemoLogging.kt:71]: TEST-LOG - Warn log...
+[E] 2026-07-23 17:57:29.883 [DemoLogging.kt:72]: TEST-LOG - Error log...
+[WTF] 2026-07-23 17:57:29.884 [DemoLogging.kt:73]: TEST-LOG - WTF log...
+[D] 2026-07-23 18:07:06.974 [Main.kt:27]: before main application
+[D] 2026-07-23 18:07:07.034 [DemoLogging.kt:102]: Test log in class
+[E] 2026-07-23 18:07:08.454 [Main.kt:35]: x = 1 / 0
+java.lang.ArithmeticException: / by zero
+	at com.michaelflisar.demo.MainKt$main$2$1$1.invokeSuspend(Main.kt:35)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2026-07-23 18:07:08.461 [DemoLogging.kt:36]: TEST-LOG - 1a - MainActivity onCreate was just called
+[E] 2026-07-23 18:07:08.462 [DemoLogging.kt:37]: TEST-LOG - 1b - MainActivity onCreate was just called
+java.lang.Exception: TEST
+	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:37)
+	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:88)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend$lambda$0(FlushCoroutineDispatcher.skiko.kt:62)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.performRun(FlushCoroutineDispatcher.skiko.kt:105)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.access$performRun(FlushCoroutineDispatcher.skiko.kt:35)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend(FlushCoroutineDispatcher.skiko.kt:57)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2026-07-23 18:07:08.463 [DemoLogging.kt:38]: TEST-LOG - 1c - MainActivity onCreate was just called
+[E] 2026-07-23 18:07:08.463 [DemoLogging.kt:44]: TEST-LOG - 3 - Some error message
+[E] 2026-07-23 18:07:08.464 [DemoLogging.kt:45]: 
+TEST-LOG - 4 - TestException (some info)
+	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:45)
+	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:88)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend$lambda$0(FlushCoroutineDispatcher.skiko.kt:62)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.performRun(FlushCoroutineDispatcher.skiko.kt:105)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.access$performRun(FlushCoroutineDispatcher.skiko.kt:35)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend(FlushCoroutineDispatcher.skiko.kt:57)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[D] 2026-07-23 18:07:08.465 [DemoLogging.kt:52]: TEST-LOG - 5 - from within lambda: func call 1...
+[D] 2026-07-23 18:07:08.465 [DemoLogging.kt:52]: TEST-LOG - 5 - from within lambda: func call 2...
+[D] 2026-07-23 18:07:08.465 [DemoLogging.kt:52]: TEST-LOG - 5 - from within lambda: func call 3...
+[D] 2026-07-23 18:07:08.466 [DemoLogging.kt:60]: TEST-LOG - 6 - from within coroutine on background thread (if the platform has one)...
+[D] 2026-07-23 18:07:08.466 [DemoLogging.kt:64]: TEST-LOG - Test 0
+[D] 2026-07-23 18:07:08.467 [DemoLogging.kt:64]: TEST-LOG - Test 1
+[D] 2026-07-23 18:07:08.467 [DemoLogging.kt:64]: TEST-LOG - Test 2
+[D] 2026-07-23 18:07:08.467 [DemoLogging.kt:64]: TEST-LOG - Test 3
+[D] 2026-07-23 18:07:08.468 [DemoLogging.kt:64]: TEST-LOG - Test 4
+[D] 2026-07-23 18:07:08.468 [DemoLogging.kt:64]: TEST-LOG - Test 5
+[D] 2026-07-23 18:07:08.468 [DemoLogging.kt:64]: TEST-LOG - Test 6
+[D] 2026-07-23 18:07:08.468 [DemoLogging.kt:64]: TEST-LOG - Test 7
+[D] 2026-07-23 18:07:08.468 [DemoLogging.kt:64]: TEST-LOG - Test 8
+[D] 2026-07-23 18:07:08.469 [DemoLogging.kt:64]: TEST-LOG - Test 9
+[D] 2026-07-23 18:07:08.469 [DemoLogging.kt:64]: TEST-LOG - Test 10
+[D] 2026-07-23 18:07:08.470 [DemoApp.kt:88]: TEST-LOG - Debug Message from library...
+[D] 2026-07-23 18:07:08.470 [DemoLogging.kt:81]: TEST-LOG - Debug log...
+[E] 2026-07-23 18:07:08.470 [DemoLogging.kt:82]: TEST-LOG - Error log...
+java.lang.Exception: EX
+	at com.michaelflisar.lumberjack.demo.DemoLogging.run(DemoLogging.kt:82)
+	at com.michaelflisar.lumberjack.demo.DemoAppKt$DemoContent$1$1.invokeSuspend(DemoApp.kt:88)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend$lambda$0(FlushCoroutineDispatcher.skiko.kt:62)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.performRun(FlushCoroutineDispatcher.skiko.kt:105)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher.access$performRun(FlushCoroutineDispatcher.skiko.kt:35)
+	at androidx.compose.ui.platform.FlushCoroutineDispatcher$dispatch$2.invokeSuspend(FlushCoroutineDispatcher.skiko.kt:57)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.desktop/java.awt.EventQueue$4.run(Unknown Source)
+	at java.base/java.security.AccessController.doPrivileged(Unknown Source)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.desktop/java.awt.EventDispatchThread.run(Unknown Source)
+
+[V] 2026-07-23 18:07:08.516 [DemoLogging.kt:68]: TEST-LOG - Verbose log...
+[D] 2026-07-23 18:07:08.517 [DemoLogging.kt:69]: TEST-LOG - Debug log...
+[I] 2026-07-23 18:07:08.517 [DemoLogging.kt:70]: TEST-LOG - Info log...
+[W] 2026-07-23 18:07:08.518 [DemoLogging.kt:71]: TEST-LOG - Warn log...
+[E] 2026-07-23 18:07:08.518 [DemoLogging.kt:72]: TEST-LOG - Error log...
+[WTF] 2026-07-23 18:07:08.519 [DemoLogging.kt:73]: TEST-LOG - WTF log...

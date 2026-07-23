@@ -93,6 +93,12 @@ kotlin {
             // Library
             implementation(project(":lumberjack:core"))
 
+            implementation(mflisar.kmp.platformcontext.core)
+
+        }
+
+        androidMain.dependencies {
+            implementation(mflisar.kmp.platformcontext.initializer)
         }
 
     }

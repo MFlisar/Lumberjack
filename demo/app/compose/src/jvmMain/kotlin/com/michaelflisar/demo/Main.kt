@@ -19,8 +19,7 @@ import kotlinx.coroutines.Dispatchers
 fun main() {
 
     val setup = FileLoggerSetup.Daily(
-        folder = FileLoggerSetup.getDefaultLogFolder(),
-        fileExtension = "txt"
+        folder = FileLoggerSetup.getDefaultLogFolder()
     )
     DemoLogging.init(FileLogger(setup))
 

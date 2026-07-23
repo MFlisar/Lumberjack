@@ -6,7 +6,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 
 @OptIn(ExperimentalForeignApi::class)
-fun FileLoggerSetup.Companion.getDefaultLogFolder(): String {
+actual fun FileLoggerSetup.Companion.getDefaultLogFolder(folderName: String): String {
     return NSFileManager.defaultManager.URLForDirectory(
         directory = NSDocumentDirectory,
         inDomain = NSUserDomainMask,
