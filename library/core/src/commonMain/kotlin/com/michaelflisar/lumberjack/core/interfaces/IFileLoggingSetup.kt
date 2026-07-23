@@ -9,6 +9,7 @@ interface IFileLoggingSetup : Parcelable {
 
     fun getAllExistingLogFilePaths(): List<Path>
     fun getLatestLogFilePath(): Path?
+
     suspend fun deleteAllLogFiles()
 
 

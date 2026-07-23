@@ -44,7 +44,9 @@ class FileLogger(
     }
 
     companion object {
+
         internal const val TAG = "FILELOGGER"
+
     }
 
     private var bufferWriter: Sink? = null
