@@ -38,15 +38,37 @@ public final class com/michaelflisar/lumberjack/core/FileLoggingExtensionsKt {
 	public static final fun getLatestLogFile (Lcom/michaelflisar/lumberjack/core/interfaces/IFileLoggingSetup;)Ljava/io/File;
 }
 
+public abstract interface annotation class com/michaelflisar/lumberjack/core/InternalApi : java/lang/annotation/Annotation {
+}
+
 public final class com/michaelflisar/lumberjack/core/L : com/michaelflisar/lumberjack/core/AbstractLogger {
 	public static final field INSTANCE Lcom/michaelflisar/lumberjack/core/L;
 	public fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
 	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
 	public fun enable (Lcom/michaelflisar/lumberjack/core/classes/Level;)V
-	public final fun init (Lcom/michaelflisar/lumberjack/core/AbstractLogger;)V
 	public final fun isEnabled ()Z
 	public fun isEnabled (Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
 	public fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+}
+
+public final class com/michaelflisar/lumberjack/core/PlatformIOKt {
+	public static final fun getLoggingIOContext ()Lkotlin/coroutines/CoroutineContext;
+}
+
+public final class com/michaelflisar/lumberjack/core/classes/FeedbackConfig {
+	public static final field Companion Lcom/michaelflisar/lumberjack/core/classes/FeedbackConfig$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getBody ()Ljava/lang/String;
+	public final fun getBodyIsHtml ()Z
+	public final fun getReceiver ()Ljava/lang/String;
+	public final fun getSubject ()Ljava/lang/String;
+	public final fun getTitleForChooser ()Ljava/lang/String;
+}
+
+public final class com/michaelflisar/lumberjack/core/classes/FeedbackConfig$Companion {
+	public final fun create (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;)Lcom/michaelflisar/lumberjack/core/classes/FeedbackConfig;
+	public static synthetic fun create$default (Lcom/michaelflisar/lumberjack/core/classes/FeedbackConfig$Companion;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Lcom/michaelflisar/lumberjack/core/classes/FeedbackConfig;
 }
 
 public final class com/michaelflisar/lumberjack/core/classes/Level : java/lang/Enum {
@@ -85,5 +107,42 @@ public abstract interface class com/michaelflisar/lumberjack/core/interfaces/IFi
 	public abstract fun getAllExistingLogFilePaths ()Ljava/util/List;
 	public abstract fun getFileConverter ()Lcom/michaelflisar/lumberjack/core/interfaces/IFileConverter;
 	public abstract fun getLatestLogFilePath ()Lkotlinx/io/files/Path;
+}
+
+public final class com/michaelflisar/lumberjack/implementation/ExtensionsKt {
+	public static final fun plant (Lcom/michaelflisar/lumberjack/core/L;Lcom/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger;)V
+	public static final fun uproot (Lcom/michaelflisar/lumberjack/core/L;Lcom/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger;)V
+	public static final fun uprootAll (Lcom/michaelflisar/lumberjack/core/L;)V
+}
+
+public final class com/michaelflisar/lumberjack/implementation/LumberjackLogger : com/michaelflisar/lumberjack/core/AbstractLogger {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
+	public synthetic fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public fun callStackCorrection (I)Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
+	public fun doLog (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/Throwable;Ljava/lang/Throwable;)V
+	public final fun loggers ()Ljava/util/List;
+	public synthetic fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/core/AbstractLogger;
+	public fun tag (Ljava/lang/String;)Lcom/michaelflisar/lumberjack/implementation/LumberjackLogger;
+}
+
+public final class com/michaelflisar/lumberjack/implementation/Platform_jvmKt {
+	public static final fun platformPrintln (Ljava/lang/String;Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;Ljava/lang/String;)V
+}
+
+public final class com/michaelflisar/lumberjack/implementation/classes/DefaultLumberjackFilter : kotlin/jvm/functions/Function9 {
+	public static final field INSTANCE Lcom/michaelflisar/lumberjack/implementation/classes/DefaultLumberjackFilter;
+	public fun invoke (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)Ljava/lang/Boolean;
+	public synthetic fun invoke (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public abstract interface class com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger {
+	public abstract fun getFilter ()Lkotlin/jvm/functions/Function9;
+	public abstract fun getMinLogLevel ()Lcom/michaelflisar/lumberjack/core/classes/Level;
+	public fun isEnabled (Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
+	public abstract fun log (Lcom/michaelflisar/lumberjack/core/classes/Level;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/Throwable;)V
+}
+
+public final class com/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger$DefaultImpls {
+	public static fun isEnabled (Lcom/michaelflisar/lumberjack/implementation/interfaces/ILumberjackLogger;Lcom/michaelflisar/lumberjack/core/classes/Level;)Z
 }
 

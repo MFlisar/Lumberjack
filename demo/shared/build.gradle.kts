@@ -96,7 +96,6 @@ kotlin {
 
             // core
             api(project(":lumberjack:core"))
-            api(project(":lumberjack:implementation"))
 
             // 1) loggers - add the ones you need (must match your selected implementation)
             api(project(":lumberjack:loggers:console"))

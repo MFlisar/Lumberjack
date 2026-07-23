@@ -74,10 +74,14 @@ kotlin {
         val featureIO by creating { dependsOn(commonMain.get()) }
         val featureNoIO by creating { dependsOn(commonMain.get()) }
 
+        val nativeMain by creating { dependsOn(commonMain.get()) }
+
         setupDependencies(module, buildTargets, sourceSets) {
 
             featureIO supportedBy Platform.LIST_FILE_SUPPORT
             featureNoIO supportedBy !Platform.LIST_FILE_SUPPORT
+
+            Platform.LIST_APPLE addSourceSet nativeMain
 
         }
 
@@ -93,6 +97,8 @@ kotlin {
 
             //api(deps.moko.parcelize)
             api(mflisar.kmp.parcelize)
+
+            implementation(deps.stately)
 
         }
     }

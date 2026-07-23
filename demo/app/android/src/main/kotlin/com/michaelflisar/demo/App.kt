@@ -4,7 +4,7 @@ import android.app.Application
 import com.michaelflisar.lumberjack.demo.DemoLogging
 import com.michaelflisar.lumberjack.loggers.file.FileLogger
 import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup
-import com.michaelflisar.lumberjack.loggers.file.create
+import com.michaelflisar.lumberjack.loggers.file.getDefaultLogFolder
 
 class App : Application() {
 
@@ -14,7 +14,10 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        setup = FileLoggerSetup.Daily.create(this, fileBaseName = "log_daily")
+        setup = FileLoggerSetup.Daily(
+            folder = FileLoggerSetup.getDefaultLogFolder(this),
+            fileBaseName = "log_daily"
+        )
         DemoLogging.init(FileLogger(setup))
     }
 }

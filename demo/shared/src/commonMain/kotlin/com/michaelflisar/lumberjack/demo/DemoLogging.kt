@@ -15,10 +15,7 @@ object DemoLogging {
     fun init(
         fileLogger: ILumberjackLogger?
     ) {
-        // 1) set the implementation that is used
-        L.init(LumberjackLogger)
-
-        // 2) plant "trees"
+        // plant "trees"
         L.plant(ConsoleLogger())
         if (fileLogger != null) {
             L.plant(fileLogger)

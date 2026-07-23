@@ -115,7 +115,6 @@ kotlin {
 
             // Library
             implementation(project(":lumberjack:core"))
-            implementation(project(":lumberjack:implementation"))
 
             // Dependencies
             implementation(mflisar.kmp.platformcontext.core)

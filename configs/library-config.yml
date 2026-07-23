@@ -16,9 +16,6 @@ modules:
   - artifact-id: core
     description: the core module of lumberjack
     path: library/core
-  - artifact-id: implementation
-    description: the implementation of lumberjack
-    path: library/implementation
   - artifact-id: logger-console
     description: a console logger for lumberjack
     path: library/loggers/console

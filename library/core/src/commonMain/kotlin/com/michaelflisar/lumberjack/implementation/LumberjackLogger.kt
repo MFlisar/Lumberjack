@@ -3,7 +3,6 @@ package com.michaelflisar.lumberjack.implementation
 import co.touchlab.stately.concurrency.ThreadLocalRef
 import com.michaelflisar.lumberjack.core.AbstractLogger
 import com.michaelflisar.lumberjack.core.classes.Level
-import com.michaelflisar.lumberjack.implementation.classes.StackData
 import com.michaelflisar.lumberjack.implementation.interfaces.ILumberjackLogger
 
 object LumberjackLogger : AbstractLogger() {

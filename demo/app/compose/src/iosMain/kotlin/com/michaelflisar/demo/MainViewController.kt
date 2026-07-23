@@ -8,7 +8,7 @@ import com.michaelflisar.lumberjack.demo.DemoApp
 import com.michaelflisar.lumberjack.demo.DemoLogging
 import com.michaelflisar.lumberjack.loggers.file.FileLogger
 import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup
-import com.michaelflisar.lumberjack.loggers.file.create
+import com.michaelflisar.lumberjack.loggers.file.getDefaultLogFolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
@@ -16,7 +16,10 @@ import kotlinx.coroutines.IO
  * iOS entry point used by the Xcode demo project (demo/xcode).
  */
 fun MainViewController() = ComposeUIViewController {
-    val setup = remember { FileLoggerSetup.Daily.create(fileBaseName = "log_daily") }
+    val setup = remember { FileLoggerSetup.Daily(
+        folder = FileLoggerSetup.getDefaultLogFolder(),
+        fileBaseName = "log_daily"
+    ) }
     val init = remember { mutableStateOf(false) }
 
     LaunchedEffect(init.value) {

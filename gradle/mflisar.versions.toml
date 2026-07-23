@@ -6,8 +6,8 @@ kmp-platformcontext =       "2.0.0"
 kmp-mail =                  "1.0.0"
 
 # plugins only
-kmpicon-plugin =            "0.0.1"
-kmpdevtools =               "7.9.7" # use the "devTools" task to change the version
+kmpicon =                   "0.0.1"
+kmpdevtools =               "8.0.1" # use the "devTools" task to change the version
 
 # demos
 democomposables =           "1.0.5"
@@ -16,7 +16,7 @@ democomposables =           "1.0.5"
 
 # plugins only
 kmpdevtools-buildplugin =           { id = "io.github.mflisar.kmpdevtools.plugins-build-gradle",        version.ref = "kmpdevtools" }
-kmpicon-plugin =                    { id = "io.github.mflisar.kmpicon.plugin",                          version.ref = "kmpicon-plugin" }
+kmpicon-plugin =                    { id = "io.github.mflisar.kmpicon.plugin",                          version.ref = "kmpicon" }
 
 [libraries]
 

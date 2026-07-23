@@ -1,12 +1,6 @@
 package com.michaelflisar.demo
 
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -14,20 +8,18 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.michaelflisar.lumberjack.core.L
-import com.michaelflisar.lumberjack.core.getAllExistingLogFiles
 import com.michaelflisar.lumberjack.demo.BuildKonfig
 import com.michaelflisar.lumberjack.demo.DemoApp
 import com.michaelflisar.lumberjack.demo.DemoLogging
 import com.michaelflisar.lumberjack.loggers.file.FileLogger
 import com.michaelflisar.lumberjack.loggers.file.FileLoggerSetup
-import com.michaelflisar.lumberjack.loggers.file.create
+import com.michaelflisar.lumberjack.loggers.file.getDefaultLogFolder
 import kotlinx.coroutines.Dispatchers
-import java.io.File
 
 fun main() {
 
-    val setup = FileLoggerSetup.Daily.create(
-        folder = File(System.getProperty("user.dir")),
+    val setup = FileLoggerSetup.Daily(
+        folder = FileLoggerSetup.getDefaultLogFolder(),
         fileExtension = "txt"
     )
     DemoLogging.init(FileLogger(setup))

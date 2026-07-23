@@ -1,42 +1,39 @@
 package com.michaelflisar.lumberjack.core
 
 import com.michaelflisar.lumberjack.core.classes.Level
+import com.michaelflisar.lumberjack.implementation.LumberjackLogger
 
 object L : AbstractLogger() {
 
-    private var implementation: AbstractLogger? = null
-
-    fun init(implementation: AbstractLogger) {
-        this.implementation = implementation
-    }
+    private var implementation: AbstractLogger = LumberjackLogger
 
     // ----------------------------------
     // forward everything to the implementation
     // ----------------------------------
 
     override fun callStackCorrection(value: Int): AbstractLogger {
-        implementation!!.callStackCorrection(value)
+        implementation.callStackCorrection(value)
         return this
     }
 
     override fun tag(tag: String): AbstractLogger {
-        implementation!!.tag(tag)
+        implementation.tag(tag)
         return this
     }
 
     override fun doLog(level: Level, message: String?, t: Throwable?, t2: Throwable) {
-        implementation!!.doLog(level, message, t, t2)
+        implementation.doLog(level, message, t, t2)
     }
 
     fun isEnabled() : Boolean {
-        return implementation!!.minLogLevel != Level.NONE
+        return implementation.minLogLevel != Level.NONE
     }
 
     override fun isEnabled(level: Level): Boolean {
-       return implementation!!.isEnabled(level)
+       return implementation.isEnabled(level)
     }
 
     override fun enable(minLogLevel: Level) {
-        implementation!!.enable(minLogLevel)
+        implementation.enable(minLogLevel)
     }
 }
