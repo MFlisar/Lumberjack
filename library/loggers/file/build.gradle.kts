@@ -50,6 +50,10 @@ val androidConfig = AndroidLibraryConfig.create(
 // Kotlin
 // -------------------
 
+dependencies {
+    coreLibraryDesugaring(libs.desugar)
+}
+
 kotlin {
 
     //-------------

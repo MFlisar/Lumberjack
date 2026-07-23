@@ -15,7 +15,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         setup = FileLoggerSetup.Daily(
-            folder = FileLoggerSetup.getDefaultLogFolder(this),
+            folder = FileLoggerSetup.getDefaultLogFolder(),
             fileBaseName = "log_daily"
         )
         DemoLogging.init(FileLogger(setup))
