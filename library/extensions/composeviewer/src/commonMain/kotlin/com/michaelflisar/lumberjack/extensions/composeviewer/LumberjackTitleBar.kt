@@ -93,7 +93,7 @@ fun LumberjackTitleBar(
                             leadingIcon = { Icon(Icons.Default.Delete, null) },
                             onClick = {
                                 scope.launch {
-                                    setup.clearLogFiles()
+                                    setup.deleteAllLogFiles()
                                     state.logFileData.value = Data.Reload
                                     showMenu = false
                                 }

@@ -52,10 +52,10 @@ abstract class BaseFileLoggerSetup : IFileLoggingSetup {
         return getAllExistingLogFilePaths().firstOrNull()
     }
 
-    override suspend fun clearLogFiles() {
+    override suspend fun deleteAllLogFiles() {
         LumberjackLogger.loggers()
             .filterIsInstance<FileLogger>()
             .firstOrNull { it.setup == this }
-            ?.cleanAllLogFiles()
+            ?.deleteAllLogFiles()
     }
 }

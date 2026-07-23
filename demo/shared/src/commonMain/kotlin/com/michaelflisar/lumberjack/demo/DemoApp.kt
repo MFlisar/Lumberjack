@@ -129,7 +129,7 @@ private fun DemoContent(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         scope.launch {
-                            setup.clearLogFiles()
+                            setup.deleteAllLogFiles()
                             L.d { "TEST-LOG - Files just have been deleted!" }
                         }
                     }

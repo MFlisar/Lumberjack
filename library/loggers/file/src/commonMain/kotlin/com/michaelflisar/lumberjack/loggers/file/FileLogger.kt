@@ -18,7 +18,6 @@ import kotlinx.io.Sink
 import kotlinx.io.buffered
 import kotlinx.io.files.Path
 import kotlinx.io.files.SystemFileSystem
-import kotlinx.io.readString
 import kotlinx.io.writeString
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -41,7 +40,7 @@ class FileLogger(
         data class Log(val log: String, val time: Long) : Event()
         data object CloseWriter : Event()
 
-        data class CleanupFiles(val all: Boolean) : Event()
+        data class DeleteFiles(val deprecatedOnly: Boolean) : Event()
     }
 
     companion object {
@@ -60,10 +59,10 @@ class FileLogger(
                 when (op) {
                     is Event.Log -> processWriteLog(op)
                     is Event.CloseWriter -> closeWriter()
-                    is Event.CleanupFiles -> {
+                    is Event.DeleteFiles -> {
                         cancelCloseBufferJob()
                         closeWriter()
-                        cleanupFiles(op.all)
+                        cleanupFiles(op.deprecatedOnly)
                     }
                 }
             }
@@ -74,8 +73,8 @@ class FileLogger(
         channel.trySend(event)
     }
 
-    fun cleanAllLogFiles() {
-        send(event = Event.CleanupFiles(all = true))
+    fun deleteAllLogFiles() {
+        send(event = Event.DeleteFiles(deprecatedOnly = false))
     }
 
     override fun log(
@@ -186,9 +185,9 @@ class FileLogger(
         }
     }
 
-    private fun cleanupFiles(all: Boolean) {
+    private fun cleanupFiles(deprecatedOnly: Boolean) {
         val allFiles = setup.getAllLogFiles(true)
-        val filesToDelete = if (all) allFiles else setup.filterFilesToDelete(allFiles)
+        val filesToDelete = if (deprecatedOnly) setup.filterFilesToDelete(allFiles) else allFiles
         filesToDelete.forEach {
             runCatching {
                 SystemFileSystem.delete(it)
